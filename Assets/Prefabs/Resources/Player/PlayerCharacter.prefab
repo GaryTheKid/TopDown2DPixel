@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 421601025}
   - component: {fileID: 421601024}
-  - component: {fileID: 421601023}
   - component: {fileID: 421601026}
   m_Layer: 0
   m_Name: Camera
@@ -76,14 +75,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &421601023
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 421601022}
-  m_Enabled: 1
 --- !u!114 &421601026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,6 +108,45 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!1 &1978413756312995978
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7931373720381848574}
+  - component: {fileID: 1247225132473669542}
+  m_Layer: 0
+  m_Name: AudioListener
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7931373720381848574
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978413756312995978}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.8518517, y: 2.1276596, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5210151642737692040}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &1247225132473669542
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978413756312995978}
+  m_Enabled: 1
 --- !u!1 &5210151642737692042
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,6 +182,7 @@ Transform:
   m_LocalScale: {x: 0.54, y: 0.47, z: 1}
   m_Children:
   - {fileID: 421601025}
+  - {fileID: 7931373720381848574}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -294,6 +325,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26c4672ad9e7a654fbaa0f3e4b326b74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  photonView: {fileID: 8110680880012028758}
+  movementController: {fileID: 1431877813}
+  playerCamera: {fileID: 421601022}
+  audioListener: {fileID: 1978413756312995978}
+  characterSprite: {fileID: 5210151642737692043}
 --- !u!114 &1431877813
 MonoBehaviour:
   m_ObjectHideFlags: 0

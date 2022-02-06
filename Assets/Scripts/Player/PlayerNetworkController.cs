@@ -8,6 +8,7 @@ public class PlayerNetworkController : MonoBehaviour
     [SerializeField] private PhotonView photonView;
     [SerializeField] private PlayerMovementController movementController;
     [SerializeField] private GameObject playerCamera;
+    [SerializeField] private GameObject audioListener;
     [SerializeField] private SpriteRenderer characterSprite;
 
     private void Start()
@@ -16,6 +17,7 @@ public class PlayerNetworkController : MonoBehaviour
         {
             Destroy(movementController);
             Destroy(playerCamera);
+            Destroy(audioListener);
         }
         else 
         {

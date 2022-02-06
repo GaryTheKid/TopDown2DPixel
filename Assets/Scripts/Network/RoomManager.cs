@@ -70,6 +70,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         RemovePlayerFromList(otherPlayer);
+
+        // if not master client (host), disable the start game button
+        if (PhotonNetwork.IsMasterClient)
+            _startGameButton.SetActive(true);
     }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
