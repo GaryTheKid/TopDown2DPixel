@@ -21,7 +21,7 @@ public class PlayerNetworkController : MonoBehaviour
         }
         else 
         {
-            characterSprite.color = Color.green;
+            //characterSprite.color = Color.green;
         }
     }
 }

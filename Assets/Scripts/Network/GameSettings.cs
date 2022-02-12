@@ -9,7 +9,9 @@ public class GameSettings : MonoBehaviour
     public string gameVersion;
     public string playerName;
     public int gameSceneIndex;
-    
+    public int sendRate;
+    public int serializationRate;
+
     private void Awake()
     {
         gameSettings = this;

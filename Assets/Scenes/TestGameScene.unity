@@ -482,14 +482,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1431877813, guid: 7b89476201d4a3143a129d3d6a9571b5, type: 3}
-      propertyPath: moveSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1431877813, guid: 7b89476201d4a3143a129d3d6a9571b5, type: 3}
-      propertyPath: dashAmount
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 5210151642737692040, guid: 7b89476201d4a3143a129d3d6a9571b5, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -500,7 +492,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5210151642737692040, guid: 7b89476201d4a3143a129d3d6a9571b5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.16
+      value: -4.18
       objectReference: {fileID: 0}
     - target: {fileID: 5210151642737692040, guid: 7b89476201d4a3143a129d3d6a9571b5, type: 3}
       propertyPath: m_LocalPosition.z

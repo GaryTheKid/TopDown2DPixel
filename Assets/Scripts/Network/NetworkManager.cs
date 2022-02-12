@@ -23,6 +23,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         // connect to the master server
         PhotonNetwork.GameVersion = GameSettings.gameSettings.gameVersion;
+        PhotonNetwork.SendRate = GameSettings.gameSettings.sendRate;
+        PhotonNetwork.SerializationRate = GameSettings.gameSettings.serializationRate;
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.NickName = GameSettings.gameSettings.playerName + "#" + Random.Range(0, 10000);
         _playerNameText.text = PhotonNetwork.NickName;

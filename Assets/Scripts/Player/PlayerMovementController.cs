@@ -6,11 +6,11 @@ public class PlayerMovementController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 60f;
     [SerializeField] private float dashAmount = 20f;
-    [SerializeField] private LayerMask dashLayerMash;
+    [SerializeField] private LayerMask dashLayerMask;
+    [SerializeField] private Animator animator;
 
     private Rigidbody2D rigidbody2D;
     private Vector3 moveDir;
-    private bool isDashing;
 
     private void Awake()
     {
@@ -24,7 +24,7 @@ public class PlayerMovementController : MonoBehaviour
         float moveY = 0f;
         if (Input.GetKey(KeyCode.W))
         {
-            moveY = +1f;
+            moveY = +1f; 
         }
         if (Input.GetKey(KeyCode.S))
         {
@@ -41,17 +41,33 @@ public class PlayerMovementController : MonoBehaviour
 
         moveDir = new Vector3(moveX, moveY).normalized;
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        /*if (Input.GetKeyDown(KeyCode.Space))
         {
             isDashing = true;
-        }
+        }*/
     }
 
     private void FixedUpdate()
     {
-        rigidbody2D.velocity = moveDir * moveSpeed;
+        bool isIdle = moveDir == Vector3.zero;
 
-        if (isDashing)
+        if (isIdle)
+        {
+            // Idle
+            rigidbody2D.velocity = Vector2.zero;
+            animator.SetBool("isMoving", false);
+        }
+        else
+        {
+            // is moving
+            rigidbody2D.AddForce(moveDir * moveSpeed);
+            animator.SetFloat("xMovement", moveDir.x);
+            animator.SetFloat("yMovement", moveDir.y);
+            animator.SetBool("isMoving", true);
+        }
+        
+
+        /*if (isDashing)
         {
             Vector3 dashPosition = transform.position + moveDir * dashAmount;
             RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position, moveDir, dashAmount, dashLayerMash);
@@ -61,6 +77,6 @@ public class PlayerMovementController : MonoBehaviour
             }
             rigidbody2D.MovePosition(dashPosition);
             isDashing = false;
-        }
+        }*/
     }
 }
