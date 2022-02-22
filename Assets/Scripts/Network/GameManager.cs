@@ -10,7 +10,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static GameManager gameManager;
 
     // spawns
-    public List<Transform> spawns;
+    public List<Transform> playerSpawns;
+    public List<Transform> itemSpawns;
 
     // players
     public Player[] playerList; 
@@ -24,6 +25,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void Start()
     {
         SpawnPlayerCharacter();
+        ItemWorld.SpawnItemWorld(GameManager.gameManager.itemSpawns[0].position, new Sword(1));
+        ItemWorld.SpawnItemWorld(GameManager.gameManager.itemSpawns[1].position, new Sword(2));
+        ItemWorld.SpawnItemWorld(GameManager.gameManager.itemSpawns[2].position, new HealthPotion(3));
+        ItemWorld.SpawnItemWorld(GameManager.gameManager.itemSpawns[3].position, new Bow(1));
     }
 
     private void SpawnPlayerCharacter()
@@ -32,7 +37,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             if (playerList[i].IsLocal)
             {
-                PhotonNetwork.Instantiate("Player/PlayerCharacter", spawns[i].position, spawns[i].rotation);
+                PhotonNetwork.Instantiate("Player/PlayerCharacter", playerSpawns[i].position, playerSpawns[i].rotation);
             }
         }
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Observable_Transform : MonoBehaviourPunCallbacks, IPunObservable
+public class Observable_PlayerTransform : MonoBehaviourPunCallbacks, IPunObservable
 {
     private Vector3 pos;
     private Rigidbody2D rigidbody2D;
