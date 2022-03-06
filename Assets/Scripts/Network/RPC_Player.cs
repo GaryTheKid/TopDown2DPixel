@@ -15,9 +15,9 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_UseHealthPotion()
+    void RPC_UseHealthPotion(int healingAmount)
     {
-        _playerBuffController.OnReceiveHealingEffect.Invoke();
+        _playerBuffController.ReceiveHealing(healingAmount);
     }
 
     [PunRPC]
@@ -28,6 +28,24 @@ public class RPC_Player : MonoBehaviour
         _playerWeaponController.weaponPrefab = Instantiate(sword.GetEquipmentPrefab(), _playerWeaponController.aimTransform);
         _playerWeaponController.weaponAnimator = _playerWeaponController.weaponPrefab.GetComponent<Animator>();
         print(123412);
+    }
+
+    [PunRPC]
+    void RPC_EquipAxe()
+    {
+        Weapon axe = new Axe();
+        _playerWeaponController.weapon = axe;
+        _playerWeaponController.weaponPrefab = Instantiate(axe.GetEquipmentPrefab(), _playerWeaponController.aimTransform);
+        _playerWeaponController.weaponAnimator = _playerWeaponController.weaponPrefab.GetComponent<Animator>();
+    }
+
+    [PunRPC]
+    void RPC_EquipBow()
+    {
+        Weapon bow = new Bow();
+        _playerWeaponController.weapon = bow;
+        _playerWeaponController.weaponPrefab = Instantiate(bow.GetEquipmentPrefab(), _playerWeaponController.aimTransform);
+        _playerWeaponController.weaponAnimator = _playerWeaponController.weaponPrefab.GetComponent<Animator>();
     }
 
     [PunRPC]

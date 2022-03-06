@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+[Serializable]
 public class Item
 {
     public string itemName;
     public int amount;
+    public float useCD;
     public enum ItemType 
     {
         Consumable,
@@ -18,6 +20,9 @@ public class Item
     public ItemType itemType;
     public Action destroySelfAction;
 
+    // if greater than 0 => in inventory; smaller => in equipment slots 
+    public int uiIndex;
+
     public virtual Sprite GetSprite()
     {
         switch (itemName)
@@ -26,6 +31,7 @@ public class Item
             case "Sword": return ItemAssets.itemAssets.swordSprite;
         }
     }
+
     public virtual bool IsStackable()
     {
         switch (itemType)

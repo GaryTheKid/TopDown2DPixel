@@ -743,8 +743,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pfSword: {fileID: 5279715861106610933, guid: 51c229b423c3b484db10c76701531bb5, type: 3}
+  pfAxe: {fileID: 5279715861106610933, guid: ea5a34022a78ba34f9bdb2be0bc390e7, type: 3}
   pfItemWorld: {fileID: 5917098666106380704, guid: c975b21b7bec97a43b5742d72d1cf4d2, type: 3}
   swordSprite: {fileID: 21300000, guid: 289e69ddb57466e408b5852fb98ec845, type: 3}
+  axeSprite: {fileID: 21300000, guid: 5e24cf3d47e890d4f9513a3c37774823, type: 3}
   bowSprite: {fileID: 21300000, guid: bd293dc32f4aaf94e8274f2fac2cdf89, type: 3}
   healthPotionSprite: {fileID: 21300000, guid: 100b236b72daa4c4da4c410baada9739, type: 3}
 --- !u!1 &1538235858
@@ -891,6 +893,10 @@ PrefabInstance:
     - target: {fileID: 5210151642737692042, guid: 7b89476201d4a3143a129d3d6a9571b5, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5210151642737692042, guid: 7b89476201d4a3143a129d3d6a9571b5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8110680880012028758, guid: 7b89476201d4a3143a129d3d6a9571b5, type: 3}
       propertyPath: sceneViewId

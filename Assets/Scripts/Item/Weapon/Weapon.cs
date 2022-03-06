@@ -5,9 +5,9 @@ using Photon.Pun;
 [Serializable]
 public abstract class Weapon : Item, IEquipable
 {
-    public int attackDmg;
-    public int attackRange;
-    public int durability;
+    public float attackDmg;
+    public float attackRange;
+    public float attackSpeed;
 
     public abstract void Attack();
     public abstract void Equip(PhotonView PV);

@@ -6,24 +6,31 @@ using Photon.Pun;
 
 public class Inventory
 {
-    public int capacity;
+    public int maxCapacity;
     public event EventHandler OnItemListChanged;
     private List<Item> itemList;
 
     public Inventory()
     {
-        this.capacity = 18;
+        this.maxCapacity = 18;
         itemList = new List<Item>();
     }
 
     public Inventory(int capacity)
     {
-        this.capacity = capacity;
+        this.maxCapacity = capacity;
         itemList = new List<Item>();
     }
 
     public void AddItem(Item item)
     {
+        // check if inventory is full
+        if (itemList.Count >= maxCapacity)
+        {
+            Debug.Log("Inventory is full!");
+            return;
+        }
+
         // add to the list
         if (item.IsStackable())
         {
@@ -81,6 +88,7 @@ public class Inventory
         {
             itemList.Remove(item);
         }
+        item.uiIndex = 0;
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 

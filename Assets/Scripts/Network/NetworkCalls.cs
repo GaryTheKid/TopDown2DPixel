@@ -7,11 +7,11 @@ namespace NetworkCalls
 {
     public class Consumables
     {
-        public static void UseHealthPotion(PhotonView PV)
+        public static void UseHealthPotion(PhotonView PV, int healingAmount)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_UseHealthPotion", RpcTarget.AllBuffered);
+                PV.RPC("RPC_UseHealthPotion", RpcTarget.AllBuffered, healingAmount);
             }
         }
     }
@@ -23,6 +23,22 @@ namespace NetworkCalls
             if (PV.IsMine)
             {
                 PV.RPC("RPC_EquipSword", RpcTarget.AllBuffered);
+            }
+        }
+
+        public static void EquipAxe(PhotonView PV)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_EquipAxe", RpcTarget.AllBuffered);
+            }
+        }
+
+        public static void EquipBow(PhotonView PV)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_EquipBow", RpcTarget.AllBuffered);
             }
         }
 

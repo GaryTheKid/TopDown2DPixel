@@ -5,26 +5,28 @@ using Photon.Pun;
 
 public class PlayerInventoryController : MonoBehaviour
 {
-    [SerializeField] private UI_Inventory uiInventory;
+    [SerializeField] private UI_Inventory _uiInventory;
 
-    private Inventory inventory;
-    private PhotonView PV;
+    private Inventory _inventory;
+    private List<EquipmentSlot> _equipmentSlots;
+    private PhotonView _PV;
 
     private void Awake()
     {
-        PV = GetComponent<PhotonView>();
-        inventory = new Inventory();
+        _PV = GetComponent<PhotonView>();
+        _inventory = new Inventory();
     }
 
     private void Start()
     {
-        uiInventory.SetInventory(inventory);
-        uiInventory.SpawnItemSlots();
+        _uiInventory.SetInventory(_inventory);
+        _uiInventory.SpawnItemSlots();
+        _equipmentSlots = _uiInventory.GetEquipmentSlots();
     }
 
     private void Update()
     {
-        
+        HandleUseEquipment();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -33,13 +35,25 @@ public class PlayerInventoryController : MonoBehaviour
         ItemWorld itemWorld = collision.GetComponent<ItemWorld>();
         if (itemWorld != null)
         {
-            inventory.AddItem(itemWorld.GetItem());
+            _inventory.AddItem(itemWorld.GetItem());
             itemWorld.DestroySelf();
+        }
+    }
+
+    private void HandleUseEquipment()
+    {
+        foreach (EquipmentSlot slot in _equipmentSlots)
+        {
+            if (Input.GetKeyDown(slot.keyCode))
+            {
+                if(slot.SlotItem != null)
+                    slot.SlotItem.UseItem(_PV);
+            }
         }
     }
 
     public Inventory GetInventory()
     {
-        return inventory;
+        return _inventory;
     }
 }

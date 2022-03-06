@@ -1,29 +1,29 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 using NetworkCalls;
 
-public class Sword : Weapon
+public class Axe : Weapon
 {
-    public Sword()
+    public Axe()
     {
-        this.itemName = "Sword";
+        this.itemName = "Axe";
         this.amount = 1;
         this.itemType = ItemType.MeleeWeapon;
-        this.attackDmg = 15f;
-        this.attackRange = 10f;
-        this.attackSpeed = 1f;
+        this.attackDmg = 20f;
+        this.attackRange = 8f;
+        this.attackSpeed = 1.2f;
     }
 
-    public Sword(int amount)
+    public Axe(int amount)
     {
-        this.itemName = "Sword";
+        this.itemName = "Axe";
         this.amount = amount;
         this.itemType = ItemType.MeleeWeapon;
-        this.attackDmg = 15;
-        this.attackRange = 10;
-        this.attackSpeed = 1f;
+        this.attackDmg = 20f;
+        this.attackRange = 8f;
+        this.attackSpeed = 1.2f;
     }
 
     public override void Attack()
@@ -33,17 +33,17 @@ public class Sword : Weapon
 
     public override void Equip(PhotonView PV)
     {
-        NetworkCalls.Weapon.EquipSword(PV);
+        NetworkCalls.Weapon.EquipAxe(PV);
     }
 
     public override Transform GetEquipmentPrefab()
     {
-        return ItemAssets.itemAssets.pfSword;
+        return ItemAssets.itemAssets.pfAxe;
     }
 
     public override Sprite GetSprite()
     {
-        return ItemAssets.itemAssets.swordSprite;
+        return ItemAssets.itemAssets.axeSprite;
     }
 
     public override bool IsStackable()
@@ -51,3 +51,4 @@ public class Sword : Weapon
         return false;
     }
 }
+    

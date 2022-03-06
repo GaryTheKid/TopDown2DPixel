@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,15 @@ using UnityEngine.EventSystems;
 
 public class Slot : MonoBehaviour, IDropHandler
 {
-    public void OnDrop(PointerEventData eventData)
+    public int uiIndex;
+    private Item _slotItem;
+    public Item SlotItem
+    {
+        get { return _slotItem; }
+        set { _slotItem = value; }
+    }
+
+    public virtual void OnDrop(PointerEventData eventData)
     {
         // TODO: On Drop problem
         if (eventData.pointerDrag != null)

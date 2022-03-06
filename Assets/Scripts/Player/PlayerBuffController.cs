@@ -5,10 +5,19 @@ using UnityEngine.Events;
 
 public class PlayerBuffController : MonoBehaviour
 {
-    public UnityEvent OnReceiveHealingEffect;
+    private PlayerStats stats;
+    private PlayerEffectController effectController;
 
-    public void ReceiveHealingEffect()
+    private void Awake()
     {
-        Debug.Log("HP +10");
+        stats = GetComponent<PlayerStats>();
+        effectController = GetComponent<PlayerEffectController>();
+    }
+
+    public void ReceiveHealing(int healingAmount)
+    {
+        Debug.Log("HP +" + healingAmount);
+        stats.hp += healingAmount;
+        effectController.ReceiveHealingEffect();
     }
 }

@@ -11,6 +11,7 @@ public class HealthPotion : Consumables
 
     public HealthPotion() 
     {
+        healAmount = 10;
         this.itemName = "HealthPotion";
         this.amount = 1;
         this.itemType = ItemType.Consumable;
@@ -18,6 +19,7 @@ public class HealthPotion : Consumables
 
     public HealthPotion(int amount)
     {
+        healAmount = 10;
         this.itemName = "HealthPotion";
         this.amount = amount;
         this.itemType = ItemType.Consumable;
@@ -27,7 +29,7 @@ public class HealthPotion : Consumables
     {
         Debug.Log("Use health potion");
         // TODO: healing effect
-        NetworkCalls.Consumables.UseHealthPotion(PV);
+        NetworkCalls.Consumables.UseHealthPotion(PV, healAmount);
 
         if (--amount <= 0)
             DestroySelf();

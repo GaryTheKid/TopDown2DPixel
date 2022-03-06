@@ -46,5 +46,17 @@ namespace Utilities
             return Activator.CreateInstance(obj.GetType());
         }
     }
+
+    public class Printer<T>
+    {
+        public static void PrintList(List<T> list) 
+        {
+            if (list == null)
+                return;
+
+            foreach (T element in list)
+                Debug.Log(element);
+        }
+    }
 }
 

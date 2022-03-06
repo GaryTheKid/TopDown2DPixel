@@ -10,7 +10,6 @@ public class Bow : Weapon
         this.itemName = "Bow";
         this.amount = 1;
         this.itemType = ItemType.RangedWeapon;
-        this.durability = 100;
     }
 
     public Bow(int amount)
@@ -18,15 +17,11 @@ public class Bow : Weapon
         this.itemName = "Bow";
         this.amount = amount;
         this.itemType = ItemType.RangedWeapon;
-        this.durability = 100;
     }
 
     public override void Attack()
     {
         Debug.Log("Bow Attacking");
-
-        if (--this.durability <= 0)
-            DestroySelf();
     }
 
     public override void Equip(PhotonView PV)
