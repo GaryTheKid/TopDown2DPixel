@@ -47,7 +47,9 @@ public class PlayerInventoryController : MonoBehaviour
             if (Input.GetKeyDown(slot.keyCode))
             {
                 if(slot.SlotItem != null)
+                {
                     slot.SlotItem.UseItem(_PV);
+                }
             }
         }
     }
