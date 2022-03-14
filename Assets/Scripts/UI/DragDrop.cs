@@ -57,8 +57,6 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
             currentSlot = targetSlot;
             OnChangeItemUIIndex?.Invoke(targetSlot.uiIndex);
         }
-
-        print(currentSlot);
     }
 
     public void OnPointerDown(PointerEventData eventData)
