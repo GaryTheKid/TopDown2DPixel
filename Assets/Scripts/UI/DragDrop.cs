@@ -12,14 +12,6 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     private Vector2 _initialPos;
     private CanvasGroup _canvasGroup;
 
-    private void OnDestroy()
-    {
-        if (currentSlot.SlotItem != null)
-        {
-            currentSlot.SlotItem = null;
-        }
-    }
-
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
@@ -58,16 +50,15 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
             _rectTransform.anchoredPosition = _initialPos;
             return;
         }
-        else
+        // if drop into a new slot
+        else if (targetSlot != currentSlot)
         {
-            // if drop into a new slot
-            if (targetSlot != currentSlot)
-            {
-                currentSlot.SlotItem = null;
-                currentSlot = targetSlot;
-                OnChangeItemUIIndex?.Invoke(targetSlot.uiIndex);
-            }  
+            currentSlot.SlotItem = null;
+            currentSlot = targetSlot;
+            OnChangeItemUIIndex?.Invoke(targetSlot.uiIndex);
         }
+
+        print(currentSlot);
     }
 
     public void OnPointerDown(PointerEventData eventData)

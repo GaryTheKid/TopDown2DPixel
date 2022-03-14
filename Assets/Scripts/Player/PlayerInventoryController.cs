@@ -15,10 +15,6 @@ public class PlayerInventoryController : MonoBehaviour
     {
         _PV = GetComponent<PhotonView>();
         _inventory = new Inventory();
-    }
-
-    private void Start()
-    {
         _uiInventory.SetInventory(_inventory);
         _uiInventory.SpawnItemSlots();
         _equipmentSlots = _uiInventory.GetEquipmentSlots();
@@ -44,12 +40,9 @@ public class PlayerInventoryController : MonoBehaviour
     {
         foreach (EquipmentSlot slot in _equipmentSlots)
         {
-            if (Input.GetKeyDown(slot.keyCode))
+            if (Input.GetKeyDown(slot.keyCode) && slot.SlotItem != null)
             {
-                if(slot.SlotItem != null)
-                {
-                    slot.SlotItem.UseItem(_PV);
-                }
+                _inventory.UseItem(_PV, slot.SlotItem);
             }
         }
     }

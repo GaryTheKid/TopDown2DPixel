@@ -31,8 +31,14 @@ public class HealthPotion : Consumables
         // TODO: healing effect
         NetworkCalls.Consumables.UseHealthPotion(PV, healAmount);
 
-        if (--amount <= 0)
+        if (amount - 1 >= 0)
+        {
+            amount--;
+        }
+        else
+        {
             DestroySelf();
+        }
     }
 
     public override void UseItem(PhotonView PV)

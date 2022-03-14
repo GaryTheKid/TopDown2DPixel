@@ -16,13 +16,11 @@ public class UI_Inventory : MonoBehaviour
     [SerializeField] private Transform _playerAnchorPos;
     [SerializeField] private PhotonView _PV;
     [SerializeField] private List<EquipmentSlot> _equipmentSlots;
-    public List<ItemSlot> _emptySlots;
+    private List<ItemSlot> _emptySlots;
     private Inventory _inventory;
 
     public void SpawnItemSlots()
     {
-        _emptySlots = new List<ItemSlot>();
-
         int x = 0;
         int y = 0;
         float itemSlotCellSize = 120f;
@@ -60,6 +58,7 @@ public class UI_Inventory : MonoBehaviour
     public void SetInventory(Inventory inventory)
     {
         this._inventory = inventory;
+        _emptySlots = new List<ItemSlot>();
 
         inventory.OnItemListChanged += Inventory_OnItemListChanged;
         UpdateInventoryItems();
@@ -87,6 +86,20 @@ public class UI_Inventory : MonoBehaviour
         // create ui
         foreach (Item item in _inventory.GetItemList())
         {
+            // clear used up item (amount == 0)
+            if (item.amount <= 0)
+            {
+                if (item.uiIndex > 0)
+                {
+                    _emptySlots[item.uiIndex - 1].SlotItem = null;
+                }
+                else if (item.uiIndex < 0)
+                {
+                    _equipmentSlots[-item.uiIndex - 1].SlotItem = null;
+                }
+                continue;
+            } 
+
             // instantiate item template
             RectTransform itemSlotRectTransform = Instantiate(_itemSlotTemplate, _itemSlotContainer).GetComponent<RectTransform>();
             itemSlotRectTransform.gameObject.SetActive(true);
@@ -152,17 +165,16 @@ public class UI_Inventory : MonoBehaviour
                     }
                 }
             }
-            // nest the item in its slot position
+            // nest the item in empty slot position
             else if (item.uiIndex > 0)
             {
-                // if located in inventory
                 _emptySlots[item.uiIndex - 1].SlotItem = item;
                 itemSlotRectTransform.GetComponent<DragDrop>().currentSlot = _emptySlots[item.uiIndex - 1];
                 itemSlotRectTransform.anchoredPosition = _emptySlots[item.uiIndex - 1].transform.GetComponent<RectTransform>().anchoredPosition;
             }
+            // nest the item in equipment slot position
             else
             {
-                // if located in equipment slots
                 _equipmentSlots[-item.uiIndex - 1].SlotItem = item;
                 itemSlotRectTransform.GetComponent<DragDrop>().currentSlot = _emptySlots[-item.uiIndex - 1];
                 itemSlotRectTransform.anchoredPosition = _equipmentSlots[-item.uiIndex - 1].transform.GetComponent<RectTransform>().anchoredPosition;
