@@ -117,6 +117,12 @@ public class UI_Inventory : MonoBehaviour
                 itemCopy.amount = item.amount;
                 _inventory.RemoveItem(item);
                 ItemWorld.DropItem(_playerAnchorPos.position, itemCopy);
+
+                // if item is equipable, unequip it
+                if (item is IEquipable)
+                {
+                    item.Unequip(_PV);
+                }
             };
 
             // set drag drop logic
@@ -128,7 +134,6 @@ public class UI_Inventory : MonoBehaviour
                 // if item is equipable, drag it from equipment slots will unequip it
                 if (item is IEquipable && item.uiIndex >= 0)
                 {
-                    Debug.Log("unequip item " + item);
                     item.Unequip(_PV);
                 }
             };
