@@ -6,9 +6,9 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 {
     public Action<int> OnChangeItemUIIndex;
     public Slot currentSlot;
+    public RectTransform _rectTransform;
 
     [SerializeField] private Canvas _canvas;
-    private RectTransform _rectTransform;
     private Vector2 _initialPos;
     private CanvasGroup _canvasGroup;
 

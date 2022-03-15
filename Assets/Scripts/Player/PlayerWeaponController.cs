@@ -21,7 +21,6 @@ public class PlayerWeaponController : MonoBehaviour
     private void Start()
     {
         _inventory = gameObject.GetComponent<PlayerInventoryController>().GetInventory();
-        //EquipWeapon(new Sword());
     }
 
     private void Update()

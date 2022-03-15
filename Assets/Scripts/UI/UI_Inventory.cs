@@ -124,6 +124,13 @@ public class UI_Inventory : MonoBehaviour
             {
                 item.uiIndex = newUIIndex;
                 itemSlotRectTransform.GetComponent<DragDrop>().currentSlot.SlotItem = item;
+
+                // if item is equipable, drag it from equipment slots will unequip it
+                if (item is IEquipable && item.uiIndex >= 0)
+                {
+                    Debug.Log("unequip item " + item);
+                    item.Unequip(_PV);
+                }
             };
 
             // set item ui image

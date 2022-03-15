@@ -49,6 +49,10 @@ public class Item
         Debug.Log(PV + " use this item");
     }
 
+    public virtual void Equip(PhotonView PV){}
+
+    public virtual void Unequip(PhotonView PV){}
+
     public virtual void DestroySelf()
     {
         destroySelfAction();

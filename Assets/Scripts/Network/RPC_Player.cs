@@ -57,10 +57,12 @@ public class RPC_Player : MonoBehaviour
     void RPC_UnequipWeapon()
     {
         if (_playerWeaponController.weapon != null)
-        {
             _playerWeaponController.weapon = null;
+
+        if (_playerWeaponController.weaponAnimator != null)
             _playerWeaponController.weaponAnimator = null;
-            Destroy(_playerWeaponController.weaponPrefab);
-        }
+
+        if (_playerWeaponController.weaponPrefab != null)
+            Destroy(_playerWeaponController.weaponPrefab.gameObject);
     }
 }

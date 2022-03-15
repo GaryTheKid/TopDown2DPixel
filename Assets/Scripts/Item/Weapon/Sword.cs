@@ -33,7 +33,13 @@ public class Sword : Weapon
 
     public override void Equip(PhotonView PV)
     {
-        NetworkCalls.Weapon.EquipSword(PV);
+        isEquiped = true;
+
+        // equip when only in the equipment slots
+        if (this.uiIndex < 0)
+            NetworkCalls.Weapon.EquipSword(PV);
+        else
+            Debug.Log("Please drag this weapon into the equipment slots");
     }
 
     public override Transform GetEquipmentPrefab()
