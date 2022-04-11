@@ -34,14 +34,20 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_DealDamage(Vector3 attackerPos)
+    void RPC_DealDamage()
     {
         DamageInfo info = _playerWeaponController.weapon.damageInfo;
 
         foreach (int id in targets)
         {
-            PhotonView.Find(id).transform.GetComponent<PlayerBuffController>().ReceiveDamage(info, attackerPos);
+            PhotonView.Find(id).transform.GetComponent<PlayerBuffController>().ReceiveDamage(info, transform.position);
         }
+    }
+
+    [PunRPC]
+    void RPC_FireWeapon()
+    {
+        _playerWeaponController.weaponAnimator.SetTrigger("Attack");
     }
 
     [PunRPC]

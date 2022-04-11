@@ -19,7 +19,7 @@ public class Bow : Weapon
         this.itemType = ItemType.RangedWeapon;
     }
 
-    public override void Attack(PhotonView attackerPV, Animator animator, Vector3 attackerPos)
+    public override void Attack(PhotonView attackerPV)
     {
         Debug.Log("Bow Attacking");
     }

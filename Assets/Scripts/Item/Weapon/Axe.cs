@@ -39,7 +39,7 @@ public class Axe : Weapon
         };
     }
 
-    public override void Attack(PhotonView attackerPV, Animator animator, Vector3 attackerPos)
+    public override void Attack(PhotonView attackerPV)
     {
         Debug.Log("Sword Attacking");
     }

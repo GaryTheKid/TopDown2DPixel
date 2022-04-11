@@ -39,14 +39,13 @@ public class Sword : Weapon
         };
     }
 
-    public override void Attack(PhotonView attackerPV, Animator animator, Vector3 attackerPos)
+    public override void Attack(PhotonView attackerPV)
     {
-        // deal damage to all targets
-        Debug.Log("Sword Attacking");
-        NetworkCalls.Character.DealDamage(attackerPV, attackerPos);
-
         // play the animation at userTransform
-        animator.SetTrigger("Attack");
+        NetworkCalls.Character.FireWeapon(attackerPV);
+
+        // deal damage to all targets
+        NetworkCalls.Character.DealDamage(attackerPV);
     }
 
     public override void Equip(PhotonView PV)

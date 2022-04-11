@@ -69,11 +69,19 @@ namespace NetworkCalls
             }
         }
 
-        public static void DealDamage(PhotonView PV, Vector3 attackerPos)
+        public static void DealDamage(PhotonView PV)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_DealDamage", RpcTarget.AllBuffered, attackerPos);
+                PV.RPC("RPC_DealDamage", RpcTarget.AllBuffered);
+            }
+        }
+
+        public static void FireWeapon(PhotonView PV)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_FireWeapon", RpcTarget.All);
             }
         }
     }

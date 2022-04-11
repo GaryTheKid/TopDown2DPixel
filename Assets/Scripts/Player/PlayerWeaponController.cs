@@ -70,7 +70,7 @@ public class PlayerWeaponController : MonoBehaviour
                 return;
             }
 
-            weapon.Attack(_PV, weaponAnimator, transform.position);
+            weapon.Attack(_PV);
         }
     }
 }

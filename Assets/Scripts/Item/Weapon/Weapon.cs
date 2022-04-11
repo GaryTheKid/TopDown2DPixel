@@ -27,7 +27,7 @@ public abstract class Weapon : Item, IEquipable
     public float midCD;
     public float backCD;
 
-    public abstract void Attack(PhotonView attackerPV, Animator animator, Vector3 attackerPos);
+    public abstract void Attack(PhotonView PV);
     public override void UseItem(PhotonView PV)
     {
         if (!isEquiped)
