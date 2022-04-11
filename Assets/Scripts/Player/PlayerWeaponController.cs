@@ -1,8 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Utilities;
 using Photon.Pun;
+using ExitGames.Client.Photon;
 
 public class PlayerWeaponController : MonoBehaviour
 {
@@ -10,12 +10,15 @@ public class PlayerWeaponController : MonoBehaviour
     public Animator weaponAnimator;
     public Transform weaponPrefab;
     public Transform aimTransform;
+    public Transform animationTransform;
     private PhotonView _PV;
     private Inventory _inventory;
+    private PlayerStats _playerStats;
 
     private void Awake()
     {
         _PV = GetComponent<PhotonView>();
+        _playerStats = GetComponent<PlayerStatsController>().playerStates;
     }
 
     private void Start()
@@ -26,7 +29,8 @@ public class PlayerWeaponController : MonoBehaviour
     private void Update()
     {
         HandleAiming();
-    } 
+        HandleAttack();
+    }
 
     public void EquipWeapon(Weapon weapon)
     {
@@ -44,6 +48,9 @@ public class PlayerWeaponController : MonoBehaviour
 
     public void HandleAiming()
     {
+        if (_playerStats.isWeaponLocked)
+            return;
+
         Vector3 mousePosition = Common.GetMouseWorldPosition();
         Vector3 aimDir = (mousePosition - transform.position).normalized;
         float angle = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
@@ -52,7 +59,10 @@ public class PlayerWeaponController : MonoBehaviour
 
     public void HandleAttack()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (_playerStats.isWeaponLocked)
+            return;
+
+        if (Input.GetMouseButtonDown(0))
         {
             if (weapon == null)
             {
@@ -60,7 +70,7 @@ public class PlayerWeaponController : MonoBehaviour
                 return;
             }
 
-            weapon.Attack();
+            weapon.Attack(_PV, weaponAnimator, transform.position);
         }
     }
 }

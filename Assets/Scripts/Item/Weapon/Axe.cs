@@ -2,7 +2,6 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using NetworkCalls;
 
 public class Axe : Weapon
 {
@@ -11,9 +10,16 @@ public class Axe : Weapon
         this.itemName = "Axe";
         this.amount = 1;
         this.itemType = ItemType.MeleeWeapon;
-        this.attackDmg = 20f;
         this.attackRange = 8f;
         this.attackSpeed = 1.2f;
+        this.damageInfo = new DamageInfo
+        {
+            damageType = DamageInfo.DamageType.Physics,
+            damageAmount = 20f,
+            damageDelay = 0.2f,
+            damageEffectTime = 0f,
+            KnockBackDist = 0f,
+        };
     }
 
     public Axe(int amount)
@@ -21,12 +27,19 @@ public class Axe : Weapon
         this.itemName = "Axe";
         this.amount = amount;
         this.itemType = ItemType.MeleeWeapon;
-        this.attackDmg = 20f;
         this.attackRange = 8f;
         this.attackSpeed = 1.2f;
+        this.damageInfo = new DamageInfo
+        {
+            damageType = DamageInfo.DamageType.Physics,
+            damageAmount = 20f,
+            damageDelay = 0.2f,
+            damageEffectTime = 0f,
+            KnockBackDist = 0f,
+        };
     }
 
-    public override void Attack()
+    public override void Attack(PhotonView attackerPV, Animator animator, Vector3 attackerPos)
     {
         Debug.Log("Sword Attacking");
     }

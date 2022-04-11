@@ -25,17 +25,6 @@ public class PlayerInventoryController : MonoBehaviour
         HandleUseEquipment();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        // pick up item
-        ItemWorld itemWorld = collision.GetComponent<ItemWorld>();
-        if (itemWorld != null)
-        {
-            _inventory.AddItem(itemWorld.GetItem());
-            itemWorld.DestroySelf();
-        }
-    }
-
     private void HandleUseEquipment()
     {
         foreach (EquipmentSlot slot in _equipmentSlots)
@@ -50,5 +39,10 @@ public class PlayerInventoryController : MonoBehaviour
     public Inventory GetInventory()
     {
         return _inventory;
+    }
+
+    public void PickItem(Item item)
+    {
+        _inventory.AddItem(item);
     }
 }

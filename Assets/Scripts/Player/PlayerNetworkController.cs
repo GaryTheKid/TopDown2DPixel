@@ -11,6 +11,7 @@ public class PlayerNetworkController : MonoBehaviour
     [SerializeField] private GameObject _playerCamera;
     [SerializeField] private GameObject _audioListener;
     [SerializeField] private GameObject _ui_Canvas;
+    [SerializeField] private GameObject _HitBox;
     [SerializeField] private SpriteRenderer _characterSprite;
 
     private void Start()
@@ -25,6 +26,7 @@ public class PlayerNetworkController : MonoBehaviour
         }
         else 
         {
+            _HitBox.tag = "Untagged";
             //characterSprite.color = Color.green;
         }
     }

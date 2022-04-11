@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class RPC_Player : MonoBehaviour
 {
     private PlayerWeaponController _playerWeaponController;
     private PlayerBuffController _playerBuffController;
+    private HashSet<int> targets;
 
     private void Awake()
     {
@@ -14,10 +16,32 @@ public class RPC_Player : MonoBehaviour
         _playerBuffController = GetComponent<PlayerBuffController>();
     }
 
-    [PunRPC]
-    void RPC_DealDamage()
+    private void Start()
     {
+        targets = GetComponent<TargetList>().targets;
+    }
 
+    [PunRPC]
+    void RPC_LockTarget(int targetID)
+    {
+        targets.Add(targetID);
+    }
+
+    [PunRPC]
+    void RPC_UnlockTarget(int targetID)
+    {
+        targets.Remove(targetID);
+    }
+
+    [PunRPC]
+    void RPC_DealDamage(Vector3 attackerPos)
+    {
+        DamageInfo info = _playerWeaponController.weapon.damageInfo;
+
+        foreach (int id in targets)
+        {
+            PhotonView.Find(id).transform.GetComponent<PlayerBuffController>().ReceiveDamage(info, attackerPos);
+        }
     }
 
     [PunRPC]
@@ -63,6 +87,9 @@ public class RPC_Player : MonoBehaviour
             _playerWeaponController.weaponAnimator = null;
 
         if (_playerWeaponController.weaponPrefab != null)
+        {
             Destroy(_playerWeaponController.weaponPrefab.gameObject);
+            _playerWeaponController.weaponPrefab = null;
+        }
     }
 }

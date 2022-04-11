@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,7 @@ public class PlayerBuffController : MonoBehaviour
         effectController = GetComponent<PlayerEffectController>();
     }
 
-    public void ReceiveDamage(int damageAmount)
+    public void ReceiveDamage(DamageInfo damageInfo, Vector3 attackerPos)
     {
         // check if player is dead
         if (playerStats.isDead)
@@ -23,10 +24,21 @@ public class PlayerBuffController : MonoBehaviour
             return;
         }
 
+        // TODO: delay dmg
+
+
         // check if damage overflow, minus damage amount from hp
-        Debug.Log("Hp - " + damageAmount);
-        playerStats.hp = playerStats.hp - damageAmount >= 0 ?
-            playerStats.hp - damageAmount : 0;
+        int dmg = Convert.ToInt32(damageInfo.damageAmount);
+        Debug.Log("Hp - " + damageInfo.damageAmount);
+        playerStats.hp = playerStats.hp - dmg >= 0 ?
+            playerStats.hp - dmg : 0;
+
+
+        // TODO: knock back: apply force attacker -> player
+
+
+        // TODO: dmg duration
+
 
         // show the visual effect
         effectController.ReceiveDamageEffect();

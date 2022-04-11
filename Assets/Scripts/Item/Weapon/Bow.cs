@@ -1,7 +1,7 @@
-using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Bow : Weapon
 {
@@ -19,7 +19,7 @@ public class Bow : Weapon
         this.itemType = ItemType.RangedWeapon;
     }
 
-    public override void Attack()
+    public override void Attack(PhotonView attackerPV, Animator animator, Vector3 attackerPos)
     {
         Debug.Log("Bow Attacking");
     }

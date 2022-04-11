@@ -50,4 +50,31 @@ namespace NetworkCalls
             }
         }
     }
+
+    public class Character
+    {
+        public static void LockTarget(PhotonView PV, int targetID)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_LockTarget", RpcTarget.AllBuffered, targetID);
+            }
+        }
+
+        public static void UnlockTarget(PhotonView PV, int targetID)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_UnlockTarget", RpcTarget.AllBuffered, targetID);
+            }
+        }
+
+        public static void DealDamage(PhotonView PV, Vector3 attackerPos)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_DealDamage", RpcTarget.AllBuffered, attackerPos);
+            }
+        }
+    }
 }

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using NetworkCalls;
 
 public class Sword : Weapon
 {
@@ -11,9 +10,16 @@ public class Sword : Weapon
         this.itemName = "Sword";
         this.amount = 1;
         this.itemType = ItemType.MeleeWeapon;
-        this.attackDmg = 15f;
         this.attackRange = 10f;
         this.attackSpeed = 1f;
+        this.damageInfo = new DamageInfo 
+        { 
+            damageType = DamageInfo.DamageType.Physics,
+            damageAmount = 15f,
+            damageDelay = 0.2f,
+            damageEffectTime = 0f,
+            KnockBackDist = 0f,
+        };
     }
 
     public Sword(int amount)
@@ -21,14 +27,26 @@ public class Sword : Weapon
         this.itemName = "Sword";
         this.amount = amount;
         this.itemType = ItemType.MeleeWeapon;
-        this.attackDmg = 15;
-        this.attackRange = 10;
+        this.attackRange = 10f;
         this.attackSpeed = 1f;
+        this.damageInfo = new DamageInfo
+        {
+            damageType = DamageInfo.DamageType.Physics,
+            damageAmount = 15f,
+            damageDelay = 0.2f,
+            damageEffectTime = 0f,
+            KnockBackDist = 0f,
+        };
     }
 
-    public override void Attack()
+    public override void Attack(PhotonView attackerPV, Animator animator, Vector3 attackerPos)
     {
+        // deal damage to all targets
         Debug.Log("Sword Attacking");
+        NetworkCalls.Character.DealDamage(attackerPV, attackerPos);
+
+        // play the animation at userTransform
+        animator.SetTrigger("Attack");
     }
 
     public override void Equip(PhotonView PV)

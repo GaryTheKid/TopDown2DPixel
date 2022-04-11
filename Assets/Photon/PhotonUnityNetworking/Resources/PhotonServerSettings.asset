@@ -46,6 +46,10 @@ MonoBehaviour:
   - RPC_EquipAxe
   - RPC_EquipBow
   - RPC_DealDamage
+  - RPC_SwordAttack
+  - RPC_ReceiveDamage
+  - RPC_LockTarget
+  - RPC_UnlockTarget
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
