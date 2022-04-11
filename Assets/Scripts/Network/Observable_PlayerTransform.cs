@@ -6,11 +6,11 @@ using Photon.Pun;
 public class Observable_PlayerTransform : MonoBehaviourPunCallbacks, IPunObservable
 {
     private Vector3 pos;
-    private Rigidbody2D rigidbody2D;
+    private Rigidbody2D rb;
 
     private void Awake()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -18,13 +18,13 @@ public class Observable_PlayerTransform : MonoBehaviourPunCallbacks, IPunObserva
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            stream.SendNext(rigidbody2D.velocity);
+            stream.SendNext(rb.velocity);
             //stream.SendNext(rigidbody2D.position);
         }
         else
         {
             pos = (Vector3)stream.ReceiveNext();
-            rigidbody2D.velocity = (Vector2)stream.ReceiveNext();
+            rb.velocity = (Vector2)stream.ReceiveNext();
             //rigidbody2D.position = (Vector2)stream.ReceiveNext();
             transform.position = Vector3.Lerp(transform.position, pos, 0.1f);
         }

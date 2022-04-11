@@ -9,12 +9,12 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private LayerMask dashLayerMask;
     [SerializeField] private Animator animator;
 
-    private Rigidbody2D rigidbody2D;
+    private Rigidbody2D rb;
     private Vector3 moveDir;
 
     private void Awake()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -54,18 +54,16 @@ public class PlayerMovementController : MonoBehaviour
         if (isIdle)
         {
             // Idle
-            rigidbody2D.velocity = Vector2.zero;
             animator.SetBool("isMoving", false);
         }
         else
         {
             // is moving
-            rigidbody2D.AddForce(moveDir * moveSpeed);
+            rb.AddForce(moveDir * moveSpeed);
             animator.SetFloat("xMovement", moveDir.x);
             animator.SetFloat("yMovement", moveDir.y);
             animator.SetBool("isMoving", true);
         }
-        
 
         /*if (isDashing)
         {

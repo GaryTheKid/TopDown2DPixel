@@ -18,7 +18,7 @@ public class Sword : Weapon
             damageAmount = 15f,
             damageDelay = 0.2f,
             damageEffectTime = 0f,
-            KnockBackDist = 0f,
+            KnockBackDist = 2f,
         };
     }
 
@@ -35,7 +35,7 @@ public class Sword : Weapon
             damageAmount = 15f,
             damageDelay = 0.2f,
             damageEffectTime = 0f,
-            KnockBackDist = 0f,
+            KnockBackDist = 2f,
         };
     }
 

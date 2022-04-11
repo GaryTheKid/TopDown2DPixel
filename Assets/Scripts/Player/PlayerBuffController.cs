@@ -3,16 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Photon.Pun;
 
 public class PlayerBuffController : MonoBehaviour
 {
     private PlayerStats playerStats;
     private PlayerEffectController effectController;
+    private Rigidbody2D rb;
 
     private void Awake()
     {
         playerStats = GetComponent<PlayerStatsController>().playerStates;
         effectController = GetComponent<PlayerEffectController>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     public void ReceiveDamage(DamageInfo damageInfo, Vector3 attackerPos)
@@ -33,9 +36,10 @@ public class PlayerBuffController : MonoBehaviour
         playerStats.hp = playerStats.hp - dmg >= 0 ?
             playerStats.hp - dmg : 0;
 
-
-        // TODO: knock back: apply force attacker -> player
-
+        // knock back: apply force attacker -> player
+        Vector3 myPos = transform.position;
+        Vector2 knockBackDir = new Vector2(myPos.x - attackerPos.x, myPos.x - attackerPos.x).normalized * damageInfo.KnockBackDist;
+        rb.AddForce(knockBackDir, ForceMode2D.Impulse);
 
         // TODO: dmg duration
 
