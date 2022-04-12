@@ -4,22 +4,27 @@ using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 60f;
-    [SerializeField] private float dashAmount = 20f;
-    [SerializeField] private LayerMask dashLayerMask;
-    [SerializeField] private Animator animator;
+    [SerializeField] private float _moveSpeed = 60f;
+    [SerializeField] private float _dashAmount = 20f;
+    [SerializeField] private LayerMask _dashLayerMask;
+    [SerializeField] private Animator _animator;
 
-    private Rigidbody2D rb;
-    private Vector3 moveDir;
+    private PlayerStats _playerStats;
+    private Rigidbody2D _rb;
+    private Vector3 _moveDir;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
+        _playerStats = GetComponent<PlayerStatsController>().playerStats;
     }
 
     // Update is called once per frame
     private void Update()
     {
+        if (_playerStats.isDead)
+            return;
+
         float moveX = 0f;
         float moveY = 0f;
         if (Input.GetKey(KeyCode.W))
@@ -39,7 +44,7 @@ public class PlayerMovementController : MonoBehaviour
             moveX = +1f;
         }
 
-        moveDir = new Vector3(moveX, moveY).normalized;
+        _moveDir = new Vector3(moveX, moveY).normalized;
 
         /*if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -49,20 +54,23 @@ public class PlayerMovementController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        bool isIdle = moveDir == Vector3.zero;
+        if (_playerStats.isDead)
+            return;
+
+        bool isIdle = _moveDir == Vector3.zero;
 
         if (isIdle)
         {
             // Idle
-            animator.SetBool("isMoving", false);
+            _animator.SetBool("isMoving", false);
         }
         else
         {
             // is moving
-            rb.AddForce(moveDir * moveSpeed);
-            animator.SetFloat("xMovement", moveDir.x);
-            animator.SetFloat("yMovement", moveDir.y);
-            animator.SetBool("isMoving", true);
+            _rb.AddForce(_moveDir * _moveSpeed);
+            _animator.SetFloat("xMovement", _moveDir.x);
+            _animator.SetFloat("yMovement", _moveDir.y);
+            _animator.SetBool("isMoving", true);
         }
 
         /*if (isDashing)

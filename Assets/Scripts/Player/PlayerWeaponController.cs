@@ -18,7 +18,7 @@ public class PlayerWeaponController : MonoBehaviour
     private void Awake()
     {
         _PV = GetComponent<PhotonView>();
-        _playerStats = GetComponent<PlayerStatsController>().playerStates;
+        _playerStats = GetComponent<PlayerStatsController>().playerStats;
     }
 
     private void Start()
@@ -28,6 +28,9 @@ public class PlayerWeaponController : MonoBehaviour
 
     private void Update()
     {
+        if (_playerStats.isDead)
+            return;
+
         HandleAiming();
         HandleAttack();
     }

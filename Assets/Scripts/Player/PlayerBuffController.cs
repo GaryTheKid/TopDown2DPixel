@@ -7,21 +7,23 @@ using Photon.Pun;
 
 public class PlayerBuffController : MonoBehaviour
 {
-    private PlayerStats playerStats;
-    private PlayerEffectController effectController;
-    private Rigidbody2D rb;
+    private PlayerStats _playerStats;
+    private PlayerStatsController _statsController;
+    private PlayerEffectController _effectController;
+    private Rigidbody2D _rb;
 
     private void Awake()
     {
-        playerStats = GetComponent<PlayerStatsController>().playerStates;
-        effectController = GetComponent<PlayerEffectController>();
-        rb = GetComponent<Rigidbody2D>();
+        _statsController = GetComponent<PlayerStatsController>();
+        _playerStats = _statsController.playerStats;
+        _effectController = GetComponent<PlayerEffectController>();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     public void ReceiveDamage(DamageInfo damageInfo, Vector3 attackerPos)
     {
         // check if player is dead
-        if (playerStats.isDead)
+        if (_playerStats.isDead)
         {
             Debug.Log("Player is dead, can't receive damage!");
             return;
@@ -31,10 +33,7 @@ public class PlayerBuffController : MonoBehaviour
 
 
         // check if damage overflow, minus damage amount from hp
-        int dmg = Convert.ToInt32(damageInfo.damageAmount);
-        Debug.Log("Hp - " + damageInfo.damageAmount);
-        playerStats.hp = playerStats.hp - dmg >= 0 ?
-            playerStats.hp - dmg : 0;
+        _statsController.UpdateHP(-Convert.ToInt32(damageInfo.damageAmount));
 
         // TODO: check if dead
 
@@ -43,24 +42,22 @@ public class PlayerBuffController : MonoBehaviour
 
 
         // show the visual effect
-        effectController.ReceiveDamageEffect(playerStats.hp, playerStats.maxHp, attackerPos, damageInfo.KnockBackDist);
+        _effectController.ReceiveDamageEffect(_playerStats.hp, _playerStats.maxHp, attackerPos, damageInfo.KnockBackDist);
     }
 
     public void ReceiveHealing(int healingAmount)
     {
         // check if player is dead
-        if (playerStats.isDead)
+        if (_playerStats.isDead)
         {
             Debug.Log("Player is dead, can't receive healing!");
             return;
         }
 
         // check if hp overflow, add healing amount to hp
-        Debug.Log("HP + " + healingAmount);
-        playerStats.hp = playerStats.hp + healingAmount <= playerStats.maxHp ? 
-            playerStats.hp + healingAmount : playerStats.maxHp;
+        _statsController.UpdateHP(healingAmount);
 
         // show the visual effect
-        effectController.ReceiveHealingEffect();
+        _effectController.ReceiveHealingEffect(_playerStats.hp, _playerStats.maxHp);
     }
 }

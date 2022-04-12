@@ -15,7 +15,7 @@ public class PlayerStats
 
 public class PlayerStatsController : MonoBehaviour
 {
-    public PlayerStats playerStates = new PlayerStats {
+    public PlayerStats playerStats = new PlayerStats {
         isDead = false,
         isWeaponLocked = false,
         maxHp = 100, 
@@ -23,8 +23,25 @@ public class PlayerStatsController : MonoBehaviour
         speed = 1f 
     };
 
-    private void Awake()
+    public void UpdateHP(int deltaHP)
     {
-
+        // receive dmg
+        if (deltaHP < 0)
+        {
+            Debug.Log("Hp " + deltaHP);
+            playerStats.hp = playerStats.hp + deltaHP >= 0 ?
+                playerStats.hp + deltaHP : 0;
+        }
+        // receive healing
+        else
+        {
+            Debug.Log("HP +" + deltaHP);
+            playerStats.hp = playerStats.hp + deltaHP <= playerStats.maxHp ?
+                playerStats.hp + deltaHP : playerStats.maxHp;
+        }
+        
+        // check death
+        if (playerStats.hp <= 0)
+            playerStats.isDead = true;
     }
 }

@@ -33,8 +33,13 @@ public class PlayerEffectController : MonoBehaviour
         rb.AddForce(knockBackDir, ForceMode2D.Impulse);
     }
 
-    public void ReceiveHealingEffect()
+    public void ReceiveHealingEffect(int currHP, int maxHP)
     {
-        Debug.Log("Blink Green, Show +10 pop text...");
+        // TODO: blink green
+
+        // TODO: pop up text
+
+        // adjust hp bar
+        hpBar.fillAmount = (float)currHP / (float)maxHP;
     }
 }
