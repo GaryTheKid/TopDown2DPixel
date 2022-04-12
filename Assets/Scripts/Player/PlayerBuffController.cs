@@ -36,16 +36,14 @@ public class PlayerBuffController : MonoBehaviour
         playerStats.hp = playerStats.hp - dmg >= 0 ?
             playerStats.hp - dmg : 0;
 
-        // knock back: apply force attacker -> player
-        Vector3 myPos = transform.position;
-        Vector2 knockBackDir = new Vector2(myPos.x - attackerPos.x, myPos.x - attackerPos.x).normalized * damageInfo.KnockBackDist;
-        rb.AddForce(knockBackDir, ForceMode2D.Impulse);
+        // TODO: check if dead
+
 
         // TODO: dmg duration
 
 
         // show the visual effect
-        effectController.ReceiveDamageEffect();
+        effectController.ReceiveDamageEffect(playerStats.hp, playerStats.maxHp, attackerPos, damageInfo.KnockBackDist);
     }
 
     public void ReceiveHealing(int healingAmount)

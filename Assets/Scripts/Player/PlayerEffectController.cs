@@ -1,17 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerEffectController : MonoBehaviour
 {
+    [SerializeField] private Image hpBar;
+    private Rigidbody2D rb;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
     public void ReceiveMeleeWeaponDamageEffect()
     {
         
     }
 
-    public void ReceiveDamageEffect()
+    public void ReceiveDamageEffect(int currHP, int maxHP, Vector3 attackerPos, float knockBackDist)
     {
-        Debug.Log("Blink Red, Show -10 pop text...");
+        // TODO: blink red
+
+        // TODO: pop up text
+
+        // adjust hp bar
+        hpBar.fillAmount = (float)currHP / (float)maxHP;
+
+        // knock back: apply impulse force attacker -> player
+        Vector3 myPos = transform.position;
+        Vector2 knockBackDir = new Vector2(myPos.x - attackerPos.x, myPos.x - attackerPos.x).normalized * knockBackDist;
+        rb.AddForce(knockBackDir, ForceMode2D.Impulse);
     }
 
     public void ReceiveHealingEffect()
