@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using Utilities;
 using Photon.Pun;
@@ -14,6 +14,7 @@ public class PlayerWeaponController : MonoBehaviour
     private PhotonView _PV;
     private Inventory _inventory;
     private PlayerStats _playerStats;
+    private IEnumerator _co_Attack;
 
     private void Awake()
     {
@@ -65,15 +66,22 @@ public class PlayerWeaponController : MonoBehaviour
         if (_playerStats.isWeaponLocked)
             return;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && weapon != null && _co_Attack == null)
         {
-            if (weapon == null)
-            {
-                Debug.Log("Please equip a weapon first!");
-                return;
-            }
-
-            weapon.Attack(_PV);
+            _co_Attack = Co_Attack();
+            StartCoroutine(_co_Attack);
         }
+    }
+
+    private IEnumerator Co_Attack()
+    {
+        // attack
+        weapon.Attack(_PV);
+
+        // wait cd
+        yield return new WaitForSecondsRealtime(1f / weapon.attackSpeed);
+
+        // clear co
+        _co_Attack = null;
     }
 }
