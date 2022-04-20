@@ -75,11 +75,17 @@ public class PlayerWeaponController : MonoBehaviour
 
     private IEnumerator Co_Attack()
     {
+        // lock aim
+        //_playerStats.isWeaponLocked = true;
+
         // attack
         weapon.Attack(_PV);
 
         // wait cd
         yield return new WaitForSecondsRealtime(1f / weapon.attackSpeed);
+
+        // unlock aim
+        //_playerStats.isWeaponLocked = false;
 
         // clear co
         _co_Attack = null;
