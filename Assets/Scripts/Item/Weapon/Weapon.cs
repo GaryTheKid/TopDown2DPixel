@@ -19,15 +19,19 @@ public struct DamageInfo
 [Serializable]
 public abstract class Weapon : Item, IEquipable
 {
+    // universal
     public bool isEquiped;
     public DamageInfo damageInfo;
     public float attackRange;
     public float attackSpeed;
-    public float frontCD;
-    public float midCD;
-    public float backCD;
 
-    public abstract void Attack(PhotonView PV);
+    // ranged
+    public Projectile projectile;
+    public float chargeSpeed;
+    public int maxChargeTier;
+
+    public virtual void Attack(PhotonView PV) { }
+    public virtual void Charge(PhotonView PV) { }
     public override void UseItem(PhotonView PV)
     {
         if (!isEquiped)
@@ -41,4 +45,8 @@ public abstract class Weapon : Item, IEquipable
         NetworkCalls.Weapon.UnequipWeapon(PV);
     }
     public abstract Transform GetEquipmentPrefab();
+    public override bool IsStackable()
+    {
+        return false;
+    }
 }

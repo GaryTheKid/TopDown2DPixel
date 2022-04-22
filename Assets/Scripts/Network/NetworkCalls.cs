@@ -77,11 +77,27 @@ namespace NetworkCalls
             }
         }
 
+        public static void ChargeWeapon(PhotonView PV)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_ChargeWeapon", RpcTarget.All);
+            }
+        }
+
         public static void FireWeapon(PhotonView PV)
         {
             if (PV.IsMine)
             {
                 PV.RPC("RPC_FireWeapon", RpcTarget.All);
+            }
+        }
+
+        public static void FireProjectile(PhotonView PV)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_FireProjectile", RpcTarget.All);
             }
         }
     }

@@ -15,6 +15,7 @@ public class ItemAssets : MonoBehaviour
     [Header("Equipment Prefabs")]
     public Transform pfSword;
     public Transform pfAxe;
+    public Transform pfBow;
 
     // prefab for item world
     [Header("ItemWorld Prefab")]

@@ -45,9 +45,29 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
+    void RPC_ChargeWeapon()
+    {
+        int maxCharge = _playerWeaponController.weapon.maxChargeTier;
+
+        // charge tier increment
+        if (++_playerWeaponController.chargeTier > maxCharge)
+            _playerWeaponController.chargeTier = maxCharge;
+
+        // update sprite animation
+        _playerWeaponController.weaponAnimator.SetFloat("ChargeTier", _playerWeaponController.chargeTier / (float)maxCharge);
+    }
+
+    [PunRPC]
     void RPC_FireWeapon()
     {
         _playerWeaponController.weaponAnimator.SetTrigger("Attack");
+    }
+
+    [PunRPC]
+    void RPC_FireProjectile()
+    {
+        _playerWeaponController.weaponAnimator.SetTrigger("Attack");
+        _playerWeaponController.weaponAnimator.SetFloat("ChargeTier", 0);
     }
 
     [PunRPC]
@@ -60,26 +80,30 @@ public class RPC_Player : MonoBehaviour
     void RPC_EquipSword()
     {
         Weapon sword = new Sword();
-        _playerWeaponController.weapon = sword;
-        _playerWeaponController.weaponPrefab = Instantiate(sword.GetEquipmentPrefab(), _playerWeaponController.aimTransform);
-        _playerWeaponController.weaponAnimator = _playerWeaponController.weaponPrefab.GetComponent<Animator>();
+        BindWeapon(sword);
+        _playerWeaponController.weaponType = PlayerWeaponController.WeaponType.Melee;
     }
 
     [PunRPC]
     void RPC_EquipAxe()
     {
         Weapon axe = new Axe();
-        _playerWeaponController.weapon = axe;
-        _playerWeaponController.weaponPrefab = Instantiate(axe.GetEquipmentPrefab(), _playerWeaponController.aimTransform);
-        _playerWeaponController.weaponAnimator = _playerWeaponController.weaponPrefab.GetComponent<Animator>();
+        BindWeapon(axe);
+        _playerWeaponController.weaponType = PlayerWeaponController.WeaponType.Melee;
     }
 
     [PunRPC]
     void RPC_EquipBow()
     {
         Weapon bow = new Bow();
-        _playerWeaponController.weapon = bow;
-        _playerWeaponController.weaponPrefab = Instantiate(bow.GetEquipmentPrefab(), _playerWeaponController.aimTransform);
+        BindWeapon(bow);
+        _playerWeaponController.weaponType = PlayerWeaponController.WeaponType.ChargableRange;
+    }
+
+    private void BindWeapon(Weapon weapon)
+    {
+        _playerWeaponController.weapon = weapon;
+        _playerWeaponController.weaponPrefab = Instantiate(weapon.GetEquipmentPrefab(), _playerWeaponController.aimTransform);
         _playerWeaponController.weaponAnimator = _playerWeaponController.weaponPrefab.GetComponent<Animator>();
     }
 
