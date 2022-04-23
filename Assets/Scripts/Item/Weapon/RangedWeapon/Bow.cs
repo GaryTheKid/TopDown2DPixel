@@ -7,20 +7,16 @@ public class Bow : Weapon
 {
     public Bow()
     {
-        this.itemName = "Bow";
-        this.amount = 1;
-        this.itemType = ItemType.RangedWeapon;
-        this.attackSpeed = 1f;
-        this.maxChargeTier = 3;
-        this.chargeSpeed = 3f;
-        this.damageInfo = new DamageInfo
-        {
-            damageType = DamageInfo.DamageType.Physics,
-            damageAmount = 15f,
-            damageDelay = 0.2f,
-            damageEffectTime = 0f,
-            KnockBackDist = 2f,
-        };
+        itemName = "Bow";
+        amount = 1;
+        itemType = ItemType.RangedWeapon;
+        attackSpeed = 1.5f;
+        maxChargeTier = 3;
+        chargeSpeed = 3f;
+        
+        // projectile info
+        projectile = new Arrow();
+        projectile.spawnWeapon = this;
     }
 
     public override void Charge(PhotonView PV)

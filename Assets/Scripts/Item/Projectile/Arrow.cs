@@ -7,14 +7,23 @@ public class Arrow : Projectile
 {
     public Arrow()
     {
-        speed = 10f;
+        speed = 4f;
         maxDist = 100f;
         explosiveRadius = 0f;
         lifeTime = 5f;
         accuracy = 1f;
+        isSticky = true;
+        damageInfo = new DamageInfo
+        {
+            damageType = DamageInfo.DamageType.Physics,
+            damageAmount = 15f,
+            damageDelay = 0.2f,
+            damageEffectTime = 0f,
+            KnockBackDist = 2f,
+        };
     }
 
-    public override void Fire(PhotonView PV, Vector2 dir)
+    public override void Fire(PhotonView PV)
     {
         // fire projectile towards a direction
         NetworkCalls.Character.ChargeWeapon(PV);

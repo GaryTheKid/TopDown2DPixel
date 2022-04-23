@@ -7,12 +7,12 @@ public class Sword : Weapon
 {
     public Sword()
     {
-        this.itemName = "Sword";
-        this.amount = 1;
-        this.itemType = ItemType.MeleeWeapon;
-        this.attackRange = 10f;
-        this.attackSpeed = 1f;
-        this.damageInfo = new DamageInfo 
+        itemName = "Sword";
+        amount = 1;
+        itemType = ItemType.MeleeWeapon;
+        attackRange = 10f;
+        attackSpeed = 1f;
+        damageInfo = new DamageInfo 
         { 
             damageType = DamageInfo.DamageType.Physics,
             damageAmount = 15f,

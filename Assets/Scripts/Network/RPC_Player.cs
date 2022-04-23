@@ -66,8 +66,29 @@ public class RPC_Player : MonoBehaviour
     [PunRPC]
     void RPC_FireProjectile()
     {
+        // reset charge and play attack animation
         _playerWeaponController.weaponAnimator.SetTrigger("Attack");
         _playerWeaponController.weaponAnimator.SetFloat("ChargeTier", 0);
+
+        // get projectile in weapon controller
+        var projectile = _playerWeaponController.weapon.projectile;
+
+        // check charge tier
+        var chargeTier = _playerWeaponController.chargeTier;
+        if (chargeTier > 0)
+        {
+            // instantiate and fire (add force)
+            var projectilePf = Instantiate(projectile.GetProjectilePrefab(), _playerWeaponController.aimTransform);
+            projectilePf.parent = null;
+            projectilePf.GetComponent<Rigidbody2D>().AddForce(Utilities.Math.DegreeToVector2(_playerWeaponController.aimTransform.eulerAngles.z) * projectile.speed * chargeTier, ForceMode2D.Impulse);
+            
+            // set projectile world script
+            var projectileWorld = projectilePf.GetComponent<ProjectileWorld>();
+            projectileWorld.SetProjectile(projectile);
+            projectileWorld.Perish();
+        }
+        
+        // spread (accurracy)
     }
 
     [PunRPC]

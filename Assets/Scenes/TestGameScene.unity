@@ -532,6 +532,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2041172536921685471, guid: 7b7b8a80f32bf5c45a5e36c45442c09a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3892922132907020583, guid: 7b7b8a80f32bf5c45a5e36c45442c09a, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -932,7 +936,7 @@ MonoBehaviour:
   swordSprite: {fileID: 21300000, guid: 289e69ddb57466e408b5852fb98ec845, type: 3}
   axeSprite: {fileID: 21300000, guid: 5e24cf3d47e890d4f9513a3c37774823, type: 3}
   bowSprite: {fileID: 21300000, guid: d84496ad961d0884a919732bb63bf4b2, type: 3}
-  arrow: {fileID: 1396731222637651634, guid: a6b57d71e81e723468402bd4b49b48b5, type: 3}
+  arrowSprite: {fileID: 0}
   healthPotionSprite: {fileID: 21300000, guid: 100b236b72daa4c4da4c410baada9739, type: 3}
 --- !u!1 &1538235858
 GameObject:

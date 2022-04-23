@@ -97,17 +97,31 @@ public class PlayerWeaponController : MonoBehaviour
                 break;
 
             case WeaponType.ChargableRange:
-                if (Input.GetMouseButton(0) && _co_Charge == null)
+                // hold to charge
+                if (Input.GetMouseButton(0) && _co_Charge == null && _co_Attack == null)
                 {
                     _co_Charge = Co_Charge();
                     StartCoroutine(_co_Charge);
                 }
 
+                // when release charge
                 if (Input.GetMouseButtonUp(0))
                 {
-                    StopCoroutine(_co_Charge);
-                    _co_Charge = null;
-                    weapon.Attack(_PV);
+                    // stop charge coroutine
+                    if (_co_Charge != null)
+                    {
+                        StopCoroutine(_co_Charge);
+                        _co_Charge = null;
+                    }
+
+                    // initiate the attack coroutine 
+                    if (_co_Attack == null)
+                    {
+                        _co_Attack = Co_Attack();
+                        StartCoroutine(_co_Attack);
+                    }
+                    
+                    // reset charge Tier
                     chargeTier = 0;
                 }
                 break;
@@ -115,6 +129,11 @@ public class PlayerWeaponController : MonoBehaviour
                 return;
         }
         
+    }
+
+    public void FireProjectile()
+    {
+
     }
 
     // Coroutine: Weapon attack
