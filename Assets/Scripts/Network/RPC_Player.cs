@@ -101,7 +101,7 @@ public class RPC_Player : MonoBehaviour
     void RPC_EquipSword()
     {
         Weapon sword = new Sword();
-        BindWeapon(sword);
+        _playerWeaponController.EquipWeapon(sword);
         _playerWeaponController.weaponType = PlayerWeaponController.WeaponType.Melee;
     }
 
@@ -109,7 +109,7 @@ public class RPC_Player : MonoBehaviour
     void RPC_EquipAxe()
     {
         Weapon axe = new Axe();
-        BindWeapon(axe);
+        _playerWeaponController.EquipWeapon(axe);
         _playerWeaponController.weaponType = PlayerWeaponController.WeaponType.Melee;
     }
 
@@ -117,30 +117,13 @@ public class RPC_Player : MonoBehaviour
     void RPC_EquipBow()
     {
         Weapon bow = new Bow();
-        BindWeapon(bow);
+        _playerWeaponController.EquipWeapon(bow);
         _playerWeaponController.weaponType = PlayerWeaponController.WeaponType.ChargableRange;
-    }
-
-    private void BindWeapon(Weapon weapon)
-    {
-        _playerWeaponController.weapon = weapon;
-        _playerWeaponController.weaponPrefab = Instantiate(weapon.GetEquipmentPrefab(), _playerWeaponController.aimTransform);
-        _playerWeaponController.weaponAnimator = _playerWeaponController.weaponPrefab.GetComponent<Animator>();
     }
 
     [PunRPC]
     void RPC_UnequipWeapon()
     {
-        if (_playerWeaponController.weapon != null)
-            _playerWeaponController.weapon = null;
-
-        if (_playerWeaponController.weaponAnimator != null)
-            _playerWeaponController.weaponAnimator = null;
-
-        if (_playerWeaponController.weaponPrefab != null)
-        {
-            Destroy(_playerWeaponController.weaponPrefab.gameObject);
-            _playerWeaponController.weaponPrefab = null;
-        }
+        _playerWeaponController.UnequipWeapon();
     }
 }

@@ -34,14 +34,10 @@ public abstract class Weapon : Item, IEquipable
     public virtual void Charge(PhotonView PV) { }
     public override void UseItem(PhotonView PV)
     {
-        if (!isEquiped)
-            Equip(PV);
-        else
-            Unequip(PV);
+        Equip(PV);
     }
     public override void Unequip(PhotonView PV)
     {
-        isEquiped = false;
         NetworkCalls.Weapon.UnequipWeapon(PV);
     }
     public abstract Transform GetEquipmentPrefab();

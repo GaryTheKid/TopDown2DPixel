@@ -55,14 +55,38 @@ public class PlayerWeaponController : MonoBehaviour
 
     public void EquipWeapon(Weapon weapon)
     {
-        UnequipWeapon();
-        weapon.Equip(_PV);
+        bool isSameWeapon = true;
+        if (this.weapon != null)
+        {
+            isSameWeapon = weapon.itemName != this.weapon.itemName;
+            UnequipWeapon();
+        }
+        
+        if (isSameWeapon)
+        {
+            this.weapon = weapon;
+            weaponPrefab = Instantiate(weapon.GetEquipmentPrefab(), aimTransform);
+            weaponAnimator = weaponPrefab.GetComponent<Animator>();
+        }
     }
 
     public void UnequipWeapon()
     {
         if (weapon != null)
-            weapon.Unequip(_PV);
+        {
+            weapon = null;
+        }
+
+        if (weaponAnimator != null)
+        {
+            weaponAnimator = null;
+        }
+
+        if (weaponPrefab != null)
+        {
+            Destroy(weaponPrefab.gameObject);
+            weaponPrefab = null;
+        }
     }
 
     // handle the weapon aimming
@@ -129,11 +153,6 @@ public class PlayerWeaponController : MonoBehaviour
                 return;
         }
         
-    }
-
-    public void FireProjectile()
-    {
-
     }
 
     // Coroutine: Weapon attack
