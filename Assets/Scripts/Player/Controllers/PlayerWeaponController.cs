@@ -16,6 +16,7 @@ public class PlayerWeaponController : MonoBehaviour
     private PlayerStats _playerStats;
     private IEnumerator _co_Attack;
     private IEnumerator _co_Charge;
+    private float chargeMoveSpeedBuffer;
 
     public int chargeTier;
 
@@ -113,6 +114,7 @@ public class PlayerWeaponController : MonoBehaviour
         switch (weaponType)
         {
             case WeaponType.Melee:
+                // click to attack
                 if (Input.GetMouseButtonDown(0) && _co_Attack == null)
                 {
                     _co_Attack = Co_Attack();
@@ -124,6 +126,7 @@ public class PlayerWeaponController : MonoBehaviour
                 // hold to charge
                 if (Input.GetMouseButton(0) && _co_Charge == null && _co_Attack == null)
                 {
+                    // start charge coroutine
                     _co_Charge = Co_Charge();
                     StartCoroutine(_co_Charge);
                 }
@@ -136,6 +139,9 @@ public class PlayerWeaponController : MonoBehaviour
                     {
                         StopCoroutine(_co_Charge);
                         _co_Charge = null;
+
+                        // restore movement speed
+                        _playerStats.speed = chargeMoveSpeedBuffer;
                     }
 
                     // initiate the attack coroutine 
@@ -177,6 +183,10 @@ public class PlayerWeaponController : MonoBehaviour
     // Coroutine: Weapon charge
     private IEnumerator Co_Charge()
     {
+        // slow down movement during charge
+        chargeMoveSpeedBuffer = _playerStats.speed;
+        _playerStats.speed *= weapon.chargeMoveSlowRate;
+
         while (true)
         {
             // charge

@@ -2529,7 +2529,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8739514b01677348b04c3c76a306ca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 30
   _dashAmount: 20
   _dashLayerMask:
     serializedVersion: 2
@@ -2621,7 +2620,7 @@ MonoBehaviour:
     isWeaponLocked: 0
     maxHp: 100
     hp: 100
-    speed: 1
+    speed: 30
 --- !u!1 &5240005659565694029
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour
 {
-    [SerializeField] private float _moveSpeed = 60f;
-    [SerializeField] private float _dashAmount = 20f;
+    [SerializeField] private float _dashAmount;
     [SerializeField] private LayerMask _dashLayerMask;
     [SerializeField] private Animator _animator;
 
@@ -67,7 +66,7 @@ public class PlayerMovementController : MonoBehaviour
         else
         {
             // is moving
-            _rb.AddForce(_moveDir * _moveSpeed);
+            _rb.AddForce(_moveDir * _playerStats.speed);
             _animator.SetFloat("xMovement", _moveDir.x);
             _animator.SetFloat("yMovement", _moveDir.y);
             _animator.SetBool("isMoving", true);

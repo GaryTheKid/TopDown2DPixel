@@ -20,7 +20,7 @@ public class PlayerStatsController : MonoBehaviour
         isWeaponLocked = false,
         maxHp = 100, 
         hp = 100, 
-        speed = 1f 
+        speed = 30f 
     };
 
     public void UpdateHP(int deltaHP)
