@@ -84,6 +84,9 @@ public class RPC_Player : MonoBehaviour
         var chargeTier = _playerWeaponController.chargeTier;
         if (chargeTier > 0)
         {
+            // adjust projectile damage based on charge tier
+            projectile.damageInfo.damageAmount /= ((float)chargeTier / (float)_playerWeaponController.weapon.maxChargeTier);
+
             // instantiate and fire (add force)
             var projectilePf = Instantiate(projectile.GetProjectilePrefab(), _playerWeaponController.aimTransform);
             projectilePf.parent = null;

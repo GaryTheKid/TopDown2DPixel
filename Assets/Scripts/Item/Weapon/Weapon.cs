@@ -28,6 +28,7 @@ public abstract class Weapon : Item, IEquipable
     // ranged
     public Projectile projectile;
     public float chargeSpeed;
+    public float chargeMoveSlowRate;
     public int maxChargeTier;
 
     public virtual void Attack(PhotonView PV) { }

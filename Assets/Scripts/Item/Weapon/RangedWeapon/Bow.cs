@@ -13,7 +13,8 @@ public class Bow : Weapon
         attackSpeed = 1.5f;
         maxChargeTier = 3;
         chargeSpeed = 3f;
-        
+        chargeMoveSlowRate = 0.5f;
+
         // projectile info
         projectile = new Arrow();
         projectile.spawnWeapon = this;
