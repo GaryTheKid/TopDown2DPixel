@@ -45,6 +45,13 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
+    void RPC_DealProjectileDamage(int targetID)
+    {
+        DamageInfo info = _playerWeaponController.weapon.projectile.damageInfo;
+        PhotonView.Find(targetID).transform.GetComponent<PlayerBuffController>().ReceiveDamage(info, transform.position);
+    }
+
+    [PunRPC]
     void RPC_ChargeWeapon()
     {
         int maxCharge = _playerWeaponController.weapon.maxChargeTier;
@@ -85,10 +92,11 @@ public class RPC_Player : MonoBehaviour
             // set projectile world script
             var projectileWorld = projectilePf.GetComponent<ProjectileWorld>();
             projectileWorld.SetProjectile(projectile);
+            projectileWorld.SetAttackerPV(GetComponent<PhotonView>());
             projectileWorld.Perish();
         }
         
-        // spread (accurracy)
+        // TODO: spread (accurracy)
     }
 
     [PunRPC]

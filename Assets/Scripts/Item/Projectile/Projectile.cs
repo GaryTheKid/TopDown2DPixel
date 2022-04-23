@@ -12,6 +12,7 @@ public abstract class Projectile : Item
     public float lifeTime;
     public float accuracy;
     public float explosiveRadius;
+    public float explosiveTime;
     public bool isSticky;
 
     public abstract void Fire(PhotonView PV);

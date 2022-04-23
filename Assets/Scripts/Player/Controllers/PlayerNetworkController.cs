@@ -12,6 +12,7 @@ public class PlayerNetworkController : MonoBehaviour
     [SerializeField] private GameObject _audioListener;
     [SerializeField] private GameObject _ui_Canvas;
     [SerializeField] private GameObject _HitBox;
+    [SerializeField] private GameObject _CharacterCollider;
     [SerializeField] private SpriteRenderer _characterSprite;
 
     private void Start()
@@ -23,6 +24,7 @@ public class PlayerNetworkController : MonoBehaviour
             Destroy(_playerCamera);
             Destroy(_audioListener);
             _ui_Canvas.SetActive(false);
+            _CharacterCollider.layer = LayerMask.NameToLayer("Default");
         }
         else 
         {
