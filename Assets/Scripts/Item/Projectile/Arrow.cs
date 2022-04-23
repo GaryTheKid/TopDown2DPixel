@@ -38,4 +38,9 @@ public class Arrow : Projectile
     {
         return ItemAssets.itemAssets.arrowSprite;
     }
+
+    public override string GetProjectilePrefabPath()
+    {
+        return "Item/Projectile/Arrow";
+    }
 }

@@ -10,13 +10,17 @@ public class ProjectileWorld : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        RemovePhysics();
+        // only collide non-self colliders
+        if (collision.transform != _PV.transform)
+        {
+            RemovePhysics();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject target = collision.gameObject;
-        if (target != null && collision.gameObject.CompareTag("EnemyPlayer"))
+        if (target != null && target.transform != _PV.transform.Find("HitBox"))
         {
             // remove physics
             RemovePhysics();

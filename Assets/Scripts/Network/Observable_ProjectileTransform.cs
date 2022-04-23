@@ -18,18 +18,10 @@ public class Observable_ProjectileTransform : MonoBehaviourPunCallbacks, IPunObs
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            if (rb != null)
-            {
-                stream.SendNext(rb.velocity);
-            }
         }
         else
         {
             pos = (Vector3)stream.ReceiveNext();
-            if (rb != null)
-            {
-                rb.velocity = (Vector2)stream.ReceiveNext();
-            }
             transform.position = Vector3.Lerp(transform.position, pos, 0.1f);
         }
     }

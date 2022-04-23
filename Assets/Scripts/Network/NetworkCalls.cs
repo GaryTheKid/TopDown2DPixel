@@ -109,4 +109,9 @@ namespace NetworkCalls
             }
         }
     }
+
+    public class Physics 
+    {
+
+    }
 }

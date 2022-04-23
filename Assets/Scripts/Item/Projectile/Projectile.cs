@@ -17,4 +17,5 @@ public abstract class Projectile : Item
 
     public abstract void Fire(PhotonView PV);
     public abstract Transform GetProjectilePrefab();
+    public abstract string GetProjectilePrefabPath();
 }

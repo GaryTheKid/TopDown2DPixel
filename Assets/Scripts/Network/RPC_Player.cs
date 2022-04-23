@@ -88,12 +88,15 @@ public class RPC_Player : MonoBehaviour
             var projectilePf = Instantiate(projectile.GetProjectilePrefab(), _playerWeaponController.aimTransform);
             projectilePf.parent = null;
             projectilePf.GetComponent<Rigidbody2D>().AddForce(Utilities.Math.DegreeToVector2(_playerWeaponController.aimTransform.eulerAngles.z) * projectile.speed * chargeTier, ForceMode2D.Impulse);
-            
+
             // set projectile world script
             var projectileWorld = projectilePf.GetComponent<ProjectileWorld>();
             projectileWorld.SetProjectile(projectile);
             projectileWorld.SetAttackerPV(GetComponent<PhotonView>());
             projectileWorld.Perish();
+
+            // reset chargeTier
+            _playerWeaponController.chargeTier = 0;
         }
         
         // TODO: spread (accurracy)
