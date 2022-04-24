@@ -14,6 +14,7 @@ public class Gun : Weapon
         attackSpeed = 12f;
         attackMoveSlowRate = 0.2f;
         accuracy = 0.5f;
+        recoilForce = 0.5f;
 
         // projectile info
         projectile = new Bullet();

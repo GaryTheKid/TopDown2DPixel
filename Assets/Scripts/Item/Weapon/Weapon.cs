@@ -25,6 +25,7 @@ public abstract class Weapon : Item, IEquipable
     public float attackRange;
     public float attackSpeed;
     public float attackMoveSlowRate;
+    public float recoilForce;
 
     // ranged
     public Projectile projectile;

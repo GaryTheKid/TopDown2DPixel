@@ -13,6 +13,7 @@ public class PlayerWeaponController : MonoBehaviour
     public Transform fireTransform;
     public Transform animationTransform;
     private PhotonView _PV;
+    private Rigidbody2D _rb;
     private Inventory _inventory;
     private PlayerStats _playerStats;
     private IEnumerator _co_Attack;
@@ -37,6 +38,7 @@ public class PlayerWeaponController : MonoBehaviour
     {
         _PV = GetComponent<PhotonView>();
         _playerStats = GetComponent<PlayerStatsController>().playerStats;
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
@@ -190,6 +192,9 @@ public class PlayerWeaponController : MonoBehaviour
         // slow down movement during charge
         attackMoveSpeedBuffer = _playerStats.speed;
         _playerStats.speed *= weapon.attackMoveSlowRate;
+
+        // recoil force
+        _rb.AddForce(-Utilities.Math.DegreeToVector2(aimTransform.eulerAngles.z) * weapon.recoilForce, ForceMode2D.Impulse);
 
         // wait cd
         yield return new WaitForSecondsRealtime(1f / weapon.attackSpeed);
