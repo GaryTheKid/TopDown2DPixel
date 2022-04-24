@@ -42,6 +42,14 @@ namespace NetworkCalls
             }
         }
 
+        public static void EquipGun(PhotonView PV)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_EquipGun", RpcTarget.AllBuffered);
+            }
+        }
+
         public static void UnequipWeapon(PhotonView PV)
         {
             if (PV.IsMine)
@@ -106,6 +114,14 @@ namespace NetworkCalls
             if (PV.IsMine)
             {
                 PV.RPC("RPC_FireProjectile", RpcTarget.All);
+            }
+        }
+
+        public static void FireChargedProjectile(PhotonView PV)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_FireChargedProjectile", RpcTarget.All);
             }
         }
     }

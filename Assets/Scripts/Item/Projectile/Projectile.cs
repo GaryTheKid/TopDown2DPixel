@@ -15,7 +15,5 @@ public abstract class Projectile : Item
     public float explosiveTime;
     public bool isSticky;
 
-    public abstract void Fire(PhotonView PV);
     public abstract Transform GetProjectilePrefab();
-    public abstract string GetProjectilePrefabPath();
 }

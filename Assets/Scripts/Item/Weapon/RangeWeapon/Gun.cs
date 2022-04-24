@@ -3,27 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Bow : Weapon
+public class Gun : Weapon
 {
-    public Bow()
+    public Gun()
     {
-        itemName = "Bow";
+        itemName = "Gun";
         amount = 1;
-        itemType = ItemType.RangedWeapon;
-        attackSpeed = 1.5f;
-        maxChargeTier = 3;
-        chargeSpeed = 3f;
-        chargeMoveSlowRate = 0.5f;
+        itemType = ItemType.MeleeWeapon;
+        attackRange = 10f;
+        attackSpeed = 6f;
 
         // projectile info
-        projectile = new Arrow();
+        projectile = new Bullet();
         projectile.spawnWeapon = this;
-    }
-
-    public override void Charge(PhotonView PV)
-    {
-        // charge weapon
-        NetworkCalls.Character.ChargeWeapon(PV);
     }
 
     public override void Attack(PhotonView attackerPV)
@@ -38,18 +30,18 @@ public class Bow : Weapon
 
         // equip when only in the equipment slots
         if (this.uiIndex < 0)
-            NetworkCalls.Weapon.EquipBow(PV);
+            NetworkCalls.Weapon.EquipGun(PV);
         else
             Debug.Log("Please drag this weapon into the equipment slots");
     }
 
     public override Transform GetEquipmentPrefab()
     {
-        return ItemAssets.itemAssets.pfBow;
+        return ItemAssets.itemAssets.pfGun;
     }
 
-    public override Sprite GetSprite() 
+    public override Sprite GetSprite()
     {
-        return ItemAssets.itemAssets.bowSprite;
+        return ItemAssets.itemAssets.gunSprite;
     }
 }

@@ -76,6 +76,29 @@ public class RPC_Player : MonoBehaviour
     {
         // reset charge and play attack animation
         _playerWeaponController.weaponAnimator.SetTrigger("Attack");
+
+        // get projectile in weapon controller
+        var projectile = _playerWeaponController.weapon.projectile;
+
+        // instantiate and fire (add force)
+        var projectilePf = Instantiate(projectile.GetProjectilePrefab(), _playerWeaponController.fireTransform);
+        projectilePf.parent = null;
+        projectilePf.GetComponent<Rigidbody2D>().AddForce(Utilities.Math.DegreeToVector2(_playerWeaponController.aimTransform.eulerAngles.z) * projectile.speed, ForceMode2D.Impulse);
+
+        // set projectile world script
+        var projectileWorld = projectilePf.GetComponent<ProjectileWorld>();
+        projectileWorld.SetProjectile(projectile);
+        projectileWorld.SetAttackerPV(GetComponent<PhotonView>());
+        projectileWorld.Perish();
+
+        // TODO: spread (accurracy)
+    }
+
+    [PunRPC]
+    void RPC_FireChargedProjectile()
+    {
+        // reset charge and play attack animation
+        _playerWeaponController.weaponAnimator.SetTrigger("Attack");
         _playerWeaponController.weaponAnimator.SetFloat("ChargeTier", 0);
 
         // get projectile in weapon controller
@@ -132,6 +155,14 @@ public class RPC_Player : MonoBehaviour
         Weapon bow = new Bow();
         _playerWeaponController.EquipWeapon(bow);
         _playerWeaponController.weaponType = PlayerWeaponController.WeaponType.ChargableRange;
+    }
+
+    [PunRPC]
+    void RPC_EquipGun()
+    {
+        Weapon gun = new Gun();
+        _playerWeaponController.EquipWeapon(gun);
+        _playerWeaponController.weaponType = PlayerWeaponController.WeaponType.Range;
     }
 
     [PunRPC]

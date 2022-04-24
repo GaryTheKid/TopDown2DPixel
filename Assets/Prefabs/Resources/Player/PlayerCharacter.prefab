@@ -2468,6 +2468,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: -1161757665931201688}
   - {fileID: 6007379028020906169}
+  - {fileID: 0}
   - {fileID: 6669079528487883466}
   sceneViewId: 0
   InstantiationId: 0
@@ -2563,6 +2564,8 @@ MonoBehaviour:
   weaponAnimator: {fileID: 0}
   weaponPrefab: {fileID: 0}
   aimTransform: {fileID: 2673528730404542884}
+  flipTransform: {fileID: 0}
+  fireTransform: {fileID: 0}
   animationTransform: {fileID: 0}
   chargeTier: 0
   weaponType: 0

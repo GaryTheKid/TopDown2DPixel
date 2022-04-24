@@ -29,10 +29,15 @@ public class ProjectileWorld : MonoBehaviour
             // deal dmg
             NetworkCalls.Character.DealProjectileDamage(_PV, target.transform.parent.GetComponent<PhotonView>().ViewID, _dmgRatio);
 
-            // stick to the target
+            // check if stick to the target
             if (_projectile.isSticky)
             {
                 transform.parent = target.transform;
+            }
+            else
+            {
+                StopAllCoroutines();
+                Destroy(gameObject);
             }
         }
 

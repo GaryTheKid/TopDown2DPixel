@@ -10,6 +10,7 @@ public class PlayerWeaponController : MonoBehaviour
     public Animator weaponAnimator;
     public Transform weaponPrefab;
     public Transform aimTransform;
+    public Transform fireTransform;
     public Transform animationTransform;
     private PhotonView _PV;
     private Inventory _inventory;
@@ -56,38 +57,34 @@ public class PlayerWeaponController : MonoBehaviour
 
     public void EquipWeapon(Weapon weapon)
     {
-        bool isSameWeapon = true;
+        bool isEquipping = true;
         if (this.weapon != null)
         {
-            isSameWeapon = weapon.itemName != this.weapon.itemName;
+            isEquipping = weapon.itemName != this.weapon.itemName;
             UnequipWeapon();
         }
         
-        if (isSameWeapon)
+        if (isEquipping)
         {
             this.weapon = weapon;
             weaponPrefab = Instantiate(weapon.GetEquipmentPrefab(), aimTransform);
             weaponAnimator = weaponPrefab.GetComponent<Animator>();
+            fireTransform = weaponPrefab.Find("FirePos");
         }
     }
 
     public void UnequipWeapon()
     {
-        if (weapon != null)
-        {
-            weapon = null;
-        }
-
-        if (weaponAnimator != null)
-        {
-            weaponAnimator = null;
-        }
-
+        weapon = null;
+        weaponAnimator = null;
+        fireTransform = null;
         if (weaponPrefab != null)
         {
             Destroy(weaponPrefab.gameObject);
             weaponPrefab = null;
         }
+
+        chargeTier = 0;
     }
 
     // handle the weapon aimming
@@ -99,7 +96,17 @@ public class PlayerWeaponController : MonoBehaviour
         Vector3 mousePosition = Common.GetMouseWorldPosition();
         Vector3 aimDir = (mousePosition - transform.position).normalized;
         float angle = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
-        aimTransform.eulerAngles = new Vector3(0, 0, angle);
+        aimTransform.eulerAngles = new Vector3(0f, 0f, angle);
+
+        // flip if rotate over 90 deg
+        if (weaponPrefab != null && (angle > 90f || angle < -90f))
+        {
+            weaponPrefab.localEulerAngles = new Vector3(180f, 0f, 0f);
+        }
+        else
+        {
+            weaponPrefab.localEulerAngles = new Vector3(0f, 0f, 0f); 
+        }
     }
 
     // handle the weapon attack
@@ -116,6 +123,15 @@ public class PlayerWeaponController : MonoBehaviour
             case WeaponType.Melee:
                 // click to attack
                 if (Input.GetMouseButtonDown(0) && _co_Attack == null)
+                {
+                    _co_Attack = Co_Attack();
+                    StartCoroutine(_co_Attack);
+                }
+                break;
+
+            case WeaponType.Range:
+                // click to attack
+                if (Input.GetMouseButton(0) && _co_Attack == null)
                 {
                     _co_Attack = Co_Attack();
                     StartCoroutine(_co_Attack);

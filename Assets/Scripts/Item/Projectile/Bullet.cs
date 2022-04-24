@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Arrow : Projectile
+public class Bullet : Projectile
 {
-    public Arrow()
+    public Bullet()
     {
-        speed = 4f;
+        speed = 15f;
         maxDist = 100f;
         explosiveRadius = 0f;
-        lifeTime = 5f;
-        accuracy = 1f;
-        isSticky = true;
+        lifeTime = 3f;
+        accuracy = 0.8f;
+        isSticky = false;
         damageInfo = new DamageInfo
         {
             damageType = DamageInfo.DamageType.Physics,
-            damageAmount = 20f,
+            damageAmount = 15f,
             damageDelay = 0.2f,
             damageEffectTime = 0f,
             KnockBackDist = 2f,
