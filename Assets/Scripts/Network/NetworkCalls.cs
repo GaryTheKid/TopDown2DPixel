@@ -77,11 +77,11 @@ namespace NetworkCalls
             }
         }
 
-        public static void DealProjectileDamage(PhotonView PV, int targetID)
+        public static void DealProjectileDamage(PhotonView PV, int targetID, float dmgRatio)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_DealProjectileDamage", RpcTarget.AllBuffered, targetID);
+                PV.RPC("RPC_DealProjectileDamage", RpcTarget.AllBuffered, targetID, dmgRatio);
             }
         }
 

@@ -7,6 +7,7 @@ public class ProjectileWorld : MonoBehaviour
 {
     private Projectile _projectile;
     private PhotonView _PV;
+    private float _dmgRatio = 1f;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -26,7 +27,7 @@ public class ProjectileWorld : MonoBehaviour
             RemovePhysics();
 
             // deal dmg
-            NetworkCalls.Character.DealProjectileDamage(_PV, target.transform.parent.GetComponent<PhotonView>().ViewID);
+            NetworkCalls.Character.DealProjectileDamage(_PV, target.transform.parent.GetComponent<PhotonView>().ViewID, _dmgRatio);
 
             // stick to the target
             if (_projectile.isSticky)
@@ -57,6 +58,11 @@ public class ProjectileWorld : MonoBehaviour
     public void SetAttackerPV(PhotonView PV)
     {
         _PV = PV;
+    }
+
+    public void SetDamageRatio(float dmgRatio)
+    {
+        _dmgRatio = dmgRatio;
     }
 
     private void RemovePhysics()

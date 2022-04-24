@@ -45,9 +45,10 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_DealProjectileDamage(int targetID)
+    void RPC_DealProjectileDamage(int targetID, float dmgRatio)
     {
         DamageInfo info = _playerWeaponController.weapon.projectile.damageInfo;
+        info.damageAmount *= dmgRatio;
         PhotonView.Find(targetID).transform.GetComponent<PlayerBuffController>().ReceiveDamage(info, transform.position);
     }
 
@@ -84,9 +85,6 @@ public class RPC_Player : MonoBehaviour
         var chargeTier = _playerWeaponController.chargeTier;
         if (chargeTier > 0)
         {
-            // adjust projectile damage based on charge tier
-            projectile.damageInfo.damageAmount /= ((float)chargeTier / (float)_playerWeaponController.weapon.maxChargeTier);
-
             // instantiate and fire (add force)
             var projectilePf = Instantiate(projectile.GetProjectilePrefab(), _playerWeaponController.aimTransform);
             projectilePf.parent = null;
@@ -95,6 +93,7 @@ public class RPC_Player : MonoBehaviour
             // set projectile world script
             var projectileWorld = projectilePf.GetComponent<ProjectileWorld>();
             projectileWorld.SetProjectile(projectile);
+            projectileWorld.SetDamageRatio((float)chargeTier / (float)_playerWeaponController.weapon.maxChargeTier);
             projectileWorld.SetAttackerPV(GetComponent<PhotonView>());
             projectileWorld.Perish();
 
