@@ -11,7 +11,9 @@ public class Gun : Weapon
         amount = 1;
         itemType = ItemType.MeleeWeapon;
         attackRange = 10f;
-        attackSpeed = 6f;
+        attackSpeed = 12f;
+        attackMoveSlowRate = 0.2f;
+        accuracy = 0.5f;
 
         // projectile info
         projectile = new Bullet();

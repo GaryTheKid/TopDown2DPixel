@@ -18,6 +18,7 @@ public class PlayerWeaponController : MonoBehaviour
     private IEnumerator _co_Attack;
     private IEnumerator _co_Charge;
     private float chargeMoveSpeedBuffer;
+    private float attackMoveSpeedBuffer;
 
     public int chargeTier;
 
@@ -186,11 +187,18 @@ public class PlayerWeaponController : MonoBehaviour
         // attack
         weapon.Attack(_PV);
 
+        // slow down movement during charge
+        attackMoveSpeedBuffer = _playerStats.speed;
+        _playerStats.speed *= weapon.attackMoveSlowRate;
+
         // wait cd
         yield return new WaitForSecondsRealtime(1f / weapon.attackSpeed);
 
         // unlock aim
         //_playerStats.isWeaponLocked = false;
+
+        // restore movement speed
+        _playerStats.speed = attackMoveSpeedBuffer;
 
         // clear co
         _co_Attack = null;

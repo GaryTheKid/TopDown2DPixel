@@ -11,7 +11,6 @@ public class Bullet : Projectile
         maxDist = 100f;
         explosiveRadius = 0f;
         lifeTime = 3f;
-        accuracy = 0.8f;
         isSticky = false;
         damageInfo = new DamageInfo
         {
@@ -25,11 +24,11 @@ public class Bullet : Projectile
 
     public override Transform GetProjectilePrefab()
     {
-        return ItemAssets.itemAssets.pfArrow;
+        return ItemAssets.itemAssets.pfBullet;
     }
 
     public override Sprite GetSprite()
     {
-        return ItemAssets.itemAssets.arrowSprite;
+        return ItemAssets.itemAssets.bulletSprite;
     }
 }

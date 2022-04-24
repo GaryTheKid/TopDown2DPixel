@@ -12,6 +12,7 @@ public class Sword : Weapon
         itemType = ItemType.MeleeWeapon;
         attackRange = 10f;
         attackSpeed = 1f;
+        attackMoveSlowRate = 0.7f;
         damageInfo = new DamageInfo 
         { 
             damageType = DamageInfo.DamageType.Physics,

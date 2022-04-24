@@ -21,6 +21,7 @@ public class ItemAssets : MonoBehaviour
     // prefab for weapon Equipped
     [Header("Projectile Prefabs")]
     public Transform pfArrow;
+    public Transform pfBullet;
 
     // prefab for item world
     [Header("ItemWorld Prefab")]
@@ -34,6 +35,7 @@ public class ItemAssets : MonoBehaviour
     public Sprite gunSprite;
 
     public Sprite arrowSprite;
+    public Sprite bulletSprite;
 
     public Sprite healthPotionSprite;
 }

@@ -11,6 +11,8 @@ public class Bow : Weapon
         amount = 1;
         itemType = ItemType.RangedWeapon;
         attackSpeed = 1.5f;
+        attackMoveSlowRate = 0.8f;
+        accuracy = 1f;
         maxChargeTier = 3;
         chargeSpeed = 6f;
         chargeMoveSlowRate = 0.5f;

@@ -11,7 +11,6 @@ public class Arrow : Projectile
         maxDist = 100f;
         explosiveRadius = 0f;
         lifeTime = 5f;
-        accuracy = 1f;
         isSticky = true;
         damageInfo = new DamageInfo
         {

@@ -15,6 +15,11 @@ public class ProjectileWorld : MonoBehaviour
         if (collision.transform != _PV.transform)
         {
             RemovePhysics();
+            if (!_projectile.isSticky)
+            {
+                StopAllCoroutines();
+                Destroy(gameObject);
+            }
         }
     }
 

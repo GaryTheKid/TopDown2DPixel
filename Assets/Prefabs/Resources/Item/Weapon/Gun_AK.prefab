@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1274341185718922269}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.23, y: -0.09200001, z: 0}
+  m_LocalPosition: {x: 0.24, y: -0.09200001, z: 0}
   m_LocalScale: {x: 1.6, y: 1.6, z: 1}
   m_Children:
   - {fileID: 2730286677766022260}
@@ -107,7 +107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3284422391979758960}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.568, y: 0.063, z: 0}
+  m_LocalPosition: {x: 2.701, y: 0.043, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5279715861106610933}
@@ -129,7 +129,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2730286677766022260
 Transform:
   m_ObjectHideFlags: 0
@@ -137,13 +137,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4147542525117277378}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7732871, w: 0.634056}
-  m_LocalPosition: {x: 0.093, y: 0.089, z: 0}
-  m_LocalScale: {x: 1, y: 2, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.109, y: 0.083, z: 0}
+  m_LocalScale: {x: 0.84, y: 0.76, z: 1}
   m_Children: []
   m_Father: {fileID: 4092274047153860242}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -101.3}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5388726828554969296
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -184,15 +184,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 100
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 73da8ea3c04487c45b276946637c5855, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.1034483, y: 1}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &7326302545583874302
@@ -347,7 +347,7 @@ Animator:
   m_GameObject: {fileID: 8342394046852364536}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: dcf5766a08d1a874ea9cdaf9f9f34630, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9ab1dd65ac2996743ab5b56930f6cb98, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -374,9 +374,6 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 0
     Name: Attack
-  - Type: 1
-    SynchronizeType: 0
-    Name: ChargeTier
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0

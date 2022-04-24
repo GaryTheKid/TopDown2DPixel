@@ -24,11 +24,13 @@ public abstract class Weapon : Item, IEquipable
     public DamageInfo damageInfo;
     public float attackRange;
     public float attackSpeed;
+    public float attackMoveSlowRate;
 
     // ranged
     public Projectile projectile;
     public float chargeSpeed;
     public float chargeMoveSlowRate;
+    public float accuracy;
     public int maxChargeTier;
 
     public virtual void Attack(PhotonView PV) { }
