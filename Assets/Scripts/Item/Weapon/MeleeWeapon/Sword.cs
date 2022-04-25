@@ -10,6 +10,7 @@ public class Sword : Weapon
         itemName = "Sword";
         amount = 1;
         itemType = ItemType.MeleeWeapon;
+        accuracy = 1f;
         attackRange = 10f;
         attackSpeed = 1f;
         attackMoveSlowRate = 0.7f;

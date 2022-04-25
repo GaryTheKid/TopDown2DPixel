@@ -11,6 +11,7 @@ public class PlayerWeaponController : MonoBehaviour
     public Transform weaponPrefab;
     public Transform aimTransform;
     public Transform fireTransform;
+    public Transform spreadTransform;
     public Transform animationTransform;
     private PhotonView _PV;
     private Rigidbody2D _rb;
@@ -71,7 +72,7 @@ public class PlayerWeaponController : MonoBehaviour
         if (isEquipping)
         {
             this.weapon = weapon;
-            weaponPrefab = Instantiate(weapon.GetEquipmentPrefab(), aimTransform);
+            weaponPrefab = Instantiate(weapon.GetEquipmentPrefab(), spreadTransform);
             weaponAnimator = weaponPrefab.GetComponent<Animator>();
             fireTransform = weaponPrefab.Find("FirePos");
         }
@@ -109,7 +110,7 @@ public class PlayerWeaponController : MonoBehaviour
             {
                 NetworkCalls.Weapon.FlipWeapon(_PV);
                 isFlipped = true;
-            }    
+            }
         }
         else
         {
@@ -196,20 +197,13 @@ public class PlayerWeaponController : MonoBehaviour
         // lock aim
         //_playerStats.isWeaponLocked = true;
 
+        // attack
+        weapon.Attack(_PV);
+
         // spread
         if (weapon.accuracy < 1f)
         {
-            float spreadVal = (1f - weapon.accuracy) * 180f;
-            float spread = Random.Range(-spreadVal, spreadVal);
-
-            print(spread);
-
-            StartCoroutine(Co_Spread(spread));
-        }
-        else
-        {
-            // attack
-            weapon.Attack(_PV);
+            StartCoroutine(Co_Spread());
         }
 
         // slow down movement during charge
@@ -217,7 +211,7 @@ public class PlayerWeaponController : MonoBehaviour
         _playerStats.speed *= weapon.attackMoveSlowRate;
 
         // recoil force
-        _rb.AddForce(-Utilities.Math.DegreeToVector2(aimTransform.eulerAngles.z) * weapon.recoilForce, ForceMode2D.Impulse);
+        _rb.AddForce(-Math.DegreeToVector2(aimTransform.eulerAngles.z) * weapon.recoilForce, ForceMode2D.Impulse);
 
         // wait cd
         yield return new WaitForSecondsRealtime(1f / weapon.attackSpeed);
@@ -233,25 +227,28 @@ public class PlayerWeaponController : MonoBehaviour
     }
 
     // Coroutine: Weapon spread
-    private IEnumerator Co_Spread(float spread)
+    private IEnumerator Co_Spread()
     {
-        // rotate aim transform
-        float recoilStep = spread / (weapon.recoilTime / Time.fixedDeltaTime);
-        float timer = 0f;
-        while (timer < weapon.recoilTime)
-        {
-            weaponPrefab.eulerAngles = new Vector3(0f, 0f, weaponPrefab.eulerAngles.z + recoilStep);
-            timer += Time.fixedDeltaTime;
-        }
+        // init
+        float spreadVal = (1f - weapon.accuracy) * 180f;
+        float spread = Random.Range(-spreadVal, spreadVal);
+        int maxframeCount = (int)(weapon.recoilTime / Time.fixedDeltaTime);
+        int counter = 0;
+        float step = spread / maxframeCount;
 
-        // attack
-        weapon.Attack(_PV);
+        // rotate aim transform
+        while (counter < maxframeCount)
+        {
+            spreadTransform.eulerAngles = new Vector3(0f, spreadTransform.eulerAngles.y, spreadTransform.eulerAngles.z + step);
+            yield return new WaitForFixedUpdate();
+            counter++;
+        }
 
         // wait recover time
         yield return new WaitForSecondsRealtime(weapon.recoilRecoverTime);
 
         // recover
-        weaponPrefab.eulerAngles = new Vector3(0f, 0f, weaponPrefab.eulerAngles.z - spread);
+        spreadTransform.eulerAngles = new Vector3(0f, spreadTransform.eulerAngles.y, spreadTransform.eulerAngles.z - spread);
     }
 
     // Coroutine: Weapon charge

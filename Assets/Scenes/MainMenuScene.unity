@@ -2407,6 +2407,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1096967710}
   m_CullTransparentMesh: 1
+--- !u!114 &1099047481 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6669079528487883466, guid: 7b89476201d4a3143a129d3d6a9571b5, type: 3}
+  m_PrefabInstance: {fileID: 2046205171}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1099047482 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8708594811777625155, guid: 7b89476201d4a3143a129d3d6a9571b5, type: 3}
+  m_PrefabInstance: {fileID: 2046205171}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74a8ce1b0f25fd244a22a17c5648a824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1111825666 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4932188441461881753, guid: cdcc2e155101b7d409410331ab3d8211, type: 3}
@@ -3838,6 +3860,18 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8110680880012028758, guid: 7b89476201d4a3143a129d3d6a9571b5, type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8110680880012028758, guid: 7b89476201d4a3143a129d3d6a9571b5, type: 3}
+      propertyPath: ObservedComponents.Array.data[2]
+      value: 
+      objectReference: {fileID: 1099047481}
+    - target: {fileID: 8110680880012028758, guid: 7b89476201d4a3143a129d3d6a9571b5, type: 3}
+      propertyPath: ObservedComponents.Array.data[3]
+      value: 
+      objectReference: {fileID: 1099047482}
     - target: {fileID: 8827954449744625096, guid: 7b89476201d4a3143a129d3d6a9571b5, type: 3}
       propertyPath: m_IsActive
       value: 1

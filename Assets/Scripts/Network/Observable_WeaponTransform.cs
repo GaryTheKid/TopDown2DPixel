@@ -5,18 +5,16 @@ using Photon.Pun;
 
 public class Observable_WeaponTransform : MonoBehaviourPunCallbacks, IPunObservable
 {
-    private Vector3 rotation;
-
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(transform.eulerAngles);
+            stream.SendNext(transform.eulerAngles.z);
         }
         else
         {
-            rotation = (Vector3)stream.ReceiveNext();
-            transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, rotation, 0.1f);
+            float zDeg = (float)stream.ReceiveNext();
+            transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0f, 0f, zDeg), 0.01f);
         }
     }
 }
