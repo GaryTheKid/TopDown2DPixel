@@ -20,6 +20,7 @@ public class PlayerWeaponController : MonoBehaviour
     private IEnumerator _co_Charge;
     private float chargeMoveSpeedBuffer;
     private float attackMoveSpeedBuffer;
+    private bool isFlipped;
 
     public int chargeTier;
 
@@ -104,11 +105,20 @@ public class PlayerWeaponController : MonoBehaviour
         // flip if rotate over 90 deg
         if (weaponPrefab != null && (angle > 90f || angle < -90f))
         {
-            weaponPrefab.localEulerAngles = new Vector3(180f, 0f, 0f);
+            if (!isFlipped)
+            {
+                NetworkCalls.Weapon.FlipWeapon(_PV);
+                isFlipped = true;
+            }    
         }
         else
         {
-            weaponPrefab.localEulerAngles = new Vector3(0f, 0f, 0f); 
+            if (isFlipped)
+            {
+                NetworkCalls.Weapon.UnflipWeapon(_PV);
+                weaponPrefab.localEulerAngles = new Vector3(0f, 0f, 0f);
+                isFlipped = false;
+            }
         }
     }
 
@@ -186,8 +196,21 @@ public class PlayerWeaponController : MonoBehaviour
         // lock aim
         //_playerStats.isWeaponLocked = true;
 
-        // attack
-        weapon.Attack(_PV);
+        // spread
+        if (weapon.accuracy < 1f)
+        {
+            float spreadVal = (1f - weapon.accuracy) * 180f;
+            float spread = Random.Range(-spreadVal, spreadVal);
+
+            print(spread);
+
+            StartCoroutine(Co_Spread(spread));
+        }
+        else
+        {
+            // attack
+            weapon.Attack(_PV);
+        }
 
         // slow down movement during charge
         attackMoveSpeedBuffer = _playerStats.speed;
@@ -207,6 +230,28 @@ public class PlayerWeaponController : MonoBehaviour
 
         // clear co
         _co_Attack = null;
+    }
+
+    // Coroutine: Weapon spread
+    private IEnumerator Co_Spread(float spread)
+    {
+        // rotate aim transform
+        float recoilStep = spread / (weapon.recoilTime / Time.fixedDeltaTime);
+        float timer = 0f;
+        while (timer < weapon.recoilTime)
+        {
+            weaponPrefab.eulerAngles = new Vector3(0f, 0f, weaponPrefab.eulerAngles.z + recoilStep);
+            timer += Time.fixedDeltaTime;
+        }
+
+        // attack
+        weapon.Attack(_PV);
+
+        // wait recover time
+        yield return new WaitForSecondsRealtime(weapon.recoilRecoverTime);
+
+        // recover
+        weaponPrefab.eulerAngles = new Vector3(0f, 0f, weaponPrefab.eulerAngles.z - spread);
     }
 
     // Coroutine: Weapon charge

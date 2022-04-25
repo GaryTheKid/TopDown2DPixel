@@ -57,6 +57,22 @@ namespace NetworkCalls
                 PV.RPC("RPC_UnequipWeapon", RpcTarget.AllBuffered);
             }
         }
+
+        public static void FlipWeapon(PhotonView PV)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_FlipWeapon", RpcTarget.All);
+            }
+        }
+
+        public static void UnflipWeapon(PhotonView PV)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_UnflipWeapon", RpcTarget.All);
+            }
+        }
     }
 
     public class Character
