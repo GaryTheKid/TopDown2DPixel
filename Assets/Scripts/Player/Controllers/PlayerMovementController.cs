@@ -21,14 +21,16 @@ public class PlayerMovementController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (_playerStats.isDead)
-            return;
+        /// player dead will turn to ghost, and move even faster!
+
+        /*if (_playerStats.isDead)
+            return;*/
 
         float moveX = 0f;
         float moveY = 0f;
         if (Input.GetKey(KeyCode.W))
         {
-            moveY = +1f; 
+            moveY = +1f;
         }
         if (Input.GetKey(KeyCode.S))
         {
@@ -53,8 +55,10 @@ public class PlayerMovementController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_playerStats.isDead)
-            return;
+        /// player dead will turn to ghost, and move even faster!
+
+        /*if (_playerStats.isDead)
+            return;*/
 
         bool isIdle = _moveDir == Vector3.zero;
 

@@ -42,4 +42,20 @@ public class PlayerEffectController : MonoBehaviour
         // adjust hp bar
         hpBar.fillAmount = (float)currHP / (float)maxHP;
     }
+
+    public void DeathEffect()
+    {
+        // TODO: death visual effect
+
+
+    }
+
+    public void RespawnEffect()
+    {
+        // TODO: visual effect
+
+
+        // adjust hp bar
+        hpBar.fillAmount = 1f;
+    }
 }

@@ -92,6 +92,16 @@ public class Inventory
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    public void RemoveAllItems()
+    {
+        foreach (Item item in itemList)
+        {
+            item.uiIndex = 0;
+        }
+        itemList.Clear();
+        OnItemListChanged?.Invoke(this, EventArgs.Empty);
+    }
+
     public void UseItem(PhotonView PV, Item item)
     {
         item.UseItem(PV);

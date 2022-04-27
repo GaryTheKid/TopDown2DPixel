@@ -7,6 +7,10 @@ using Photon.Pun;
 
 public class PlayerBuffController : MonoBehaviour
 {
+    [SerializeField] private GameObject _ghostCollider;
+    [SerializeField] private GameObject _characterCollider;
+    [SerializeField] private GameObject _hitBox;
+
     private PlayerStats _playerStats;
     private PlayerStatsController _statsController;
     private PlayerEffectController _effectController;
@@ -59,5 +63,25 @@ public class PlayerBuffController : MonoBehaviour
 
         // show the visual effect
         _effectController.ReceiveHealingEffect(_playerStats.hp, _playerStats.maxHp);
+    }
+
+    public void Ghostify()
+    {
+        _characterCollider.SetActive(false);
+        _hitBox.SetActive(false);
+        _ghostCollider.SetActive(true);
+
+        // show the visual effect
+        _effectController.DeathEffect();
+    }
+
+    public void Solify()
+    {
+        _characterCollider.SetActive(true);
+        _hitBox.SetActive(true);
+        _ghostCollider.SetActive(false);
+
+        // show the visual effect
+        _effectController.RespawnEffect();
     }
 }

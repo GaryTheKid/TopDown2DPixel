@@ -7,6 +7,7 @@ public class PlayerInventoryController : MonoBehaviour
 {
     [SerializeField] private UI_Inventory _uiInventory;
     [SerializeField] private GameObject _itemSlots;
+    [SerializeField] private Transform _playerAnchorPos;
 
     private PlayerStats playerStats;
     private Inventory _inventory;
@@ -60,6 +61,15 @@ public class PlayerInventoryController : MonoBehaviour
                 _inventory.UseItem(_PV, slot.SlotItem);
             }
         }
+    }
+
+    public void DiscardAllItems()
+    {
+        foreach (Item item in _inventory.GetItemList())
+        {
+            ItemWorld.DropItem(_playerAnchorPos.position, item);
+        }
+        _inventory.RemoveAllItems();
     }
 
     public Inventory GetInventory()

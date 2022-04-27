@@ -89,7 +89,18 @@ public class PlayerWeaponController : MonoBehaviour
             weaponPrefab = null;
         }
 
+        // reset
         chargeTier = 0;
+
+        // stop charge coroutine
+        if (_co_Charge != null)
+        {
+            StopCoroutine(_co_Charge);
+            _co_Charge = null;
+
+            // restore movement speed
+            _playerStats.speed = chargeMoveSpeedBuffer;
+        }
     }
 
     // handle the weapon aimming

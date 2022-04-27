@@ -8,17 +8,35 @@ public class RPC_Player : MonoBehaviour
 {
     private PlayerWeaponController _playerWeaponController;
     private PlayerBuffController _playerBuffController;
+    private PlayerStatsController _playerStatsController;
     private HashSet<int> targets;
 
     private void Awake()
     {
         _playerWeaponController = GetComponent<PlayerWeaponController>();
         _playerBuffController = GetComponent<PlayerBuffController>();
+        _playerStatsController = GetComponent<PlayerStatsController>();
     }
 
     private void Start()
     {
         targets = GetComponent<TargetList>().targets;
+    }
+
+    [PunRPC] 
+    void RPC_Die()
+    {
+        _playerWeaponController.UnequipWeapon();
+        _playerStatsController.OnDeath.Invoke();
+        _playerStatsController.playerStats.isDead = true;
+    }
+
+    [PunRPC]
+    void RPC_Respawn()
+    {
+        _playerStatsController.OnRespawn.Invoke();
+        _playerStatsController.playerStats.hp = _playerStatsController.playerStats.maxHp;
+        _playerStatsController.playerStats.isDead = false;
     }
 
     [PunRPC]
@@ -102,8 +120,6 @@ public class RPC_Player : MonoBehaviour
         projectileWorld.SetProjectile(projectile);
         projectileWorld.SetAttackerPV(GetComponent<PhotonView>());
         projectileWorld.Perish();
-
-        // TODO: spread (accurracy)
     }
 
     [PunRPC]
@@ -135,8 +151,6 @@ public class RPC_Player : MonoBehaviour
             // reset chargeTier
             _playerWeaponController.chargeTier = 0;
         }
-        
-        // TODO: spread (accurracy)
     }
 
     [PunRPC]

@@ -1096,7 +1096,7 @@ Transform:
   - {fileID: 3827325952875141991}
   - {fileID: 3314278895886531790}
   m_Father: {fileID: 5210151642737692040}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &7245600206847143699
 Animator:
@@ -1273,7 +1273,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5210151642737692040}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &6586527768662561981
 CapsuleCollider2D:
@@ -2466,6 +2466,7 @@ Transform:
   - {fileID: 421601025}
   - {fileID: 7931373720381848574}
   - {fileID: 4263060051438421969}
+  - {fileID: 6767447341836561869}
   - {fileID: 3551196983489934705}
   - {fileID: 5212231357461397375}
   - {fileID: 430834709672718634}
@@ -2596,6 +2597,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _uiInventory: {fileID: 8307465710332931687}
   _itemSlots: {fileID: 4223917211679191804}
+  _playerAnchorPos: {fileID: 8031013269936304625}
 --- !u!114 &622847712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2640,6 +2642,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e76a6848108c1854daed125ab4f35d93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ghostCollider: {fileID: 8726647576459141715}
+  _characterCollider: {fileID: 610052840383596814}
+  _hitBox: {fileID: 3284385274884613445}
 --- !u!114 &5210151644126573888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2671,6 +2676,49 @@ MonoBehaviour:
     maxHp: 100
     hp: 100
     speed: 30
+    score: 0
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -1663441981523675971}
+        m_TargetAssemblyTypeName: PlayerInventoryController, Assembly-CSharp
+        m_MethodName: DiscardAllItems
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7653245263153467562}
+        m_TargetAssemblyTypeName: PlayerBuffController, Assembly-CSharp
+        m_MethodName: Ghostify
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnRespawn:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7653245263153467562}
+        m_TargetAssemblyTypeName: PlayerBuffController, Assembly-CSharp
+        m_MethodName: Solify
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5240005659565694029
 GameObject:
   m_ObjectHideFlags: 0
@@ -3967,7 +4015,7 @@ Transform:
   m_Children:
   - {fileID: 1396871901618816072}
   m_Father: {fileID: 5210151642737692040}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7429784537545940530
 GameObject:
@@ -4073,7 +4121,7 @@ Transform:
   m_Children:
   - {fileID: 2673528730404542884}
   m_Father: {fileID: 5210151642737692040}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7775018121246171531
 GameObject:
@@ -4451,6 +4499,53 @@ RectTransform:
   m_AnchoredPosition: {x: -305, y: 217}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &8726647576459141715
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6767447341836561869}
+  - component: {fileID: 6724405430191152799}
+  m_Layer: 12
+  m_Name: GhostCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &6767447341836561869
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8726647576459141715}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5210151642737692040}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &6724405430191152799
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8726647576459141715}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0046857595, y: 0.52949363}
+  m_Size: {x: 0.72491753, y: 1.2624041}
+  m_Direction: 0
 --- !u!1 &8827954449744625096
 GameObject:
   m_ObjectHideFlags: 0

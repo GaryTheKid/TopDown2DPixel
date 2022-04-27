@@ -140,6 +140,22 @@ namespace NetworkCalls
                 PV.RPC("RPC_FireChargedProjectile", RpcTarget.All);
             }
         }
+
+        public static void Die(PhotonView PV)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_Die", RpcTarget.AllBuffered);
+            }
+        }
+
+        public static void Respawn(PhotonView PV)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_Respawn", RpcTarget.AllBuffered);
+            }
+        }
     }
 
     public class Physics 
