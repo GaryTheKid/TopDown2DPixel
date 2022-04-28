@@ -89,7 +89,7 @@ public class PlayerWeaponController : MonoBehaviour
             weaponPrefab = null;
         }
 
-        // reset
+        // reset charge Tier
         chargeTier = 0;
 
         // stop charge coroutine

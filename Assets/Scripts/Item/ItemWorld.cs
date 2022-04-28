@@ -1,3 +1,11 @@
+/* Last Edition: 04/28/2022
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * References: CodyMonkey
+ * 
+ * Description: 
+ *   The class attached to Item Prefab in the world
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

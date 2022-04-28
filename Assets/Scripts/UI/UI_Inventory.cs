@@ -98,7 +98,7 @@ public class UI_Inventory : MonoBehaviour
                     _equipmentSlots[-item.uiIndex - 1].SlotItem = null;
                 }
                 continue;
-            } 
+            }
 
             // instantiate item template
             RectTransform itemSlotRectTransform = Instantiate(_itemSlotTemplate, _itemSlotContainer).GetComponent<RectTransform>();

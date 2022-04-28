@@ -81,4 +81,9 @@ public class PlayerInventoryController : MonoBehaviour
     {
         _inventory.AddItem(item);
     }
+
+    public void DropItem(int itemIndex)
+    {
+        
+    }
 }
