@@ -15,13 +15,12 @@ public class Item
         Consumable,
         Material,
         MeleeWeapon,
-        RangedWeapon
+        RangedWeapon,
+        ChargableRangedWeapon,
+
     }
     public ItemType itemType;
     public Action destroySelfAction;
-
-    // if greater than 0 => in inventory; smaller => in equipment slots 
-    public int uiIndex;
 
     public virtual Sprite GetSprite()
     {
@@ -41,6 +40,7 @@ public class Item
             case ItemType.Material: return true;
             case ItemType.MeleeWeapon: return false;
             case ItemType.RangedWeapon: return false;
+            case ItemType.ChargableRangedWeapon: return false;
         }
     }
 
@@ -50,6 +50,8 @@ public class Item
     }
 
     public virtual void Equip(PhotonView PV){}
+
+    public virtual void Equip(PhotonView PV, int index) { }
 
     public virtual void Unequip(PhotonView PV){}
 

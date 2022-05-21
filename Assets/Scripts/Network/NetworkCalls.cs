@@ -50,6 +50,14 @@ namespace NetworkCalls
             }
         }
 
+        public static void EquipWeapon(PhotonView PV, int index)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_EquipWeapon", RpcTarget.AllBuffered, index);
+            }
+        }
+
         public static void UnequipWeapon(PhotonView PV)
         {
             if (PV.IsMine)

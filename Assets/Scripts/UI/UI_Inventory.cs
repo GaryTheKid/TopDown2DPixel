@@ -25,7 +25,7 @@ public class UI_Inventory : MonoBehaviour
         int y = 0;
         float itemSlotCellSize = 120f;
 
-        for (int i = 0; i < _inventory.maxCapacity; i++)
+        for (int i = 0; i < _inventory.maxCapacity - 6; i++)
         {
             // instantiate empty slot template
             RectTransform slotRectTransform = Instantiate(_emptySlotTemplate, _emptySlotContainer).GetComponent<RectTransform>();
@@ -34,7 +34,7 @@ public class UI_Inventory : MonoBehaviour
             // update empty slot list
             ItemSlot itemSlot = slotRectTransform.GetComponent<ItemSlot>();
             _emptySlots.Add(itemSlot);
-            itemSlot.uiIndex = i + 1;
+            itemSlot.uiIndex = i + 6;
 
             // set position
             slotRectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y * itemSlotCellSize);
@@ -51,7 +51,7 @@ public class UI_Inventory : MonoBehaviour
         for (int i = 0; i < _equipmentSlots.Count; i++)
         {
             // update empty slot list
-            _equipmentSlots[i].uiIndex = -i - 1;
+            _equipmentSlots[i].uiIndex = i;
         }
     }
 
@@ -84,21 +84,12 @@ public class UI_Inventory : MonoBehaviour
         }
 
         // create ui
-        foreach (Item item in _inventory.GetItemList())
+        for (int i = 0; i < _inventory.GetItemList().Count; i++)
         {
-            // clear used up item (amount == 0)
-            if (item.amount <= 0)
-            {
-                if (item.uiIndex > 0)
-                {
-                    _emptySlots[item.uiIndex - 1].SlotItem = null;
-                }
-                else if (item.uiIndex < 0)
-                {
-                    _equipmentSlots[-item.uiIndex - 1].SlotItem = null;
-                }
+            // get item from list
+            Item item = _inventory.GetItemFromList(i);
+            if (item == null)
                 continue;
-            }
 
             // instantiate item template
             RectTransform itemSlotRectTransform = Instantiate(_itemSlotTemplate, _itemSlotContainer).GetComponent<RectTransform>();
@@ -110,7 +101,7 @@ public class UI_Inventory : MonoBehaviour
                 _inventory.UseItem(_PV, item);
             };
 
-            // set right click logic
+            // set drop logic
             itemSlotRectTransform.GetComponent<Button_UI>().MouseRightClickFunc = () =>
             {
                 Item itemCopy = (Item)Common.GetObjectCopyFromInstance(item);
@@ -126,13 +117,13 @@ public class UI_Inventory : MonoBehaviour
             };
 
             // set drag drop logic
-            itemSlotRectTransform.GetComponent<DragDrop>().OnChangeItemUIIndex = (int newUIIndex) => 
+            itemSlotRectTransform.GetComponent<DragDrop>().OnChangeItemUIIndex = (int currUIIndex, int newUIIndex) => 
             {
-                item.uiIndex = newUIIndex;
-                itemSlotRectTransform.GetComponent<DragDrop>().currentSlot.SlotItem = item;
+                // swap item pos
+                _inventory.SwapItems(currUIIndex, newUIIndex);
 
                 // if item is equipable, drag it from equipment slots will unequip it
-                if (item is IEquipable && item.uiIndex >= 0)
+                if (item is IEquipable)
                 {
                     item.Unequip(_PV);
                 }
@@ -161,35 +152,16 @@ public class UI_Inventory : MonoBehaviour
                     uiText.text = item.amount.ToString(); break;
             }
 
-            // set item item position
-            if (item.uiIndex == 0)
+            // nest the item in the slot
+            if (i > 6)
             {
-                // nest the item in the first empty slot
-                for (int i = 0; i < _emptySlots.Count; i++)
-                {
-                    if (_emptySlots[i].SlotItem == null)
-                    {
-                        item.uiIndex = i + 1;
-                        _emptySlots[i].SlotItem = item;
-                        itemSlotRectTransform.GetComponent<DragDrop>().currentSlot = _emptySlots[i];
-                        itemSlotRectTransform.anchoredPosition = _emptySlots[i].transform.GetComponent<RectTransform>().anchoredPosition;
-                        break;
-                    }
-                }
+                itemSlotRectTransform.GetComponent<DragDrop>().currentSlot = _emptySlots[i - 6];
+                itemSlotRectTransform.anchoredPosition = _emptySlots[i - 6].transform.GetComponent<RectTransform>().anchoredPosition;
             }
-            // nest the item in empty slot position
-            else if (item.uiIndex > 0)
+            else 
             {
-                _emptySlots[item.uiIndex - 1].SlotItem = item;
-                itemSlotRectTransform.GetComponent<DragDrop>().currentSlot = _emptySlots[item.uiIndex - 1];
-                itemSlotRectTransform.anchoredPosition = _emptySlots[item.uiIndex - 1].transform.GetComponent<RectTransform>().anchoredPosition;
-            }
-            // nest the item in equipment slot position
-            else
-            {
-                _equipmentSlots[-item.uiIndex - 1].SlotItem = item;
-                itemSlotRectTransform.GetComponent<DragDrop>().currentSlot = _emptySlots[-item.uiIndex - 1];
-                itemSlotRectTransform.anchoredPosition = _equipmentSlots[-item.uiIndex - 1].transform.GetComponent<RectTransform>().anchoredPosition;
+                itemSlotRectTransform.GetComponent<DragDrop>().currentSlot = _equipmentSlots[i];
+                itemSlotRectTransform.anchoredPosition = _equipmentSlots[i].transform.GetComponent<RectTransform>().anchoredPosition;
             }
         }
     }

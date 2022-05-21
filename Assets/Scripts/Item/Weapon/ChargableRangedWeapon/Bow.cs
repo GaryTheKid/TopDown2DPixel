@@ -9,7 +9,7 @@ public class Bow : Weapon
     {
         itemName = "Bow";
         amount = 1;
-        itemType = ItemType.RangedWeapon;
+        itemType = ItemType.ChargableRangedWeapon;
         attackSpeed = 1.5f;
         attackMoveSlowRate = 0.8f;
         accuracy = 1f;
@@ -37,12 +37,7 @@ public class Bow : Weapon
     public override void Equip(PhotonView PV)
     {
         isEquiped = true;
-
-        // equip when only in the equipment slots
-        if (this.uiIndex < 0)
-            NetworkCalls.Weapon.EquipBow(PV);
-        else
-            Debug.Log("Please drag this weapon into the equipment slots");
+        NetworkCalls.Weapon.EquipBow(PV);
     }
 
     public override Transform GetEquipmentPrefab()

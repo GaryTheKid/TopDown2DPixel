@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Gun : Weapon
+public abstract class Gun : Weapon
 {
     public Gun()
     {
         itemName = "Gun";
         amount = 1;
-        itemType = ItemType.MeleeWeapon;
+        itemType = ItemType.RangedWeapon;
         attackRange = 10f;
         attackSpeed = 12f;
         attackMoveSlowRate = 0.1f;
@@ -32,21 +32,8 @@ public class Gun : Weapon
     public override void Equip(PhotonView PV)
     {
         isEquiped = true;
-
-        // equip when only in the equipment slots
-        if (this.uiIndex < 0)
-            NetworkCalls.Weapon.EquipGun(PV);
-        else
-            Debug.Log("Please drag this weapon into the equipment slots");
+        NetworkCalls.Weapon.EquipGun(PV);
     }
 
-    public override Transform GetEquipmentPrefab()
-    {
-        return ItemAssets.itemAssets.pfGun;
-    }
-
-    public override Sprite GetSprite()
-    {
-        return ItemAssets.itemAssets.gunSprite;
-    }
+    public override abstract Transform GetEquipmentPrefab();
 }

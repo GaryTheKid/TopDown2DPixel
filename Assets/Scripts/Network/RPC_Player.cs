@@ -7,6 +7,7 @@ using Photon.Pun;
 public class RPC_Player : MonoBehaviour
 {
     private PlayerWeaponController _playerWeaponController;
+    private PlayerInventoryController _playerInventoryController;
     private PlayerBuffController _playerBuffController;
     private PlayerStatsController _playerStatsController;
     private HashSet<int> targets;
@@ -14,6 +15,7 @@ public class RPC_Player : MonoBehaviour
     private void Awake()
     {
         _playerWeaponController = GetComponent<PlayerWeaponController>();
+        _playerInventoryController = GetComponent<PlayerInventoryController>();
         _playerBuffController = GetComponent<PlayerBuffController>();
         _playerStatsController = GetComponent<PlayerStatsController>();
     }
@@ -164,7 +166,7 @@ public class RPC_Player : MonoBehaviour
     {
         Weapon sword = new Sword();
         _playerWeaponController.EquipWeapon(sword);
-        _playerWeaponController.weaponType = PlayerWeaponController.WeaponType.Melee;
+        _playerWeaponController.weaponType = sword.itemType;
     }
 
     [PunRPC]
@@ -172,7 +174,7 @@ public class RPC_Player : MonoBehaviour
     {
         Weapon axe = new Axe();
         _playerWeaponController.EquipWeapon(axe);
-        _playerWeaponController.weaponType = PlayerWeaponController.WeaponType.Melee;
+        _playerWeaponController.weaponType = axe.itemType;
     }
 
     [PunRPC]
@@ -180,15 +182,22 @@ public class RPC_Player : MonoBehaviour
     {
         Weapon bow = new Bow();
         _playerWeaponController.EquipWeapon(bow);
-        _playerWeaponController.weaponType = PlayerWeaponController.WeaponType.ChargableRange;
+        _playerWeaponController.weaponType = bow.itemType;
     }
 
     [PunRPC]
     void RPC_EquipGun()
     {
-        Weapon gun = new Gun();
+        Weapon gun = new Gun_AK();
         _playerWeaponController.EquipWeapon(gun);
-        _playerWeaponController.weaponType = PlayerWeaponController.WeaponType.Range;
+        _playerWeaponController.weaponType = gun.itemType;
+    }
+
+    [PunRPC]
+    void RPC_EquipWeapon(int index)
+    {
+        _playerWeaponController.EquipWeapon((Weapon)(_playerInventoryController.GetItem(index)));
+        _playerWeaponController.weaponType = _playerWeaponController.weapon.itemType;
     }
 
     [PunRPC]

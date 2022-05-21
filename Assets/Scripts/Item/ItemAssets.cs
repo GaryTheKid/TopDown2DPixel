@@ -16,7 +16,8 @@ public class ItemAssets : MonoBehaviour
     public Transform pfSword;
     public Transform pfAxe;
     public Transform pfBow;
-    public Transform pfGun;
+    public Transform pfGun_AK;
+    public Transform pfGun_M4;
 
     // prefab for weapon Equipped
     [Header("Projectile Prefabs")]
@@ -32,7 +33,8 @@ public class ItemAssets : MonoBehaviour
     public Sprite swordSprite;
     public Sprite axeSprite;
     public Sprite bowSprite;
-    public Sprite gunSprite;
+    public Sprite gunSprite_AK;
+    public Sprite gunSprite_M4;
 
     public Sprite arrowSprite;
     public Sprite bulletSprite;

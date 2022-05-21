@@ -24,17 +24,7 @@ public class PlayerWeaponController : MonoBehaviour
     private bool isFlipped;
 
     public int chargeTier;
-
-    public enum WeaponType
-    {
-        Null,
-        Melee,
-        Range,
-        ChargableRange,
-        Magic
-    }
-
-    public WeaponType weaponType;
+    public Item.ItemType weaponType;
 
     private void Awake()
     {
@@ -145,7 +135,7 @@ public class PlayerWeaponController : MonoBehaviour
 
         switch (weaponType)
         {
-            case WeaponType.Melee:
+            case Item.ItemType.MeleeWeapon:
                 // click to attack
                 if (Input.GetMouseButtonDown(0) && _co_Attack == null)
                 {
@@ -154,7 +144,7 @@ public class PlayerWeaponController : MonoBehaviour
                 }
                 break;
 
-            case WeaponType.Range:
+            case Item.ItemType.RangedWeapon:
                 // click to attack
                 if (Input.GetMouseButton(0) && _co_Attack == null)
                 {
@@ -163,7 +153,7 @@ public class PlayerWeaponController : MonoBehaviour
                 }
                 break;
 
-            case WeaponType.ChargableRange:
+            case Item.ItemType.ChargableRangedWeapon:
                 // hold to charge
                 if (Input.GetMouseButton(0) && _co_Charge == null && _co_Attack == null)
                 {

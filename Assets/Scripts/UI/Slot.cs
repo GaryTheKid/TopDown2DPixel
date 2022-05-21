@@ -7,12 +7,6 @@ using UnityEngine.EventSystems;
 public class Slot : MonoBehaviour, IDropHandler
 {
     public int uiIndex;
-    private Item _slotItem;
-    public Item SlotItem
-    {
-        get { return _slotItem; }
-        set { _slotItem = value; }
-    }
 
     public virtual void OnDrop(PointerEventData eventData)
     {

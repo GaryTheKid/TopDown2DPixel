@@ -54,11 +54,11 @@ public class PlayerInventoryController : MonoBehaviour
 
     private void HandleUseEquipment()
     {
-        foreach (EquipmentSlot slot in _equipmentSlots)
+        for (int i = 0; i < _equipmentSlots.Count; i++)
         {
-            if (Input.GetKeyDown(slot.keyCode) && slot.SlotItem != null)
+            if (Input.GetKeyDown(_equipmentSlots[i].keyCode) && _inventory.GetItemFromList(i) != null)
             {
-                _inventory.UseItem(_PV, slot.SlotItem);
+                _inventory.UseItem(_PV, _inventory.GetItemFromList(i));
             }
         }
     }
@@ -85,5 +85,10 @@ public class PlayerInventoryController : MonoBehaviour
     public void DropItem(int itemIndex)
     {
         
+    }
+
+    public Item GetItem(int itemIndex)
+    {
+        return _inventory.GetItemFromList(itemIndex);
     }
 }

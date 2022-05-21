@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-    public Action<int> OnChangeItemUIIndex;
+    public Action<int, int> OnChangeItemUIIndex;
     public Slot currentSlot;
     public RectTransform _rectTransform;
 
@@ -53,9 +53,9 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         // if drop into a new slot
         else if (targetSlot != currentSlot)
         {
-            currentSlot.SlotItem = null;
+            int currIndex = currentSlot.uiIndex;
             currentSlot = targetSlot;
-            OnChangeItemUIIndex?.Invoke(targetSlot.uiIndex);
+            OnChangeItemUIIndex?.Invoke(currIndex, targetSlot.uiIndex);
         }
     }
 

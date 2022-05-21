@@ -12,31 +12,40 @@ public class Inventory
 
     public Inventory()
     {
-        this.maxCapacity = 18;
+        this.maxCapacity = 24;
         itemList = new List<Item>();
+        for (int i = 0; i < maxCapacity; i++)
+        {
+            itemList.Add(null);
+        }
     }
 
     public Inventory(int capacity)
     {
-        this.maxCapacity = capacity;
+        // the minimal capacity is 6
+        if (capacity >= 6)
+            this.maxCapacity = capacity;
+        else
+            this.maxCapacity = 6;
+
         itemList = new List<Item>();
+        for (int i = 0; i < maxCapacity; i++)
+        {
+            itemList.Add(null);
+        }
     }
 
     public void AddItem(Item item)
     {
-        // check if inventory is full
-        if (itemList.Count >= maxCapacity)
-        {
-            Debug.Log("Inventory is full!");
-            return;
-        }
-
         // add to the list
         if (item.IsStackable())
         {
             bool itemAlreadyInInventory = false;
             foreach (Item inventoryItem in itemList)
             {
+                if (inventoryItem == null)
+                    continue;
+
                 if (inventoryItem.itemName == item.itemName)
                 {
                     inventoryItem.amount += item.amount;
@@ -45,12 +54,12 @@ public class Inventory
             }
             if (!itemAlreadyInInventory)
             {
-                itemList.Add(item);
+                Add(item);
             }
         }
         else
         {
-            itemList.Add(item);
+            Add(item);
         }
 
         // bind destroyself action
@@ -72,7 +81,10 @@ public class Inventory
         {
             Item itemInInventory = null;
             foreach (Item inventoryItem in itemList)
-            {       
+            {
+                if (inventoryItem == null)
+                    continue;
+
                 if (inventoryItem.itemName == item.itemName)
                 {
                     inventoryItem.amount -= item.amount;
@@ -81,23 +93,18 @@ public class Inventory
             }
             if (itemInInventory != null && itemInInventory.amount <= 0)
             {
-                itemList.Remove(itemInInventory);
+                Remove(itemInInventory);
             }
         }
         else
         {
-            itemList.Remove(item);
+            Remove(item);
         }
-        item.uiIndex = 0;
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void RemoveAllItems()
     {
-        foreach (Item item in itemList)
-        {
-            item.uiIndex = 0;
-        }
         itemList.Clear();
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -111,5 +118,41 @@ public class Inventory
     public List<Item> GetItemList()
     {
         return itemList;
+    }
+
+    public Item GetItemFromList(int itemIndex)
+    {
+        return itemList[itemIndex];
+    }
+
+    public void SwapItems(int first, int second)
+    {
+        Item buffer = itemList[first];
+        itemList[first] = itemList[second];
+        itemList[second] = buffer;
+    }
+
+    private void Add(Item item)
+    {
+        for (int i = 0; i < itemList.Count; i++)
+        {
+            if (itemList[i] == null)
+            {
+                itemList[i] = item;
+                break;
+            }
+        }
+    }
+
+    private void Remove(Item item)
+    {
+        for (int i = 0; i < itemList.Count; i++)
+        {
+            if (itemList[i] == item)
+            {
+                itemList[i] = null;
+                break;
+            }
+        }
     }
 }
