@@ -33,12 +33,6 @@ public class Sword : Weapon
         NetworkCalls.Character.DealDamage(attackerPV);
     }
 
-    public override void Equip(PhotonView PV, int index)
-    {
-        isEquiped = true;
-        NetworkCalls.Weapon.EquipWeapon(PV, index);
-    }
-
     public override Transform GetEquipmentPrefab()
     {
         return ItemAssets.itemAssets.pfSword;

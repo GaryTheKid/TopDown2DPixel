@@ -12,6 +12,7 @@ public class Item
     public float useCD;
     public enum ItemType 
     {
+        Null,
         Consumable,
         Material,
         MeleeWeapon,
@@ -44,14 +45,12 @@ public class Item
         }
     }
 
-    public virtual void UseItem(PhotonView PV)
+    public virtual void UseItem(PhotonView PV, int index)
     {
         Debug.Log(PV + " use this item");
     }
 
-    public virtual void Equip(PhotonView PV){}
-
-    public virtual void Equip(PhotonView PV, int index) { }
+    public virtual void Equip(PhotonView PV, int index){}
 
     public virtual void Unequip(PhotonView PV){}
 

@@ -1,3 +1,12 @@
+/* Last Edition: 05/22/2022
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * 
+ * Description: 
+ *   Inventory system: first 6(adjustable) slots are the equipment slots, the remaining ones
+ *   are bag slots.
+ */
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -109,9 +118,15 @@ public class Inventory
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public void UseItem(PhotonView PV, Item item)
+    public void UseItem(PhotonView PV, int index)
     {
-        item.UseItem(PV);
+        if (itemList[index] == null) 
+        {
+            Debug.Log("Item is null");
+            return;
+        }
+
+        itemList[index].UseItem(PV, index);
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 

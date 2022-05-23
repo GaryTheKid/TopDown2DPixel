@@ -1,3 +1,11 @@
+/* Last Edition: 05/22/2022
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * 
+ * Description: 
+ *   The weapon controller attached to the player character, handling all actions relating to weapon.
+ */
+
 using System.Collections;
 using UnityEngine;
 using Utilities;
@@ -31,6 +39,7 @@ public class PlayerWeaponController : MonoBehaviour
         _PV = GetComponent<PhotonView>();
         _playerStats = GetComponent<PlayerStatsController>().playerStats;
         _rb = GetComponent<Rigidbody2D>();
+        weaponType = Item.ItemType.Null;
     }
 
     private void Start()
@@ -52,6 +61,7 @@ public class PlayerWeaponController : MonoBehaviour
 
     public void EquipWeapon(Weapon weapon)
     {
+        // if has equipped weapon, unequip it
         bool isEquipping = true;
         if (this.weapon != null)
         {
@@ -59,9 +69,11 @@ public class PlayerWeaponController : MonoBehaviour
             UnequipWeapon();
         }
         
+        // equip new weapon
         if (isEquipping)
         {
             this.weapon = weapon;
+            weaponType = weapon.itemType;
             weaponPrefab = Instantiate(weapon.GetEquipmentPrefab(), spreadTransform);
             weaponAnimator = weaponPrefab.GetComponent<Animator>();
             fireTransform = weaponPrefab.Find("FirePos");
@@ -71,6 +83,7 @@ public class PlayerWeaponController : MonoBehaviour
     public void UnequipWeapon()
     {
         weapon = null;
+        weaponType = Item.ItemType.Null;
         weaponAnimator = null;
         fireTransform = null;
         if (weaponPrefab != null)
@@ -78,6 +91,7 @@ public class PlayerWeaponController : MonoBehaviour
             Destroy(weaponPrefab.gameObject);
             weaponPrefab = null;
         }
+        isFlipped = false;
 
         // reset charge Tier
         chargeTier = 0;
@@ -99,29 +113,12 @@ public class PlayerWeaponController : MonoBehaviour
         if (_playerStats.isWeaponLocked)
             return;
 
-        Vector3 mousePosition = Common.GetMouseWorldPosition();
-        Vector3 aimDir = (mousePosition - transform.position).normalized;
-        float angle = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
+        // rotate weapon
+        float angle = Common.GetMouseRotationEulerAngle(transform.position);
         aimTransform.eulerAngles = new Vector3(0f, 0f, angle);
 
         // flip if rotate over 90 deg
-        if (weaponPrefab != null && (angle > 90f || angle < -90f))
-        {
-            if (!isFlipped)
-            {
-                NetworkCalls.Weapon.FlipWeapon(_PV);
-                isFlipped = true;
-            }
-        }
-        else
-        {
-            if (isFlipped)
-            {
-                NetworkCalls.Weapon.UnflipWeapon(_PV);
-                weaponPrefab.localEulerAngles = new Vector3(0f, 0f, 0f);
-                isFlipped = false;
-            }
-        }
+        FilpWeapon(angle);
     }
 
     // handle the weapon attack
@@ -190,6 +187,28 @@ public class PlayerWeaponController : MonoBehaviour
                 return;
         }
         
+    }
+
+    // Flip weapon transform if > 90 or < -90 deg
+    private void FilpWeapon(float angle)
+    {
+        // flip if rotate over 90 deg
+        if (weaponPrefab != null && (angle > 90f || angle < -90f))
+        {
+            if (!isFlipped)
+            {
+                NetworkCalls.Weapon.FlipWeapon(_PV);
+                isFlipped = true;
+            }
+        }
+        else
+        {
+            if (isFlipped)
+            {
+                NetworkCalls.Weapon.UnflipWeapon(_PV);
+                isFlipped = false;
+            }
+        }
     }
 
     // Coroutine: Weapon attack

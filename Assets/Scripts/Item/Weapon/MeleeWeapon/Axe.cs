@@ -44,11 +44,6 @@ public class Axe : Weapon
         Debug.Log("Sword Attacking");
     }
 
-    public override void Equip(PhotonView PV)
-    {
-        NetworkCalls.Weapon.EquipAxe(PV);
-    }
-
     public override Transform GetEquipmentPrefab()
     {
         return ItemAssets.itemAssets.pfAxe;

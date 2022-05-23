@@ -34,12 +34,6 @@ public class Bow : Weapon
         NetworkCalls.Character.FireChargedProjectile(attackerPV);
     }
 
-    public override void Equip(PhotonView PV)
-    {
-        isEquiped = true;
-        NetworkCalls.Weapon.EquipBow(PV);
-    }
-
     public override Transform GetEquipmentPrefab()
     {
         return ItemAssets.itemAssets.pfBow;

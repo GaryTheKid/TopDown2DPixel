@@ -98,7 +98,7 @@ public class UI_Inventory : MonoBehaviour
             // set use item logic
             itemSlotRectTransform.GetComponent<Button_UI>().ClickFunc = () =>
             {
-                _inventory.UseItem(_PV, item);
+                _inventory.UseItem(_PV, i);
             };
 
             // set drop logic

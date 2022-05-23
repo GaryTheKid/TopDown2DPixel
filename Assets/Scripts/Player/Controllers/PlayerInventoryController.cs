@@ -1,3 +1,11 @@
+/* Last Edition: 05/22/2022
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * 
+ * Description: 
+ *   The inventory controller attached to the player character, handling all actions relating to inventory.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -48,7 +56,7 @@ public class PlayerInventoryController : MonoBehaviour
                 _itemSlots.SetActive(true);
                 currLockFlag = playerStats.isWeaponLocked;
                 playerStats.isWeaponLocked = true;
-            } 
+            }
         }
     }
 
@@ -58,7 +66,7 @@ public class PlayerInventoryController : MonoBehaviour
         {
             if (Input.GetKeyDown(_equipmentSlots[i].keyCode) && _inventory.GetItemFromList(i) != null)
             {
-                _inventory.UseItem(_PV, _inventory.GetItemFromList(i));
+                _inventory.UseItem(_PV, i);
             }
         }
     }

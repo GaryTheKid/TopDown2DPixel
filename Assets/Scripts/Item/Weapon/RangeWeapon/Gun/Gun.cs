@@ -29,11 +29,5 @@ public abstract class Gun : Weapon
         NetworkCalls.Character.FireProjectile(attackerPV);
     }
 
-    public override void Equip(PhotonView PV)
-    {
-        isEquiped = true;
-        NetworkCalls.Weapon.EquipGun(PV);
-    }
-
     public override abstract Transform GetEquipmentPrefab();
 }

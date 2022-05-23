@@ -50,6 +50,13 @@ namespace Utilities
             return worldPos;
         }
 
+        public static float GetMouseRotationEulerAngle(Vector3 origin)
+        {
+            Vector3 mousePosition = GetMouseWorldPosition();
+            Vector3 aimDir = (mousePosition - origin).normalized;
+            return Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
+        }
+
         public static System.Object GetObjectCopyFromInstance(System.Object obj)
         {
             return Activator.CreateInstance(obj.GetType());
