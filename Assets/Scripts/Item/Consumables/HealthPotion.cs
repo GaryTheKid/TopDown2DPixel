@@ -13,6 +13,7 @@ public class HealthPotion : Consumables
     {
         healAmount = 10;
         this.itemName = "HealthPotion";
+        itemID = 4;
         this.amount = 1;
         this.itemType = ItemType.Consumable;
     }
@@ -21,6 +22,7 @@ public class HealthPotion : Consumables
     {
         healAmount = 10;
         this.itemName = "HealthPotion";
+        itemID = 4;
         this.amount = amount;
         this.itemType = ItemType.Consumable;
     }

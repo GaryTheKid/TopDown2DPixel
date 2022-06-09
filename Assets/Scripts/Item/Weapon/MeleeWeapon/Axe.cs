@@ -8,6 +8,7 @@ public class Axe : Weapon
     public Axe()
     {
         this.itemName = "Axe";
+        itemID = 3;
         this.amount = 1;
         this.itemType = ItemType.MeleeWeapon;
         this.attackRange = 8f;

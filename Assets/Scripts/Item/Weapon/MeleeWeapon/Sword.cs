@@ -8,6 +8,7 @@ public class Sword : Weapon
     public Sword()
     {
         itemName = "Sword";
+        itemID = 1;
         amount = 1;
         itemType = ItemType.MeleeWeapon;
         accuracy = 1f;

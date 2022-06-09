@@ -71,13 +71,21 @@ public class PlayerInventoryController : MonoBehaviour
         }
     }
 
+    public Vector3 GetAnchorPos()
+    {
+        return _playerAnchorPos.position;
+    }
+
     public void DiscardAllItems()
     {
-        foreach (Item item in _inventory.GetItemList())
+        var itemList = _inventory.GetItemList();
+        for (int i = 0; i < itemList.Count; i++)
         {
-            ItemWorld.DropItem(_playerAnchorPos.position, item);
+            if (itemList[i] != null)
+            {
+                DropItem(i);
+            }
         }
-        _inventory.RemoveAllItems();
     }
 
     public Inventory GetInventory()
@@ -85,14 +93,23 @@ public class PlayerInventoryController : MonoBehaviour
         return _inventory;
     }
 
-    public void PickItem(Item item)
+    public void AddItem(Item item)
     {
         _inventory.AddItem(item);
     }
 
     public void DropItem(int itemIndex)
     {
-        
+        var item = GetItem(itemIndex);
+        int amount = item.amount;
+        int durability = item.durability;
+        if (item != null)
+        {
+            NetworkCalls.Character.DropItem(_PV, item.itemID, amount, durability, Utilities.Math.GetRandomDirectionV3());
+        }
+
+        // remove item from inventory
+        _inventory.RemoveItem(item);
     }
 
     public Item GetItem(int itemIndex)

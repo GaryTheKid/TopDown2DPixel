@@ -9,6 +9,7 @@ public class ItemAssets : MonoBehaviour
     private void Awake()
     {
         itemAssets = this;
+        InitItemDic();
     }
 
     // prefab for weapon Equipped
@@ -40,4 +41,17 @@ public class ItemAssets : MonoBehaviour
     public Sprite bulletSprite;
 
     public Sprite healthPotionSprite;
+
+    [Header("Item Dictionary")]
+    public Dictionary<short, Item> itemDic;
+
+    private void InitItemDic()
+    {
+        itemDic = new Dictionary<short, Item>{
+            { 1, new Sword() },
+            { 2, new Bow() },
+            { 3, new Axe() },
+            { 4, new HealthPotion() },
+        };
+    }
 }

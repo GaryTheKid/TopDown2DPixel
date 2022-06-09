@@ -112,9 +112,41 @@ public class Inventory
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    public void RemoveItemAt(int index)
+    {
+        Item item = itemList[index];
+        if (item.IsStackable())
+        {
+            Item itemInInventory = null;
+            foreach (Item inventoryItem in itemList)
+            {
+                if (inventoryItem == null)
+                    continue;
+
+                if (inventoryItem.itemName == item.itemName)
+                {
+                    inventoryItem.amount -= item.amount;
+                    itemInInventory = inventoryItem;
+                }
+            }
+            if (itemInInventory != null && itemInInventory.amount <= 0)
+            {
+                Remove(itemInInventory);
+            }
+        }
+        else
+        {
+            Remove(item);
+        }
+        OnItemListChanged?.Invoke(this, EventArgs.Empty);
+    }
+
     public void RemoveAllItems()
     {
-        itemList.Clear();
+        for (int i = 0; i < itemList.Count; i++)
+        {
+            itemList[i] = null;
+        }
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 
@@ -149,6 +181,9 @@ public class Inventory
 
     private void Add(Item item)
     {
+        if (item.amount <= 0)
+            return;
+
         for (int i = 0; i < itemList.Count; i++)
         {
             if (itemList[i] == null)

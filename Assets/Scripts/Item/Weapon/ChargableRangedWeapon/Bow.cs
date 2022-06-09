@@ -8,6 +8,7 @@ public class Bow : Weapon
     public Bow()
     {
         itemName = "Bow";
+        itemID = 2;
         amount = 1;
         itemType = ItemType.ChargableRangedWeapon;
         attackSpeed = 1.5f;

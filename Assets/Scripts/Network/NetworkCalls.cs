@@ -132,6 +132,22 @@ namespace NetworkCalls
                 PV.RPC("RPC_Respawn", RpcTarget.AllBuffered);
             }
         }
+
+        public static void PickItem(PhotonView PV, short itemID, int itemWorldID, int amount, int durability)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_PickItem", RpcTarget.AllBuffered, itemID, itemWorldID, amount, durability);
+            }
+        }
+
+        public static void DropItem(PhotonView PV, short itemID, int amount, int durability, Vector3 dropDir)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_DropItem", RpcTarget.AllBuffered, itemID, amount, durability, dropDir);
+            }
+        }
     }
 
     public class Physics 

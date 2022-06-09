@@ -1,20 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using CodeMonkey.Utils;
+using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class testController : MonoBehaviour
+public class testController : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private Button_UI button;
+    public PhotonView PV;
+    public testCustomData customData;
 
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Text displayText;
+
+    private void Awake()
     {
-        button.ClickFunc = () =>
-        {
-            print(GetComponent<IEquipable>());
-        };
+        PhotonNetwork.ConnectUsingSettings();
+    }
 
-        
+    public override void OnConnectedToMaster()
+    {
+        PhotonNetwork.JoinLobby();
+    }
+
+    public override void OnJoinedLobby()
+    {
+        PhotonNetwork.JoinOrCreateRoom("testRoom", new RoomOptions(), TypedLobby.Default);
+    }
+
+    public override void OnJoinedRoom()
+    {
+        customData = new testCustomData();
+        customData.b = "dacsjoi";
+    }
+
+    public void CallRpc()
+    {
+        object[] data = { customData };
+        if (PV.IsMine)
+        {
+            PV.RPC("rpc", RpcTarget.AllBuffered, data);
+        }
+    }
+
+    [PunRPC]
+    void rpc(object[] data)
+    {
+        customData = (testCustomData)data[0];
+        displayText.text = customData.b;
     }
 }

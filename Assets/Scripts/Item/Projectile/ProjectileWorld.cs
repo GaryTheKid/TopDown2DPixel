@@ -9,6 +9,11 @@ public class ProjectileWorld : MonoBehaviour
     private PhotonView _PV;
     private float _dmgRatio = 1f;
 
+    private void OnEnable()
+    {
+        transform.parent = GameManager.gameManager.spawnedProjectileParent;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // only collide non-self colliders
@@ -49,7 +54,7 @@ public class ProjectileWorld : MonoBehaviour
         // TODO: Explosion coroutine: wait for explosiveTime -> check explosiveRadius -> deal dmg
     }
 
-    public void Perish()
+    public void PerishInTime()
     {
         StartCoroutine(Co_Perish(_projectile.lifeTime));
     }

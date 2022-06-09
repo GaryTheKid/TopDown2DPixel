@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Utilities;
 
 public class RPC_Player : MonoBehaviour
 {
@@ -42,6 +43,39 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
+    void RPC_PickItem(short itemID, int itemWorldID, int amount, int durability)
+    {
+        // get item
+        Item item = ItemAssets.itemAssets.itemDic[itemID];
+        Item itemCopy = (Item)Common.GetObjectCopyFromInstance(item);
+        itemCopy.amount = amount;
+        itemCopy.durability = durability;
+
+        // add item to the player Inventory
+        _playerInventoryController.AddItem(itemCopy);
+
+        // destroy item world
+        Destroy(GameObject.Find(itemWorldID.ToString()));
+
+        // release the item world id
+        GameManager.gameManager.ReleaseItemWorldId(itemWorldID);
+    }
+
+    [PunRPC]
+    void RPC_DropItem(short itemID, int amount, int durability, Vector3 dropDir)
+    {
+        // get item 
+        Item item = ItemAssets.itemAssets.itemDic[itemID];
+        Item itemCopy = (Item)Common.GetObjectCopyFromInstance(item);
+        itemCopy.amount = amount;
+        itemCopy.durability = durability;
+
+        // drop item to the world
+        ItemWorld itemWorld = ItemWorld.SpawnItemWorld(_playerInventoryController.GetAnchorPos() + dropDir * 1.2f, itemCopy, GameManager.gameManager.RequestNewItemWorldId());
+        itemWorld.GetComponent<Rigidbody2D>().AddForce(dropDir * 1.5f, ForceMode2D.Impulse);
+    }
+
+    [PunRPC]
     void RPC_LockTarget(int targetID)
     {
         targets.Add(targetID);
@@ -70,6 +104,18 @@ public class RPC_Player : MonoBehaviour
         DamageInfo info = _playerWeaponController.weapon.projectile.damageInfo;
         info.damageAmount *= dmgRatio;
         PhotonView.Find(targetID).transform.GetComponent<PlayerBuffController>().ReceiveDamage(info, transform.position);
+    }
+
+    [PunRPC]
+    void RPC_EquipWeapon(int index)
+    {
+        _playerWeaponController.EquipWeapon((Weapon)(_playerInventoryController.GetItem(index)));
+    }
+
+    [PunRPC]
+    void RPC_UnequipWeapon()
+    {
+        _playerWeaponController.UnequipWeapon();
     }
 
     [PunRPC]
@@ -121,7 +167,7 @@ public class RPC_Player : MonoBehaviour
         var projectileWorld = projectilePf.GetComponent<ProjectileWorld>();
         projectileWorld.SetProjectile(projectile);
         projectileWorld.SetAttackerPV(GetComponent<PhotonView>());
-        projectileWorld.Perish();
+        projectileWorld.PerishInTime();
     }
 
     [PunRPC]
@@ -148,7 +194,7 @@ public class RPC_Player : MonoBehaviour
             projectileWorld.SetProjectile(projectile);
             projectileWorld.SetDamageRatio((float)chargeTier / (float)_playerWeaponController.weapon.maxChargeTier);
             projectileWorld.SetAttackerPV(GetComponent<PhotonView>());
-            projectileWorld.Perish();
+            projectileWorld.PerishInTime();
 
             // reset chargeTier
             _playerWeaponController.chargeTier = 0;
@@ -159,17 +205,5 @@ public class RPC_Player : MonoBehaviour
     void RPC_UseHealthPotion(int healingAmount)
     {
         _playerBuffController.ReceiveHealing(healingAmount);
-    }
-
-    [PunRPC]
-    void RPC_EquipWeapon(int index)
-    {
-        _playerWeaponController.EquipWeapon((Weapon)(_playerInventoryController.GetItem(index)));
-    }
-
-    [PunRPC]
-    void RPC_UnequipWeapon()
-    {
-        _playerWeaponController.UnequipWeapon();
     }
 }

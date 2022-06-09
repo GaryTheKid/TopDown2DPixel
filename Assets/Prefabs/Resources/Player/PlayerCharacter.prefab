@@ -271,6 +271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inventoryController: {fileID: -1663441981523675971}
+  _PV: {fileID: 8110680880012028758}
 --- !u!1 &617582110066594024
 GameObject:
   m_ObjectHideFlags: 0
@@ -4610,6 +4611,7 @@ MonoBehaviour:
   - {fileID: 6946334346581029300}
   - {fileID: 6362382411223399357}
   - {fileID: 2895575582750978310}
+  _playerInventoryController: {fileID: -1663441981523675971}
 --- !u!1 &8850481916484043842
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class ItemPicker : MonoBehaviour
 {
     [SerializeField] private PlayerInventoryController _inventoryController;
+    [SerializeField] private PhotonView _PV;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -12,8 +14,15 @@ public class ItemPicker : MonoBehaviour
         ItemWorld itemWorld = collision.GetComponent<ItemWorld>();
         if (itemWorld != null)
         {
-            _inventoryController.PickItem(itemWorld.GetItem());
-            itemWorld.DestroySelf();
+            //collidedItem = itemWorld.GetItem();
+            //_inventoryController.PickItem(itemWorld.GetItem());
+
+
+            //NetworkCalls.Character.PickItem(_PV);
+            //StartCoroutine(Co_PickItem(itemWorld));
+
+            var item = itemWorld.GetItem();
+            NetworkCalls.Character.PickItem(_PV, item.itemID, itemWorld.itemWorldID, item.amount, item.durability);
         }
     }
 }

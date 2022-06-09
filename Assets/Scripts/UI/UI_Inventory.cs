@@ -16,6 +16,7 @@ public class UI_Inventory : MonoBehaviour
     [SerializeField] private Transform _playerAnchorPos;
     [SerializeField] private PhotonView _PV;
     [SerializeField] private List<EquipmentSlot> _equipmentSlots;
+    [SerializeField] private PlayerInventoryController _playerInventoryController; 
     private List<ItemSlot> _emptySlots;
     private Inventory _inventory;
 
@@ -98,16 +99,13 @@ public class UI_Inventory : MonoBehaviour
             // set use item logic
             itemSlotRectTransform.GetComponent<Button_UI>().ClickFunc = () =>
             {
-                _inventory.UseItem(_PV, i);
+                _inventory.UseItem(_PV, itemSlotRectTransform.GetComponent<DragDrop>().currentSlot.uiIndex);
             };
 
             // set drop logic
             itemSlotRectTransform.GetComponent<Button_UI>().MouseRightClickFunc = () =>
             {
-                Item itemCopy = (Item)Common.GetObjectCopyFromInstance(item);
-                itemCopy.amount = item.amount;
-                _inventory.RemoveItem(item);
-                ItemWorld.DropItem(_playerAnchorPos.position, itemCopy);
+                _playerInventoryController.DropItem(itemSlotRectTransform.GetComponent<DragDrop>().currentSlot.uiIndex);
 
                 // if item is equipable, unequip it
                 if (item is IEquipable)
@@ -123,7 +121,7 @@ public class UI_Inventory : MonoBehaviour
                 _inventory.SwapItems(currUIIndex, newUIIndex);
 
                 // if item is equipable, drag it from equipment slots will unequip it
-                if (item is IEquipable)
+                if (item is IEquipable && newUIIndex >= 6)
                 {
                     item.Unequip(_PV);
                 }

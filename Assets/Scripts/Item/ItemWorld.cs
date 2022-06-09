@@ -14,24 +14,16 @@ using Utilities;
 
 public class ItemWorld : MonoBehaviour
 {
-    public static ItemWorld SpawnItemWorld(Vector3 postion, Item item)
+    public static ItemWorld SpawnItemWorld(Vector3 postion, Item item, int itemWorldID)
     {
-        Transform transform = Instantiate(ItemAssets.itemAssets.pfItemWorld, postion, Quaternion.identity);
-
+        Transform transform = Instantiate(ItemAssets.itemAssets.pfItemWorld, postion, Quaternion.identity, GameManager.gameManager.spawnedItemParent);
+        transform.name = itemWorldID.ToString();
         ItemWorld itemWorld = transform.GetComponent<ItemWorld>();
-        itemWorld.SetItem(item);
-
+        itemWorld.SetItem(item, itemWorldID);
         return itemWorld;
     }
 
-    public static ItemWorld DropItem(Vector3 dropPos, Item item)
-    {
-        Vector3 randomDir = Math.GetRandomDirectionV3();
-        ItemWorld itemWorld = SpawnItemWorld(dropPos + randomDir * 1.2f, item);
-        itemWorld.GetComponent<Rigidbody2D>().AddForce(randomDir * 1.5f, ForceMode2D.Impulse);
-        return itemWorld;
-    }
-
+    public int itemWorldID;
     private Item item;
     private SpriteRenderer spriteRenderer;
     [SerializeField] private Text amountText;
@@ -41,9 +33,10 @@ public class ItemWorld : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void SetItem(Item item)
+    public void SetItem(Item item, int itemWorldID)
     {
         this.item = item;
+        this.itemWorldID = itemWorldID;
         spriteRenderer.sprite = item.GetSprite();
         if (item.amount > 1)
         {
