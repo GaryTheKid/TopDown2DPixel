@@ -133,7 +133,7 @@ namespace NetworkCalls
             }
         }
 
-        public static void PickItem(PhotonView PV, short itemID, int itemWorldID, int amount, int durability)
+        public static void PickItem(PhotonView PV, short itemID, short itemWorldID, short amount, short durability)
         {
             if (PV.IsMine)
             {
@@ -141,11 +141,11 @@ namespace NetworkCalls
             }
         }
 
-        public static void DropItem(PhotonView PV, short itemID, int amount, int durability, Vector3 dropDir)
+        public static void DropItem(PhotonView PV, short itemID, short amount, short durability, Vector3 dropPos, float dropDirAngle)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_DropItem", RpcTarget.AllBuffered, itemID, amount, durability, dropDir);
+                PV.RPC("RPC_DropItem", RpcTarget.AllBuffered, itemID, amount, durability, dropPos, dropDirAngle);
             }
         }
     }

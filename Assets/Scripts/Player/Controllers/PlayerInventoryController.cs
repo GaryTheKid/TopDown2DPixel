@@ -79,7 +79,7 @@ public class PlayerInventoryController : MonoBehaviour
     public void DiscardAllItems()
     {
         var itemList = _inventory.GetItemList();
-        for (int i = 0; i < itemList.Count; i++)
+        for (short i = 0; i < itemList.Count; i++)
         {
             if (itemList[i] != null)
             {
@@ -98,14 +98,12 @@ public class PlayerInventoryController : MonoBehaviour
         _inventory.AddItem(item);
     }
 
-    public void DropItem(int itemIndex)
+    public void DropItem(short itemIndex)
     {
         var item = GetItem(itemIndex);
-        int amount = item.amount;
-        int durability = item.durability;
         if (item != null)
         {
-            NetworkCalls.Character.DropItem(_PV, item.itemID, amount, durability, Utilities.Math.GetRandomDirectionV3());
+            NetworkCalls.Character.DropItem(_PV, item.itemID, item.amount, item.durability, GetAnchorPos(), Utilities.Math.GetRandomDegree());
         }
 
         // remove item from inventory

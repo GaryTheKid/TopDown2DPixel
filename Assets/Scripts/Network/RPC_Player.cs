@@ -43,7 +43,7 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_PickItem(short itemID, int itemWorldID, int amount, int durability)
+    void RPC_PickItem(short itemID, short itemWorldID, short amount, short durability)
     {
         // get item
         Item item = ItemAssets.itemAssets.itemDic[itemID];
@@ -62,7 +62,7 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_DropItem(short itemID, int amount, int durability, Vector3 dropDir)
+    void RPC_DropItem(short itemID, short amount, short durability, Vector3 dropPos, float dropDirAngle)
     {
         // get item 
         Item item = ItemAssets.itemAssets.itemDic[itemID];
@@ -71,8 +71,9 @@ public class RPC_Player : MonoBehaviour
         itemCopy.durability = durability;
 
         // drop item to the world
-        ItemWorld itemWorld = ItemWorld.SpawnItemWorld(_playerInventoryController.GetAnchorPos() + dropDir * 1.2f, itemCopy, GameManager.gameManager.RequestNewItemWorldId());
-        itemWorld.GetComponent<Rigidbody2D>().AddForce(dropDir * 1.5f, ForceMode2D.Impulse);
+        var dropDirV3 = Utilities.Math.DegreeToVector3(dropDirAngle);
+        ItemWorld itemWorld = ItemWorld.SpawnItemWorld(dropPos + dropDirV3 * 1.2f, itemCopy, GameManager.gameManager.RequestNewItemWorldId());
+        itemWorld.GetComponent<Rigidbody2D>().AddForce(dropDirV3 * 1.5f, ForceMode2D.Impulse);
     }
 
     [PunRPC]

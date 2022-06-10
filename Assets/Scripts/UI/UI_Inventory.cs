@@ -35,7 +35,7 @@ public class UI_Inventory : MonoBehaviour
             // update empty slot list
             ItemSlot itemSlot = slotRectTransform.GetComponent<ItemSlot>();
             _emptySlots.Add(itemSlot);
-            itemSlot.uiIndex = i + 6;
+            itemSlot.uiIndex = (short)(i + 6);
 
             // set position
             slotRectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y * itemSlotCellSize);
@@ -49,7 +49,7 @@ public class UI_Inventory : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < _equipmentSlots.Count; i++)
+        for (short i = 0; i < _equipmentSlots.Count; i++)
         {
             // update empty slot list
             _equipmentSlots[i].uiIndex = i;

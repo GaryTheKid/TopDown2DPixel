@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     // singleton
     public static GameManager gameManager;
 
+    // PV
+    public PhotonView PV;
+
     // spawns
     public List<Transform> playerSpawns;
     public List<Transform> itemSpawns;
@@ -17,8 +20,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Player[] playerList;
 
     // items
-    public int maxItemSpawnInWorld;
-    public Stack<int> avaliableItemWorldIds;
+    public short maxItemSpawnInWorld;
+    public Stack<short> avaliableItemWorldIds;
     public Transform spawnedItemParent;
 
     // projectiles
@@ -31,6 +34,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         InitializeItemWorldIdStack();
         spawnedItemParent = GameObject.Find("SpawnedItems").transform;
         spawnedProjectileParent = GameObject.Find("SpawnedProjectiles").transform;
+        PV = GetComponent<PhotonView>();
     }
 
     public void Start()
@@ -60,14 +64,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void InitializeItemWorldIdStack()
     {
-        avaliableItemWorldIds = new Stack<int>();
-        for (int i = maxItemSpawnInWorld; i > 0; i--)
+        avaliableItemWorldIds = new Stack<short>();
+        for (short i = maxItemSpawnInWorld; i > 0; i--)
         {
             avaliableItemWorldIds.Push(i);
         }
     }
 
-    public int RequestNewItemWorldId()
+    public short RequestNewItemWorldId()
     {
         if (avaliableItemWorldIds.Count > 0)
             return avaliableItemWorldIds.Pop();
@@ -78,7 +82,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void ReleaseItemWorldId(int releasedId)
+    public void ReleaseItemWorldId(short releasedId)
     {
         avaliableItemWorldIds.Push(releasedId);
     }

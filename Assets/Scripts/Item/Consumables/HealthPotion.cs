@@ -18,7 +18,7 @@ public class HealthPotion : Consumables
         this.itemType = ItemType.Consumable;
     }
 
-    public HealthPotion(int amount)
+    public HealthPotion(short amount)
     {
         healAmount = 10;
         this.itemName = "HealthPotion";

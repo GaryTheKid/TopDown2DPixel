@@ -14,7 +14,7 @@ using Utilities;
 
 public class ItemWorld : MonoBehaviour
 {
-    public static ItemWorld SpawnItemWorld(Vector3 postion, Item item, int itemWorldID)
+    public static ItemWorld SpawnItemWorld(Vector3 postion, Item item, short itemWorldID)
     {
         Transform transform = Instantiate(ItemAssets.itemAssets.pfItemWorld, postion, Quaternion.identity, GameManager.gameManager.spawnedItemParent);
         transform.name = itemWorldID.ToString();
@@ -23,7 +23,7 @@ public class ItemWorld : MonoBehaviour
         return itemWorld;
     }
 
-    public int itemWorldID;
+    public short itemWorldID;
     private Item item;
     private SpriteRenderer spriteRenderer;
     [SerializeField] private Text amountText;
@@ -33,7 +33,7 @@ public class ItemWorld : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void SetItem(Item item, int itemWorldID)
+    public void SetItem(Item item, short itemWorldID)
     {
         this.item = item;
         this.itemWorldID = itemWorldID;

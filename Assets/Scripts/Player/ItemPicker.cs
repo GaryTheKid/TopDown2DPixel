@@ -14,13 +14,6 @@ public class ItemPicker : MonoBehaviour
         ItemWorld itemWorld = collision.GetComponent<ItemWorld>();
         if (itemWorld != null)
         {
-            //collidedItem = itemWorld.GetItem();
-            //_inventoryController.PickItem(itemWorld.GetItem());
-
-
-            //NetworkCalls.Character.PickItem(_PV);
-            //StartCoroutine(Co_PickItem(itemWorld));
-
             var item = itemWorld.GetItem();
             NetworkCalls.Character.PickItem(_PV, item.itemID, itemWorld.itemWorldID, item.amount, item.durability);
         }

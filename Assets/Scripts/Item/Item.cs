@@ -9,8 +9,8 @@ public class Item
 {
     public string itemName;
     public short itemID;
-    public int amount;
-    public int durability;
+    public short amount;
+    public short durability;
     public float useCD;
     public enum ItemType 
     {

@@ -7,6 +7,11 @@ namespace Utilities
 {
     public class Math
     {
+        public static float GetRandomDegree()
+        {
+            return UnityEngine.Random.Range(0.0f, 360.0f);
+        }
+
         public static Vector2 GetRandomDirectionV2()
         {
             return new Vector2(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f)).normalized;
@@ -16,6 +21,7 @@ namespace Utilities
         {
             return new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f)).normalized;
         }
+
         public static Vector2 RadianToVector2(float radian)
         {
             return new Vector2(Mathf.Cos(radian), Mathf.Sin(radian));
@@ -24,6 +30,16 @@ namespace Utilities
         public static Vector2 DegreeToVector2(float degree)
         {
             return RadianToVector2(degree * Mathf.Deg2Rad);
+        }
+
+        public static Vector3 RadianToVector3(float radian)
+        {
+            return new Vector3(Mathf.Cos(radian), Mathf.Sin(radian), 0f);
+        }
+
+        public static Vector3 DegreeToVector3(float degree)
+        {
+            return RadianToVector3(degree * Mathf.Deg2Rad);
         }
     }
 

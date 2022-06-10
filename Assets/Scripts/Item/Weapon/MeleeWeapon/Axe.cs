@@ -23,7 +23,7 @@ public class Axe : Weapon
         };
     }
 
-    public Axe(int amount)
+    public Axe(short amount)
     {
         this.itemName = "Axe";
         this.amount = amount;
