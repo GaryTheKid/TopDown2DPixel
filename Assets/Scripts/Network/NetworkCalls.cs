@@ -5,6 +5,17 @@ using Photon.Pun;
 
 namespace NetworkCalls
 {
+    public class Game
+    {
+        public static void SpawnItem(PhotonView PV, Vector3 pos, short itemID)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PV.RPC("RPC_SpawnItem", RpcTarget.AllBuffered, pos, itemID);
+            }
+        }
+    }
+
     public class Consumables
     {
         public static void UseHealthPotion(PhotonView PV, int healingAmount)

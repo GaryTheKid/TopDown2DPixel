@@ -1,8 +1,16 @@
+/* Last Edition: 06/10/2022
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * 
+ * Description: 
+ *   The game manager that controls and manages all global game values and functions.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using NetworkCalls;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -34,16 +42,19 @@ public class GameManager : MonoBehaviourPunCallbacks
         InitializeItemWorldIdStack();
         spawnedItemParent = GameObject.Find("SpawnedItems").transform;
         spawnedProjectileParent = GameObject.Find("SpawnedProjectiles").transform;
-        PV = GetComponent<PhotonView>();
     }
 
     public void Start()
     {
         SpawnPlayerCharacter();
-        ItemWorld.SpawnItemWorld(GameManager.gameManager.itemSpawns[0].position, new Bow(), RequestNewItemWorldId());
-        ItemWorld.SpawnItemWorld(GameManager.gameManager.itemSpawns[1].position, new Gun_AK(), RequestNewItemWorldId());
-        ItemWorld.SpawnItemWorld(GameManager.gameManager.itemSpawns[2].position, new HealthPotion(3), RequestNewItemWorldId());
-        ItemWorld.SpawnItemWorld(GameManager.gameManager.itemSpawns[3].position, new Gun_M4(), RequestNewItemWorldId());
+        Game.SpawnItem(PV, itemSpawns[0].position, 1);
+        Game.SpawnItem(PV, itemSpawns[1].position, 2);
+        Game.SpawnItem(PV, itemSpawns[2].position, 3);
+        Game.SpawnItem(PV, itemSpawns[3].position, 4);
+        //ItemWorld.SpawnItemWorld(GameManager.gameManager.itemSpawns[0].position, new Bow(), RequestNewItemWorldId());
+        //ItemWorld.SpawnItemWorld(GameManager.gameManager.itemSpawns[1].position, new Gun_AK(), RequestNewItemWorldId());
+        //ItemWorld.SpawnItemWorld(GameManager.gameManager.itemSpawns[2].position, new HealthPotion(3), RequestNewItemWorldId());
+        //ItemWorld.SpawnItemWorld(GameManager.gameManager.itemSpawns[3].position, new Gun_M4(), RequestNewItemWorldId());
     }
 
     private void SpawnPlayerCharacter()

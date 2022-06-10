@@ -688,6 +688,7 @@ GameObject:
   - component: {fileID: 1205553594}
   - component: {fileID: 1205553595}
   - component: {fileID: 1205553596}
+  - component: {fileID: 1205553597}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -721,7 +722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892c82cbd14105d47b7eb1c182b01862, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PV: {fileID: 0}
+  PV: {fileID: 1205553596}
   playerSpawns:
   - {fileID: 1663086455}
   - {fileID: 95179180}
@@ -757,6 +758,18 @@ MonoBehaviour:
   sceneViewId: 2
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &1205553597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205553593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a4c1cd3043615a408d6032dfdbabb3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1375678391
 PrefabInstance:
   m_ObjectHideFlags: 0
