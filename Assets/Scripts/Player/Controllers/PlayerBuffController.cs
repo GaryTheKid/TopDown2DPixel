@@ -67,9 +67,16 @@ public class PlayerBuffController : MonoBehaviour
 
     public void Ghostify()
     {
+        // switch colliders
         _characterCollider.SetActive(false);
         _hitBox.SetActive(false);
         _ghostCollider.SetActive(true);
+
+        // remove all projectiles sticked to hitbox
+        foreach (Transform child in _hitBox.transform)
+        {
+            Destroy(child.gameObject);
+        }
 
         // show the visual effect
         _effectController.DeathEffect();
@@ -77,6 +84,7 @@ public class PlayerBuffController : MonoBehaviour
 
     public void Solify()
     {
+        // switch colliders
         _characterCollider.SetActive(true);
         _hitBox.SetActive(true);
         _ghostCollider.SetActive(false);
