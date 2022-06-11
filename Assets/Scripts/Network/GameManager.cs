@@ -51,10 +51,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         Game.SpawnItem(PV, itemSpawns[1].position, 2);
         Game.SpawnItem(PV, itemSpawns[2].position, 3);
         Game.SpawnItem(PV, itemSpawns[3].position, 4);
-        //ItemWorld.SpawnItemWorld(GameManager.gameManager.itemSpawns[0].position, new Bow(), RequestNewItemWorldId());
-        //ItemWorld.SpawnItemWorld(GameManager.gameManager.itemSpawns[1].position, new Gun_AK(), RequestNewItemWorldId());
-        //ItemWorld.SpawnItemWorld(GameManager.gameManager.itemSpawns[2].position, new HealthPotion(3), RequestNewItemWorldId());
-        //ItemWorld.SpawnItemWorld(GameManager.gameManager.itemSpawns[3].position, new Gun_M4(), RequestNewItemWorldId());
     }
 
     private void SpawnPlayerCharacter()
