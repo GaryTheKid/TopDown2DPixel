@@ -10,6 +10,13 @@ public class ItemPicker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // interact with loot box
+        LootBoxWorld lootBoxWorld = collision.GetComponent<LootBoxWorld>();
+        if (lootBoxWorld != null)
+        {
+            NetworkCalls.Character.OpenLootBox(_PV, lootBoxWorld.lootBoxWorldID);
+        }
+
         // pick up item
         ItemWorld itemWorld = collision.GetComponent<ItemWorld>();
         if (itemWorld != null)

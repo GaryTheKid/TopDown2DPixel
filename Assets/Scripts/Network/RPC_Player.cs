@@ -43,6 +43,13 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
+    void RPC_OpenLootBox(short lootBoxWorldID)
+    {
+        LootBoxWorld lootBox = GameObject.Find("L" + lootBoxWorldID.ToString()).GetComponent<LootBoxWorld>();
+        lootBox.OpenLootBox();
+    }
+
+    [PunRPC]
     void RPC_PickItem(short itemID, short itemWorldID, short amount, short durability)
     {
         // get item

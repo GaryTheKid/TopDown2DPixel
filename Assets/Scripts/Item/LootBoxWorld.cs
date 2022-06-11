@@ -25,6 +25,26 @@ public class LootBoxWorld : MonoBehaviour
     }
 
     public short lootBoxWorldID;
+    private Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
+    public void OpenLootBox()
+    {
+        StartCoroutine(Co_OpenLootBox());
+    }
+
+    IEnumerator Co_OpenLootBox()
+    {
+        animator.SetTrigger("Open");
+        yield return new WaitForSecondsRealtime(0.8f);
+        SpawnRandomItem();
+        GameManager.gameManager.ReleaseLootBoxWorldId(lootBoxWorldID);
+        Destroy(gameObject);
+    }
 
     public void SpawnRandomItem()
     {
@@ -34,7 +54,7 @@ public class LootBoxWorld : MonoBehaviour
         {
             amount = (short)Random.Range(1, 5);
         }
-        GameManager.gameManager.SpawnItem(transform.position, randItemID);
+        GameManager.gameManager.SpawnItem(transform.position, randItemID, amount);
     }
 
     public void DestroySelf()

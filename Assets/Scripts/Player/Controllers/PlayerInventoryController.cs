@@ -44,7 +44,7 @@ public class PlayerInventoryController : MonoBehaviour
 
     private void HandleUIInventory() 
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (_itemSlots.activeSelf)
             {

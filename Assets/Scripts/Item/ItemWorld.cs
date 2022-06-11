@@ -26,13 +26,8 @@ public class ItemWorld : MonoBehaviour
 
     public short itemWorldID;
     private Item item;
-    private SpriteRenderer spriteRenderer;
+    [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Text amountText;
-
-    private void Awake()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
 
     public void SetItem(Item item, short itemWorldID)
     {

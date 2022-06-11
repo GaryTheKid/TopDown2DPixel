@@ -160,6 +160,14 @@ namespace NetworkCalls
             }
         }
 
+        public static void OpenLootBox(PhotonView PV, short lootBoxWorldID)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_OpenLootBox", RpcTarget.AllBuffered, lootBoxWorldID);
+            }
+        }
+
         public static void PickItem(PhotonView PV, short itemID, short itemWorldID, short amount, short durability)
         {
             if (PV.IsMine)
