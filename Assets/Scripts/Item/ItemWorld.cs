@@ -14,16 +14,7 @@ using Utilities;
 
 public class ItemWorld : MonoBehaviour
 {
-    public static ItemWorld SpawnItemWorld(Vector3 postion, Item item, short itemWorldID)
-    {
-        Transform transform = Instantiate(ItemAssets.itemAssets.pfItemWorld, postion, Quaternion.identity, GameManager.gameManager.spawnedItemParent);
-        transform.name = itemWorldID.ToString();
-        ItemWorld itemWorld = transform.GetComponent<ItemWorld>();
-        itemWorld.SetItem(item, itemWorldID);
-        return itemWorld;
-    }
-
-    public static ItemWorld SpawnItemWorld(Vector3 postion, Item item, short itemWorldID, short amount)
+    public static ItemWorld SpawnItemWorld(Vector3 postion, Item item, short itemWorldID, short amount = 1)
     {
         Transform transform = Instantiate(ItemAssets.itemAssets.pfItemWorld, postion, Quaternion.identity, GameManager.gameManager.spawnedItemParent);
         transform.name = itemWorldID.ToString();

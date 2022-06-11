@@ -27,32 +27,36 @@ public class GameManager : MonoBehaviourPunCallbacks
     // players
     public Player[] playerList;
 
+    // lootBoxes
+    public short maxLootBoxSpawnInWorld;
+    public Stack<short> avaliableLootBoxWorldIds;
+
     // items
     public short maxItemSpawnInWorld;
     public Stack<short> avaliableItemWorldIds;
-    public Transform spawnedItemParent;
 
-    // projectiles
+    // parents
+    public Transform spawnedPlayerParent;
+    public Transform spawnedLootBoxParent;
+    public Transform spawnedItemParent;
     public Transform spawnedProjectileParent;
 
     private void Awake()
     {
         gameManager = this;
         UpdateRoomPlayerList();
-        InitializeItemWorldIdStack();
-        spawnedItemParent = GameObject.Find("SpawnedItems").transform;
-        spawnedProjectileParent = GameObject.Find("SpawnedProjectiles").transform;
+        InitializeIdStacks();
     }
 
     public void Start()
     {
         SpawnPlayerCharacter();
-        Game.SpawnItem(PV, itemSpawns[0].position, 1);
-        Game.SpawnItem(PV, itemSpawns[1].position, 2);
-        Game.SpawnItem(PV, itemSpawns[2].position, 3);
-        Game.SpawnItems(PV, itemSpawns[3].position, 4, 3);
-        Game.SpawnItem(PV, itemSpawns[4].position, 5);
-        Game.SpawnItem(PV, itemSpawns[5].position, 6);
+        SpawnLootBox(itemSpawns[0].position);
+        SpawnItem(itemSpawns[1].position, 2);
+        SpawnItem(itemSpawns[2].position, 3);
+        SpawnItem(itemSpawns[3].position, 4, 3);
+        SpawnItem(itemSpawns[4].position, 5);
+        SpawnItem(itemSpawns[5].position, 6);
     }
 
     private void SpawnPlayerCharacter()
@@ -61,9 +65,25 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             if (playerList[i].IsLocal)
             {
-                PhotonNetwork.Instantiate("Player/PlayerCharacter", playerSpawns[i].position, playerSpawns[i].rotation);
+                var player = PhotonNetwork.Instantiate("Player/PlayerCharacter", playerSpawns[i].position, playerSpawns[i].rotation);
+                player.transform.parent = spawnedPlayerParent;
             }
         }
+    }
+
+    public void SpawnLootBox(Vector3 pos)
+    {
+        Game.SpawnLootBox(PV, pos);
+    }
+
+    public void SpawnItem(Vector3 pos, short itemId, short amount=1)
+    {
+        if (amount > 1)
+            Game.SpawnItems(PV, pos, itemId, amount);
+        else if (amount == 1)
+            Game.SpawnItem(PV, pos, itemId);
+        else
+            Debug.Log("Item amount must be positive");
     }
 
     private void UpdateRoomPlayerList()
@@ -71,13 +91,37 @@ public class GameManager : MonoBehaviourPunCallbacks
         playerList = PhotonNetwork.PlayerList;
     }
 
-    private void InitializeItemWorldIdStack()
+    private void InitializeIdStacks()
     {
+        // lootbox stack
+        avaliableLootBoxWorldIds = new Stack<short>();
+        for (short i = maxLootBoxSpawnInWorld; i > 0; i--)
+        {
+            avaliableLootBoxWorldIds.Push(i);
+        }
+
+        // item stack
         avaliableItemWorldIds = new Stack<short>();
         for (short i = maxItemSpawnInWorld; i > 0; i--)
         {
             avaliableItemWorldIds.Push(i);
         }
+    }
+
+    public short RequestNewLootBoxWorldId()
+    {
+        if (avaliableLootBoxWorldIds.Count > 0)
+            return avaliableLootBoxWorldIds.Pop();
+        else
+        {
+            Debug.Log("All Loot Box Ids have been assigned!");
+            return -1;
+        }
+    }
+
+    public void ReleaseLootBoxWorldId(short releasedId)
+    {
+        avaliableLootBoxWorldIds.Push(releasedId);
     }
 
     public short RequestNewItemWorldId()

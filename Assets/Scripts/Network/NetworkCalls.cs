@@ -7,6 +7,14 @@ namespace NetworkCalls
 {
     public class Game
     {
+        public static void SpawnLootBox(PhotonView PV, Vector3 pos)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PV.RPC("RPC_SpawnLootBox", RpcTarget.AllBuffered, pos);
+            }
+        }
+
         public static void SpawnItem(PhotonView PV, Vector3 pos, short itemID)
         {
             if (PhotonNetwork.IsMasterClient)

@@ -161,7 +161,7 @@ public class RPC_Player : MonoBehaviour
 
         // instantiate and fire (add force)
         var projectilePf = Instantiate(projectile.GetProjectilePrefab(), _playerWeaponController.fireTransform);
-        projectilePf.parent = null;
+        projectilePf.parent = GameManager.gameManager.spawnedProjectileParent;
         projectilePf.GetComponent<Rigidbody2D>().AddForce(Utilities.Math.DegreeToVector2(_playerWeaponController.aimTransform.eulerAngles.z) * projectile.speed, ForceMode2D.Impulse);
 
         // set projectile world script
@@ -187,7 +187,7 @@ public class RPC_Player : MonoBehaviour
         {
             // instantiate and fire (add force)
             var projectilePf = Instantiate(projectile.GetProjectilePrefab(), _playerWeaponController.aimTransform);
-            projectilePf.parent = null;
+            projectilePf.parent = GameManager.gameManager.spawnedProjectileParent;
             projectilePf.GetComponent<Rigidbody2D>().AddForce(Utilities.Math.DegreeToVector2(_playerWeaponController.aimTransform.eulerAngles.z) * projectile.speed * chargeTier, ForceMode2D.Impulse);
 
             // set projectile world script

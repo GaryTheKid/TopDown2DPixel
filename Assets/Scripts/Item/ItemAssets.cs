@@ -29,6 +29,10 @@ public class ItemAssets : MonoBehaviour
     [Header("ItemWorld Prefab")]
     public Transform pfItemWorld;
 
+    // prefab for loot box world
+    [Header("LootBoxWorld Prefab")]
+    public Transform pfLootBoxWorld;
+
     // Sprite for inventory and itemworld
     [Header("Sprites")]
     public Sprite swordSprite;

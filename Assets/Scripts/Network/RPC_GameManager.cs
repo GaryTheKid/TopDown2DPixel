@@ -6,6 +6,12 @@ using Photon.Pun;
 public class RPC_GameManager : MonoBehaviour
 {
     [PunRPC]
+    void RPC_SpawnLootBox(Vector3 pos)
+    {
+        LootBoxWorld.SpawnLootBoxWorld(pos, GameManager.gameManager.RequestNewLootBoxWorldId());
+    }
+
+    [PunRPC]
     void RPC_SpawnItem(Vector3 pos, short itemID)
     {
         ItemWorld.SpawnItemWorld(pos, ItemAssets.itemAssets.itemDic[itemID], GameManager.gameManager.RequestNewItemWorldId());
