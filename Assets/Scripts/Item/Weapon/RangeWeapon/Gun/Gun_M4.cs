@@ -7,6 +7,7 @@ public class Gun_M4 : Gun
     public Gun_M4()
     {
         itemName = "Gun_M4";
+        itemID = 6;
         amount = 1;
         itemType = ItemType.RangedWeapon;
         attackRange = 10f;

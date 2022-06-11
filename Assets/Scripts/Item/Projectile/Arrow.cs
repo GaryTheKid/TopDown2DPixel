@@ -15,7 +15,7 @@ public class Arrow : Projectile
         damageInfo = new DamageInfo
         {
             damageType = DamageInfo.DamageType.Physics,
-            damageAmount = 20f,
+            damageAmount = 100f,
             damageDelay = 0.2f,
             damageEffectTime = 0f,
             KnockBackDist = 2f,

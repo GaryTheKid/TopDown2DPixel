@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         Game.SpawnItem(PV, itemSpawns[1].position, 2);
         Game.SpawnItem(PV, itemSpawns[2].position, 3);
         Game.SpawnItem(PV, itemSpawns[3].position, 4);
+        Game.SpawnItem(PV, itemSpawns[4].position, 5);
+        Game.SpawnItem(PV, itemSpawns[5].position, 6);
     }
 
     private void SpawnPlayerCharacter()

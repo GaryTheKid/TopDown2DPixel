@@ -18,8 +18,8 @@ public class Sword : Weapon
         damageInfo = new DamageInfo 
         { 
             damageType = DamageInfo.DamageType.Physics,
-            damageAmount = 15f,
-            damageDelay = 0.2f,
+            damageAmount = 100f,
+            damageDelay = 0.3f,
             damageEffectTime = 0f,
             KnockBackDist = 2f,
         };

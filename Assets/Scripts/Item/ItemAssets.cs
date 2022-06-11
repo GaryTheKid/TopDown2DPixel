@@ -52,6 +52,8 @@ public class ItemAssets : MonoBehaviour
             { 2, new Bow() },
             { 3, new Axe() },
             { 4, new HealthPotion() },
+            { 5, new Gun_AK() },
+            { 6, new Gun_M4() },
         };
     }
 }
