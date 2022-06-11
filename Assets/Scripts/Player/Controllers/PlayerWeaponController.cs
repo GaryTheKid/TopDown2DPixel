@@ -17,6 +17,7 @@ public class PlayerWeaponController : MonoBehaviour
     public Weapon weapon;
     public Animator weaponAnimator;
     public Transform weaponPrefab;
+    public Transform bareHandsPrefab;
     public Transform aimTransform;
     public Transform fireTransform;
     public Transform spreadTransform;
@@ -45,14 +46,14 @@ public class PlayerWeaponController : MonoBehaviour
     private void Start()
     {
         _inventory = gameObject.GetComponent<PlayerInventoryController>().GetInventory();
+        
+        // equip bare hands
+        EquipHands();
     }
 
     private void Update()
     {
         if (_playerStats.isDead)
-            return;
-
-        if (weapon == null || weaponAnimator == null || aimTransform == null)
             return;
 
         HandleAiming();
@@ -72,6 +73,7 @@ public class PlayerWeaponController : MonoBehaviour
         // equip new weapon
         if (isEquipping)
         {
+            bareHandsPrefab.gameObject.SetActive(false);
             this.weapon = weapon;
             weaponType = weapon.itemType;
             weaponPrefab = Instantiate(weapon.GetEquipmentPrefab(), spreadTransform);
@@ -86,7 +88,7 @@ public class PlayerWeaponController : MonoBehaviour
         weaponType = Item.ItemType.Null;
         weaponAnimator = null;
         fireTransform = null;
-        if (weaponPrefab != null)
+        if (weaponPrefab != null && weaponPrefab != bareHandsPrefab)
         {
             Destroy(weaponPrefab.gameObject);
             weaponPrefab = null;
@@ -105,6 +107,18 @@ public class PlayerWeaponController : MonoBehaviour
             // restore movement speed
             _playerStats.speed = chargeMoveSpeedBuffer;
         }
+
+        // equip bare hands
+        EquipHands();
+    }
+
+    public void EquipHands()
+    {
+        bareHandsPrefab.gameObject.SetActive(true);
+        weaponPrefab = bareHandsPrefab;
+        weapon = new Hands();
+        weaponType = Item.ItemType.MeleeWeapon;
+        weaponAnimator = bareHandsPrefab.GetComponent<Animator>();
     }
 
     // handle the weapon aimming

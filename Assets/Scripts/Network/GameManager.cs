@@ -51,8 +51,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void Start()
     {
         SpawnPlayerCharacter();
-        SpawnLootBox(itemSpawns[0].position);
-        SpawnItem(itemSpawns[1].position, 8, 2);
+        //SpawnLootBox(itemSpawns[0].position);
+        SpawnItem(itemSpawns[0].position, 2);
+        SpawnItem(itemSpawns[1].position, 7, 2);
         //SpawnLootBox(itemSpawns[1].position);
         SpawnLootBox(itemSpawns[2].position);
         SpawnLootBox(itemSpawns[3].position);

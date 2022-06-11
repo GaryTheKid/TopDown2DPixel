@@ -9,11 +9,6 @@ public class ProjectileWorld : MonoBehaviour
     private PhotonView _PV;
     private float _dmgRatio = 1f;
 
-    private void OnEnable()
-    {
-        transform.parent = GameManager.gameManager.spawnedProjectileParent;
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // only collide non-self colliders

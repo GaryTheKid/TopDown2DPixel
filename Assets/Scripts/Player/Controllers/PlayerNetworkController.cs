@@ -25,6 +25,7 @@ public class PlayerNetworkController : MonoBehaviour
             Destroy(_audioListener);
             _ui_Canvas.SetActive(false);
             _CharacterCollider.layer = LayerMask.NameToLayer("Default");
+            transform.parent = GameManager.gameManager.spawnedPlayerParent;
         }
         else 
         {
