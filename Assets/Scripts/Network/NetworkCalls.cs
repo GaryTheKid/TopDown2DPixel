@@ -1,3 +1,11 @@
+/* Last Edition: 06/11/2022
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * 
+ * Description: 
+ *   The collection of all networked function calls, each call is connected to one PRC function.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,6 +47,14 @@ namespace NetworkCalls
             if (PV.IsMine)
             {
                 PV.RPC("RPC_UseHealthPotion", RpcTarget.AllBuffered, healingAmount);
+            }
+        }
+
+        public static void UseSpeedPotion(PhotonView PV, float boostAmount, float effectTime)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_UseSpeedPotion", RpcTarget.AllBuffered, boostAmount, effectTime);
             }
         }
     }

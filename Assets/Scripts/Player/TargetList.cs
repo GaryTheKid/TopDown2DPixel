@@ -1,3 +1,11 @@
+/* Last Edition: 06/11/2022
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * 
+ * Description: 
+ *   The target list for player melee weapon target locking.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

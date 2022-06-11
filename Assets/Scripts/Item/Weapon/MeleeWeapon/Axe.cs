@@ -7,42 +7,31 @@ public class Axe : Weapon
 {
     public Axe()
     {
-        this.itemName = "Axe";
+        itemName = "Axe";
         itemID = 3;
-        this.amount = 1;
-        this.itemType = ItemType.MeleeWeapon;
-        this.attackRange = 8f;
-        this.attackSpeed = 1.2f;
-        this.damageInfo = new DamageInfo
+        amount = 1;
+        itemType = ItemType.MeleeWeapon;
+        accuracy = 1f;
+        attackRange = 8f;
+        attackSpeed = 1f;
+        attackMoveSlowRate = 0.7f;
+        damageInfo = new DamageInfo
         {
             damageType = DamageInfo.DamageType.Physics,
-            damageAmount = 20f,
+            damageAmount = 100f,
             damageDelay = 0.2f,
             damageEffectTime = 0f,
-            KnockBackDist = 0f,
-        };
-    }
-
-    public Axe(short amount)
-    {
-        this.itemName = "Axe";
-        this.amount = amount;
-        this.itemType = ItemType.MeleeWeapon;
-        this.attackRange = 8f;
-        this.attackSpeed = 1.2f;
-        this.damageInfo = new DamageInfo
-        {
-            damageType = DamageInfo.DamageType.Physics,
-            damageAmount = 20f,
-            damageDelay = 0.2f,
-            damageEffectTime = 0f,
-            KnockBackDist = 0f,
+            KnockBackDist = 5f,
         };
     }
 
     public override void Attack(PhotonView attackerPV)
     {
-        Debug.Log("Sword Attacking");
+        // play the animation at userTransform
+        NetworkCalls.Character.FireWeapon(attackerPV);
+
+        // deal damage to all targets
+        NetworkCalls.Character.DealDamage(attackerPV);
     }
 
     public override Transform GetEquipmentPrefab()
@@ -53,11 +42,6 @@ public class Axe : Weapon
     public override Sprite GetSprite()
     {
         return ItemAssets.itemAssets.axeSprite;
-    }
-
-    public override bool IsStackable()
-    {
-        return false;
     }
 }
     

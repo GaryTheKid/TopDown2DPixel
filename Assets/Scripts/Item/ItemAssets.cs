@@ -45,6 +45,8 @@ public class ItemAssets : MonoBehaviour
     public Sprite bulletSprite;
 
     public Sprite healthPotionSprite;
+    public Sprite bigHealthPotionSprite;
+    public Sprite speedPotionSprite;
 
     [Header("Item Dictionary")]
     public Dictionary<short, Item> itemDic;
@@ -58,6 +60,8 @@ public class ItemAssets : MonoBehaviour
             { 4, new HealthPotion() },
             { 5, new Gun_AK() },
             { 6, new Gun_M4() },
+            { 7, new SpeedPotion() },
+            { 8, new BigHealthPotion() }
         };
     }
 }

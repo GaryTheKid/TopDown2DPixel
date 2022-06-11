@@ -16,6 +16,8 @@ public class PlayerBuffController : MonoBehaviour
     private PlayerEffectController _effectController;
     private Rigidbody2D _rb;
 
+    private IEnumerator speedBoost_Co;
+
     private void Awake()
     {
         _statsController = GetComponent<PlayerStatsController>();
@@ -64,6 +66,34 @@ public class PlayerBuffController : MonoBehaviour
         // show the visual effect
         _effectController.ReceiveHealingEffect(_playerStats.hp, _playerStats.maxHp);
     }
+
+    public void SpeedBoost(float boostAmount, float effectTime)
+    {
+        // check if player is dead
+        if (_playerStats.isDead)
+        {
+            Debug.Log("Player is dead, can't receive speed boost!");
+            return;
+        }
+
+        // check if hp overflow, add healing amount to hp
+        if (speedBoost_Co == null)
+        {
+            speedBoost_Co = Co_SpeedBoost(boostAmount, effectTime);
+            StartCoroutine(speedBoost_Co);
+        }
+
+        // show the visual effect
+        _effectController.SpeedBoostEffect();
+    }
+    IEnumerator Co_SpeedBoost(float boostAmount, float effectTime)
+    {
+        _playerStats.speed += boostAmount;
+        yield return new WaitForSecondsRealtime(effectTime);
+        _playerStats.speed -= boostAmount;
+        speedBoost_Co = null;
+    }
+
 
     public void Ghostify()
     {

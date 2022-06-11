@@ -9,7 +9,7 @@ public class targetDetector : MonoBehaviour
 
     private void Awake()
     {
-        _targetList = transform.root.GetComponent<TargetList>();
+        _targetList = transform.GetComponentInParent<TargetList>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

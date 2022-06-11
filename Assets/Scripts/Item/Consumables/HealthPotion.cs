@@ -12,19 +12,19 @@ public class HealthPotion : Consumables
     public HealthPotion() 
     {
         healAmount = 10;
-        this.itemName = "HealthPotion";
+        itemName = "HealthPotion";
         itemID = 4;
-        this.amount = 1;
-        this.itemType = ItemType.Consumable;
+        amount = 1;
+        itemType = ItemType.Consumable;
     }
 
     public HealthPotion(short amount)
     {
         healAmount = 10;
-        this.itemName = "HealthPotion";
+        itemName = "HealthPotion";
         itemID = 4;
         this.amount = amount;
-        this.itemType = ItemType.Consumable;
+        itemType = ItemType.Consumable;
     }
 
     public override void Consume(PhotonView PV)

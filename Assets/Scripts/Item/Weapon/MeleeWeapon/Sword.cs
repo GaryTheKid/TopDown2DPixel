@@ -13,12 +13,12 @@ public class Sword : Weapon
         itemType = ItemType.MeleeWeapon;
         accuracy = 1f;
         attackRange = 10f;
-        attackSpeed = 1f;
+        attackSpeed = 1.8f;
         attackMoveSlowRate = 0.7f;
         damageInfo = new DamageInfo 
         { 
             damageType = DamageInfo.DamageType.Physics,
-            damageAmount = 100f,
+            damageAmount = 80f,
             damageDelay = 0.3f,
             damageEffectTime = 0f,
             KnockBackDist = 2f,

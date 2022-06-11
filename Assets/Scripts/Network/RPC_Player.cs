@@ -1,3 +1,11 @@
+/* Last Edition: 06/11/2022
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * 
+ * Description: 
+ *   The script contains all RPC functions sent from the player PhotonView.
+ */
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -213,5 +221,11 @@ public class RPC_Player : MonoBehaviour
     void RPC_UseHealthPotion(int healingAmount)
     {
         _playerBuffController.ReceiveHealing(healingAmount);
+    }
+
+    [PunRPC]
+    void RPC_UseSpeedPotion(float boostAmount, float effectTime)
+    {
+        _playerBuffController.SpeedBoost(boostAmount, effectTime);
     }
 }

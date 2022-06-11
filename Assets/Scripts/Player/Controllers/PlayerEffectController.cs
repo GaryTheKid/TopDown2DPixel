@@ -43,6 +43,13 @@ public class PlayerEffectController : MonoBehaviour
         hpBar.fillAmount = (float)currHP / (float)maxHP;
     }
 
+    public void SpeedBoostEffect()
+    {
+        // TODO: add ghost trail (shader)
+
+
+    }
+
     public void DeathEffect()
     {
         // TODO: death visual effect
