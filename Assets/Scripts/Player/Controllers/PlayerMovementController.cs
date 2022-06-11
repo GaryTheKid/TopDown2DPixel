@@ -8,14 +8,14 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private LayerMask _dashLayerMask;
     [SerializeField] private Animator _animator;
 
-    private PlayerStats _playerStats;
+    private PlayerStatsController _playerStatsController;
     private Rigidbody2D _rb;
     private Vector3 _moveDir;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _playerStats = GetComponent<PlayerStatsController>().playerStats;
+        _playerStatsController = GetComponent<PlayerStatsController>();
     }
 
     // Update is called once per frame
@@ -70,7 +70,7 @@ public class PlayerMovementController : MonoBehaviour
         else
         {
             // is moving
-            _rb.AddForce(_moveDir * _playerStats.speed);
+            _rb.AddForce(_moveDir * _playerStatsController.GetCurrentSpeed());
             _animator.SetFloat("xMovement", _moveDir.x);
             _animator.SetFloat("yMovement", _moveDir.y);
             _animator.SetBool("isMoving", true);

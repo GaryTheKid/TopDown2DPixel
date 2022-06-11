@@ -88,9 +88,9 @@ public class PlayerBuffController : MonoBehaviour
     }
     IEnumerator Co_SpeedBoost(float boostAmount, float effectTime)
     {
-        _playerStats.speed += boostAmount;
+        _playerStats.baseSpeed += boostAmount;
         yield return new WaitForSecondsRealtime(effectTime);
-        _playerStats.speed -= boostAmount;
+        _playerStats.baseSpeed -= boostAmount;
         speedBoost_Co = null;
     }
 

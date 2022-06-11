@@ -28,8 +28,6 @@ public class PlayerWeaponController : MonoBehaviour
     private PlayerStats _playerStats;
     private IEnumerator _co_Attack;
     private IEnumerator _co_Charge;
-    private float chargeMoveSpeedBuffer;
-    private float attackMoveSpeedBuffer;
     private bool isFlipped;
 
     public int chargeTier;
@@ -105,7 +103,7 @@ public class PlayerWeaponController : MonoBehaviour
             _co_Charge = null;
 
             // restore movement speed
-            _playerStats.speed = chargeMoveSpeedBuffer;
+            _playerStats.speedModifier = 1f;
         }
 
         // equip bare hands
@@ -183,7 +181,7 @@ public class PlayerWeaponController : MonoBehaviour
                         _co_Charge = null;
 
                         // restore movement speed
-                        _playerStats.speed = chargeMoveSpeedBuffer;
+                        _playerStats.speedModifier = 1f;
                     }
 
                     // initiate the attack coroutine 
@@ -241,8 +239,7 @@ public class PlayerWeaponController : MonoBehaviour
         }
 
         // slow down movement during charge
-        attackMoveSpeedBuffer = _playerStats.speed;
-        _playerStats.speed *= weapon.attackMoveSlowRate;
+        _playerStats.speedModifier = weapon.attackMoveSlowRate;
 
         // recoil force
         _rb.AddForce(-Math.DegreeToVector2(aimTransform.eulerAngles.z) * weapon.recoilForce, ForceMode2D.Impulse);
@@ -254,7 +251,7 @@ public class PlayerWeaponController : MonoBehaviour
         //_playerStats.isWeaponLocked = false;
 
         // restore movement speed
-        _playerStats.speed = attackMoveSpeedBuffer;
+        _playerStats.speedModifier = 1f;
 
         // clear co
         _co_Attack = null;
@@ -289,8 +286,7 @@ public class PlayerWeaponController : MonoBehaviour
     private IEnumerator Co_Charge()
     {
         // slow down movement during charge
-        chargeMoveSpeedBuffer = _playerStats.speed;
-        _playerStats.speed *= weapon.chargeMoveSlowRate;
+        _playerStats.speedModifier = weapon.chargeMoveSlowRate;
 
         while (true)
         {

@@ -19,6 +19,7 @@ public class PlayerNetworkController : MonoBehaviour
     {
         if (!_PV.IsMine)
         {
+            _playerWeaponController.EquipHands();
             Destroy(_movementController);
             Destroy(_playerWeaponController);
             Destroy(_playerCamera);

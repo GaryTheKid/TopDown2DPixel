@@ -12,7 +12,8 @@ public class PlayerStats
     public bool isWeaponLocked;
     public int maxHp;
     public int hp;
-    public float speed;
+    public float baseSpeed;
+    public float speedModifier;
     public int score;
 
     public PlayerStats()
@@ -21,7 +22,8 @@ public class PlayerStats
         isWeaponLocked = false;
         maxHp = 100;
         hp = 100;
-        speed = 30f;
+        baseSpeed = 30f;
+        speedModifier = 1f;
         score = 0;
     }
 }
@@ -78,6 +80,12 @@ public class PlayerStatsController : MonoBehaviour
     public void UpdateScore(int deltaScore)
     {
         playerStats.score += deltaScore;
+    }
+
+    // return the calculated speed
+    public float GetCurrentSpeed()
+    {
+        return playerStats.baseSpeed * playerStats.speedModifier;
     }
 
     // death coroutine

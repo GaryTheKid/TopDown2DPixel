@@ -137,13 +137,15 @@ public class RPC_Player : MonoBehaviour
     [PunRPC]
     void RPC_FlipWeapon()
     {
-        _playerWeaponController.weaponPrefab.localEulerAngles = new Vector3(180f, 0f, 0f);
+        if(_playerWeaponController.weaponPrefab != null)
+            _playerWeaponController.weaponPrefab.localEulerAngles = new Vector3(180f, 0f, 0f);
     }
 
     [PunRPC]
     void RPC_UnflipWeapon()
     {
-        _playerWeaponController.weaponPrefab.localEulerAngles = new Vector3(0f, 0f, 0f);
+        if (_playerWeaponController.weaponPrefab != null)
+            _playerWeaponController.weaponPrefab.localEulerAngles = new Vector3(0f, 0f, 0f);
     }
 
     [PunRPC]
