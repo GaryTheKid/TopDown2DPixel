@@ -14,6 +14,14 @@ namespace NetworkCalls
                 PV.RPC("RPC_SpawnItem", RpcTarget.AllBuffered, pos, itemID);
             }
         }
+
+        public static void SpawnItems(PhotonView PV, Vector3 pos, short itemID, short amount)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PV.RPC("RPC_SpawnItems", RpcTarget.AllBuffered, pos, itemID, amount);
+            }
+        }
     }
 
     public class Consumables

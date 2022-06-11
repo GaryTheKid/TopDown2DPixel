@@ -23,6 +23,16 @@ public class ItemWorld : MonoBehaviour
         return itemWorld;
     }
 
+    public static ItemWorld SpawnItemWorld(Vector3 postion, Item item, short itemWorldID, short amount)
+    {
+        Transform transform = Instantiate(ItemAssets.itemAssets.pfItemWorld, postion, Quaternion.identity, GameManager.gameManager.spawnedItemParent);
+        transform.name = itemWorldID.ToString();
+        ItemWorld itemWorld = transform.GetComponent<ItemWorld>();
+        item.amount = amount;
+        itemWorld.SetItem(item, itemWorldID);
+        return itemWorld;
+    }
+
     public short itemWorldID;
     private Item item;
     private SpriteRenderer spriteRenderer;

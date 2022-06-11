@@ -37,7 +37,8 @@ public class HealthPotion : Consumables
         {
             amount--;
         }
-        else
+        
+        if (amount <= 0)
         {
             DestroySelf();
         }
