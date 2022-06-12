@@ -61,11 +61,11 @@ namespace NetworkCalls
 
     public class Weapon
     {
-        public static void EquipWeapon(PhotonView PV, int index)
+        public static void EquipWeapon(PhotonView PV, short itemID)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_EquipWeapon", RpcTarget.AllBuffered, index);
+                PV.RPC("RPC_EquipWeapon", RpcTarget.AllBuffered, itemID);
             }
         }
 
@@ -184,11 +184,11 @@ namespace NetworkCalls
             }
         }
 
-        public static void PickItem(PhotonView PV, short itemID, short itemWorldID, short amount, short durability)
+        public static void PickItem(PhotonView PV, short itemWorldID)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_PickItem", RpcTarget.AllBuffered, itemID, itemWorldID, amount, durability);
+                PV.RPC("RPC_PickItem", RpcTarget.AllBuffered, itemWorldID);
             }
         }
 

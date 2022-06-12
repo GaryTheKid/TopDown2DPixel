@@ -9,6 +9,7 @@ using Photon.Pun;
 public class PlayerStats
 {
     public bool isDead;
+    public bool isInvincible;
     public bool isWeaponLocked;
     public int maxHp;
     public int hp;
@@ -19,6 +20,7 @@ public class PlayerStats
     public PlayerStats()
     {
         isDead = false;
+        isInvincible = false;
         isWeaponLocked = false;
         maxHp = 100;
         hp = 100;

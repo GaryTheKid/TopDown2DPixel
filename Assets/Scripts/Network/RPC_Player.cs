@@ -58,17 +58,8 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_PickItem(short itemID, short itemWorldID, short amount, short durability)
+    void RPC_PickItem(short itemWorldID)
     {
-        // get item
-        Item item = ItemAssets.itemAssets.itemDic[itemID];
-        Item itemCopy = (Item)Common.GetObjectCopyFromInstance(item);
-        itemCopy.amount = amount;
-        itemCopy.durability = durability;
-
-        // add item to the player Inventory
-        _playerInventoryController.AddItem(itemCopy);
-
         // destroy item world
         Destroy(GameObject.Find(itemWorldID.ToString()));
 
@@ -82,12 +73,10 @@ public class RPC_Player : MonoBehaviour
         // get item 
         Item item = ItemAssets.itemAssets.itemDic[itemID];
         Item itemCopy = (Item)Common.GetObjectCopyFromInstance(item);
-        itemCopy.amount = amount;
-        itemCopy.durability = durability;
 
         // drop item to the world
         var dropDirV3 = Utilities.Math.DegreeToVector3(dropDirAngle);
-        ItemWorld itemWorld = ItemWorld.SpawnItemWorld(dropPos + dropDirV3 * 1.2f, itemCopy, GameManager.gameManager.RequestNewItemWorldId());
+        ItemWorld itemWorld = ItemWorld.SpawnItemWorld(dropPos + dropDirV3 * 1.2f, itemCopy, GameManager.gameManager.RequestNewItemWorldId(), durability, amount);
         itemWorld.GetComponent<Rigidbody2D>().AddForce(dropDirV3 * 1.5f, ForceMode2D.Impulse);
     }
 
@@ -123,9 +112,9 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_EquipWeapon(int index)
+    void RPC_EquipWeapon(short itemID)
     {
-        _playerWeaponController.EquipWeapon((Weapon)(_playerInventoryController.GetItem(index)));
+        _playerWeaponController.EquipWeapon((Weapon)(ItemAssets.itemAssets.itemDic[itemID]));
     }
 
     [PunRPC]

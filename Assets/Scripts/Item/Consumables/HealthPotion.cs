@@ -44,7 +44,7 @@ public class HealthPotion : Consumables
         }
     }
 
-    public override void UseItem(PhotonView PV, int index)
+    public override void UseItem(PhotonView PV)
     {
         Consume(PV);
     }

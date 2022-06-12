@@ -2675,10 +2675,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerStats:
     isDead: 0
+    isInvincible: 0
     isWeaponLocked: 0
     maxHp: 100
     hp: 100
-    speed: 30
+    baseSpeed: 30
+    speedModifier: 1
     score: 0
   OnDeath:
     m_PersistentCalls:

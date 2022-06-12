@@ -158,7 +158,7 @@ public class Inventory
             return;
         }
 
-        itemList[index].UseItem(PV, index);
+        itemList[index].UseItem(PV);
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 

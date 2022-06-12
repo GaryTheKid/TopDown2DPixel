@@ -17,6 +17,7 @@ public class PlayerBuffController : MonoBehaviour
     private Rigidbody2D _rb;
 
     private IEnumerator speedBoost_Co;
+    private IEnumerator invincible_Co;
 
     private void Awake()
     {
@@ -32,6 +33,16 @@ public class PlayerBuffController : MonoBehaviour
         if (_playerStats.isDead)
         {
             Debug.Log("Player is dead, can't receive damage!");
+            return;
+        }
+
+        // check if player is invincible
+        if (_playerStats.isInvincible)
+        {
+            Debug.Log("Player is invincible! can't receive damage!");
+
+            // TODO: pop an invincible text by using the effect controller
+
             return;
         }
 
@@ -94,6 +105,31 @@ public class PlayerBuffController : MonoBehaviour
         speedBoost_Co = null;
     }
 
+    public void Invincible(float effectTime)
+    {
+        // check if player is dead
+        if (_playerStats.isDead)
+        {
+            Debug.Log("Player is dead, can't receive invincible buff!");
+            return;
+        }
+
+        // check if hp overflow, add healing amount to hp
+        if (invincible_Co == null)
+        {
+            invincible_Co = Co_Invincible(effectTime);
+            StartCoroutine(invincible_Co);
+        }
+
+        // TODO: show the visual effect
+    }
+    IEnumerator Co_Invincible(float effectTime)
+    {
+        _playerStats.isInvincible = true;
+        yield return new WaitForSecondsRealtime(effectTime);
+        _playerStats.isInvincible = false;
+        invincible_Co = null;
+    }
 
     public void Ghostify()
     {

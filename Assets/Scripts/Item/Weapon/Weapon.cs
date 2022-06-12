@@ -39,14 +39,14 @@ public abstract class Weapon : Item, IEquipable
 
     public virtual void Attack(PhotonView PV) { }
     public virtual void Charge(PhotonView PV) { }
-    public override void UseItem(PhotonView PV, int index)
+    public override void UseItem(PhotonView PV)
     {
-        Equip(PV, index);
+        Equip(PV);
     }
-    public override void Equip(PhotonView PV, int index)
+    public override void Equip(PhotonView PV)
     {
         isEquiped = true;
-        NetworkCalls.Weapon.EquipWeapon(PV, index);
+        NetworkCalls.Weapon.EquipWeapon(PV, itemID);
     }
     public override void Unequip(PhotonView PV)
     {

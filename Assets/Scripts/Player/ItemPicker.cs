@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Utilities;
 
 public class ItemPicker : MonoBehaviour
 {
@@ -21,8 +22,16 @@ public class ItemPicker : MonoBehaviour
         ItemWorld itemWorld = collision.GetComponent<ItemWorld>();
         if (itemWorld != null)
         {
-            var item = itemWorld.GetItem();
-            NetworkCalls.Character.PickItem(_PV, item.itemID, itemWorld.itemWorldID, item.amount, item.durability);
+            // get item
+            Item item = itemWorld.GetItem();
+            Item itemCopy = (Item)Common.GetObjectCopyFromInstance(item);
+            itemCopy.amount = item.amount;
+            itemCopy.durability = item.durability;
+
+            // add item to the player Inventory
+            _inventoryController.AddItem(itemCopy);
+
+            NetworkCalls.Character.PickItem(_PV, itemWorld.itemWorldID);
         }
     }
 }
