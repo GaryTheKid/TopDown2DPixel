@@ -219,4 +219,10 @@ public class RPC_Player : MonoBehaviour
     {
         _playerBuffController.SpeedBoost(boostAmount, effectTime);
     }
+
+    [PunRPC]
+    void RPC_UseInvinciblePotion(float effectTime)
+    {
+        _playerBuffController.Invincible(effectTime);
+    }
 }

@@ -34,6 +34,10 @@ public class ItemAssets : MonoBehaviour
     [Header("LootBoxWorld Prefab")]
     public Transform pfLootBoxWorld;
 
+    // prefab for loot box spawner
+    [Header("LootBox Spawner Prefab")]
+    public Transform pfLootBoxSpawner;
+
     // Sprite for inventory and itemworld
     [Header("Sprites")]
     public Sprite handsSprite;
@@ -49,6 +53,7 @@ public class ItemAssets : MonoBehaviour
     public Sprite healthPotionSprite;
     public Sprite bigHealthPotionSprite;
     public Sprite speedPotionSprite;
+    public Sprite invinciblePotionSprite;
 
     [Header("Item Dictionary")]
     public Dictionary<short, Item> itemDic;
@@ -63,7 +68,8 @@ public class ItemAssets : MonoBehaviour
             { 5, new Gun_AK() },
             { 6, new Gun_M4() },
             { 7, new SpeedPotion() },
-            { 8, new BigHealthPotion() }
+            { 8, new BigHealthPotion() },
+            { 9, new InvinciblePotion() }
         };
     }
 }

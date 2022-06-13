@@ -57,6 +57,14 @@ namespace NetworkCalls
                 PV.RPC("RPC_UseSpeedPotion", RpcTarget.AllBuffered, boostAmount, effectTime);
             }
         }
+
+        public static void UseInvinciblePotion(PhotonView PV, float effectTime)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_UseInvinciblePotion", RpcTarget.AllBuffered, effectTime);
+            }
+        }
     }
 
     public class Weapon

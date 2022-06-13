@@ -22,6 +22,11 @@ namespace Utilities
             return new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f)).normalized;
         }
 
+        public static float GetSizeFromTwoVerts(Vector3 v1, Vector3 v2)
+        {
+            return Mathf.Abs(v1.x - v2.x) * Mathf.Abs(v1.y - v2.y);
+        }
+
         public static Vector2 RadianToVector2(float radian)
         {
             return new Vector2(Mathf.Cos(radian), Mathf.Sin(radian));
