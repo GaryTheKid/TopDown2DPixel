@@ -28,8 +28,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     public List<(SpawnArea, int, int)> lootBoxSpawnAreas;
     [Tooltip("This value determines how many objects can be instantiated within 1 spawn area. The larger the more.")]
     public int spawnDensity;
-    [Tooltip("This value determines how fast objects can be spawned (obj/sec).")]
-    public float spawnSpeed;
+    [Tooltip("This value determines how fast objects can be spawned.")]
+    public float spawnWaveTimeStep;
+    [Tooltip("This value determines how many objs will be spawned per wave.")]
+    public float spawnQuantity;
 
     // players
     public Player[] playerList;
@@ -54,6 +56,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Transform spawnedItemParent;
     public Transform spawnedProjectileParent;
 
+    // timer
+    public float timer;
+    public float spawnTimer;
+
     private void Awake()
     {
         gameManager = this;
@@ -65,16 +71,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void Start()
     {
         SpawnPlayerCharacter();
-        //SpawnLootBox(itemSpawns[0].position);
-        //SpawnLootBox(itemSpawns[1].position);
-        //SpawnLootBox(itemSpawns[2].position);
-        //SpawnLootBox(itemSpawns[3].position);
-        //SpawnLootBox(itemSpawns[4].position);
-        //SpawnLootBox(itemSpawns[5].position);
-        if (PhotonNetwork.IsMasterClient)
+        /*if (PhotonNetwork.IsMasterClient)
         {
-            SpawnItem(itemSpawns[0].position, 2);
-            SpawnItem(itemSpawns[1].position, 9, 2);
             SpawnLootBoxRandomly();
             SpawnLootBoxRandomly();
             SpawnLootBoxRandomly();
@@ -91,6 +89,26 @@ public class GameManager : MonoBehaviourPunCallbacks
             SpawnLootBoxRandomly();
             SpawnLootBoxRandomly();
             SpawnLootBoxRandomly();
+        }*/
+    }
+
+    private void FixedUpdate()
+    {
+        // must be master client
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+
+        // running timers
+        timer += Time.fixedDeltaTime;
+        spawnTimer += Time.fixedDeltaTime;
+        if (spawnTimer >= spawnWaveTimeStep)
+        {
+            // spawn loot boxes randomly
+            for (int i = 0; i < spawnQuantity; i++)
+            {
+                SpawnLootBoxRandomly();
+            }
+            spawnTimer = 0f;
         }
     }
 
@@ -114,6 +132,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void SpawnLootBoxRandomly()
     {
         var randIndex = GetRandomSpawnArea();
+
+        // if run out of spawn space
+        if (randIndex == -1)
+        {
+            return;
+        }
+
         var randSpawnPoint = lootBoxSpawnAreas[randIndex].Item1;
         var spawnPoint = randSpawnPoint.GetRandomPointFromArea();
 

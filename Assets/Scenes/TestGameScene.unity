@@ -1329,7 +1329,8 @@ MonoBehaviour:
   - {fileID: 1102703875}
   - {fileID: 604334229}
   spawnDensity: 1
-  spawnSpeed: 5
+  spawnWaveTimeStep: 5
+  spawnQuantity: 3
   maxLootBoxSpawnInWorld: 100
   lootBoxWorldLifeTime: 30
   maxItemSpawnInWorld: 150
@@ -1339,6 +1340,8 @@ MonoBehaviour:
   spawnedLootBoxParent: {fileID: 803428433}
   spawnedItemParent: {fileID: 570789145}
   spawnedProjectileParent: {fileID: 925292998}
+  timer: 0
+  spawnTimer: 0
 --- !u!114 &1205553596
 MonoBehaviour:
   m_ObjectHideFlags: 0
