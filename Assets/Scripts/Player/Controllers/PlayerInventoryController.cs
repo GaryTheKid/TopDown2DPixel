@@ -19,7 +19,7 @@ public class PlayerInventoryController : MonoBehaviour
 
     private PlayerStats playerStats;
     private Inventory _inventory;
-    private List<EquipmentSlot> _equipmentSlots;
+    private List<Slot> _equipmentSlots;
     private PhotonView _PV;
     private bool currLockFlag;
 

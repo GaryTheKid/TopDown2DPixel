@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class Slot : MonoBehaviour, IDropHandler
 {
     public short uiIndex;
+    public KeyCode keyCode = KeyCode.None;
 
     public virtual void OnDrop(PointerEventData eventData)
     {

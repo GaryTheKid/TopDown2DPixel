@@ -9,33 +9,45 @@ using Photon.Pun;
 
 public class UI_Inventory : MonoBehaviour
 {
+    [SerializeField] private Transform _equipmentSlotContainer;
     [SerializeField] private Transform _emptySlotContainer;
     [SerializeField] private Transform _emptySlotTemplate;
-    [SerializeField] private Transform _itemSlotContainer;
-    [SerializeField] private Transform _itemSlotTemplate;
+    [SerializeField] private Transform _itemContainer;
+    [SerializeField] private Transform _itemTemplate;
     [SerializeField] private Transform _playerAnchorPos;
     [SerializeField] private PhotonView _PV;
-    [SerializeField] private List<EquipmentSlot> _equipmentSlots;
-    [SerializeField] private PlayerInventoryController _playerInventoryController; 
-    private List<ItemSlot> _emptySlots;
+    [SerializeField] private List<Slot> _itemSlots;
+    [SerializeField] private PlayerInventoryController _playerInventoryController;
     private Inventory _inventory;
+    private int _inventorySize;
+    private int _equipmentSlotCount;
 
     public void SpawnItemSlots()
     {
         int x = 0;
         int y = 0;
         float itemSlotCellSize = 120f;
+        _inventorySize = _inventory.maxCapacity;
 
-        for (int i = 0; i < _inventory.maxCapacity - 6; i++)
+        _equipmentSlotCount = _equipmentSlotContainer.childCount;
+        for (short i = 0; i < _equipmentSlotCount; i++)
+        {
+            // equipment slots
+            Slot equipmentSlot = _equipmentSlotContainer.GetChild(i).GetComponent<Slot>();
+            equipmentSlot.uiIndex = i;
+            _itemSlots.Add(equipmentSlot);
+        }
+
+        for (int i = 0; i < _inventory.maxCapacity - _equipmentSlotCount; i++)
         {
             // instantiate empty slot template
             RectTransform slotRectTransform = Instantiate(_emptySlotTemplate, _emptySlotContainer).GetComponent<RectTransform>();
             slotRectTransform.gameObject.SetActive(true);
 
             // update empty slot list
-            ItemSlot itemSlot = slotRectTransform.GetComponent<ItemSlot>();
-            _emptySlots.Add(itemSlot);
-            itemSlot.uiIndex = (short)(i + 6);
+            Slot itemSlot = slotRectTransform.GetComponent<Slot>();
+            itemSlot.uiIndex = (short)(i + _equipmentSlotCount);
+            _itemSlots.Add(itemSlot);
 
             // set position
             slotRectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y * itemSlotCellSize);
@@ -48,26 +60,19 @@ public class UI_Inventory : MonoBehaviour
                 y--;
             }
         }
-
-        for (short i = 0; i < _equipmentSlots.Count; i++)
-        {
-            // update empty slot list
-            _equipmentSlots[i].uiIndex = i;
-        }
     }
 
     public void SetInventory(Inventory inventory)
     {
         this._inventory = inventory;
-        _emptySlots = new List<ItemSlot>();
 
         inventory.OnItemListChanged += Inventory_OnItemListChanged;
         UpdateInventoryItems();
     }
 
-    public List<EquipmentSlot> GetEquipmentSlots() 
+    public List<Slot> GetEquipmentSlots() 
     {
-        return _equipmentSlots;
+        return _itemSlots;
     }
 
     private void Inventory_OnItemListChanged(object sender, System.EventArgs e) 
@@ -78,14 +83,14 @@ public class UI_Inventory : MonoBehaviour
     private void UpdateInventoryItems()
     {
         // clear ui
-        foreach (Transform child in _itemSlotContainer)
+        foreach (Transform child in _itemContainer)
         {
-            if (child == _itemSlotTemplate) continue;
+            if (child == _itemTemplate) continue;
             Destroy(child.gameObject);
         }
 
         // create ui
-        for (int i = 0; i < _inventory.GetItemList().Count; i++)
+        for (int i = 0; i < _inventorySize; i++)
         {
             // get item from list
             Item item = _inventory.GetItemFromList(i);
@@ -93,7 +98,7 @@ public class UI_Inventory : MonoBehaviour
                 continue;
 
             // instantiate item template
-            RectTransform itemSlotRectTransform = Instantiate(_itemSlotTemplate, _itemSlotContainer).GetComponent<RectTransform>();
+            RectTransform itemSlotRectTransform = Instantiate(_itemTemplate, _itemContainer).GetComponent<RectTransform>();
             itemSlotRectTransform.gameObject.SetActive(true);
 
             // set use item logic
@@ -121,7 +126,7 @@ public class UI_Inventory : MonoBehaviour
                 _inventory.SwapItems(currUIIndex, newUIIndex);
 
                 // if item is equipable, drag it from equipment slots will unequip it
-                if (item is IEquipable && newUIIndex >= 6)
+                if (item is IEquipable && newUIIndex >= _equipmentSlotCount)
                 {
                     item.Unequip(_PV);
                 }
@@ -151,16 +156,8 @@ public class UI_Inventory : MonoBehaviour
             }
 
             // nest the item in the slot
-            if (i > 6)
-            {
-                itemSlotRectTransform.GetComponent<DragDrop>().currentSlot = _emptySlots[i - 6];
-                itemSlotRectTransform.anchoredPosition = _emptySlots[i - 6].transform.GetComponent<RectTransform>().anchoredPosition;
-            }
-            else 
-            {
-                itemSlotRectTransform.GetComponent<DragDrop>().currentSlot = _equipmentSlots[i];
-                itemSlotRectTransform.anchoredPosition = _equipmentSlots[i].transform.GetComponent<RectTransform>().anchoredPosition;
-            }
+            itemSlotRectTransform.GetComponent<DragDrop>().currentSlot = _itemSlots[i];
+            itemSlotRectTransform.anchoredPosition = _itemSlots[i].transform.GetComponent<RectTransform>().anchoredPosition;
         }
     }
 }

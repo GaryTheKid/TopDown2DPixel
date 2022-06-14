@@ -189,9 +189,11 @@ public class Inventory
             if (itemList[i] == null)
             {
                 itemList[i] = item;
-                break;
+                return;
             }
         }
+
+        DebugGUI.debugGUI.ShowDebugTag("Inventory is full!", 5f);
     }
 
     private void Remove(Item item)
@@ -201,8 +203,25 @@ public class Inventory
             if (itemList[i] == item)
             {
                 itemList[i] = null;
-                break;
+                return;
             }
         }
+    }
+
+    // debug use
+    public void Debug_PrintItemCount()
+    {
+        int count = 0;
+        string allItems = "";
+        for (int i = 0; i < itemList.Count; i++)
+        {
+            if (itemList[i] != null)
+            {
+                count++;
+                allItems += i.ToString() + ":" + itemList[i].itemName + " ";
+            }
+        }
+
+        Debug.Log(allItems);
     }
 }
