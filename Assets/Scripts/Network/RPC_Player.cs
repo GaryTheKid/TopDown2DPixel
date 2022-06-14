@@ -78,6 +78,7 @@ public class RPC_Player : MonoBehaviour
         var dropDirV3 = Utilities.Math.DegreeToVector3(dropDirAngle);
         ItemWorld itemWorld = ItemWorld.SpawnItemWorld(dropPos + dropDirV3 * 1.2f, itemCopy, GameManager.gameManager.RequestNewItemWorldId(), durability, amount);
         itemWorld.GetComponent<Rigidbody2D>().AddForce(dropDirV3 * 1.5f, ForceMode2D.Impulse);
+        itemWorld.Expire(GameManager.gameManager.itemWorldLifeTime);
     }
 
     [PunRPC]
@@ -85,7 +86,7 @@ public class RPC_Player : MonoBehaviour
     {
         targets.Add(targetID);
     }
-
+    
     [PunRPC]
     void RPC_UnlockTarget(int targetID)
     {

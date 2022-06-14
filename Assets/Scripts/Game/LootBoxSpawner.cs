@@ -12,12 +12,12 @@ public class LootBoxSpawner : MonoBehaviour
         hasObstacle = true;
     }
 
-    public void SpawnLootBox(int whichArea)
+    public void SpawnLootBox(int whichArea, float lifeTime)
     {
-        StartCoroutine(Co_SpawnLootBox(whichArea));
+        StartCoroutine(Co_SpawnLootBox(whichArea, lifeTime));
     }
 
-    IEnumerator Co_SpawnLootBox(int whichArea)
+    IEnumerator Co_SpawnLootBox(int whichArea, float lifeTime)
     {
         // check if there is any obstacle
         var timer = 0f;

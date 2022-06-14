@@ -23,6 +23,7 @@ public class LootBoxWorld : MonoBehaviour
 
     public short lootBoxWorldID;
     private Animator animator;
+    private IEnumerator expire_Co;
 
     private void Awake()
     {
@@ -33,9 +34,9 @@ public class LootBoxWorld : MonoBehaviour
     {
         StartCoroutine(Co_OpenLootBox());
     }
-
     IEnumerator Co_OpenLootBox()
     {
+        StopCoroutine(expire_Co);
         animator.SetTrigger("Open");
         yield return new WaitForSecondsRealtime(0.8f);
         SpawnRandomItem();
@@ -52,6 +53,20 @@ public class LootBoxWorld : MonoBehaviour
             amount = (short)Random.Range(1, 5);
         }
         GameManager.gameManager.SpawnItem(transform.position, randItemID, amount);
+    }
+
+    public void Expire(float time)
+    {
+        expire_Co = Co_Expire(time);
+        StartCoroutine(expire_Co);
+    }
+    IEnumerator Co_Expire(float time)
+    {
+        yield return new WaitForSecondsRealtime(time);
+        foreach (Collider2D collider in GetComponents<Collider2D>()) Destroy(collider);
+        GameManager.gameManager.ReleaseLootBoxWorldId(lootBoxWorldID);
+        animator.SetTrigger("Expire");
+        expire_Co = null;
     }
 
     public void DestroySelf()

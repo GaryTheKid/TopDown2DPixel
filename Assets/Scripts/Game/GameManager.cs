@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public List<(SpawnArea, int, int)> lootBoxSpawnAreas;
     [Tooltip("This value determines how many objects can be instantiated within 1 spawn area. The larger the more.")]
     public int spawnDensity;
+    [Tooltip("This value determines how fast objects can be spawned (obj/sec).")]
+    public float spawnSpeed;
 
     // players
     public Player[] playerList;
@@ -35,11 +37,14 @@ public class GameManager : MonoBehaviourPunCallbacks
     // lootBoxes
     [Tooltip("How many loot boxes can exist in the world at the same time.")]
     public short maxLootBoxSpawnInWorld;
+    [Tooltip("How long can loot boxes exist.")]
+    public float lootBoxWorldLifeTime;
     public Stack<short> avaliableLootBoxWorldIds;
 
     // items
     [Tooltip("How many items can exist in the world at the same time.")]
     public short maxItemSpawnInWorld;
+    public float itemWorldLifeTime;
     public Stack<short> avaliableItemWorldIds;
 
     // parents
@@ -114,7 +119,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         // try spawn a loot box spawner
         Transform spawner = Instantiate(ItemAssets.itemAssets.pfLootBoxSpawner, spawnPoint, Quaternion.identity, spawnedLootBoxParent);
-        spawner.GetComponent<LootBoxSpawner>().SpawnLootBox(randIndex);
+        spawner.GetComponent<LootBoxSpawner>().SpawnLootBox(randIndex, lootBoxWorldLifeTime);
     }
 
     public void SpawnLootBoxRandomlyInArea(int whichArea)
@@ -128,7 +133,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         // try spawn a loot box spawner
         Transform spawner = Instantiate(ItemAssets.itemAssets.pfLootBoxSpawner, spawnPoint, Quaternion.identity, spawnedLootBoxParent);
-        spawner.GetComponent<LootBoxSpawner>().SpawnLootBox(whichArea);
+        spawner.GetComponent<LootBoxSpawner>().SpawnLootBox(whichArea, lootBoxWorldLifeTime);
     }
 
     public void SpawnItem(Vector3 pos, short itemId, short amount=1)

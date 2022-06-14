@@ -37,8 +37,15 @@ public class ItemWorld : MonoBehaviour
 
     public short itemWorldID;
     private Item item;
+    private IEnumerator expire_Co;
+    private Animator animator;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Text amountText;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     public void SetItem(Item item, short itemWorldID)
     {
@@ -58,6 +65,20 @@ public class ItemWorld : MonoBehaviour
     public Item GetItem()
     {
         return item;
+    }
+
+    public void Expire(float time)
+    {
+        expire_Co = Co_Expire(time);
+        StartCoroutine(expire_Co);
+    }
+    IEnumerator Co_Expire(float time)
+    {
+        yield return new WaitForSecondsRealtime(time);
+        foreach (Collider2D collider in GetComponents<Collider2D>()) Destroy(collider);
+        GameManager.gameManager.ReleaseLootBoxWorldId(itemWorldID);
+        animator.SetTrigger("Expire");
+        expire_Co = null;
     }
 
     public void DestroySelf()

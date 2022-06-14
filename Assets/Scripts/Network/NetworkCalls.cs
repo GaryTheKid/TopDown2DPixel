@@ -38,6 +38,14 @@ namespace NetworkCalls
                 PV.RPC("RPC_SpawnItems", RpcTarget.AllBuffered, pos, itemID, amount);
             }
         }
+
+        public static void DestroyLootBox(PhotonView PV, short lootBoxID)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PV.RPC("RPC_DestroyLootBox", RpcTarget.AllBuffered, lootBoxID);
+            }
+        }
     }
 
     public class Consumables
