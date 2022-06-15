@@ -12,7 +12,7 @@ public class SpawnArea : MonoBehaviour
     public int overrideSpawnDensity;
 
     // turn this off when build, only works on Editor
-    /*private void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         // draw area
         (Vector3 center, Vector3 size) = ConvertTwoVertsToCenterSize();
@@ -24,7 +24,7 @@ public class SpawnArea : MonoBehaviour
         // draw text
         Vector3 textCenter = new Vector3(center.x - 1.5f, center.y + 0.5f);
         Handles.Label(textCenter, "Spawn Area");
-    }*/
+    }
 
     public float GetAreaSize()
     {

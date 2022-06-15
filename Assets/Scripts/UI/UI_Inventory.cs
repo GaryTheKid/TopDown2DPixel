@@ -104,6 +104,12 @@ public class UI_Inventory : MonoBehaviour
             // set use item logic
             itemSlotRectTransform.GetComponent<Button_UI>().ClickFunc = () =>
             {
+                // use item unless it is a equipable one and not be in the equipment slot
+                if (i >= _equipmentSlotCount && item is IEquipable)
+                {
+                    return;
+                }
+
                 _inventory.UseItem(_PV, itemSlotRectTransform.GetComponent<DragDrop>().currentSlot.uiIndex);
             };
 
@@ -113,7 +119,7 @@ public class UI_Inventory : MonoBehaviour
                 _playerInventoryController.DropItem(itemSlotRectTransform.GetComponent<DragDrop>().currentSlot.uiIndex);
 
                 // if item is equipable, unequip it
-                if (item is IEquipable)
+                if (item is IEquipable && item.isEquipped)
                 {
                     item.Unequip(_PV);
                 }
@@ -126,7 +132,7 @@ public class UI_Inventory : MonoBehaviour
                 _inventory.SwapItems(currUIIndex, newUIIndex);
 
                 // if item is equipable, drag it from equipment slots will unequip it
-                if (item is IEquipable && newUIIndex >= _equipmentSlotCount)
+                if (item is IEquipable && newUIIndex >= _equipmentSlotCount && item.isEquipped)
                 {
                     item.Unequip(_PV);
                 }

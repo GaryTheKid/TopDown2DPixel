@@ -20,7 +20,6 @@ public struct DamageInfo
 public abstract class Weapon : Item, IEquipable
 {
     // universal
-    public bool isEquiped;
     public DamageInfo damageInfo;
     public float attackRange;
     public float attackSpeed;
@@ -45,11 +44,12 @@ public abstract class Weapon : Item, IEquipable
     }
     public override void Equip(PhotonView PV)
     {
-        isEquiped = true;
+        isEquipped = true;
         NetworkCalls.Weapon.EquipWeapon(PV, itemID);
     }
     public override void Unequip(PhotonView PV)
     {
+        isEquipped = false;
         NetworkCalls.Weapon.UnequipWeapon(PV);
     }
     public abstract Transform GetEquipmentPrefab();

@@ -12,6 +12,7 @@ public class Item
     public short amount;
     public short durability;
     public float useCD;
+    public bool isEquipped;
     public enum ItemType 
     {
         Null,
