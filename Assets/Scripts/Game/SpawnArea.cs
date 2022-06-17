@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using Utilities;
+
+# if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class SpawnArea : MonoBehaviour
 {
@@ -11,6 +14,7 @@ public class SpawnArea : MonoBehaviour
     [Tooltip("By default, if this value is 0. If not, it will override the game manager spawn density for this spawn area.")]
     public int overrideSpawnDensity;
 
+# if UNITY_EDITOR
     // turn this off when build, only works on Editor
     private void OnDrawGizmos()
     {
@@ -25,6 +29,7 @@ public class SpawnArea : MonoBehaviour
         Vector3 textCenter = new Vector3(center.x - 1.5f, center.y + 0.5f);
         Handles.Label(textCenter, "Spawn Area");
     }
+#endif
 
     public float GetAreaSize()
     {

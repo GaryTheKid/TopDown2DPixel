@@ -33,9 +33,9 @@ public class LootBoxSpawner : MonoBehaviour
         }
 
         // spawn Loot box
-        GameManager.gameManager.SpawnLootBox(transform.position);
+        GameManager.gameManager.SpawnLootBox(transform.position, whichArea);
 
-        // spawn area count + 1
+        // spawn area available count + 1
         var area = GameManager.gameManager.lootBoxSpawnAreas[whichArea];
         var updatedArea = (area.Item1, area.Item2, area.Item3 + 1);
         GameManager.gameManager.lootBoxSpawnAreas[whichArea] = updatedArea;

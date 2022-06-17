@@ -5,6 +5,8 @@ using Photon.Pun;
 
 public class ProjectileWorld : MonoBehaviour
 {
+    [SerializeField] private GameObject _hitFX;
+
     private Projectile _projectile;
     private PhotonView _PV;
     private float _dmgRatio = 1f;
@@ -18,7 +20,7 @@ public class ProjectileWorld : MonoBehaviour
             if (!_projectile.isSticky)
             {
                 StopAllCoroutines();
-                Destroy(gameObject);
+                _hitFX.SetActive(true);
             }
         }
     }
@@ -42,7 +44,7 @@ public class ProjectileWorld : MonoBehaviour
             else
             {
                 StopAllCoroutines();
-                Destroy(gameObject);
+                _hitFX.SetActive(true);
             }
         }
 

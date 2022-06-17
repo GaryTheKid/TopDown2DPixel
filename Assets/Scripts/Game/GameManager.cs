@@ -124,9 +124,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void SpawnLootBox(Vector3 pos)
+    public void SpawnLootBox(Vector3 pos, int whichArea)
     {
-        Game.SpawnLootBox(PV, pos);
+        Game.SpawnLootBox(PV, pos, whichArea);
     }
 
     public void SpawnLootBoxRandomly()

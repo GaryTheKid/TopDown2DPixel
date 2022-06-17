@@ -36,7 +36,8 @@ public class LootBoxWorld : MonoBehaviour
     }
     IEnumerator Co_OpenLootBox()
     {
-        StopCoroutine(expire_Co);
+        if (expire_Co != null)
+            StopCoroutine(expire_Co);
         animator.SetTrigger("Open");
         yield return new WaitForSecondsRealtime(0.8f);
         SpawnRandomItem();
@@ -55,17 +56,24 @@ public class LootBoxWorld : MonoBehaviour
         GameManager.gameManager.SpawnItem(transform.position, randItemID, amount);
     }
 
-    public void Expire(float time)
+    public void Expire(float time, int whichArea)
     {
-        expire_Co = Co_Expire(time);
+        expire_Co = Co_Expire(time, whichArea);
         StartCoroutine(expire_Co);
     }
-    IEnumerator Co_Expire(float time)
+    IEnumerator Co_Expire(float time, int whichArea)
     {
         yield return new WaitForSecondsRealtime(time);
         foreach (Collider2D collider in GetComponents<Collider2D>()) Destroy(collider);
         GameManager.gameManager.ReleaseLootBoxWorldId(lootBoxWorldID);
         animator.SetTrigger("Expire");
+
+        // release area available count
+        var area = GameManager.gameManager.lootBoxSpawnAreas[whichArea];
+        var updatedArea = (area.Item1, area.Item2, area.Item3 - 1);
+        GameManager.gameManager.lootBoxSpawnAreas[whichArea] = updatedArea;
+
+        // clear
         expire_Co = null;
     }
 

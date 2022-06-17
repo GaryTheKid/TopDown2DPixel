@@ -15,11 +15,11 @@ namespace NetworkCalls
 {
     public class Game
     {
-        public static void SpawnLootBox(PhotonView PV, Vector3 pos)
+        public static void SpawnLootBox(PhotonView PV, Vector3 pos, int whichArea)
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                PV.RPC("RPC_SpawnLootBox", RpcTarget.AllBuffered, pos);
+                PV.RPC("RPC_SpawnLootBox", RpcTarget.AllBuffered, pos, whichArea);
             }
         }
 

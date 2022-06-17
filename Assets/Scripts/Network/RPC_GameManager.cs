@@ -13,13 +13,13 @@ using Photon.Pun;
 public class RPC_GameManager : MonoBehaviour
 {
     [PunRPC]
-    void RPC_SpawnLootBox(Vector3 pos)
+    void RPC_SpawnLootBox(Vector3 pos, int whichArea)
     {
         short requestedID = GameManager.gameManager.RequestNewLootBoxWorldId();
         if (requestedID != -1)
         {
             var lootBoxWorld = LootBoxWorld.SpawnLootBoxWorld(pos, requestedID);
-            lootBoxWorld.Expire(GameManager.gameManager.lootBoxWorldLifeTime);
+            lootBoxWorld.Expire(GameManager.gameManager.lootBoxWorldLifeTime, whichArea);
         }
         else
             DebugGUI.debugGUI.ShowDebugTag("Loot box number in world has reached MAX!", 5f);

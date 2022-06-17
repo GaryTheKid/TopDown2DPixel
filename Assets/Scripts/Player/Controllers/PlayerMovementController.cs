@@ -65,15 +65,18 @@ public class PlayerMovementController : MonoBehaviour
         if (isIdle)
         {
             // Idle
-            _animator.SetBool("isMoving", false);
+            if (_animator.GetBool("isMoving"))
+                _animator.SetBool("isMoving", false);
         }
         else
         {
             // is moving
             _rb.AddForce(_moveDir * _playerStatsController.GetCurrentSpeed());
-            _animator.SetFloat("xMovement", _moveDir.x);
-            _animator.SetFloat("yMovement", _moveDir.y);
-            _animator.SetBool("isMoving", true);
+            if (!_animator.GetBool("isMoving"))
+            {
+                _animator.SetBool("isMoving", true);
+            }
+            _animator.SetFloat("moveX", _moveDir.x);
         }
 
         /*if (isDashing)
