@@ -77,6 +77,10 @@ MonoBehaviour:
   - RPC_UseSpeedPotion
   - RPC_UseInvinciblePotion
   - RPC_DestroyLootBox
+  - RPC_AddToScoreboard
+  - RPC_RemoveScoreboardTag
+  - RPC_SpawnScoreboardTag
+  - RPC_UpdatePlayerInfo
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

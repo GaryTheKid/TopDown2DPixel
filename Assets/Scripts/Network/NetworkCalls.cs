@@ -15,6 +15,11 @@ namespace NetworkCalls
 {
     public class Game
     {
+        public static void UpdatePlayerInfo(PhotonView PV, int viewID, string name)
+        {
+            PV.RPC("RPC_UpdatePlayerInfo", RpcTarget.AllBuffered, viewID, name);
+        }
+
         public static void SpawnLootBox(PhotonView PV, Vector2 pos, int whichArea)
         {
             if (PhotonNetwork.IsMasterClient)
@@ -112,6 +117,22 @@ namespace NetworkCalls
 
     public class Character
     {
+        public static void SpawnScoreboardTag(PhotonView PV, string playerID)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_SpawnScoreboardTag", RpcTarget.AllBuffered, playerID);
+            }
+        }
+
+        public static void RemoveScoreboardTag(PhotonView PV, string playerID)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_RemoveScoreboardTag", RpcTarget.AllBuffered, playerID);
+            }
+        }
+
         public static void LockTarget(PhotonView PV, int targetID)
         {
             if (PV.IsMine)

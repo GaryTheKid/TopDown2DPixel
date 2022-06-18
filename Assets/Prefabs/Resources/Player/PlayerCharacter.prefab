@@ -2735,6 +2735,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26c4672ad9e7a654fbaa0f3e4b326b74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerID: 
+  scoreboardTag: {fileID: 0}
   _PV: {fileID: 8110680880012028758}
   _movementController: {fileID: 1431877813}
   _playerWeaponController: {fileID: 622847712}

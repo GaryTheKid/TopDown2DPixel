@@ -19,6 +19,7 @@ public class RPC_Player : MonoBehaviour
     private PlayerInventoryController _playerInventoryController;
     private PlayerBuffController _playerBuffController;
     private PlayerStatsController _playerStatsController;
+    private PlayerNetworkController _playerNetworkController;
     private HashSet<int> targets;
 
     private void Awake()
@@ -27,11 +28,24 @@ public class RPC_Player : MonoBehaviour
         _playerInventoryController = GetComponent<PlayerInventoryController>();
         _playerBuffController = GetComponent<PlayerBuffController>();
         _playerStatsController = GetComponent<PlayerStatsController>();
+        _playerNetworkController = GetComponent<PlayerNetworkController>();
     }
 
     private void Start()
     {
         targets = GetComponent<TargetList>().targets;
+    }
+
+    [PunRPC]
+    void RPC_SpawnScoreboardTag(string playerID)
+    {
+        GameManager.gameManager.SpawnScoreboardTag(playerID);
+    }
+
+    [PunRPC]
+    void RPC_RemoveScoreboardTag(string playerID)
+    {
+        GameManager.gameManager.DestroyScoreBoardTag(playerID);
     }
 
     [PunRPC] 
@@ -101,6 +115,10 @@ public class RPC_Player : MonoBehaviour
         foreach (int id in targets)
         {
             PhotonView.Find(id).transform.GetComponent<PlayerBuffController>().ReceiveDamage(info, transform.position);
+
+            // add score
+            _playerStatsController.UpdateScore((int)info.damageAmount);
+            GameManager.gameManager.AddScoreUI(_playerNetworkController.playerID, (int)info.damageAmount);
         }
     }
 
@@ -110,6 +128,10 @@ public class RPC_Player : MonoBehaviour
         DamageInfo info = _playerWeaponController.weapon.projectile.damageInfo;
         info.damageAmount *= dmgRatio;
         PhotonView.Find(targetID).transform.GetComponent<PlayerBuffController>().ReceiveDamage(info, transform.position);
+
+        // add score
+        _playerStatsController.UpdateScore((int)info.damageAmount);
+        GameManager.gameManager.AddScoreUI(_playerNetworkController.playerID, (int)info.damageAmount);
     }
 
     [PunRPC]

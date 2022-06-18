@@ -13,6 +13,16 @@ using Photon.Pun;
 public class RPC_GameManager : MonoBehaviour
 {
     [PunRPC]
+    void RPC_UpdatePlayerInfo(int viewID, string name)
+    {
+        Transform player = PhotonView.Find(viewID).transform;
+        player.name = name;
+        player.transform.parent = GameManager.gameManager.spawnedPlayerParent;
+        player.GetComponent<PlayerNetworkController>().playerID = name;
+        player.GetComponent<PlayerNetworkController>().scoreboardTag = GameManager.gameManager.SpawnScoreboardTag(name);
+    }
+
+    [PunRPC]
     void RPC_SpawnLootBox(Vector2 pos, int whichArea)
     {
         short requestedID = GameManager.gameManager.RequestNewLootBoxWorldId();

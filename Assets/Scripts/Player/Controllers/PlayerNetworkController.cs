@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
-public class PlayerNetworkController : MonoBehaviour
+public class PlayerNetworkController : MonoBehaviourPunCallbacks
 {
+    public string playerID;
+    public ScoreboardTag scoreboardTag;
+
     [SerializeField] private PhotonView _PV;
     [SerializeField] private PlayerMovementController _movementController;
     [SerializeField] private PlayerWeaponController _playerWeaponController;
@@ -33,5 +37,10 @@ public class PlayerNetworkController : MonoBehaviour
             _HitBox.tag = "Untagged";
             //characterSprite.color = Color.green;
         }
+    }
+
+    public void UpdatePlayerInfo()
+    {
+
     }
 }

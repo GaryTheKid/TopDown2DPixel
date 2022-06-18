@@ -8,6 +8,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 using NetworkCalls;
@@ -22,6 +23,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     // PV
     public PhotonView PV;
 
+    // connection info
+    public Text ping;
+
     // spawns
     public List<Transform> playerSpawns;
     public List<Transform> itemSpawns;
@@ -35,6 +39,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     // players
     public Player[] playerList;
+
+    // scoreboard
+    public RectTransform scoreboardTemplate;
 
     // lootBoxes
     [Tooltip("How many loot boxes can exist in the world at the same time.")]
@@ -55,6 +62,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Transform spawnedLootBoxParent;
     public Transform spawnedItemParent;
     public Transform spawnedProjectileParent;
+    public Transform scoreboardParent;
 
     // timer
     public float timer;
@@ -71,25 +79,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void Start()
     {
         SpawnPlayerCharacter();
-        /*if (PhotonNetwork.IsMasterClient)
-        {
-            SpawnLootBoxRandomly();
-            SpawnLootBoxRandomly();
-            SpawnLootBoxRandomly();
-            SpawnLootBoxRandomly();
-            SpawnLootBoxRandomly();
-            SpawnLootBoxRandomly();
-            SpawnLootBoxRandomly();
-            SpawnLootBoxRandomly();
-            SpawnLootBoxRandomly();
-            SpawnLootBoxRandomly();
-            SpawnLootBoxRandomly();
-            SpawnLootBoxRandomly();
-            SpawnLootBoxRandomly();
-            SpawnLootBoxRandomly();
-            SpawnLootBoxRandomly();
-            SpawnLootBoxRandomly();
-        }*/
     }
 
     private void FixedUpdate()
@@ -110,6 +99,9 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             spawnTimer = 0f;
         }
+
+        // show pin
+        ping.text = PhotonNetwork.GetPing().ToString() + "ms";
     }
 
     private void SpawnPlayerCharacter()
@@ -119,7 +111,64 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (playerList[i].IsLocal)
             {
                 var player = PhotonNetwork.Instantiate("Player/PlayerCharacter", playerSpawns[i].position, playerSpawns[i].rotation);
+                UpdatePlayerID(player.GetComponent<PhotonView>().ViewID, playerList[i].NickName);
+
+                /*player.name = playerList[i].NickName;
                 player.transform.parent = spawnedPlayerParent;
+                player.GetComponent<PlayerNetworkController>().playerID = playerList[i].NickName;
+
+                // spawn scoreboard tag
+                player.GetComponent<PlayerNetworkController>().scoreboardTag = SpawnScoreboardTag(playerList[i].NickName);*/
+            }
+            /*else
+            {
+                // spawn tag for all the other players
+                SpawnScoreboardTag(playerList[i].NickName);
+            }*/
+        }
+    }
+
+    public void UpdatePlayerID(int viewID, string name)
+    {
+        Game.UpdatePlayerInfo(PV, viewID, name);
+    }
+
+    public void AddScoreUI(string playerID, int score)
+    {
+        GetPlayerScoreboardTag(playerID).AddScore(score);
+    }
+
+    public ScoreboardTag GetPlayerScoreboardTag(string playerID)
+    {
+        foreach (Transform tag in scoreboardParent)
+        {
+            var sTag = tag.GetComponent<ScoreboardTag>();
+            if (sTag.GetID() == playerID)
+            {
+                return sTag;
+            }
+        }
+
+        return null;
+    }
+
+    public ScoreboardTag SpawnScoreboardTag(string playerID)
+    {
+        RectTransform tag = Instantiate(scoreboardTemplate, scoreboardParent);
+        tag.gameObject.SetActive(true);
+        ScoreboardTag scoreboardTag = tag.GetComponent<ScoreboardTag>();
+        scoreboardTag.SetID(playerID);
+        return scoreboardTag;
+    }
+
+    public void DestroyScoreBoardTag(string playerID)
+    {
+        foreach (Transform tag in scoreboardParent)
+        {
+            if (tag.GetComponent<ScoreboardTag>().GetID() == playerID)
+            {
+                Destroy(tag.gameObject);
+                break;
             }
         }
     }
@@ -275,11 +324,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         UpdateRoomPlayerList();
+        SpawnScoreboardTag(newPlayer.NickName);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         UpdateRoomPlayerList();
+        DestroyScoreBoardTag(otherPlayer.NickName);
     }
     #endregion
 }
