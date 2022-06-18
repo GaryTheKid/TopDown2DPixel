@@ -71,7 +71,7 @@ public class PlayerInventoryController : MonoBehaviour
         }
     }
 
-    public Vector3 GetAnchorPos()
+    public Vector2 GetAnchorPos()
     {
         return _playerAnchorPos.position;
     }

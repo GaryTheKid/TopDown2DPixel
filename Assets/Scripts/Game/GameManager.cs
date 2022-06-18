@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void SpawnLootBox(Vector3 pos, int whichArea)
+    public void SpawnLootBox(Vector2 pos, int whichArea)
     {
         Game.SpawnLootBox(PV, pos, whichArea);
     }
@@ -161,7 +161,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         spawner.GetComponent<LootBoxSpawner>().SpawnLootBox(whichArea, lootBoxWorldLifeTime);
     }
 
-    public void SpawnItem(Vector3 pos, short itemId, short amount=1)
+    public void SpawnItem(Vector2 pos, short itemId, short amount=1)
     {
         if (amount > 1)
             Game.SpawnItems(PV, pos, itemId, amount);

@@ -15,7 +15,7 @@ namespace NetworkCalls
 {
     public class Game
     {
-        public static void SpawnLootBox(PhotonView PV, Vector3 pos, int whichArea)
+        public static void SpawnLootBox(PhotonView PV, Vector2 pos, int whichArea)
         {
             if (PhotonNetwork.IsMasterClient)
             {
@@ -23,7 +23,7 @@ namespace NetworkCalls
             }
         }
 
-        public static void SpawnItem(PhotonView PV, Vector3 pos, short itemID)
+        public static void SpawnItem(PhotonView PV, Vector2 pos, short itemID)
         {
             if (PhotonNetwork.IsMasterClient)
             {
@@ -31,7 +31,7 @@ namespace NetworkCalls
             }
         }
 
-        public static void SpawnItems(PhotonView PV, Vector3 pos, short itemID, short amount)
+        public static void SpawnItems(PhotonView PV, Vector2 pos, short itemID, short amount)
         {
             if (PhotonNetwork.IsMasterClient)
             {
@@ -160,19 +160,19 @@ namespace NetworkCalls
             }
         }
 
-        public static void FireProjectile(PhotonView PV)
+        public static void FireProjectile(PhotonView PV, Vector2 firePos, float fireDirDeg)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_FireProjectile", RpcTarget.All);
+                PV.RPC("RPC_FireProjectile", RpcTarget.All, firePos, fireDirDeg);
             }
         }
 
-        public static void FireChargedProjectile(PhotonView PV)
+        public static void FireChargedProjectile(PhotonView PV, Vector2 firePos, float fireDirDeg)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_FireChargedProjectile", RpcTarget.All);
+                PV.RPC("RPC_FireChargedProjectile", RpcTarget.All, firePos, fireDirDeg);
             }
         }
 
@@ -208,7 +208,7 @@ namespace NetworkCalls
             }
         }
 
-        public static void DropItem(PhotonView PV, short itemID, short amount, short durability, Vector3 dropPos, float dropDirAngle)
+        public static void DropItem(PhotonView PV, short itemID, short amount, short durability, Vector2 dropPos, float dropDirAngle)
         {
             if (PV.IsMine)
             {

@@ -68,16 +68,16 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_DropItem(short itemID, short amount, short durability, Vector3 dropPos, float dropDirAngle)
+    void RPC_DropItem(short itemID, short amount, short durability, Vector2 dropPos, float dropDirAngle)
     {
         // get item 
         Item item = ItemAssets.itemAssets.itemDic[itemID];
         Item itemCopy = (Item)Common.GetObjectCopyFromInstance(item);
 
         // drop item to the world
-        var dropDirV3 = Utilities.Math.DegreeToVector3(dropDirAngle);
-        ItemWorld itemWorld = ItemWorld.SpawnItemWorld(dropPos + dropDirV3 * 1.2f, itemCopy, GameManager.gameManager.RequestNewItemWorldId(), durability, amount);
-        itemWorld.GetComponent<Rigidbody2D>().AddForce(dropDirV3 * 1.5f, ForceMode2D.Impulse);
+        var dropDirV2 = Utilities.Math.DegreeToVector2(dropDirAngle);
+        ItemWorld itemWorld = ItemWorld.SpawnItemWorld(dropPos + dropDirV2 * 1.2f, itemCopy, GameManager.gameManager.RequestNewItemWorldId(), durability, amount);
+        itemWorld.GetComponent<Rigidbody2D>().AddForce(dropDirV2 * 1.5f, ForceMode2D.Impulse);
         itemWorld.Expire(GameManager.gameManager.itemWorldLifeTime);
     }
 
@@ -158,7 +158,7 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_FireProjectile()
+    void RPC_FireProjectile(Vector2 firePos, float fireDirDeg)
     {
         // reset charge and play attack animation
         _playerWeaponController.weaponAnimator.SetTrigger("Attack");
@@ -167,9 +167,12 @@ public class RPC_Player : MonoBehaviour
         var projectile = _playerWeaponController.weapon.projectile;
 
         // instantiate and fire (add force)
-        var projectilePf = Instantiate(projectile.GetProjectilePrefab(), _playerWeaponController.fireTransform);
+        var dir = Utilities.Math.DegreeToVector2(fireDirDeg);
+        var projectilePf = Instantiate(projectile.GetProjectilePrefab(), firePos, Quaternion.identity);
+        projectilePf.eulerAngles = new Vector3(0f, 0f, fireDirDeg);
+
         projectilePf.parent = GameManager.gameManager.spawnedProjectileParent;
-        projectilePf.GetComponent<Rigidbody2D>().AddForce(Utilities.Math.DegreeToVector2(_playerWeaponController.aimTransform.eulerAngles.z) * projectile.speed, ForceMode2D.Impulse);
+        projectilePf.GetComponent<Rigidbody2D>().AddForce(dir * projectile.speed, ForceMode2D.Impulse);
 
         // set projectile world script
         var projectileWorld = projectilePf.GetComponent<ProjectileWorld>();
@@ -179,7 +182,7 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_FireChargedProjectile()
+    void RPC_FireChargedProjectile(Vector2 firePos, float fireDirDeg)
     {
         // reset charge and play attack animation
         _playerWeaponController.weaponAnimator.SetTrigger("Attack");
@@ -193,9 +196,12 @@ public class RPC_Player : MonoBehaviour
         if (chargeTier > 0)
         {
             // instantiate and fire (add force)
-            var projectilePf = Instantiate(projectile.GetProjectilePrefab(), _playerWeaponController.aimTransform);
+            var dir = Utilities.Math.DegreeToVector2(fireDirDeg);
+            var projectilePf = Instantiate(projectile.GetProjectilePrefab(), firePos, Quaternion.identity);
+            projectilePf.eulerAngles = new Vector3(0f, 0f, fireDirDeg);
+
             projectilePf.parent = GameManager.gameManager.spawnedProjectileParent;
-            projectilePf.GetComponent<Rigidbody2D>().AddForce(Utilities.Math.DegreeToVector2(_playerWeaponController.aimTransform.eulerAngles.z) * projectile.speed * chargeTier, ForceMode2D.Impulse);
+            projectilePf.GetComponent<Rigidbody2D>().AddForce(dir * projectile.speed * chargeTier, ForceMode2D.Impulse);
 
             // set projectile world script
             var projectileWorld = projectilePf.GetComponent<ProjectileWorld>();

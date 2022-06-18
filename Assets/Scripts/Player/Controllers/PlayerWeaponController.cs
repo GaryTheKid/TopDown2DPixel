@@ -18,6 +18,7 @@ public class PlayerWeaponController : MonoBehaviour
     public Animator weaponAnimator;
     public Transform weaponPrefab;
     public Transform bareHandsPrefab;
+    public Transform anchorPos;
     public Transform aimTransform;
     public Transform fireTransform;
     public Transform spreadTransform;
@@ -223,14 +224,23 @@ public class PlayerWeaponController : MonoBehaviour
         }
     }
 
-    // Coroutine: Weapon attack
+    // Coroutine: Weapon attack, melee
     private IEnumerator Co_Attack()
     {
         // lock aim
         //_playerStats.isWeaponLocked = true;
 
         // attack
-        weapon.Attack(_PV);
+        switch (weaponType)
+        {
+            case Item.ItemType.MeleeWeapon:
+                weapon.Attack(_PV);
+                break;
+            case Item.ItemType.RangedWeapon:
+            case Item.ItemType.ChargableRangedWeapon:
+                weapon.Attack(_PV, fireTransform.position, spreadTransform.eulerAngles.z);
+                break;
+        }
 
         // spread
         if (weapon.accuracy < 1f)

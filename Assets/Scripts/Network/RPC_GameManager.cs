@@ -13,7 +13,7 @@ using Photon.Pun;
 public class RPC_GameManager : MonoBehaviour
 {
     [PunRPC]
-    void RPC_SpawnLootBox(Vector3 pos, int whichArea)
+    void RPC_SpawnLootBox(Vector2 pos, int whichArea)
     {
         short requestedID = GameManager.gameManager.RequestNewLootBoxWorldId();
         if (requestedID != -1)
@@ -26,7 +26,7 @@ public class RPC_GameManager : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_SpawnItem(Vector3 pos, short itemID)
+    void RPC_SpawnItem(Vector2 pos, short itemID)
     {
         short requestedID = GameManager.gameManager.RequestNewItemWorldId();
         if (requestedID != -1)
@@ -39,7 +39,7 @@ public class RPC_GameManager : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_SpawnItems(Vector3 pos, short itemID, short amount)
+    void RPC_SpawnItems(Vector2 pos, short itemID, short amount)
     {
         short requestedID = GameManager.gameManager.RequestNewItemWorldId();
         if (requestedID != -1)

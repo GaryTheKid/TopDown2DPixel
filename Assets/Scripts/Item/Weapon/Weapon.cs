@@ -37,6 +37,7 @@ public abstract class Weapon : Item, IEquipable
     public int maxChargeTier;
 
     public virtual void Attack(PhotonView PV) { }
+    public virtual void Attack(PhotonView PV, Vector2 firePos, float fireDirDeg) { }
     public virtual void Charge(PhotonView PV) { }
     public override void UseItem(PhotonView PV)
     {
