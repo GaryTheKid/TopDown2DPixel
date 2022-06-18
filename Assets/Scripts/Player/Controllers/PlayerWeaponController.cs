@@ -18,7 +18,6 @@ public class PlayerWeaponController : MonoBehaviour
     public Animator weaponAnimator;
     public Transform weaponPrefab;
     public Transform bareHandsPrefab;
-    public Transform anchorPos;
     public Transform aimTransform;
     public Transform fireTransform;
     public Transform spreadTransform;

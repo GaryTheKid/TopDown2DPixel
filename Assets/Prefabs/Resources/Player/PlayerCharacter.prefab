@@ -1301,6 +1301,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: isMoving
+  - Type: 1
+    SynchronizeType: 1
+    Name: moveX
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
@@ -2788,7 +2791,6 @@ MonoBehaviour:
   weaponAnimator: {fileID: 0}
   weaponPrefab: {fileID: 0}
   bareHandsPrefab: {fileID: 3956420514886698360}
-  anchorPos: {fileID: 0}
   aimTransform: {fileID: 2673528730404542884}
   fireTransform: {fileID: 0}
   spreadTransform: {fileID: 2275027556518752750}
