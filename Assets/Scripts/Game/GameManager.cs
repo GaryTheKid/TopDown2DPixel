@@ -155,6 +155,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public ScoreboardTag SpawnScoreboardTag(string playerID)
     {
         RectTransform tag = Instantiate(scoreboardTemplate, scoreboardParent);
+        tag.name = playerID;
         tag.gameObject.SetActive(true);
         ScoreboardTag scoreboardTag = tag.GetComponent<ScoreboardTag>();
         scoreboardTag.SetID(playerID);

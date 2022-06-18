@@ -26,7 +26,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.SendRate = GameSettings.gameSettings.sendRate;
         PhotonNetwork.SerializationRate = GameSettings.gameSettings.serializationRate;
         PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.NickName = GameSettings.gameSettings.playerName + "#" + Random.Range(0, 10000);
+        if (GameSettings.gameSettings.playerName == "")
+            PhotonNetwork.NickName = "Player#" + Random.Range(0, 10000);
+        else
+            PhotonNetwork.NickName = GameSettings.gameSettings.playerName + "#" + Random.Range(0, 10000);
         _playerNameText.text = PhotonNetwork.NickName;
         PhotonNetwork.ConnectUsingSettings();
     }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameSettings : MonoBehaviour
 {
@@ -12,8 +13,15 @@ public class GameSettings : MonoBehaviour
     public int sendRate;
     public int serializationRate;
 
+    [SerializeField] private Text nameTextUI;
+
     private void Awake()
     {
         gameSettings = this;
+    }
+
+    public void SetPlayerName()
+    {
+        playerName = nameTextUI.text;
     }
 }
