@@ -12,16 +12,18 @@ using UnityEngine;
 
 public class LootBoxWorld : MonoBehaviour
 {
-    public static LootBoxWorld SpawnLootBoxWorld(Vector3 postion, short lootBoxWorldID)
+    public static LootBoxWorld SpawnLootBoxWorld(Vector3 postion, short lootBoxWorldID, int areaIndex)
     {
         Transform transform = Instantiate(ItemAssets.itemAssets.pfLootBoxWorld, postion, Quaternion.identity, GameManager.gameManager.spawnedLootBoxParent);
         transform.name = "L" + lootBoxWorldID.ToString();
         LootBoxWorld lootBoxWorld = transform.GetComponent<LootBoxWorld>();
         lootBoxWorld.lootBoxWorldID = lootBoxWorldID;
+        lootBoxWorld.areaIndex = areaIndex;
         return lootBoxWorld;
     }
 
     public short lootBoxWorldID;
+    public int areaIndex;
     private Animator animator;
     private IEnumerator expire_Co;
 
@@ -42,6 +44,12 @@ public class LootBoxWorld : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.8f);
         SpawnRandomItem();
         GameManager.gameManager.ReleaseLootBoxWorldId(lootBoxWorldID);
+
+        // release area available count
+        var area = GameManager.gameManager.lootBoxSpawnAreas[areaIndex];
+        var updatedArea = (area.Item1, area.Item2, area.Item3 - 1);
+        GameManager.gameManager.lootBoxSpawnAreas[areaIndex] = updatedArea;
+
         Destroy(gameObject);
     }
 

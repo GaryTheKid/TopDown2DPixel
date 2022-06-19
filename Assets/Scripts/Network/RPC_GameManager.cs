@@ -28,7 +28,7 @@ public class RPC_GameManager : MonoBehaviour
         short requestedID = GameManager.gameManager.RequestNewLootBoxWorldId();
         if (requestedID != -1)
         {
-            var lootBoxWorld = LootBoxWorld.SpawnLootBoxWorld(pos, requestedID);
+            var lootBoxWorld = LootBoxWorld.SpawnLootBoxWorld(pos, requestedID, whichArea);
             lootBoxWorld.Expire(GameManager.gameManager.lootBoxWorldLifeTime, whichArea);
         }
         else
