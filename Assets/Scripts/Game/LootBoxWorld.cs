@@ -47,7 +47,7 @@ public class LootBoxWorld : MonoBehaviour
 
     public void SpawnRandomItem()
     {
-        short randItemID = (short)Random.Range(1, ItemAssets.itemAssets.itemDic.Count);
+        short randItemID = (short)Random.Range(1, ItemAssets.itemAssets.itemDic.Count + 1);
         short amount = 1;
         if (ItemAssets.itemAssets.itemDic[randItemID].itemType == Item.ItemType.Consumable)
         {

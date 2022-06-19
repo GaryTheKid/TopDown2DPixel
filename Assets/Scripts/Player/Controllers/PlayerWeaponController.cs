@@ -253,6 +253,10 @@ public class PlayerWeaponController : MonoBehaviour
         // recoil force
         _rb.AddForce(-Math.DegreeToVector2(aimTransform.eulerAngles.z) * weapon.recoilForce, ForceMode2D.Impulse);
 
+
+        // TODO: not attack speed, but recover time
+
+
         // wait cd
         yield return new WaitForSecondsRealtime(1f / weapon.attackSpeed);
 
