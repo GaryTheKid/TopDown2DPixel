@@ -46,12 +46,12 @@ public abstract class Weapon : Item, IEquipable
     public override void Equip(PhotonView PV)
     {
         isEquipped = true;
-        NetworkCalls.Weapon.EquipWeapon(PV, itemID);
+        NetworkCalls.Weapon_Network.EquipWeapon(PV, itemID);
     }
     public override void Unequip(PhotonView PV)
     {
         isEquipped = false;
-        NetworkCalls.Weapon.UnequipWeapon(PV);
+        NetworkCalls.Weapon_Network.UnequipWeapon(PV);
     }
     public abstract Transform GetEquipmentPrefab();
     public override bool IsStackable()

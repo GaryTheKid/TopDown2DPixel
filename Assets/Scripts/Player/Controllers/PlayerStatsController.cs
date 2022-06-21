@@ -93,12 +93,12 @@ public class PlayerStatsController : MonoBehaviour
     // death coroutine
     public void Die()
     {
-        NetworkCalls.Character.Die(_PV);
+        NetworkCalls.Player_NetWork.Die(_PV);
     }
 
     // respawn
     public void Respawn()
     {
-        NetworkCalls.Character.Respawn(_PV);
+        NetworkCalls.Player_NetWork.Respawn(_PV);
     }
 }

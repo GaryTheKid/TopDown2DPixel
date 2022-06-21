@@ -32,7 +32,7 @@ public class SpeedPotion : Consumables
     {
         Debug.Log("Use speed potion, " + "boost: 20, time: 6s");
         // TODO: healing effect
-        NetworkCalls.Consumables.UseSpeedPotion(PV, boostAmount, effectTime);
+        NetworkCalls.Consumables_NetWork.UseSpeedPotion(PV, boostAmount, effectTime);
 
         if (amount - 1 >= 0)
         {

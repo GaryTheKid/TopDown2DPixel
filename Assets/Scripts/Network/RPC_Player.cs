@@ -16,7 +16,6 @@ using Utilities;
 public class RPC_Player : MonoBehaviour
 {
     private PlayerWeaponController _playerWeaponController;
-    private PlayerInventoryController _playerInventoryController;
     private PlayerBuffController _playerBuffController;
     private PlayerStatsController _playerStatsController;
     private PlayerNetworkController _playerNetworkController;
@@ -25,7 +24,6 @@ public class RPC_Player : MonoBehaviour
     private void Awake()
     {
         _playerWeaponController = GetComponent<PlayerWeaponController>();
-        _playerInventoryController = GetComponent<PlayerInventoryController>();
         _playerBuffController = GetComponent<PlayerBuffController>();
         _playerStatsController = GetComponent<PlayerStatsController>();
         _playerNetworkController = GetComponent<PlayerNetworkController>();
@@ -65,34 +63,9 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_OpenLootBox(short lootBoxWorldID)
+    void RPC_DropItem(Vector2 pos, short itemID, short amount, short durability)
     {
-        LootBoxWorld lootBox = GameObject.Find("L" + lootBoxWorldID.ToString()).GetComponent<LootBoxWorld>();
-        lootBox.OpenLootBox();
-    }
-
-    [PunRPC]
-    void RPC_PickItem(short itemWorldID)
-    {
-        // destroy item world
-        Destroy(GameObject.Find(itemWorldID.ToString()));
-
-        // release the item world id
-        GameManager.gameManager.ReleaseItemWorldId(itemWorldID);
-    }
-
-    [PunRPC]
-    void RPC_DropItem(short itemID, short amount, short durability, Vector2 dropPos, float dropDirAngle)
-    {
-        // get item 
-        Item item = ItemAssets.itemAssets.itemDic[itemID];
-        Item itemCopy = (Item)Common.GetObjectCopyFromInstance(item);
-
-        // drop item to the world
-        var dropDirV2 = Utilities.Math.DegreeToVector2(dropDirAngle);
-        ItemWorld itemWorld = ItemWorld.SpawnItemWorld(dropPos + dropDirV2 * 1.2f, itemCopy, GameManager.gameManager.RequestNewItemWorldId(), durability, amount);
-        itemWorld.GetComponent<Rigidbody2D>().AddForce(dropDirV2 * 1.5f, ForceMode2D.Impulse);
-        itemWorld.Expire(GameManager.gameManager.itemWorldLifeTime);
+        GameManager.gameManager.DropItem(pos, itemID, amount, durability);
     }
 
     [PunRPC]

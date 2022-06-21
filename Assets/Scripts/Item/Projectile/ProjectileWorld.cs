@@ -34,7 +34,7 @@ public class ProjectileWorld : MonoBehaviour
             RemovePhysics();
 
             // deal dmg
-            NetworkCalls.Character.DealProjectileDamage(_PV, target.transform.parent.GetComponent<PhotonView>().ViewID, _dmgRatio);
+            NetworkCalls.Player_NetWork.DealProjectileDamage(_PV, target.transform.parent.GetComponent<PhotonView>().ViewID, _dmgRatio);
 
             // check if stick to the target
             if (_projectile.isSticky)

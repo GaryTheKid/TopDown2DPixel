@@ -8,13 +8,15 @@
  */
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
-using Utilities;
+using Photon.Pun;
+using NetworkCalls;
 
 public class ItemWorld : MonoBehaviour
 {
-    public static ItemWorld SpawnItemWorld(Vector3 postion, Item item, short itemWorldID, short amount = 1)
+    /*public static ItemWorld SpawnItemWorld(Vector3 postion, Item item, short itemWorldID, short amount = 1)
     {
         Transform transform = Instantiate(ItemAssets.itemAssets.pfItemWorld, postion, Quaternion.identity, GameManager.gameManager.spawnedItemParent);
         transform.name = itemWorldID.ToString();
@@ -22,67 +24,92 @@ public class ItemWorld : MonoBehaviour
         item.amount = amount;
         itemWorld.SetItem(item, itemWorldID);
         return itemWorld;
-    }
+    }*/
 
-    public static ItemWorld SpawnItemWorld(Vector3 postion, Item item, short itemWorldID, short durability, short amount = 1)
-    {
-        Transform transform = Instantiate(ItemAssets.itemAssets.pfItemWorld, postion, Quaternion.identity, GameManager.gameManager.spawnedItemParent);
-        transform.name = itemWorldID.ToString();
-        ItemWorld itemWorld = transform.GetComponent<ItemWorld>();
-        item.amount = amount;
-        item.durability = durability;
-        itemWorld.SetItem(item, itemWorldID);
-        return itemWorld;
-    }
+    public SpriteRenderer spriteRenderer;
+    public Text amountText;
+    public Text interactionText;
 
-    public short itemWorldID;
-    private Item item;
-    private IEnumerator expire_Co;
-    private Animator animator;
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Text amountText;
+    public PhotonView PV;
+    public Animator animator;
+    public Item item;
+
+    private IEnumerator Expire_Co;
 
     private void Awake()
     {
+        PV = GetComponent<PhotonView>();
         animator = GetComponent<Animator>();
     }
 
-    public void SetItem(Item item, short itemWorldID)
+    public void DisplayInteractionText()
     {
-        this.item = item;
-        this.itemWorldID = itemWorldID;
-        spriteRenderer.sprite = item.GetSprite();
-        if (item.amount > 1)
-        {
-            amountText.text = item.amount.ToString();
-        }
-        else
-        {
-            amountText.text = "";
-        }
+        interactionText.gameObject.SetActive(true);
     }
 
-    public Item GetItem()
+    public void HideInteractionText()
     {
-        return item;
+        interactionText.gameObject.SetActive(false);
     }
 
-    public void Expire(float time)
+    public void SetItem(short itemID, short amount, short durability)
     {
-        expire_Co = Co_Expire(time);
-        StartCoroutine(expire_Co);
+        ItemWorld_Network.SetItem(PV, itemID, amount, durability);
     }
-    IEnumerator Co_Expire(float time)
+
+    public void PickItem()
     {
-        yield return new WaitForSecondsRealtime(time);
-        foreach (Collider2D collider in GetComponents<Collider2D>()) Destroy(collider);
-        GameManager.gameManager.ReleaseLootBoxWorldId(itemWorldID);
-        animator.SetTrigger("Expire");
-        expire_Co = null;
+        // disable colliders
+        foreach (Collider2D collider in GetComponents<Collider2D>()) collider.enabled = false;
+
+        // stop expiring
+        if (Expire_Co != null)
+        {
+            StopCoroutine(Expire_Co);
+            Expire_Co = null;
+        }
+
+        // destroy it
+        ItemWorld_Network.DestroyItemWorld(PV);
+    }
+
+    public void AddForce()
+    {
+        ItemWorld_Network.AddForce(PV, Utilities.Math.GetRandomDegree());
+    }
+
+    public void Expire()
+    {
+        if (Expire_Co == null)
+        {
+            Expire_Co = Co_WaitForExpire();
+            StartCoroutine(Expire_Co);
+        }
+    }
+    IEnumerator Co_WaitForExpire()
+    {
+        yield return new WaitForSecondsRealtime(GameManager.gameManager.itemWorldLifeTime);
+
+        // disable colliders
+        foreach (Collider2D collider in GetComponents<Collider2D>()) collider.enabled = false;
+
+        // network call
+        try
+        {
+            ItemWorld_Network.Expire(PV);
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+
+        // clear coroutine
+        Expire_Co = null;
     }
 
     public void DestroySelf()
     {
         Destroy(gameObject);
+        //ItemWorld_Network.DestroyItemWorld(PV);
     }
 }

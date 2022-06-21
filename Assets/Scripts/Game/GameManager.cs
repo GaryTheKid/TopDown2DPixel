@@ -48,13 +48,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     public short maxLootBoxSpawnInWorld;
     [Tooltip("How long can loot boxes exist.")]
     public float lootBoxWorldLifeTime;
-    public Stack<short> avaliableLootBoxWorldIds;
 
     // items
     [Tooltip("How many items can exist in the world at the same time.")]
     public short maxItemSpawnInWorld;
     public float itemWorldLifeTime;
-    public Stack<short> avaliableItemWorldIds;
 
     // parents
     public Transform lootBoxSpawnAreaParent;
@@ -72,7 +70,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         gameManager = this;
         UpdateRoomPlayerList();
-        InitializeIdStacks();
         InitializeSpawnAreas();
     }
 
@@ -104,6 +101,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         ping.text = PhotonNetwork.GetPing().ToString() + "ms";
     }
 
+    #region Character
     private void SpawnPlayerCharacter()
     {
         for (int i = 0; i < playerList.Length; i++)
@@ -127,10 +125,19 @@ public class GameManager : MonoBehaviourPunCallbacks
             }*/
         }
     }
+    #endregion
 
+    #region Room
+    private void UpdateRoomPlayerList()
+    {
+        playerList = PhotonNetwork.PlayerList;
+    }
+    #endregion
+
+    #region Scoreboard
     public void UpdatePlayerID(int viewID, string name)
     {
-        Game.UpdatePlayerInfo(PV, viewID, name);
+        Game_Network.UpdatePlayerInfo(PV, viewID, name);
     }
 
     public void AddScoreUI(string playerID, int score)
@@ -173,28 +180,35 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
     }
+    #endregion
 
-    public void SpawnLootBox(Vector2 pos, int whichArea)
+    #region Loot Box
+    public void SpawnLootBox(Vector2 pos, int areaIndex)
     {
-        Game.SpawnLootBox(PV, pos, whichArea);
+        var newLootBox = PhotonNetwork.InstantiateRoomObject("Item/pfLootBox", pos, Quaternion.identity);
+        newLootBox.transform.parent = spawnedLootBoxParent;
+
+        LootBoxWorld lootBoxWorld = newLootBox.GetComponent<LootBoxWorld>();
+        lootBoxWorld.SetLootBox(areaIndex);
+        lootBoxWorld.Expire();
     }
 
     public void SpawnLootBoxRandomly()
     {
-        var randIndex = GetRandomSpawnArea();
+        var randAreaIndex = GetRandomSpawnArea();
 
         // if run out of spawn space
-        if (randIndex == -1)
+        if (randAreaIndex == -1)
         {
             return;
         }
 
-        var randSpawnPoint = lootBoxSpawnAreas[randIndex].Item1;
-        var spawnPoint = randSpawnPoint.GetRandomPointFromArea();
+        var randSpawnArea = lootBoxSpawnAreas[randAreaIndex].Item1;
+        var spawnPoint = randSpawnArea.GetRandomPointFromArea();
 
         // try spawn a loot box spawner
         Transform spawner = Instantiate(ItemAssets.itemAssets.pfLootBoxSpawner, spawnPoint, Quaternion.identity, spawnedLootBoxParent);
-        spawner.GetComponent<LootBoxSpawner>().SpawnLootBox(randIndex, lootBoxWorldLifeTime);
+        spawner.GetComponent<LootBoxSpawner>().SpawnLootBox(randAreaIndex);
     }
 
     public void SpawnLootBoxRandomlyInArea(int whichArea)
@@ -208,41 +222,36 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         // try spawn a loot box spawner
         Transform spawner = Instantiate(ItemAssets.itemAssets.pfLootBoxSpawner, spawnPoint, Quaternion.identity, spawnedLootBoxParent);
-        spawner.GetComponent<LootBoxSpawner>().SpawnLootBox(whichArea, lootBoxWorldLifeTime);
+        spawner.GetComponent<LootBoxSpawner>().SpawnLootBox(whichArea);
     }
+    #endregion
 
-    public void SpawnItem(Vector2 pos, short itemId, short amount=1)
+    #region Item World
+    public ItemWorld SpawnItem(Vector2 pos, short itemID, short amount=1, short durability=100)
     {
-        if (amount > 1)
-            Game.SpawnItems(PV, pos, itemId, amount);
-        else if (amount == 1)
-            Game.SpawnItem(PV, pos, itemId);
-        else
-            Debug.Log("Item amount must be positive");
+        var newItemWorld = PhotonNetwork.InstantiateRoomObject("Item/pfItemWorld", pos, Quaternion.identity);
+
+        ItemWorld itemWorld = newItemWorld.GetComponent<ItemWorld>();
+        itemWorld.SetItem(itemID, amount, durability);
+        itemWorld.Expire();
+
+        return itemWorld;
     }
 
-    private void UpdateRoomPlayerList()
+    public ItemWorld DropItem(Vector2 pos, short itemID, short amount, short durability)
     {
-        playerList = PhotonNetwork.PlayerList;
+        var newItemWorld = PhotonNetwork.InstantiateRoomObject("Item/pfItemWorld", pos, Quaternion.identity);
+
+        ItemWorld itemWorld = newItemWorld.GetComponent<ItemWorld>();
+        itemWorld.SetItem(itemID, amount, durability);
+        itemWorld.Expire();
+        itemWorld.AddForce();
+
+        return itemWorld;
     }
+    #endregion
 
-    private void InitializeIdStacks()
-    {
-        // lootbox stack
-        avaliableLootBoxWorldIds = new Stack<short>();
-        for (short i = maxLootBoxSpawnInWorld; i > 0; i--)
-        {
-            avaliableLootBoxWorldIds.Push(i);
-        }
-
-        // item stack
-        avaliableItemWorldIds = new Stack<short>();
-        for (short i = maxItemSpawnInWorld; i > 0; i--)
-        {
-            avaliableItemWorldIds.Push(i);
-        }
-    }
-
+    #region Spawn Areas
     private void InitializeSpawnAreas()
     {
         lootBoxSpawnAreas = new List<(SpawnArea, int, int)>();
@@ -288,40 +297,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         // if can't find available, return -1
         return -1;
     }
+    #endregion
 
-    public short RequestNewLootBoxWorldId()
-    {
-        if (avaliableLootBoxWorldIds.Count > 0)
-            return avaliableLootBoxWorldIds.Pop();
-        else
-        {
-            Debug.Log("All Loot Box Ids have been assigned!");
-            return -1;
-        }
-    }
-
-    public void ReleaseLootBoxWorldId(short releasedId)
-    {
-        avaliableLootBoxWorldIds.Push(releasedId);
-    }
-
-    public short RequestNewItemWorldId()
-    {
-        if (avaliableItemWorldIds.Count > 0)
-            return avaliableItemWorldIds.Pop();
-        else
-        {
-            Debug.Log("All Item Ids have been assigned!");
-            return -1;
-        }
-    }
-
-    public void ReleaseItemWorldId(short releasedId)
-    {
-        avaliableItemWorldIds.Push(releasedId);
-    }
-
-    #region Callbacks
+    #region PunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         UpdateRoomPlayerList();

@@ -28,10 +28,10 @@ public class Axe : Weapon
     public override void Attack(PhotonView attackerPV)
     {
         // play the animation at userTransform
-        NetworkCalls.Character.FireWeapon(attackerPV);
+        NetworkCalls.Weapon_Network.FireWeapon(attackerPV);
 
         // deal damage to all targets
-        NetworkCalls.Character.DealDamage(attackerPV);
+        NetworkCalls.Player_NetWork.DealDamage(attackerPV);
     }
 
     public override Transform GetEquipmentPrefab()

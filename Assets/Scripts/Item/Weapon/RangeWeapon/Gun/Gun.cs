@@ -26,7 +26,7 @@ public abstract class Gun : Weapon
     public override void Attack(PhotonView attackerPV, Vector2 firePos, float fireDirDeg)
     {
         // shoot projectiles
-        NetworkCalls.Character.FireProjectile(attackerPV, firePos, fireDirDeg);
+        NetworkCalls.Weapon_Network.FireProjectile(attackerPV, firePos, fireDirDeg);
     }
 
     public override abstract Transform GetEquipmentPrefab();

@@ -8,11 +8,15 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
+using UnityEngine.UI;
+using Photon.Pun;
+using NetworkCalls;
 
 public class LootBoxWorld : MonoBehaviour
 {
-    public static LootBoxWorld SpawnLootBoxWorld(Vector3 postion, short lootBoxWorldID, int areaIndex)
+    /*public static LootBoxWorld SpawnLootBoxWorld(Vector3 postion, short lootBoxWorldID, int areaIndex)
     {
         Transform transform = Instantiate(ItemAssets.itemAssets.pfLootBoxWorld, postion, Quaternion.identity, GameManager.gameManager.spawnedLootBoxParent);
         transform.name = "L" + lootBoxWorldID.ToString();
@@ -20,73 +24,99 @@ public class LootBoxWorld : MonoBehaviour
         lootBoxWorld.lootBoxWorldID = lootBoxWorldID;
         lootBoxWorld.areaIndex = areaIndex;
         return lootBoxWorld;
-    }
+    }*/
 
-    public short lootBoxWorldID;
+    [SerializeField] private Text interactionText;
+
+    public PhotonView PV;
     public int areaIndex;
-    private Animator animator;
-    private IEnumerator expire_Co;
+    public Animator animator;
+
+    private IEnumerator Expire_Co;
 
     private void Awake()
     {
+        PV = GetComponent<PhotonView>();
         animator = GetComponent<Animator>();
+    }
+
+    public void DisplayInteractionText()
+    {
+        interactionText.gameObject.SetActive(true);
+    }
+
+    public void HideInteractionText()
+    {
+        interactionText.gameObject.SetActive(false);
     }
 
     public void OpenLootBox()
     {
-        StartCoroutine(Co_OpenLootBox());
+        // disable colliders
+        foreach (Collider2D collider in GetComponents<Collider2D>()) collider.enabled = false;
+
+        // stop expiring
+        if (Expire_Co != null)
+        {
+            StopCoroutine(Expire_Co);
+            Expire_Co = null;
+        }
+
+        // network call
+        LootBox_NetWork.OpenLootBox(PV);
     }
-    IEnumerator Co_OpenLootBox()
+
+    public void SetLootBox(int areaIndex)
     {
-        if (expire_Co != null)
-            StopCoroutine(expire_Co);
-        animator.SetTrigger("Open");
-        yield return new WaitForSecondsRealtime(0.8f);
-        SpawnRandomItem();
-        GameManager.gameManager.ReleaseLootBoxWorldId(lootBoxWorldID);
-
-        // release area available count
-        var area = GameManager.gameManager.lootBoxSpawnAreas[areaIndex];
-        var updatedArea = (area.Item1, area.Item2, area.Item3 - 1);
-        GameManager.gameManager.lootBoxSpawnAreas[areaIndex] = updatedArea;
-
-        Destroy(gameObject);
+        LootBox_NetWork.SetLootBox(PV, areaIndex);
     }
 
     public void SpawnRandomItem()
     {
-        short randItemID = (short)Random.Range(1, ItemAssets.itemAssets.itemDic.Count + 1);
-        short amount = 1;
-        if (ItemAssets.itemAssets.itemDic[randItemID].itemType == Item.ItemType.Consumable)
+        if (PhotonNetwork.IsMasterClient)
         {
-            amount = (short)Random.Range(1, 5);
+            short randItemID = (short)UnityEngine.Random.Range(1, ItemAssets.itemAssets.itemDic.Count + 1);
+            short amount = 1;
+            if (ItemAssets.itemAssets.itemDic[randItemID].itemType == Item.ItemType.Consumable)
+            {
+                amount = (short)UnityEngine.Random.Range(1, 5);
+            }
+            GameManager.gameManager.SpawnItem(transform.position, randItemID, amount);
         }
-        GameManager.gameManager.SpawnItem(transform.position, randItemID, amount);
     }
 
-    public void Expire(float time, int whichArea)
+    public void Expire()
     {
-        expire_Co = Co_Expire(time, whichArea);
-        StartCoroutine(expire_Co);
+        if (Expire_Co == null)
+        {
+            Expire_Co = Co_WaitForExpire();
+            StartCoroutine(Expire_Co);
+        }
     }
-    IEnumerator Co_Expire(float time, int whichArea)
+    IEnumerator Co_WaitForExpire()
     {
-        yield return new WaitForSecondsRealtime(time);
-        foreach (Collider2D collider in GetComponents<Collider2D>()) Destroy(collider);
-        GameManager.gameManager.ReleaseLootBoxWorldId(lootBoxWorldID);
-        animator.SetTrigger("Expire");
+        yield return new WaitForSecondsRealtime(GameManager.gameManager.lootBoxWorldLifeTime);
 
-        // release area available count
-        var area = GameManager.gameManager.lootBoxSpawnAreas[whichArea];
-        var updatedArea = (area.Item1, area.Item2, area.Item3 - 1);
-        GameManager.gameManager.lootBoxSpawnAreas[whichArea] = updatedArea;
+        // disable colliders
+        foreach (Collider2D collider in GetComponents<Collider2D>()) collider.enabled = false;
 
-        // clear
-        expire_Co = null;
+        // network call
+        try
+        {
+            LootBox_NetWork.Expire(PV);
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+
+        // clear corouting
+        Expire_Co = null;
     }
 
     public void DestroySelf()
     {
         Destroy(gameObject);
+        //LootBox_NetWork.DestroyLootBox(PV);
     }
 }

@@ -24,11 +24,11 @@ public class TargetList : MonoBehaviour
 
     public void AddTarget(int targetID)
     {
-        NetworkCalls.Character.LockTarget(_PV, targetID);
+        NetworkCalls.Player_NetWork.LockTarget(_PV, targetID);
     }
 
     public void RemoveTarget(int targetID)
     {
-        NetworkCalls.Character.UnlockTarget(_PV, targetID);
+        NetworkCalls.Player_NetWork.UnlockTarget(_PV, targetID);
     }
 }

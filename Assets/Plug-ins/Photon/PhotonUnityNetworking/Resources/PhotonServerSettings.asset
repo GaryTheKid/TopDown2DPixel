@@ -81,6 +81,32 @@ MonoBehaviour:
   - RPC_RemoveScoreboardTag
   - RPC_SpawnScoreboardTag
   - RPC_UpdatePlayerInfo
+  - RPC_DestroyItemWorld
+  - RPC_DropItem_Master
+  - RPC_DropItem_Others
+  - RPC_OpenLootBox_Master
+  - RPC_OpenLootBox_Others
+  - RPC_DestroyItemWorld_Master
+  - RPC_DestroyItemWorld_Others
+  - RPC_DestroyLootBox_Master
+  - RPC_DestroyLootBox_Others
+  - RPC_LootBoxExpire_Others
+  - RPC_SpawnLootBox_Master
+  - RPC_SpawnLootBox_Others
+  - RPC_LootBoxExpire_Master
+  - RPC_ItemWorldExpire_Master
+  - RPC_ItemWorldExpire_Others
+  - RPC_SpawnItem_Master
+  - RPC_SpawnItem_Others
+  - RPC_SpawnItems_Master
+  - RPC_SpawnItems_Others
+  - RPC_DestroySelf
+  - RPC_Expire
+  - RPC_ItemWorldExpire
+  - RPC_LootBoxExpire
+  - RPC_SetItem
+  - RPC_SetLootBox
+  - RPC_ItemWorldAddForce
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

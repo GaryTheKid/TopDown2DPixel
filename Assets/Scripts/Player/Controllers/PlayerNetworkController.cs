@@ -9,9 +9,7 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
     public string playerID;
     public ScoreboardTag scoreboardTag;
 
-    [SerializeField] private PhotonView _PV;
-    [SerializeField] private PlayerMovementController _movementController;
-    [SerializeField] private PlayerWeaponController _playerWeaponController;
+    private PhotonView _PV;
     [SerializeField] private GameObject _playerCamera;
     [SerializeField] private GameObject _audioListener;
     [SerializeField] private GameObject _ui_Canvas;
@@ -19,13 +17,20 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _CharacterCollider;
     [SerializeField] private SpriteRenderer _characterSprite;
 
+    private void Awake()
+    {
+        _PV = GetComponent<PhotonView>(); 
+    }
+
     private void Start()
     {
         if (!_PV.IsMine)
         {
+            var _playerWeaponController = GetComponent<PlayerWeaponController>();
             _playerWeaponController.EquipHands();
-            Destroy(_movementController);
             Destroy(_playerWeaponController);
+            Destroy(GetComponent<PlayerMovementController>());
+            Destroy(GetComponent<PlayerInteractionController>());
             Destroy(_playerCamera);
             Destroy(_audioListener);
             _ui_Canvas.SetActive(false);

@@ -26,13 +26,13 @@ public class Bow : Weapon
     public override void Charge(PhotonView PV)
     {
         // charge weapon
-        NetworkCalls.Character.ChargeWeapon(PV);
+        NetworkCalls.Weapon_Network.ChargeWeapon(PV);
     }
 
     public override void Attack(PhotonView attackerPV, Vector2 firePos, float fireDirDeg)
     {
         // shoot projectiles
-        NetworkCalls.Character.FireChargedProjectile(attackerPV, firePos, fireDirDeg);
+        NetworkCalls.Weapon_Network.FireChargedProjectile(attackerPV, firePos, fireDirDeg);
     }
 
     public override Transform GetEquipmentPrefab()

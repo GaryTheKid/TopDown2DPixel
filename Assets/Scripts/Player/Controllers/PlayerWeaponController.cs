@@ -209,7 +209,7 @@ public class PlayerWeaponController : MonoBehaviour
         {
             if (!isFlipped)
             {
-                NetworkCalls.Weapon.FlipWeapon(_PV);
+                NetworkCalls.Weapon_Network.FlipWeapon(_PV);
                 isFlipped = true;
             }
         }
@@ -217,7 +217,7 @@ public class PlayerWeaponController : MonoBehaviour
         {
             if (isFlipped)
             {
-                NetworkCalls.Weapon.UnflipWeapon(_PV);
+                NetworkCalls.Weapon_Network.UnflipWeapon(_PV);
                 isFlipped = false;
             }
         }

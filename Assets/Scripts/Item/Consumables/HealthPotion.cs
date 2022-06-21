@@ -31,7 +31,7 @@ public class HealthPotion : Consumables
     {
         Debug.Log("Use health potion");
         // TODO: healing effect
-        NetworkCalls.Consumables.UseHealthPotion(PV, healAmount);
+        NetworkCalls.Consumables_NetWork.UseHealthPotion(PV, healAmount);
 
         if (amount - 1 >= 0)
         {

@@ -352,8 +352,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 288e17a86e56d704987500d51edc4248, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inventoryController: {fileID: -1663441981523675971}
-  _PV: {fileID: 8110680880012028758}
+  lootBoxesInRange: []
+  itemWorldsInRange: []
 --- !u!1 &617582110066594024
 GameObject:
   m_ObjectHideFlags: 0
@@ -2604,6 +2604,7 @@ GameObject:
   - component: {fileID: 4419807085449271479}
   - component: {fileID: 1431877813}
   - component: {fileID: -1663441981523675971}
+  - component: {fileID: 7578389046121567134}
   - component: {fileID: 622847712}
   - component: {fileID: 7653245263153467562}
   - component: {fileID: 5210151644126573888}
@@ -2737,9 +2738,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerID: 
   scoreboardTag: {fileID: 0}
-  _PV: {fileID: 8110680880012028758}
-  _movementController: {fileID: 1431877813}
-  _playerWeaponController: {fileID: 622847712}
   _playerCamera: {fileID: 421601022}
   _audioListener: {fileID: 1978413756312995978}
   _ui_Canvas: {fileID: 3090731387776898778}
@@ -2778,6 +2776,19 @@ MonoBehaviour:
   _uiInventory: {fileID: 8307465710332931687}
   _itemSlots: {fileID: 4223917211679191804}
   _playerAnchorPos: {fileID: 8031013269936304625}
+--- !u!114 &7578389046121567134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5210151642737692042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bce368f2a23cfe45abff82dedc35d16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _worldInteracter: {fileID: 877228653811274372}
 --- !u!114 &622847712
 MonoBehaviour:
   m_ObjectHideFlags: 0

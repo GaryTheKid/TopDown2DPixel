@@ -103,7 +103,7 @@ public class PlayerInventoryController : MonoBehaviour
         var item = GetItem(itemIndex);
         if (item != null)
         {
-            NetworkCalls.Character.DropItem(_PV, item.itemID, item.amount, item.durability, GetAnchorPos(), Utilities.Math.GetRandomDegree());
+            NetworkCalls.Player_NetWork.DropItem(_PV, GetAnchorPos(), item.itemID, item.amount, item.durability);
         }
 
         // remove item from inventory

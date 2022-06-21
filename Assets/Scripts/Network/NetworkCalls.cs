@@ -13,47 +13,61 @@ using Photon.Pun;
 
 namespace NetworkCalls
 {
-    public class Game
+    public class Game_Network
     {
         public static void UpdatePlayerInfo(PhotonView PV, int viewID, string name)
         {
             PV.RPC("RPC_UpdatePlayerInfo", RpcTarget.AllBuffered, viewID, name);
         }
+    }
 
-        public static void SpawnLootBox(PhotonView PV, Vector2 pos, int whichArea)
+    public class LootBox_NetWork
+    {
+        public static void OpenLootBox(PhotonView PV)
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                PV.RPC("RPC_SpawnLootBox", RpcTarget.AllBuffered, pos, whichArea);
-            }
+            PV.RPC("RPC_OpenLootBox", RpcTarget.AllBuffered);
         }
 
-        public static void SpawnItem(PhotonView PV, Vector2 pos, short itemID)
+        public static void SetLootBox(PhotonView PV, int areaIndex)
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                PV.RPC("RPC_SpawnItem", RpcTarget.AllBuffered, pos, itemID);
-            }
+            PV.RPC("RPC_SetLootBox", RpcTarget.AllBuffered, areaIndex);
         }
 
-        public static void SpawnItems(PhotonView PV, Vector2 pos, short itemID, short amount)
+        public static void Expire(PhotonView PV)
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                PV.RPC("RPC_SpawnItems", RpcTarget.AllBuffered, pos, itemID, amount);
-            }
+            PV.RPC("RPC_LootBoxExpire", RpcTarget.AllBuffered);
         }
 
-        public static void DestroyLootBox(PhotonView PV, short lootBoxID)
+        public static void DestroyLootBox(PhotonView PV)
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                PV.RPC("RPC_DestroyLootBox", RpcTarget.AllBuffered, lootBoxID);
-            }
+            PV.RPC("RPC_DestroyLootBox", RpcTarget.AllBuffered);
         }
     }
 
-    public class Consumables
+    public class ItemWorld_Network
+    {
+        public static void SetItem(PhotonView PV, short itemID, short amount, short durability)
+        {
+            PV.RPC("RPC_SetItem", RpcTarget.AllBuffered, itemID, amount, durability);
+        }
+
+        public static void AddForce(PhotonView PV, float dirDeg)
+        {
+            PV.RPC("RPC_ItemWorldAddForce", RpcTarget.AllBuffered, dirDeg);
+        }
+
+        public static void Expire(PhotonView PV)
+        {
+            PV.RPC("RPC_ItemWorldExpire", RpcTarget.AllBuffered);
+        }
+
+        public static void DestroyItemWorld(PhotonView PV)
+        {
+            PV.RPC("RPC_DestroyItemWorld", RpcTarget.AllBuffered);
+        }
+    }
+
+    public class Consumables_NetWork
     {
         public static void UseHealthPotion(PhotonView PV, int healingAmount)
         {
@@ -80,7 +94,7 @@ namespace NetworkCalls
         }
     }
 
-    public class Weapon
+    public class Weapon_Network
     {
         public static void EquipWeapon(PhotonView PV, short itemID)
         {
@@ -113,9 +127,41 @@ namespace NetworkCalls
                 PV.RPC("RPC_UnflipWeapon", RpcTarget.All);
             }
         }
+
+        public static void ChargeWeapon(PhotonView PV)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_ChargeWeapon", RpcTarget.All);
+            }
+        }
+
+        public static void FireWeapon(PhotonView PV)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_FireWeapon", RpcTarget.All);
+            }
+        }
+
+        public static void FireProjectile(PhotonView PV, Vector2 firePos, float fireDirDeg)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_FireProjectile", RpcTarget.All, firePos, fireDirDeg);
+            }
+        }
+
+        public static void FireChargedProjectile(PhotonView PV, Vector2 firePos, float fireDirDeg)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_FireChargedProjectile", RpcTarget.All, firePos, fireDirDeg);
+            }
+        }
     }
 
-    public class Character
+    public class Player_NetWork
     {
         public static void SpawnScoreboardTag(PhotonView PV, string playerID)
         {
@@ -130,6 +176,13 @@ namespace NetworkCalls
             if (PV.IsMine)
             {
                 PV.RPC("RPC_RemoveScoreboardTag", RpcTarget.AllBuffered, playerID);
+            }
+        }
+        public static void DropItem(PhotonView PV, Vector2 dropPos, short itemID, short amount, short durability)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_DropItem", RpcTarget.MasterClient, dropPos, itemID, amount, durability);
             }
         }
 
@@ -165,38 +218,6 @@ namespace NetworkCalls
             }
         }
 
-        public static void ChargeWeapon(PhotonView PV)
-        {
-            if (PV.IsMine)
-            {
-                PV.RPC("RPC_ChargeWeapon", RpcTarget.All);
-            }
-        }
-
-        public static void FireWeapon(PhotonView PV)
-        {
-            if (PV.IsMine)
-            {
-                PV.RPC("RPC_FireWeapon", RpcTarget.All);
-            }
-        }
-
-        public static void FireProjectile(PhotonView PV, Vector2 firePos, float fireDirDeg)
-        {
-            if (PV.IsMine)
-            {
-                PV.RPC("RPC_FireProjectile", RpcTarget.All, firePos, fireDirDeg);
-            }
-        }
-
-        public static void FireChargedProjectile(PhotonView PV, Vector2 firePos, float fireDirDeg)
-        {
-            if (PV.IsMine)
-            {
-                PV.RPC("RPC_FireChargedProjectile", RpcTarget.All, firePos, fireDirDeg);
-            }
-        }
-
         public static void Die(PhotonView PV)
         {
             if (PV.IsMine)
@@ -210,30 +231,6 @@ namespace NetworkCalls
             if (PV.IsMine)
             {
                 PV.RPC("RPC_Respawn", RpcTarget.AllBuffered);
-            }
-        }
-
-        public static void OpenLootBox(PhotonView PV, short lootBoxWorldID)
-        {
-            if (PV.IsMine)
-            {
-                PV.RPC("RPC_OpenLootBox", RpcTarget.AllBuffered, lootBoxWorldID);
-            }
-        }
-
-        public static void PickItem(PhotonView PV, short itemWorldID)
-        {
-            if (PV.IsMine)
-            {
-                PV.RPC("RPC_PickItem", RpcTarget.AllBuffered, itemWorldID);
-            }
-        }
-
-        public static void DropItem(PhotonView PV, short itemID, short amount, short durability, Vector2 dropPos, float dropDirAngle)
-        {
-            if (PV.IsMine)
-            {
-                PV.RPC("RPC_DropItem", RpcTarget.AllBuffered, itemID, amount, durability, dropPos, dropDirAngle);
             }
         }
     }

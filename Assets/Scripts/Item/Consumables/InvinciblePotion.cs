@@ -29,7 +29,7 @@ public class InvinciblePotion : Consumables
     {
         Debug.Log("Use invincible potion, " + "time: 2s");
         // TODO: healing effect
-        NetworkCalls.Consumables.UseInvinciblePotion(PV, effectTime);
+        NetworkCalls.Consumables_NetWork.UseInvinciblePotion(PV, effectTime);
 
         if (amount - 1 >= 0)
         {
