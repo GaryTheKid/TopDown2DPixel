@@ -22,6 +22,7 @@ public class ItemAssets : MonoBehaviour
     public Transform pfGun_M4;
     public Transform pfGun_Pistol;
     public Transform pfGun_Rifle;
+    public Transform pfSmokeGrenade;
 
     // prefab for weapon Equipped
     [Header("Projectile Prefabs")]
@@ -50,12 +51,14 @@ public class ItemAssets : MonoBehaviour
     public Sprite gunSprite_M4;
     public Sprite gunSprite_Pistol;
     public Sprite gunSprite_Rifle;
+    public Sprite SmokeGrenadeSprite;
 
     public Sprite arrowSprite;
     public Sprite bulletSprite;
 
     public Sprite healthPotionSprite;
     public Sprite bigHealthPotionSprite;
+    public Sprite superHealthPotionSprite;
     public Sprite speedPotionSprite;
     public Sprite invinciblePotionSprite;
 
@@ -76,6 +79,7 @@ public class ItemAssets : MonoBehaviour
             { 9, new InvinciblePotion() },
             { 10, new Gun_Pistol() },
             { 11, new Gun_Rifle() },
+            { 12, new SuperHealthPotion() },
         };
     }
 }

@@ -27,6 +27,10 @@ public class Observable_PlayerTransform : MonoBehaviourPunCallbacks, IPunObserva
             rb.velocity = (Vector2)stream.ReceiveNext();
             //rigidbody2D.position = (Vector2)stream.ReceiveNext();
             transform.position = Vector3.Lerp(transform.position, pos, 0.1f);
+
+            // lag compensation
+            float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
+            rb.position += rb.velocity * lag;
         }
     }
 }

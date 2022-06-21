@@ -2835,6 +2835,7 @@ MonoBehaviour:
   pfGun_M4: {fileID: 5279715861106610933, guid: c910b257de2a38543ad14ef05778d56c, type: 3}
   pfGun_Pistol: {fileID: 5279715861106610933, guid: e5a2f64db629e4644b6b2dacde74a482, type: 3}
   pfGun_Rifle: {fileID: 5279715861106610933, guid: 04facdb24244f39499dd428fbcfc27b0, type: 3}
+  pfSmokeGrenade: {fileID: 0}
   pfArrow: {fileID: 5279715861106610933, guid: 3167f9cc11682244a8f501d7cd7053c0, type: 3}
   pfBullet: {fileID: 5279715861106610933, guid: b98cb6e57f03a0c46aae82821427c5b6, type: 3}
   pfItemWorld: {fileID: 5917098666106380704, guid: c975b21b7bec97a43b5742d72d1cf4d2, type: 3}
@@ -2848,10 +2849,12 @@ MonoBehaviour:
   gunSprite_M4: {fileID: 21300000, guid: 7b3741d642690224382738ff1b2f1f5b, type: 3}
   gunSprite_Pistol: {fileID: 21300000, guid: 8d723ee70c2209f4c84fd262acb24a5b, type: 3}
   gunSprite_Rifle: {fileID: 21300000, guid: e6c38c4fd248fc149acb7553c63332a5, type: 3}
+  SmokeGrenadeSprite: {fileID: 21300000, guid: 0e03fb2a4b4312744b2fae847eaab0cb, type: 3}
   arrowSprite: {fileID: 1396731222637651634, guid: a6b57d71e81e723468402bd4b49b48b5, type: 3}
   bulletSprite: {fileID: 21300000, guid: 64bf69112397ec64bb89727ee78cf0bf, type: 3}
   healthPotionSprite: {fileID: 21300000, guid: 100b236b72daa4c4da4c410baada9739, type: 3}
   bigHealthPotionSprite: {fileID: 21300000, guid: 924b23edbd9de764197e92ae63be93da, type: 3}
+  superHealthPotionSprite: {fileID: 21300000, guid: 4edf8952660c18443b305a0676f1f484, type: 3}
   speedPotionSprite: {fileID: 21300000, guid: 008f88bc7af2de747ad44c9303e5cc6d, type: 3}
   invinciblePotionSprite: {fileID: 21300000, guid: b8388814c643bef479cc49abda0b55c8, type: 3}
 --- !u!1 &1536257103

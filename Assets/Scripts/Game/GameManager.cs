@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         // show pin
-        ping.text = PhotonNetwork.GetPing().ToString() + "ms";
+        //ping.text = PhotonNetwork.GetPing().ToString() + "ms";
     }
 
     #region Character
