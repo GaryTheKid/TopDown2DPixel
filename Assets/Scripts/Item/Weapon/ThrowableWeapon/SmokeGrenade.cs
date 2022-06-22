@@ -51,17 +51,11 @@ public class SmokeGrenade : Weapon
     {
         // shoot projectiles
         NetworkCalls.Weapon_Network.FireChargedProjectile(attackerPV, firePos, fireDirDeg);
+    }
 
-        /*// throwing this weapon reduces its amount
-        if (amount - 1 >= 0)
-        {
-            amount--;
-        }
-
-        if (amount <= 0)
-        {
-            DestroySelf();
-        }*/
+    public override bool IsStackable()
+    {
+        return true;
     }
 
     public override Transform GetEquipmentPrefab()

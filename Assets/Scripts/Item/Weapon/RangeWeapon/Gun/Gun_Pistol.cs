@@ -11,7 +11,7 @@ public class Gun_Pistol : Gun
         amount = 1;
         itemType = ItemType.RangedWeapon;
         attackRange = 10f;
-        attackSpeed = 1.35f;
+        attackSpeed = 2.5f;
         attackMoveSlowRate = 0.5f;
         accuracy = 0.9f;
         recoilForce = 0.35f;

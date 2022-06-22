@@ -7,10 +7,10 @@ public class Arrow : Projectile
 {
     public Arrow()
     {
-        speed = 4f;
+        speed = 5.5f;
         maxDist = 100f;
         explosiveRadius = 0f;
-        lifeTime = 5f;
+        lifeTime = 2.5f;
         isSticky = true;
         damageInfo = new DamageInfo
         {

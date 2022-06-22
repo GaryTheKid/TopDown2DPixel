@@ -76,7 +76,7 @@ public class ProjectileWorld : MonoBehaviour
         _dmgRatio = dmgRatio;
     }
 
-    public void RemovePhysics()
+    public void DisablePhysics()
     {
         Destroy(GetComponent<Rigidbody2D>());
         Destroy(GetComponent<Collider2D>());

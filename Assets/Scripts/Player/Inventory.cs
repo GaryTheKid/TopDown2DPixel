@@ -84,6 +84,34 @@ public class Inventory
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    public void RemoveOneItem(Item item)
+    {
+        if (item.IsStackable())
+        {
+            Item itemInInventory = null;
+            foreach (Item inventoryItem in itemList)
+            {
+                if (inventoryItem == null)
+                    continue;
+
+                if (inventoryItem.itemName == item.itemName)
+                {
+                    inventoryItem.amount -= 1;
+                    itemInInventory = inventoryItem;
+                }
+            }
+            if (itemInInventory != null && itemInInventory.amount <= 0)
+            {
+                Remove(itemInInventory);
+            }
+        }
+        else
+        {
+            Remove(item);
+        }
+        OnItemListChanged?.Invoke(this, EventArgs.Empty);
+    }
+
     public void RemoveItem(Item item)
     {
         if (item.IsStackable())
@@ -165,6 +193,24 @@ public class Inventory
     public List<Item> GetItemList()
     {
         return itemList;
+    }
+
+    public short GetItemAmountListById(short id)
+    {
+        short amount = 0;
+
+        foreach (var itemInInventory in itemList)
+        {
+            if (itemInInventory == null)
+                continue;
+
+            if (id == itemInInventory.itemID)
+            {
+                amount += itemInInventory.amount;
+            }
+        }
+
+        return amount;
     }
 
     public Item GetItemFromList(int itemIndex)

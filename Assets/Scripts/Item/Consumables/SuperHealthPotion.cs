@@ -7,7 +7,7 @@ public class SuperHealthPotion : HealthPotion
     public SuperHealthPotion()
     {
         healAmount = 50;
-        itemName = "SuperHealthPotion";
+        itemName = "Super Health Potion";
         itemID = 12;
         amount = 1;
         itemType = ItemType.Consumable;
@@ -16,7 +16,7 @@ public class SuperHealthPotion : HealthPotion
     public SuperHealthPotion(short amount)
     {
         healAmount = 50;
-        itemName = "SuperHealthPotion";
+        itemName = "Super Health Potion";
         itemID = 12;
         this.amount = amount;
         itemType = ItemType.Consumable;
@@ -24,6 +24,6 @@ public class SuperHealthPotion : HealthPotion
 
     public override Sprite GetSprite()
     {
-        return ItemAssets.itemAssets.bigHealthPotionSprite;
+        return ItemAssets.itemAssets.superHealthPotionSprite;
     }
 }

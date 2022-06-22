@@ -7,10 +7,10 @@ public class Bullet : Projectile
 {
     public Bullet()
     {
-        speed = 15f;
+        speed = 18f;
         maxDist = 100f;
         explosiveRadius = 0f;
-        lifeTime = 2f;
+        lifeTime = 1.2f;
         isSticky = false;
         damageInfo = new DamageInfo
         {

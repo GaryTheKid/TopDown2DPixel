@@ -20,7 +20,7 @@ public class BulletHitFX : FXPlayer_Projectile
     {
         // get parent
         ProjectileWorld parent = GetComponentInParent<ProjectileWorld>();
-        parent.RemovePhysics();
+        parent.DisablePhysics();
         parent.StopAllCoroutines();
 
         // start animation
@@ -31,7 +31,7 @@ public class BulletHitFX : FXPlayer_Projectile
     {
         // get parent
         ProjectileWorld parent = GetComponentInParent<ProjectileWorld>();
-        parent.RemovePhysics();
+        parent.DisablePhysics();
         parent.StopAllCoroutines();
 
         // start animation

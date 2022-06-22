@@ -80,7 +80,7 @@ public class UI_Inventory : MonoBehaviour
         UpdateInventoryItems();
     }
 
-    private void UpdateInventoryItems()
+    public void UpdateInventoryItems()
     {
         // clear ui
         foreach (Transform child in _itemContainer)
@@ -96,6 +96,11 @@ public class UI_Inventory : MonoBehaviour
             Item item = _inventory.GetItemFromList(i);
             if (item == null)
                 continue;
+            if (item.amount <= 0)
+            {
+                item = null;
+                continue;
+            }
 
             // instantiate item template
             RectTransform itemSlotRectTransform = Instantiate(_itemTemplate, _itemContainer).GetComponent<RectTransform>();

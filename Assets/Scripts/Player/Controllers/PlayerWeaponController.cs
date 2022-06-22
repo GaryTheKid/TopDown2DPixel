@@ -258,6 +258,23 @@ public class PlayerWeaponController : MonoBehaviour
 
         // TODO: not attack speed, but recover time
 
+        // check if throwable
+        if (weaponType == Item.ItemType.ThrowableWeapon)
+        {
+            // throwing this weapon reduces its amount
+            _inventory.RemoveOneItem(weapon);
+
+            if (_inventory.GetItemAmountListById(weapon.itemID) <= 0)
+            {
+                weapon.Unequip(_PV);
+
+                // restore movement speed
+                _playerStats.speedModifier = 1f;
+
+                // clear co
+                yield return null;
+            }
+        }
 
         // wait cd
         yield return new WaitForSecondsRealtime(1f / weapon.attackSpeed);
@@ -267,7 +284,7 @@ public class PlayerWeaponController : MonoBehaviour
 
         // restore movement speed
         _playerStats.speedModifier = 1f;
-
+        
         // clear co
         _co_Attack = null;
     }
