@@ -1,34 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
-public class Arrow : Projectile
+public class SmokeGrenade_Proj : Projectile
 {
-    public Arrow()
+    public SmokeGrenade_Proj()
     {
-        speed = 4f;
+        speed = 5f;
         maxDist = 100f;
         explosiveRadius = 0f;
-        lifeTime = 5f;
-        isSticky = true;
+        lifeTime = 10f;
+        isSticky = false;
         damageInfo = new DamageInfo
         {
             damageType = DamageInfo.DamageType.Physics,
-            damageAmount = 60f,
-            damageDelay = 0.2f,
+            damageAmount = 0f,
+            damageDelay = 0f,
             damageEffectTime = 0f,
-            KnockBackDist = 2f,
+            KnockBackDist = 0f,
         };
     }
 
     public override Transform GetProjectilePrefab()
     {
-        return ItemAssets.itemAssets.projArrow;
+        return ItemAssets.itemAssets.projSmokeGrenade;
     }
 
     public override Sprite GetSprite()
     {
-        return ItemAssets.itemAssets.arrowSprite;
+        return ItemAssets.itemAssets.SmokeGrenadeSprite;
     }
 }

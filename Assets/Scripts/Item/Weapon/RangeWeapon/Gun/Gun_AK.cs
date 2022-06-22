@@ -14,7 +14,7 @@ public class Gun_AK : Gun
         attackSpeed = 8f;
         attackMoveSlowRate = 0.15f;
         accuracy = 0.9f;
-        recoilForce = 0.45f;
+        recoilForce = 0.40f;
         recoilTime = 0.05f;
         recoilRecoverTime = 0.15f;
 

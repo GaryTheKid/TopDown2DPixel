@@ -163,6 +163,7 @@ public class PlayerWeaponController : MonoBehaviour
                 break;
 
             case Item.ItemType.ChargableRangedWeapon:
+            case Item.ItemType.ThrowableWeapon:
                 // hold to charge
                 if (Input.GetMouseButton(0) && _co_Charge == null && _co_Attack == null)
                 {
@@ -237,6 +238,7 @@ public class PlayerWeaponController : MonoBehaviour
                 break;
             case Item.ItemType.RangedWeapon:
             case Item.ItemType.ChargableRangedWeapon:
+            case Item.ItemType.ThrowableWeapon:
                 weapon.Attack(_PV, fireTransform.position, spreadTransform.eulerAngles.z);
                 break;
         }

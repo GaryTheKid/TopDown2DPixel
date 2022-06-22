@@ -24,7 +24,7 @@ public class Bullet : Projectile
 
     public override Transform GetProjectilePrefab()
     {
-        return ItemAssets.itemAssets.pfBullet;
+        return ItemAssets.itemAssets.projBullet;
     }
 
     public override Sprite GetSprite()

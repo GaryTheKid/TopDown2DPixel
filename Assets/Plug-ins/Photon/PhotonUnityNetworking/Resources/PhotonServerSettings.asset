@@ -36,77 +36,36 @@ MonoBehaviour:
   RpcList:
   - ClickRpc
   - DestroyRpc
-  - DestroySpaceship
-  - Fire
-  - RespawnSpaceship
-  - asd
-  - RPC_UseHealthPotion
-  - RPC_EquipSword
-  - RPC_UnequipWeapon
-  - RPC_EquipAxe
-  - RPC_EquipBow
-  - RPC_DealDamage
-  - RPC_SwordAttack
-  - RPC_ReceiveDamage
-  - RPC_LockTarget
-  - RPC_UnlockTarget
-  - RPC_FireWeapon
-  - im
-  - RPC_ChargeWeapon
-  - RPC_FireProjectile
-  - RPC_DealProjectileDamage
-  - RPC_RemoveCharacterPhysics
-  - RPC_StickProjectile
-  - RPC_FireChargedProjectile
-  - RPC_EquipGun
-  - RPC_FlipWeapon
-  - RPC_UnflipWeapon
-  - RPC_SpreadWeapon
-  - RPC_Die
-  - RPC_Respawn
-  - RPC_MouseRightClickFunc
-  - RPC_EquipWeapon
-  - RPC_DropItem
-  - RPC_PickItem
   - rpc
-  - RPC_SpawnItem
-  - RPC_SpawnItems
-  - RPC_SpawnLootBox
-  - OpenLootBox
-  - RPC_OpenLootBox
-  - RPC_UseSpeedPotion
-  - RPC_UseInvinciblePotion
-  - RPC_DestroyLootBox
-  - RPC_AddToScoreboard
-  - RPC_RemoveScoreboardTag
-  - RPC_SpawnScoreboardTag
-  - RPC_UpdatePlayerInfo
+  - RPC_ChargeWeapon
+  - RPC_DealDamage
+  - RPC_DealProjectileDamage
   - RPC_DestroyItemWorld
-  - RPC_DropItem_Master
-  - RPC_DropItem_Others
-  - RPC_OpenLootBox_Master
-  - RPC_OpenLootBox_Others
-  - RPC_DestroyItemWorld_Master
-  - RPC_DestroyItemWorld_Others
-  - RPC_DestroyLootBox_Master
-  - RPC_DestroyLootBox_Others
-  - RPC_LootBoxExpire_Others
-  - RPC_SpawnLootBox_Master
-  - RPC_SpawnLootBox_Others
-  - RPC_LootBoxExpire_Master
-  - RPC_ItemWorldExpire_Master
-  - RPC_ItemWorldExpire_Others
-  - RPC_SpawnItem_Master
-  - RPC_SpawnItem_Others
-  - RPC_SpawnItems_Master
-  - RPC_SpawnItems_Others
   - RPC_DestroySelf
-  - RPC_Expire
+  - RPC_Die
+  - RPC_DropItem
+  - RPC_EquipWeapon
+  - RPC_FireChargedProjectile
+  - RPC_FireProjectile
+  - RPC_FireWeapon
+  - RPC_FlipWeapon
+  - RPC_ItemWorldAddForce
   - RPC_ItemWorldExpire
+  - RPC_LockTarget
   - RPC_LootBoxExpire
+  - RPC_OpenLootBox
+  - RPC_RemoveScoreboardTag
+  - RPC_Respawn
   - RPC_SetItem
   - RPC_SetLootBox
-  - RPC_ItemWorldAddForce
+  - RPC_SpawnScoreboardTag
+  - RPC_UnequipWeapon
+  - RPC_UnflipWeapon
+  - RPC_UnlockTarget
+  - RPC_UpdatePlayerInfo
+  - RPC_UseHealthPotion
+  - RPC_UseInvinciblePotion
+  - RPC_UseSpeedPotion
   DisableAutoOpenWizard: 1
-  ShowSettings: 0
+  ShowSettings: 1
   DevRegionSetOnce: 1

@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class ProjectileWorld : MonoBehaviour
 {
-    [SerializeField] private GameObject _hitFX;
+    [SerializeField] private FXPlayer_Projectile _FX_projectile;
 
     private Projectile _projectile;
     private PhotonView _PV;
@@ -16,11 +16,13 @@ public class ProjectileWorld : MonoBehaviour
         // only collide non-self colliders
         if (collision.transform != _PV.transform)
         {
-            RemovePhysics();
-            if (!_projectile.isSticky)
+            if (_projectile.isSticky)
             {
-                StopAllCoroutines();
-                _hitFX.SetActive(true);
+                _FX_projectile.PlayStickFX();
+            }
+            else
+            {
+                _FX_projectile.PlayCollisionFX();
             }
         }
     }
@@ -30,21 +32,18 @@ public class ProjectileWorld : MonoBehaviour
         GameObject target = collision.gameObject;
         if (target != null && target.transform != _PV.transform.Find("HitBox"))
         {
-            // remove physics
-            RemovePhysics();
-
             // deal dmg
-            NetworkCalls.Player_NetWork.DealProjectileDamage(_PV, target.transform.parent.GetComponent<PhotonView>().ViewID, _dmgRatio);
+            if(_projectile.damageInfo.damageAmount > 0f)
+                NetworkCalls.Player_NetWork.DealProjectileDamage(_PV, target.transform.parent.GetComponent<PhotonView>().ViewID, _dmgRatio);
 
             // check if stick to the target
             if (_projectile.isSticky)
             {
-                transform.parent = target.transform;
+                _FX_projectile.PlayStickFX();
             }
             else
             {
-                StopAllCoroutines();
-                _hitFX.SetActive(true);
+                _FX_projectile.PlayHitFX();
             }
         }
 
@@ -77,7 +76,7 @@ public class ProjectileWorld : MonoBehaviour
         _dmgRatio = dmgRatio;
     }
 
-    private void RemovePhysics()
+    public void RemovePhysics()
     {
         Destroy(GetComponent<Rigidbody2D>());
         Destroy(GetComponent<Collider2D>());

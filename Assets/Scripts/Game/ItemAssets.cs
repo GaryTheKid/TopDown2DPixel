@@ -26,8 +26,9 @@ public class ItemAssets : MonoBehaviour
 
     // prefab for weapon Equipped
     [Header("Projectile Prefabs")]
-    public Transform pfArrow;
-    public Transform pfBullet;
+    public Transform projArrow;
+    public Transform projBullet;
+    public Transform projSmokeGrenade;
 
     // prefab for item world
     [Header("ItemWorld Prefab")]
@@ -80,6 +81,7 @@ public class ItemAssets : MonoBehaviour
             { 10, new Gun_Pistol() },
             { 11, new Gun_Rifle() },
             { 12, new SuperHealthPotion() },
+            { 13, new SmokeGrenade() },
         };
     }
 }

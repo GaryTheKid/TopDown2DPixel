@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Transform spawnedLootBoxParent;
     public Transform spawnedItemParent;
     public Transform spawnedProjectileParent;
+    public Transform FXParent;
     public Transform scoreboardParent;
 
     // timer
@@ -76,6 +77,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void Start()
     {
         SpawnPlayerCharacter();
+
+        SpawnItem(itemSpawns[1].position, 13);
     }
 
     private void FixedUpdate()
@@ -98,7 +101,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         // show pin
-        //ping.text = PhotonNetwork.GetPing().ToString() + "ms";
+        ping.text = PhotonNetwork.GetPing().ToString() + "ms";
     }
 
     #region Character

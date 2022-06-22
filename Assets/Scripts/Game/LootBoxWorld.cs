@@ -77,9 +77,14 @@ public class LootBoxWorld : MonoBehaviour
         {
             short randItemID = (short)UnityEngine.Random.Range(1, ItemAssets.itemAssets.itemDic.Count + 1);
             short amount = 1;
-            if (ItemAssets.itemAssets.itemDic[randItemID].itemType == Item.ItemType.Consumable)
+            switch (ItemAssets.itemAssets.itemDic[randItemID].itemType)
             {
-                amount = (short)UnityEngine.Random.Range(1, 5);
+                case Item.ItemType.Consumable:
+                    amount = (short)UnityEngine.Random.Range(1, 4);
+                    break;
+                case Item.ItemType.ThrowableWeapon:
+                    amount = (short)UnityEngine.Random.Range(1, 2);
+                    break;
             }
             GameManager.gameManager.SpawnItem(transform.position, randItemID, amount);
         }

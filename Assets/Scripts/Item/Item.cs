@@ -21,7 +21,7 @@ public class Item
         MeleeWeapon,
         RangedWeapon,
         ChargableRangedWeapon,
-
+        ThrowableWeapon
     }
     public ItemType itemType;
     public Action destroySelfAction;
