@@ -48,10 +48,17 @@ public class PlayerInteractionController : MonoBehaviour
         itemCopy.amount = item.amount;
         itemCopy.durability = item.durability;
 
-        // destroy the picked item
-        itemWorlds[lastIndex].PickItem();
-
-        // add item to the player Inventory
-        _playerInventoryController.AddItem(itemCopy);
+        // check if inventory is full
+        bool isInventoryFull = _playerInventoryController.AddItem(itemCopy);
+        if (!isInventoryFull)
+        {
+            // destroy the picked item
+            itemWorlds[lastIndex].PickItem();
+        }
+        else
+        {
+            // TODO: display inventory full effect
+            print("Inventory is full");
+        }
     }
 }

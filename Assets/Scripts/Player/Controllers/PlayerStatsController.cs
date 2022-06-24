@@ -59,6 +59,12 @@ public class PlayerStatsController : MonoBehaviour
         }
     }
 
+    // restore to max hp
+    public void RestoreFullHp()
+    {
+        playerStats.hp = playerStats.maxHp;
+    }
+
     // update hp after receive damage or healing
     public void UpdateHP(int deltaHP)
     {

@@ -22,7 +22,9 @@ public class Gun_AK : Gun
         // projectile info
         projectile = new Bullet_SemiAuto();
         projectile.spawnWeapon = this;
+        projectile.speed = 22f;
         projectile.damageInfo.damageAmount = 20f;
+        projectile.damageInfo.KnockBackDist = 3f;
     }
 
     public override Transform GetEquipmentPrefab()

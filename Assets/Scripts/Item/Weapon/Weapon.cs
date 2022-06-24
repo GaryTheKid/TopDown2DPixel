@@ -42,7 +42,10 @@ public abstract class Weapon : Item, IEquipable
     public virtual void Charge(PhotonView PV) { }
     public override void UseItem(PhotonView PV)
     {
-        Equip(PV);
+        if (!isEquipped)
+            Equip(PV);
+        else
+            Unequip(PV);
     }
     public override void Equip(PhotonView PV)
     {

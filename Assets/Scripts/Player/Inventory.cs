@@ -44,8 +44,24 @@ public class Inventory
         }
     }
 
-    public void AddItem(Item item)
+    public bool IsInventoryFull()
     {
+        for (int i = 0; i < itemList.Count; i++)
+        {
+            if (itemList[i] == null)
+            {
+                Debug.Log(i + " is empty");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public bool AddItem(Item item)
+    {
+        bool isInventoryFull = false;
+
         // add to the list
         if (item.IsStackable())
         {
@@ -63,13 +79,17 @@ public class Inventory
             }
             if (!itemAlreadyInInventory)
             {
-                Add(item);
+                isInventoryFull = Add(item);
             }
         }
         else
         {
-            Add(item);
+            isInventoryFull = Add(item);
         }
+
+        // check if inventory is full
+        if (isInventoryFull)
+            return isInventoryFull;
 
         // bind destroyself action
         item.destroySelfAction = () => 
@@ -82,6 +102,8 @@ public class Inventory
 
         // update list ui
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
+
+        return isInventoryFull;
     }
 
     public void RemoveOneItem(Item item)
@@ -187,6 +209,20 @@ public class Inventory
         }
 
         itemList[index].UseItem(PV);
+
+        // set all the other items unequipped
+        for (int i = 0; i < itemList.Count; i++)
+        {
+            if (!(itemList[index] is IEquipable))
+                break;
+
+            if (itemList[i] == null || i == index)
+                continue;
+
+            if(itemList[i] is IEquipable)
+                itemList[i].isEquipped = false;
+        }
+
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 
@@ -225,21 +261,22 @@ public class Inventory
         itemList[second] = buffer;
     }
 
-    private void Add(Item item)
+    private bool Add(Item item)
     {
         if (item.amount <= 0)
-            return;
+            return true;
 
         for (int i = 0; i < itemList.Count; i++)
         {
             if (itemList[i] == null)
             {
                 itemList[i] = item;
-                return;
+                return false;
             }
         }
 
         DebugGUI.debugGUI.ShowDebugTag("Inventory is full!", 5f);
+        return true;
     }
 
     private void Remove(Item item)
@@ -254,7 +291,7 @@ public class Inventory
         }
     }
 
-    // debug use
+#if DEBUG
     public void Debug_PrintItemCount()
     {
         int count = 0;
@@ -270,4 +307,5 @@ public class Inventory
 
         Debug.Log(allItems);
     }
+#endif
 }

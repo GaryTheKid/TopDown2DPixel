@@ -5,9 +5,13 @@ using UnityEngine.UI;
 
 public class PlayerEffectController : MonoBehaviour
 {
+    [SerializeField] private Transform _hpBarParent;
     [SerializeField] private Image _hpBar;
+    [SerializeField] private GameObject _ring;
+    [SerializeField] private GameObject _shadow;
     [SerializeField] private CharacterSoundFX _characterSoundFX;
     [SerializeField] private GameObject _ghostRunFXAnimator;
+    [SerializeField] private Animator _avatarAnimator;
     private Rigidbody2D _rb;
 
     private IEnumerator speedBoost_Co;
@@ -73,16 +77,38 @@ public class PlayerEffectController : MonoBehaviour
 
     public void DeathEffect()
     {
-        // TODO: death visual effect
+        // visual effect
+        _ring.SetActive(false);
+        _shadow.SetActive(false);
+
         // Play Death Animation
+        _avatarAnimator.SetBool("isDead", true);
 
         // Hp Bar disappear
+        foreach (var sprite in _hpBarParent.GetComponentsInChildren<Image>())
+        {
+            var col = sprite.color;
+            col.a = 0f;
+            sprite.color = col;
+        } 
     }
 
     public void RespawnEffect()
     {
-        // TODO: visual effect
+        // visual effect
+        _ring.SetActive(true);
+        _shadow.SetActive(true);
 
+        // Play Death Animation
+        _avatarAnimator.SetBool("isDead", false);
+
+        // Hp Bar disappear
+        foreach (var sprite in _hpBarParent.GetComponentsInChildren<Image>())
+        {
+            var col = sprite.color;
+            col.a = 1f;
+            sprite.color = col;
+        }
 
         // adjust hp bar
         _hpBar.fillAmount = 1f;

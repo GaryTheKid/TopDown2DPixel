@@ -27,6 +27,7 @@ public class PlayerWeaponController : MonoBehaviour
     private PhotonView _PV;
     private Rigidbody2D _rb;
     private Inventory _inventory;
+    private PlayerInventoryController _playerInventoryController;
     private PlayerStats _playerStats;
     private IEnumerator _co_Attack;
     private IEnumerator _co_Charge;
@@ -40,6 +41,7 @@ public class PlayerWeaponController : MonoBehaviour
     {
         _PV = GetComponent<PhotonView>();
         _playerStats = GetComponent<PlayerStatsController>().playerStats;
+        _playerInventoryController = GetComponent<PlayerInventoryController>();
         _rb = GetComponent<Rigidbody2D>();
         weaponType = Item.ItemType.Null;
     }
@@ -63,11 +65,11 @@ public class PlayerWeaponController : MonoBehaviour
 
     public void EquipWeapon(Weapon weapon)
     {
-        // if has equipped weapon, unequip it
+        /*// if has equipped weapon, unequip it
         bool isEquipping = true;
         if (this.weapon != null)
         {
-            isEquipping = weapon.itemName != this.weapon.itemName;
+            isEquipping = (weapon.itemName != this.weapon.itemName) && ();
             UnequipWeapon();
         }
         
@@ -81,7 +83,16 @@ public class PlayerWeaponController : MonoBehaviour
             weaponAnimator = weaponPrefab.GetComponent<Animator>();
             fireTransform = weaponPrefab.Find("FirePos");
             fireFX = weaponPrefab.Find("FireFX").GetComponent<AudioSource>();
-        }
+        }*/
+
+        UnequipWeapon();
+        bareHandsPrefab.gameObject.SetActive(false);
+        this.weapon = weapon;
+        weaponType = weapon.itemType;
+        weaponPrefab = Instantiate(weapon.GetEquipmentPrefab(), spreadTransform);
+        weaponAnimator = weaponPrefab.GetComponent<Animator>();
+        fireTransform = weaponPrefab.Find("FirePos");
+        fireFX = weaponPrefab.Find("FireFX").GetComponent<AudioSource>();
     }
 
     public void UnequipWeapon()
@@ -125,6 +136,16 @@ public class PlayerWeaponController : MonoBehaviour
         fireFX = weaponPrefab.Find("FireFX").GetComponent<AudioSource>();
     }
 
+    public void UnequipHands()
+    {
+        bareHandsPrefab.gameObject.SetActive(false);
+        weaponPrefab = null;
+        weapon = null;
+        weaponType = Item.ItemType.Null;
+        weaponAnimator = null;
+        fireFX = null;
+    }
+
     // handle the weapon aimming
     public void HandleAiming()
     {
@@ -143,6 +164,9 @@ public class PlayerWeaponController : MonoBehaviour
     public void HandleAttack()
     {
         if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
+        if (_playerInventoryController.IsUsingUI)
             return;
 
         if (_playerStats.isWeaponLocked)

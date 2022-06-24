@@ -13,7 +13,9 @@ public class Item
     public short durability;
     public float useCD;
     public bool isEquipped;
-    public enum ItemType 
+    public ItemType itemType;
+    public Action destroySelfAction;
+    public enum ItemType
     {
         Null,
         Consumable,
@@ -23,8 +25,6 @@ public class Item
         ChargableRangedWeapon,
         ThrowableWeapon
     }
-    public ItemType itemType;
-    public Action destroySelfAction;
 
     public virtual Sprite GetSprite()
     {

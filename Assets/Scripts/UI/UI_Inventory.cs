@@ -17,6 +17,7 @@ public class UI_Inventory : MonoBehaviour
     [SerializeField] private Transform _playerAnchorPos;
     [SerializeField] private PhotonView _PV;
     [SerializeField] private List<Slot> _itemSlots;
+    [SerializeField] private List<EquippingIndicator> _equippingIndicators;
     [SerializeField] private PlayerInventoryController _playerInventoryController;
     private Inventory _inventory;
     private int _inventorySize;
@@ -29,13 +30,16 @@ public class UI_Inventory : MonoBehaviour
         float itemSlotCellSize = 120f;
         _inventorySize = _inventory.maxCapacity;
 
-        _equipmentSlotCount = _equipmentSlotContainer.childCount;
+        _equipmentSlotCount = _equipmentSlotContainer.childCount / 2;
         for (short i = 0; i < _equipmentSlotCount; i++)
         {
             // equipment slots
             Slot equipmentSlot = _equipmentSlotContainer.GetChild(i).GetComponent<Slot>();
             equipmentSlot.uiIndex = i;
             _itemSlots.Add(equipmentSlot);
+
+            // equiping indicators
+            _equippingIndicators.Add(_equipmentSlotContainer.GetChild(i + _equipmentSlotCount).GetComponent<EquippingIndicator>());
         }
 
         for (int i = 0; i < _inventory.maxCapacity - _equipmentSlotCount; i++)
@@ -89,6 +93,9 @@ public class UI_Inventory : MonoBehaviour
             Destroy(child.gameObject);
         }
 
+        // clear indicators
+        ClearEquippingIndicator();
+
         // create ui
         for (int i = 0; i < _inventorySize; i++)
         {
@@ -101,6 +108,10 @@ public class UI_Inventory : MonoBehaviour
                 item = null;
                 continue;
             }
+
+            // show equipping indicator;
+            if (item.isEquipped)
+                ShowEquippingIndicator(i);
 
             // instantiate item template
             RectTransform itemSlotRectTransform = Instantiate(_itemTemplate, _itemContainer).GetComponent<RectTransform>();
@@ -151,6 +162,26 @@ public class UI_Inventory : MonoBehaviour
             {
                 // swap item pos
                 _playerInventoryController.DropItem((short)currUIIndex);
+
+                // if item is equipable, unequip it
+                if (item is IEquipable && item.isEquipped)
+                {
+                    item.Unequip(_PV);
+                }
+            };
+
+            // set drag drop logic
+            itemSlotRectTransform.GetComponent<DragDrop>().OnUsingUI = () =>
+            {
+                // swap item pos
+                _playerInventoryController.IsUsingUI = true;
+            };
+
+            // set drag drop logic
+            itemSlotRectTransform.GetComponent<DragDrop>().OnFinishUsingUI = () =>
+            {
+                // swap item pos
+                _playerInventoryController.IsUsingUI = false;
             };
 
             // set item ui image
@@ -179,6 +210,25 @@ public class UI_Inventory : MonoBehaviour
             // nest the item in the slot
             itemSlotRectTransform.GetComponent<DragDrop>().currentSlot = _itemSlots[i];
             itemSlotRectTransform.anchoredPosition = _itemSlots[i].transform.GetComponent<RectTransform>().anchoredPosition;
+        }
+    }
+
+    private void ShowEquippingIndicator(int index)
+    {
+        for (int i = 0; i < _equipmentSlotCount; i++)
+        {
+            if (i == index)
+            {
+                _equippingIndicators[i].gameObject.SetActive(true);
+            }
+        }
+    }
+
+    private void ClearEquippingIndicator()
+    {
+        for (int i = 0; i < _equipmentSlotCount; i++)
+        {
+            _equippingIndicators[i].gameObject.SetActive(false);
         }
     }
 }

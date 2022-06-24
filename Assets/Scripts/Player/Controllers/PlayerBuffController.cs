@@ -10,7 +10,7 @@ public class PlayerBuffController : MonoBehaviour
     [SerializeField] private GameObject _ghostCollider;
     [SerializeField] private GameObject _characterCollider;
     [SerializeField] private GameObject _hitBox;
-     
+
     private PlayerStats _playerStats;
     private PlayerStatsController _statsController;
     private PlayerEffectController _effectController;

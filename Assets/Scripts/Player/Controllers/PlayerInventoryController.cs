@@ -24,6 +24,12 @@ public class PlayerInventoryController : MonoBehaviour
     private bool _currLockFlag_Movement;
     private bool _currLockFlag_Weapon;
     private bool _currLockFlag_Inventory;
+    private bool _isUsingUI;
+    public bool IsUsingUI 
+    {
+        get { return _isUsingUI; }
+        set { _isUsingUI = value; }
+    }
 
     private void Awake()
     {
@@ -55,6 +61,20 @@ public class PlayerInventoryController : MonoBehaviour
         }
     }
 
+    private void HandleUseEquipment()
+    {
+        if (_playerStats.isInventoryLocked)
+            return;
+
+        for (int i = 0; i < _equipmentSlots.Count; i++)
+        {
+            if (Input.GetKeyDown(_equipmentSlots[i].keyCode) && _inventory.GetItemFromList(i) != null)
+            {
+                _inventory.UseItem(_PV, i);
+            }
+        }
+    }
+
     public void OpenUIInventory()
     {
         _itemSlots.SetActive(true);
@@ -72,20 +92,6 @@ public class PlayerInventoryController : MonoBehaviour
         _playerStats.isWeaponLocked = _currLockFlag_Weapon;
         _playerStats.isMovementLocked = _currLockFlag_Movement;
         _playerStats.isInventoryLocked = _currLockFlag_Inventory;
-    }
-
-    private void HandleUseEquipment()
-    {
-        if (_playerStats.isInventoryLocked)
-            return;
-
-        for (int i = 0; i < _equipmentSlots.Count; i++)
-        {
-            if (Input.GetKeyDown(_equipmentSlots[i].keyCode) && _inventory.GetItemFromList(i) != null)
-            {
-                _inventory.UseItem(_PV, i);
-            }
-        }
     }
 
     public Vector2 GetAnchorPos()
@@ -110,9 +116,9 @@ public class PlayerInventoryController : MonoBehaviour
         return _inventory;
     }
 
-    public void AddItem(Item item)
+    public bool AddItem(Item item)
     {
-        _inventory.AddItem(item);
+        return _inventory.AddItem(item);
     }
 
     public void DropItem(short itemIndex)

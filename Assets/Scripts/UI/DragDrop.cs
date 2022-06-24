@@ -8,6 +8,8 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 {
     public Action<int, int> OnChangeItemUIIndex;
     public Action<int> OnDragOutSideUI;
+    public Action OnUsingUI;
+    public Action OnFinishUsingUI;
     public Slot currentSlot;
     public RectTransform _rectTransform;
     public CanvasGroup _canvasGroup;
@@ -24,6 +26,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        OnUsingUI?.Invoke();
         _canvasGroup.alpha = 0.5f;
         _canvasGroup.blocksRaycasts = false;     
         _initialPos = _rectTransform.anchoredPosition;
@@ -38,6 +41,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        OnFinishUsingUI?.Invoke();
         _canvasGroup.alpha = 1f;
         _canvasGroup.blocksRaycasts = true;
         GameObject target = eventData.pointerEnter;

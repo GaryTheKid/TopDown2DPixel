@@ -51,8 +51,9 @@ public class RPC_Player : MonoBehaviour
     [PunRPC] 
     void RPC_Die()
     {
-        _playerWeaponController.UnequipWeapon();
         _playerStatsController.OnDeath.Invoke();
+        _playerWeaponController.UnequipWeapon();
+        _playerWeaponController.UnequipHands();
         _playerStatsController.playerStats.isDead = true;
     }
 
@@ -60,7 +61,7 @@ public class RPC_Player : MonoBehaviour
     void RPC_Respawn()
     {
         _playerStatsController.OnRespawn.Invoke();
-        _playerStatsController.playerStats.hp = _playerStatsController.playerStats.maxHp;
+        _playerWeaponController.EquipHands();
         _playerStatsController.playerStats.isDead = false;
     }
 
