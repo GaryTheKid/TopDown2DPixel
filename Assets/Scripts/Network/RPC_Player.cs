@@ -15,6 +15,7 @@ using Utilities;
 
 public class RPC_Player : MonoBehaviour
 {
+    private PhotonView _PV;
     private PlayerWeaponController _playerWeaponController;
     private PlayerBuffController _playerBuffController;
     private PlayerStatsController _playerStatsController;
@@ -23,6 +24,7 @@ public class RPC_Player : MonoBehaviour
 
     private void Awake()
     {
+        _PV = GetComponent<PhotonView>();
         _playerWeaponController = GetComponent<PlayerWeaponController>();
         _playerBuffController = GetComponent<PlayerBuffController>();
         _playerStatsController = GetComponent<PlayerStatsController>();
@@ -150,6 +152,8 @@ public class RPC_Player : MonoBehaviour
     void RPC_FireWeapon()
     {
         _playerWeaponController.weaponAnimator.SetTrigger("Attack");
+        var clip = _playerWeaponController.fireFX.clip;
+        _playerWeaponController.fireFX.PlayOneShot(clip);
     }
 
     [PunRPC]
@@ -158,12 +162,17 @@ public class RPC_Player : MonoBehaviour
         // reset charge and play attack animation
         _playerWeaponController.weaponAnimator.SetTrigger("Attack");
 
+        // play sound fx
+        var clip = _playerWeaponController.fireFX.clip;
+        _playerWeaponController.fireFX.PlayOneShot(clip);
+
         // get projectile in weapon controller
         var projectile = _playerWeaponController.weapon.projectile;
 
         // instantiate and fire (add force)
         var dir = Utilities.Math.DegreeToVector2(fireDirDeg);
         var projectilePf = Instantiate(projectile.GetProjectilePrefab(), firePos, Quaternion.identity);
+        if (!_PV.IsMine && projectilePf.gameObject.layer == LayerMask.NameToLayer("Projectile")) projectilePf.gameObject.layer = LayerMask.NameToLayer("EnemyProjectile"); 
         projectilePf.eulerAngles = new Vector3(0f, 0f, fireDirDeg);
 
         projectilePf.parent = GameManager.gameManager.spawnedProjectileParent;
@@ -183,6 +192,9 @@ public class RPC_Player : MonoBehaviour
         _playerWeaponController.weaponAnimator.SetTrigger("Attack");
         _playerWeaponController.weaponAnimator.SetFloat("ChargeTier", 0);
 
+        // play sound fx
+        _playerWeaponController.fireFX.Play();
+
         // get projectile in weapon controller
         var projectile = _playerWeaponController.weapon.projectile;
 
@@ -193,6 +205,7 @@ public class RPC_Player : MonoBehaviour
             // instantiate and fire (add force)
             var dir = Utilities.Math.DegreeToVector2(fireDirDeg);
             var projectilePf = Instantiate(projectile.GetProjectilePrefab(), firePos, Quaternion.identity);
+            if (!_PV.IsMine && projectilePf.gameObject.layer == LayerMask.NameToLayer("Projectile")) projectilePf.gameObject.layer = LayerMask.NameToLayer("EnemyProjectile");
             projectilePf.eulerAngles = new Vector3(0f, 0f, fireDirDeg);
 
             projectilePf.parent = GameManager.gameManager.spawnedProjectileParent;

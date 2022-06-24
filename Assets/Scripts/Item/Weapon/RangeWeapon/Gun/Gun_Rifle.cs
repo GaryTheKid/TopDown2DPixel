@@ -6,14 +6,15 @@ public class Gun_Rifle : Gun
 {
     public Gun_Rifle()
     {
-        itemName = "Gun_Rifle";
+        itemName = "Rifle";
         itemID = 11;
         amount = 1;
         itemType = ItemType.RangedWeapon;
         attackRange = 10f;
-        attackSpeed = 0.4f;
-        attackMoveSlowRate = 0.15f;
-        accuracy = 0.9f;
+        attackSpeed = 0.7f;
+        moveSlowDownModifier = 0.15f;
+        moveSlowDownTime = 0.8f;
+        accuracy = 1f;
         recoilForce = 0.45f;
         recoilTime = 0.05f;
         recoilRecoverTime = 0.05f;

@@ -5,17 +5,13 @@ using UnityEngine.UI;
 
 public class PlayerEffectController : MonoBehaviour
 {
-    [SerializeField] private Image hpBar;
-    private Rigidbody2D rb;
+    [SerializeField] private Image _hpBar;
+    [SerializeField] private CharacterSoundFX _characterSoundFX;
+    private Rigidbody2D _rb;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-    }
-
-    public void ReceiveMeleeWeaponDamageEffect()
-    {
-        
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     public void ReceiveDamageEffect(int currHP, int maxHP, Vector3 attackerPos, float knockBackDist)
@@ -25,12 +21,12 @@ public class PlayerEffectController : MonoBehaviour
         // TODO: pop up text
 
         // adjust hp bar
-        hpBar.fillAmount = (float)currHP / (float)maxHP;
+        _hpBar.fillAmount = (float)currHP / (float)maxHP;
 
         // knock back: apply impulse force attacker -> player
         Vector3 myPos = transform.position;
         Vector2 knockBackDir = new Vector2(myPos.x - attackerPos.x, myPos.x - attackerPos.x).normalized * knockBackDist;
-        rb.AddForce(knockBackDir, ForceMode2D.Impulse);
+        _rb.AddForce(knockBackDir, ForceMode2D.Impulse);
     }
 
     public void ReceiveHealingEffect(int currHP, int maxHP)
@@ -40,7 +36,10 @@ public class PlayerEffectController : MonoBehaviour
         // TODO: pop up text
 
         // adjust hp bar
-        hpBar.fillAmount = (float)currHP / (float)maxHP;
+        _hpBar.fillAmount = (float)currHP / (float)maxHP;
+
+        // play sound fx
+        _characterSoundFX.ConsumePotion();
     }
 
     public void SpeedBoostEffect()
@@ -63,6 +62,6 @@ public class PlayerEffectController : MonoBehaviour
 
 
         // adjust hp bar
-        hpBar.fillAmount = 1f;
+        _hpBar.fillAmount = 1f;
     }
 }

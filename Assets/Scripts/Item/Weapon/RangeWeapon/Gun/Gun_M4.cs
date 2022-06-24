@@ -6,14 +6,15 @@ public class Gun_M4 : Gun
 {
     public Gun_M4()
     {
-        itemName = "Gun_M4";
+        itemName = "M4-A1";
         itemID = 6;
         amount = 1;
         itemType = ItemType.RangedWeapon;
         attackRange = 10f;
-        attackSpeed = 12f;
-        attackMoveSlowRate = 0.1f;
-        accuracy = 0.97f;
+        attackSpeed = 9f;
+        moveSlowDownModifier = 0.1f;
+        moveSlowDownTime = 0.15f;
+        accuracy = 0.98f;
         recoilForce = 0.2f;
         recoilTime = 0.03f;
         recoilRecoverTime = 0.12f;

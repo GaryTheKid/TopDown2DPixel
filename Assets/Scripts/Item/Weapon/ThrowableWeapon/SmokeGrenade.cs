@@ -12,7 +12,8 @@ public class SmokeGrenade : Weapon
         amount = 1;
         itemType = ItemType.ThrowableWeapon;
         attackSpeed = 1.5f;
-        attackMoveSlowRate = 0.8f;
+        moveSlowDownModifier = 0.8f;
+        moveSlowDownTime = 0.3f;
         accuracy = 1f;
         maxChargeTier = 3;
         chargeSpeed = 6f;
@@ -30,7 +31,7 @@ public class SmokeGrenade : Weapon
         this.amount = amount;
         itemType = ItemType.ThrowableWeapon;
         attackSpeed = 1.5f;
-        attackMoveSlowRate = 0.8f;
+        moveSlowDownModifier = 0.8f;
         accuracy = 1f;
         maxChargeTier = 3;
         chargeSpeed = 6f;

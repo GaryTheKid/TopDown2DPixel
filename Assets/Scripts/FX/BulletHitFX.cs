@@ -25,6 +25,11 @@ public class BulletHitFX : FXPlayer_Projectile
 
         // start animation
         animator.SetTrigger("Hit");
+
+        // play soundFX
+        var soundFX = GetComponentInChildren<AudioSource>();
+        soundFX.pitch = Random.Range(1f, 2f);
+        soundFX.PlayOneShot(soundFX.clip);
     }
 
     public override void PlayHitFX()
@@ -36,6 +41,11 @@ public class BulletHitFX : FXPlayer_Projectile
 
         // start animation
         animator.SetTrigger("Hit");
+
+        // play soundFX
+        var soundFX = GetComponentInChildren<AudioSource>();
+        soundFX.pitch = Random.Range(1f, 2f);
+        soundFX.PlayOneShot(soundFX.clip);
     }
 
     public void DestroySelf()

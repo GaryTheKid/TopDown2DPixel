@@ -9,6 +9,7 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private Animator _animator;
 
     private PlayerStatsController _playerStatsController;
+    private PlayerStats _playerStats;
     private Rigidbody2D _rb;
     private Vector3 _moveDir;
 
@@ -16,6 +17,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _playerStatsController = GetComponent<PlayerStatsController>();
+        _playerStats = _playerStatsController.playerStats;
     }
 
     // Update is called once per frame
@@ -23,8 +25,8 @@ public class PlayerMovementController : MonoBehaviour
     {
         /// player dead will turn to ghost, and move even faster!
 
-        /*if (_playerStats.isDead)
-            return;*/
+        if (_playerStats.isMovementLocked)
+            return;
 
         float moveX = 0f;
         float moveY = 0f;
@@ -57,8 +59,8 @@ public class PlayerMovementController : MonoBehaviour
     {
         /// player dead will turn to ghost, and move even faster!
 
-        /*if (_playerStats.isDead)
-            return;*/
+        if (_playerStats.isMovementLocked)
+            return;
 
         bool isIdle = _moveDir == Vector3.zero;
 

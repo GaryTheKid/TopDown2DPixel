@@ -34,7 +34,7 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
             Destroy(_playerCamera);
             Destroy(_audioListener);
             _ui_Canvas.SetActive(false);
-            _CharacterCollider.layer = LayerMask.NameToLayer("Default");
+            _CharacterCollider.layer = LayerMask.NameToLayer("Enemy");
             transform.parent = GameManager.gameManager.spawnedPlayerParent;
         }
         else 

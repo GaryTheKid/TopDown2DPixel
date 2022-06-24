@@ -12,7 +12,7 @@ public class HealthPotion : Consumables
     public HealthPotion() 
     {
         healAmount = 10;
-        itemName = "HealthPotion";
+        itemName = "Health Potion";
         itemID = 4;
         amount = 1;
         itemType = ItemType.Consumable;

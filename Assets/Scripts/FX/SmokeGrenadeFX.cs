@@ -30,7 +30,11 @@ public class SmokeGrenadeFX : FXPlayer_Projectile
         // add torque, let it spin
         rb.AddTorque(activationTorque, ForceMode2D.Impulse);
 
-        // activate
+        // play sound fx
+        var soundFX = GetComponentInChildren<AudioSource>();
+        soundFX.PlayOneShot(soundFX.clip);
+
+        // activate smoke particle
         smoke.Play();
 
         // wait expire

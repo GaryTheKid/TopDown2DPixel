@@ -17,15 +17,17 @@ public class PlayerInventoryController : MonoBehaviour
     [SerializeField] private GameObject _itemSlots;
     [SerializeField] private Transform _playerAnchorPos;
 
-    private PlayerStats playerStats;
+    private PlayerStats _playerStats;
     private Inventory _inventory;
     private List<Slot> _equipmentSlots;
     private PhotonView _PV;
-    private bool currLockFlag;
+    private bool _currLockFlag_Movement;
+    private bool _currLockFlag_Weapon;
+    private bool _currLockFlag_Inventory;
 
     private void Awake()
     {
-        playerStats = GetComponent<PlayerStatsController>().playerStats;
+        _playerStats = GetComponent<PlayerStatsController>().playerStats;
         _PV = GetComponent<PhotonView>();
         _inventory = new Inventory();
         _uiInventory.SetInventory(_inventory);
@@ -35,7 +37,7 @@ public class PlayerInventoryController : MonoBehaviour
 
     private void Update()
     {
-        if (playerStats.isDead)
+        if (_playerStats.isDead)
             return;
 
         HandleUIInventory();
@@ -49,19 +51,28 @@ public class PlayerInventoryController : MonoBehaviour
             if (_itemSlots.activeSelf)
             {
                 _itemSlots.SetActive(false);
-                playerStats.isWeaponLocked = currLockFlag;
+                _playerStats.isWeaponLocked = _currLockFlag_Weapon;
+                _playerStats.isMovementLocked = _currLockFlag_Movement;
+                _playerStats.isInventoryLocked = _currLockFlag_Inventory;
             }
             else
             {
                 _itemSlots.SetActive(true);
-                currLockFlag = playerStats.isWeaponLocked;
-                playerStats.isWeaponLocked = true;
+                _currLockFlag_Weapon = _playerStats.isWeaponLocked;
+                _currLockFlag_Movement = _playerStats.isMovementLocked;
+                _currLockFlag_Inventory = _playerStats.isInventoryLocked;
+                _playerStats.isWeaponLocked = true;
+                _playerStats.isMovementLocked = true;
+                _playerStats.isInventoryLocked = true;
             }
         }
     }
 
     private void HandleUseEquipment()
     {
+        if (_playerStats.isInventoryLocked)
+            return;
+
         for (int i = 0; i < _equipmentSlots.Count; i++)
         {
             if (Input.GetKeyDown(_equipmentSlots[i].keyCode) && _inventory.GetItemFromList(i) != null)

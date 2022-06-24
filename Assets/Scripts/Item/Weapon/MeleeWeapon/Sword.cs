@@ -14,7 +14,9 @@ public class Sword : Weapon
         accuracy = 1f;
         attackRange = 10f;
         attackSpeed = 1.8f;
-        attackMoveSlowRate = 0.7f;
+        moveSlowDownModifier = 0.8f;
+        moveSlowDownTime = 0.35f;
+
         damageInfo = new DamageInfo 
         { 
             damageType = DamageInfo.DamageType.Physics,

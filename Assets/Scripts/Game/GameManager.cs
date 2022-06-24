@@ -26,7 +26,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     // connection info
     public Text ping;
 
+    // scoreboard
+    public RectTransform scoreboardTemplate;
+
     // spawns
+    [Header("Spawn")]
     public List<Transform> playerSpawns;
     public List<Transform> itemSpawns;
     public List<(SpawnArea, int, int)> lootBoxSpawnAreas;
@@ -40,21 +44,21 @@ public class GameManager : MonoBehaviourPunCallbacks
     // players
     public Player[] playerList;
 
-    // scoreboard
-    public RectTransform scoreboardTemplate;
-
     // lootBoxes
+    [Header("Loot Box")]
     [Tooltip("How many loot boxes can exist in the world at the same time.")]
     public short maxLootBoxSpawnInWorld;
     [Tooltip("How long can loot boxes exist.")]
     public float lootBoxWorldLifeTime;
 
     // items
+    [Header("Item")]
     [Tooltip("How many items can exist in the world at the same time.")]
     public short maxItemSpawnInWorld;
     public float itemWorldLifeTime;
 
     // parents
+    [Header("Parents")]
     public Transform lootBoxSpawnAreaParent;
     public Transform spawnedPlayerParent;
     public Transform spawnedLootBoxParent;
@@ -64,6 +68,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Transform scoreboardParent;
 
     // timer
+    [Header("Timer")]
     public float timer;
     public float spawnTimer;
 
@@ -78,7 +83,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         SpawnPlayerCharacter();
 
-        SpawnItem(itemSpawns[1].position, 13, 3);
+        /*if (PhotonNetwork.IsMasterClient)
+            SpawnItem(itemSpawns[1].position, 11, 3);*/
     }
 
     private void FixedUpdate()
@@ -87,8 +93,17 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient)
             return;
 
+        // show pin
+        ping.text = PhotonNetwork.GetPing().ToString() + "ms";
+
         // running timers
         timer += Time.fixedDeltaTime;
+
+        // stop spawning loot box if reach max
+        if (spawnedLootBoxParent.childCount > maxLootBoxSpawnInWorld)
+            return;
+
+        // spawn loot box randomly
         spawnTimer += Time.fixedDeltaTime;
         if (spawnTimer >= spawnWaveTimeStep)
         {
@@ -99,9 +114,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             spawnTimer = 0f;
         }
-
-        // show pin
-        ping.text = PhotonNetwork.GetPing().ToString() + "ms";
     }
 
     #region Character
@@ -306,7 +318,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         UpdateRoomPlayerList();
-        SpawnScoreboardTag(newPlayer.NickName);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)

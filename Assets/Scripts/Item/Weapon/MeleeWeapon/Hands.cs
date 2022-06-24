@@ -14,7 +14,9 @@ public class Hands : Weapon
         accuracy = 1f;
         attackRange = 10f;
         attackSpeed = 2f;
-        attackMoveSlowRate = 0.95f;
+        moveSlowDownModifier = 0.95f;
+        moveSlowDownTime = 0.05f;
+
         damageInfo = new DamageInfo
         {
             damageType = DamageInfo.DamageType.Physics,

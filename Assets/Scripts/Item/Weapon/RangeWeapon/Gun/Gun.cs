@@ -12,7 +12,7 @@ public abstract class Gun : Weapon
         itemType = ItemType.RangedWeapon;
         attackRange = 10f;
         attackSpeed = 12f;
-        attackMoveSlowRate = 0.1f;
+        moveSlowDownModifier = 0.1f;
         accuracy = 0.95f;
         recoilForce = 0.5f;
         recoilTime = 0.05f;

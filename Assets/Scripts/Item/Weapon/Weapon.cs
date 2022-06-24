@@ -23,7 +23,8 @@ public abstract class Weapon : Item, IEquipable
     public DamageInfo damageInfo;
     public float attackRange;
     public float attackSpeed;
-    public float attackMoveSlowRate;
+    public float moveSlowDownModifier;
+    public float moveSlowDownTime;
     public float recoilForce;
     public float recoilSpread;
     public float recoilTime;

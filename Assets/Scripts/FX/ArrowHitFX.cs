@@ -26,5 +26,7 @@ public class ArrowHitFX : FXPlayer_Projectile
         GetComponentInParent<ProjectileWorld>().DisablePhysics();
         SpriteAnchor.GetComponent<Animator>().enabled = true;
         GetComponentInParent<TrailRenderer>().enabled = false;
+        var soundFX = GetComponentInChildren<AudioSource>();
+        soundFX.PlayOneShot(soundFX.clip);
     }
 }

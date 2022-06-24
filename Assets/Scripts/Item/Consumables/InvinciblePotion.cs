@@ -10,7 +10,7 @@ public class InvinciblePotion : Consumables
     public InvinciblePotion()
     {
         effectTime = 2f;
-        itemName = "InvinciblePotion";
+        itemName = "Invincible Potion";
         itemID = 9;
         amount = 1;
         itemType = ItemType.Consumable;
@@ -19,7 +19,7 @@ public class InvinciblePotion : Consumables
     public InvinciblePotion(short amount)
     {
         effectTime = 2f;
-        itemName = "InvinciblePotion";
+        itemName = "Invincible Potion";
         itemID = 9;
         this.amount = amount;
         itemType = ItemType.Consumable;

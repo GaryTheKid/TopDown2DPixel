@@ -22,12 +22,14 @@ public class PlayerWeaponController : MonoBehaviour
     public Transform fireTransform;
     public Transform spreadTransform;
     public Transform animationTransform;
+    public AudioSource fireFX;
     private PhotonView _PV;
     private Rigidbody2D _rb;
     private Inventory _inventory;
     private PlayerStats _playerStats;
     private IEnumerator _co_Attack;
     private IEnumerator _co_Charge;
+    private IEnumerator _co_Slow;
     private bool isFlipped;
 
     public int chargeTier;
@@ -77,6 +79,7 @@ public class PlayerWeaponController : MonoBehaviour
             weaponPrefab = Instantiate(weapon.GetEquipmentPrefab(), spreadTransform);
             weaponAnimator = weaponPrefab.GetComponent<Animator>();
             fireTransform = weaponPrefab.Find("FirePos");
+            fireFX = weaponPrefab.Find("FireFX").GetComponent<AudioSource>();
         }
     }
 
@@ -86,6 +89,7 @@ public class PlayerWeaponController : MonoBehaviour
         weaponType = Item.ItemType.Null;
         weaponAnimator = null;
         fireTransform = null;
+        fireFX = null;
         if (weaponPrefab != null && weaponPrefab != bareHandsPrefab)
         {
             Destroy(weaponPrefab.gameObject);
@@ -117,6 +121,7 @@ public class PlayerWeaponController : MonoBehaviour
         weapon = new Hands();
         weaponType = Item.ItemType.MeleeWeapon;
         weaponAnimator = bareHandsPrefab.GetComponent<Animator>();
+        fireFX = weaponPrefab.Find("FireFX").GetComponent<AudioSource>();
     }
 
     // handle the weapon aimming
@@ -230,6 +235,12 @@ public class PlayerWeaponController : MonoBehaviour
         // lock aim
         //_playerStats.isWeaponLocked = true;
 
+        // spread
+        if (weapon.accuracy < 1f)
+        {
+            StartCoroutine(Co_Spread());
+        }
+
         // attack
         switch (weaponType)
         {
@@ -243,14 +254,12 @@ public class PlayerWeaponController : MonoBehaviour
                 break;
         }
 
-        // spread
-        if (weapon.accuracy < 1f)
+        // slow down movement speed
+        if (_co_Slow == null)
         {
-            StartCoroutine(Co_Spread());
+            _co_Slow = Co_Slow();
+            StartCoroutine(_co_Slow);
         }
-
-        // slow down movement during charge
-        _playerStats.speedModifier = weapon.attackMoveSlowRate;
 
         // recoil force
         _rb.AddForce(-Math.DegreeToVector2(aimTransform.eulerAngles.z) * weapon.recoilForce, ForceMode2D.Impulse);
@@ -282,8 +291,6 @@ public class PlayerWeaponController : MonoBehaviour
         // unlock aim
         //_playerStats.isWeaponLocked = false;
 
-        // restore movement speed
-        _playerStats.speedModifier = 1f;
         
         // clear co
         _co_Attack = null;
@@ -328,5 +335,21 @@ public class PlayerWeaponController : MonoBehaviour
             // wait cd
             yield return new WaitForSecondsRealtime(1f / weapon.chargeSpeed);
         }
+    }
+
+    // Coroutine: Weapon slow movement speed
+    private IEnumerator Co_Slow()
+    {
+        // slow down movement during charge
+        _playerStats.speedModifier = weapon.moveSlowDownModifier;
+
+        // wait cd
+        yield return new WaitForSecondsRealtime(weapon.moveSlowDownTime);
+
+        // slow down movement during charge
+        _playerStats.speedModifier = 1f;
+
+        // clear co
+        _co_Slow = null;
     }
 }

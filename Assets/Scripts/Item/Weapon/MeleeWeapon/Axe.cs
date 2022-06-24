@@ -14,7 +14,9 @@ public class Axe : Weapon
         accuracy = 1f;
         attackRange = 8f;
         attackSpeed = 1f;
-        attackMoveSlowRate = 0.7f;
+        moveSlowDownModifier = 0.7f;
+        moveSlowDownTime = 0.4f;
+
         damageInfo = new DamageInfo
         {
             damageType = DamageInfo.DamageType.Physics,

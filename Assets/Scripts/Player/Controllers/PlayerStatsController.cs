@@ -10,6 +10,8 @@ public class PlayerStats
 {
     public bool isDead;
     public bool isInvincible;
+    public bool isInventoryLocked;
+    public bool isMovementLocked;
     public bool isWeaponLocked;
     public int maxHp;
     public int hp;
@@ -21,6 +23,8 @@ public class PlayerStats
     {
         isDead = false;
         isInvincible = false;
+        isInventoryLocked = false;
+        isMovementLocked = false;
         isWeaponLocked = false;
         maxHp = 100;
         hp = 100;
