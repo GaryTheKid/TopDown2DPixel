@@ -2,12 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class Slot : MonoBehaviour, IDropHandler
 {
     public short uiIndex;
     public KeyCode keyCode = KeyCode.None;
+
+    [SerializeField] private Text shortCutText;
+
+    private void Start()
+    {
+        shortCutText.text = keyCode.ToString().Replace("Alpha","");
+    }
 
     public virtual void OnDrop(PointerEventData eventData)
     {
@@ -16,5 +24,11 @@ public class Slot : MonoBehaviour, IDropHandler
         {
             eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
         }
+    }
+
+    public void UpdateKeyCode(KeyCode newKeyCode)
+    {
+        keyCode = newKeyCode;
+        shortCutText.text = keyCode.ToString();
     }
 }
