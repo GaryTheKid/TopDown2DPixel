@@ -10,10 +10,11 @@ public class PlayerBuffController : MonoBehaviour
     [SerializeField] private GameObject _ghostCollider;
     [SerializeField] private GameObject _characterCollider;
     [SerializeField] private GameObject _hitBox;
-
+     
     private PlayerStats _playerStats;
     private PlayerStatsController _statsController;
     private PlayerEffectController _effectController;
+    private PlayerInventoryController _inventoryController;
     private Rigidbody2D _rb;
 
     private IEnumerator speedBoost_Co;
@@ -24,6 +25,7 @@ public class PlayerBuffController : MonoBehaviour
         _statsController = GetComponent<PlayerStatsController>();
         _playerStats = _statsController.playerStats;
         _effectController = GetComponent<PlayerEffectController>();
+        _inventoryController = GetComponent<PlayerInventoryController>();
         _rb = GetComponent<Rigidbody2D>();
     }
 
@@ -74,6 +76,9 @@ public class PlayerBuffController : MonoBehaviour
         // check if hp overflow, add healing amount to hp
         _statsController.UpdateHP(healingAmount);
 
+        // consume potion effect
+        _effectController.ConsumePotionEffect();
+
         // show the visual effect
         _effectController.ReceiveHealingEffect(_playerStats.hp, _playerStats.maxHp);
     }
@@ -94,8 +99,11 @@ public class PlayerBuffController : MonoBehaviour
             StartCoroutine(speedBoost_Co);
         }
 
+        // consume potion effect
+        _effectController.ConsumePotionEffect();
+
         // show the visual effect
-        _effectController.SpeedBoostEffect();
+        _effectController.SpeedBoostEffect(effectTime);
     }
     IEnumerator Co_SpeedBoost(float boostAmount, float effectTime)
     {
@@ -121,6 +129,9 @@ public class PlayerBuffController : MonoBehaviour
             StartCoroutine(invincible_Co);
         }
 
+        // consume potion effect
+        _effectController.ConsumePotionEffect();
+
         // TODO: show the visual effect
     }
     IEnumerator Co_Invincible(float effectTime)
@@ -133,6 +144,9 @@ public class PlayerBuffController : MonoBehaviour
 
     public void Ghostify()
     {
+        // close inventory
+        _inventoryController.CloseUIInventory();
+
         // switch colliders
         _characterCollider.SetActive(false);
         _hitBox.SetActive(false);

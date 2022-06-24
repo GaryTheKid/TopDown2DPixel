@@ -20,9 +20,8 @@ public class Gun_Rifle : Gun
         recoilRecoverTime = 0.05f;
 
         // projectile info
-        projectile = new Bullet();
+        projectile = new Bullet_Rifle();
         projectile.spawnWeapon = this;
-        projectile.damageInfo.damageAmount = 60f;
     }
 
     public override Transform GetEquipmentPrefab()

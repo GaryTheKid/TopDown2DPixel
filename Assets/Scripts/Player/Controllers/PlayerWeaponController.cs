@@ -8,6 +8,7 @@
 
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Utilities;
 using Photon.Pun;
 using ExitGames.Client.Photon;
@@ -141,6 +142,9 @@ public class PlayerWeaponController : MonoBehaviour
     // handle the weapon attack
     public void HandleAttack()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
         if (_playerStats.isWeaponLocked)
             return;
 

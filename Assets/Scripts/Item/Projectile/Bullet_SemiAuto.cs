@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Arrow : Projectile
+public class Bullet_SemiAuto : Projectile
 {
-    public Arrow()
+    public Bullet_SemiAuto()
     {
-        speed = 7f;
+        speed = 18f;
         maxDist = 100f;
         explosiveRadius = 0f;
-        lifeTime = 1.8f;
-        isSticky = true;
+        lifeTime = 1.2f;
+        isSticky = false;
         damageInfo = new DamageInfo
         {
             damageType = DamageInfo.DamageType.Physics,
-            damageAmount = 60f,
+            damageAmount = 15f,
             damageDelay = 0.2f,
             damageEffectTime = 0f,
             KnockBackDist = 2f,
@@ -24,11 +24,11 @@ public class Arrow : Projectile
 
     public override Transform GetProjectilePrefab()
     {
-        return ItemAssets.itemAssets.projArrow;
+        return ItemAssets.itemAssets.projBullet_SemiAuto;
     }
 
     public override Sprite GetSprite()
     {
-        return ItemAssets.itemAssets.arrowSprite;
+        return ItemAssets.itemAssets.bulletSprite;
     }
 }

@@ -49,23 +49,29 @@ public class PlayerInventoryController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (_itemSlots.activeSelf)
-            {
-                _itemSlots.SetActive(false);
-                _playerStats.isWeaponLocked = _currLockFlag_Weapon;
-                _playerStats.isMovementLocked = _currLockFlag_Movement;
-                _playerStats.isInventoryLocked = _currLockFlag_Inventory;
-            }
+                CloseUIInventory();
             else
-            {
-                _itemSlots.SetActive(true);
-                _currLockFlag_Weapon = _playerStats.isWeaponLocked;
-                _currLockFlag_Movement = _playerStats.isMovementLocked;
-                _currLockFlag_Inventory = _playerStats.isInventoryLocked;
-                _playerStats.isWeaponLocked = true;
-                _playerStats.isMovementLocked = true;
-                _playerStats.isInventoryLocked = true;
-            }
+                OpenUIInventory();
         }
+    }
+
+    public void OpenUIInventory()
+    {
+        _itemSlots.SetActive(true);
+        _currLockFlag_Weapon = _playerStats.isWeaponLocked;
+        _currLockFlag_Movement = _playerStats.isMovementLocked;
+        _currLockFlag_Inventory = _playerStats.isInventoryLocked;
+        _playerStats.isWeaponLocked = true;
+        _playerStats.isMovementLocked = true;
+        _playerStats.isInventoryLocked = true;
+    }
+
+    public void CloseUIInventory()
+    {
+        _itemSlots.SetActive(false);
+        _playerStats.isWeaponLocked = _currLockFlag_Weapon;
+        _playerStats.isMovementLocked = _currLockFlag_Movement;
+        _playerStats.isInventoryLocked = _currLockFlag_Inventory;
     }
 
     private void HandleUseEquipment()

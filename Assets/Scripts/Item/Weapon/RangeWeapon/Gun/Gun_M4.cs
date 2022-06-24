@@ -20,7 +20,7 @@ public class Gun_M4 : Gun
         recoilRecoverTime = 0.12f;
 
         // projectile info
-        projectile = new Bullet();
+        projectile = new Bullet_SemiAuto();
         projectile.spawnWeapon = this;
     }
 

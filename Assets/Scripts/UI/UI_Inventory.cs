@@ -133,7 +133,7 @@ public class UI_Inventory : MonoBehaviour
             // set drag drop logic
             itemSlotRectTransform.GetComponent<DragDrop>().OnChangeItemUIIndex = (int currUIIndex, int newUIIndex) => 
             {
-                // swap item pos
+                // swap item in inventory
                 _inventory.SwapItems(currUIIndex, newUIIndex);
 
                 // if item is equipable, drag it from equipment slots will unequip it
@@ -141,6 +141,16 @@ public class UI_Inventory : MonoBehaviour
                 {
                     item.Unequip(_PV);
                 }
+
+                // update list
+                UpdateInventoryItems();
+            };
+
+            // set drag drop logic
+            itemSlotRectTransform.GetComponent<DragDrop>().OnDragOutSideUI = (int currUIIndex) =>
+            {
+                // swap item pos
+                _playerInventoryController.DropItem((short)currUIIndex);
             };
 
             // set item ui image

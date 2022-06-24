@@ -27,7 +27,8 @@ public class ItemAssets : MonoBehaviour
     // prefab for weapon Equipped
     [Header("Projectile Prefabs")]
     public Transform projArrow;
-    public Transform projBullet;
+    public Transform projBullet_SemiAuto;
+    public Transform projBullet_Rifle;
     public Transform projSmokeGrenade;
 
     // prefab for item world

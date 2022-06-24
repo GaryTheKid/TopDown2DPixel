@@ -1,30 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
-public class Bullet : Projectile
+public class Bullet_Rifle : Projectile
 {
-    public Bullet()
+    public Bullet_Rifle()
     {
-        speed = 18f;
+        speed = 28f;
         maxDist = 100f;
         explosiveRadius = 0f;
-        lifeTime = 1.2f;
+        lifeTime = 1f;
         isSticky = false;
         damageInfo = new DamageInfo
         {
             damageType = DamageInfo.DamageType.Physics,
-            damageAmount = 15f,
+            damageAmount = 60f,
             damageDelay = 0.2f,
             damageEffectTime = 0f,
-            KnockBackDist = 2f,
+            KnockBackDist = 5f,
         };
     }
 
     public override Transform GetProjectilePrefab()
     {
-        return ItemAssets.itemAssets.projBullet;
+        return ItemAssets.itemAssets.projBullet_Rifle;
     }
 
     public override Sprite GetSprite()

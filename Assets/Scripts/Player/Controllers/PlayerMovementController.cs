@@ -7,6 +7,7 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private float _dashAmount;
     [SerializeField] private LayerMask _dashLayerMask;
     [SerializeField] private Animator _animator;
+    [SerializeField] private Animator _ghostRunAnimator;
 
     private PlayerStatsController _playerStatsController;
     private PlayerStats _playerStats;
@@ -60,7 +61,16 @@ public class PlayerMovementController : MonoBehaviour
         /// player dead will turn to ghost, and move even faster!
 
         if (_playerStats.isMovementLocked)
+        {
+            // Idle
+            if (_animator.GetBool("isMoving"))
+            {
+                _animator.SetBool("isMoving", false);
+                _animator.SetFloat("moveX", 0f);
+            }
             return;
+        }
+            
 
         bool isIdle = _moveDir == Vector3.zero;
 
@@ -68,17 +78,36 @@ public class PlayerMovementController : MonoBehaviour
         {
             // Idle
             if (_animator.GetBool("isMoving"))
+            {
                 _animator.SetBool("isMoving", false);
+                _animator.SetFloat("moveX", 0f);
+            }
+            
+            // ghost run
+            if (_ghostRunAnimator.isActiveAndEnabled && _ghostRunAnimator.GetBool("isGhostRunning"))
+            {
+                _ghostRunAnimator.SetBool("isGhostRunning", false);
+                _ghostRunAnimator.SetFloat("moveX", 0f);
+                _ghostRunAnimator.SetFloat("moveY", 0f);
+            }
         }
         else
         {
             // is moving
             _rb.AddForce(_moveDir * _playerStatsController.GetCurrentSpeed());
             if (!_animator.GetBool("isMoving"))
-            {
                 _animator.SetBool("isMoving", true);
-            }
             _animator.SetFloat("moveX", _moveDir.x);
+
+            // ghost run
+            if (_ghostRunAnimator.isActiveAndEnabled)
+            {
+                if (!_ghostRunAnimator.GetBool("isGhostRunning"))
+                    _ghostRunAnimator.SetBool("isGhostRunning", true);
+                var velocity = _rb.velocity.normalized;
+                _ghostRunAnimator.SetFloat("moveX", velocity.x);
+                _ghostRunAnimator.SetFloat("moveY", velocity.y);
+            }
         }
 
         /*if (isDashing)

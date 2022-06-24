@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 3182331312006553878}
   - component: {fileID: 7342737953920279901}
   m_Layer: 9
-  m_Name: projBullet
+  m_Name: projBullet_SemiAuto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -150,7 +150,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.128152, y: 0.004366437}
+  m_Offset: {x: 0.18425548, y: 0.014230434}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -161,7 +161,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.0924699, y: 0.028887581}
+  m_Size: {x: 0.074395165, y: 0.048615575}
   m_EdgeRadius: 0
 --- !u!114 &7342737953920279901
 MonoBehaviour:
@@ -201,7 +201,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2918572995806467233, guid: 9aa6e99fef1f25f47b77c749f6e89e00, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.143
+      value: 0.025
       objectReference: {fileID: 0}
     - target: {fileID: 2918572995806467233, guid: 9aa6e99fef1f25f47b77c749f6e89e00, type: 3}
       propertyPath: m_LocalPosition.y
