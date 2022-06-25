@@ -15,6 +15,7 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _ui_Canvas;
     [SerializeField] private GameObject _HitBox;
     [SerializeField] private GameObject _CharacterCollider;
+    [SerializeField] private GameObject _ScreenSpaceFX;
     [SerializeField] private SpriteRenderer _characterSprite;
 
     private void Awake()
@@ -33,6 +34,7 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
             Destroy(GetComponent<PlayerInteractionController>());
             Destroy(_playerCamera);
             Destroy(_audioListener);
+            Destroy(_ScreenSpaceFX);
             _ui_Canvas.SetActive(false);
             _CharacterCollider.layer = LayerMask.NameToLayer("Enemy");
             transform.parent = GameManager.gameManager.spawnedPlayerParent;

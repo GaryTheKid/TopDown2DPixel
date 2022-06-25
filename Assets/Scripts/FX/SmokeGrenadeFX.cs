@@ -6,6 +6,7 @@ public class SmokeGrenadeFX : FXPlayer_Projectile
 {
     public float activationTime;
 
+    [SerializeField] private GameObject ScreenSmokeTrigger;
     [SerializeField] private float throwingTorque;
     [SerializeField] private float activationTorque;
     [SerializeField] private ParticleSystem smoke;
@@ -27,6 +28,9 @@ public class SmokeGrenadeFX : FXPlayer_Projectile
         // wait for activation
         yield return new WaitForSecondsRealtime(activationTime);
 
+        // activate trigger
+        ScreenSmokeTrigger.SetActive(true);
+
         // add torque, let it spin
         rb.AddTorque(activationTorque, ForceMode2D.Impulse);
 
@@ -38,7 +42,7 @@ public class SmokeGrenadeFX : FXPlayer_Projectile
         smoke.Play();
 
         // wait expire
-        yield return new WaitForSecondsRealtime(smoke.main.duration + smoke.main.startLifetimeMultiplier + 1f);
+        yield return new WaitForSecondsRealtime(smoke.main.duration + smoke.main.startLifetimeMultiplier);
 
         // clear
         Destroy(parent.gameObject);        

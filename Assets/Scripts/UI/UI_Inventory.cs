@@ -1,3 +1,11 @@
+/* Last Edition: 06/25/2022
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * 
+ * Description: 
+ *   Inventory UI, manipulating all ui elements.
+ */
+
 using System;
 using System.Collections;
 using System.Collections.Generic;

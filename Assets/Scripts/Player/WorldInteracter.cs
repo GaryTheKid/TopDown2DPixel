@@ -55,6 +55,12 @@ public class WorldInteracter : MonoBehaviour
                 itemWorldsInRange[i].HideInteractionText();
             }
         }
+
+        // trigger screen smoke
+        if (collision.gameObject.layer == LayerMask.NameToLayer("ScreenSmoke"))
+        {
+            GetComponentInParent<PlayerEffectController>().ScreenSmokeOn();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -94,6 +100,12 @@ public class WorldInteracter : MonoBehaviour
             {
                 itemWorldsInRange[itemWorldsInRange.Count - 1].DisplayInteractionText();
             }
+        }
+
+        // screen smoke off
+        if (collision.gameObject.layer == LayerMask.NameToLayer("ScreenSmoke"))
+        {
+            GetComponentInParent<PlayerEffectController>().ScreenSmokeOff();
         }
     }
 }

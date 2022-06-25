@@ -11,6 +11,7 @@ public class PlayerEffectController : MonoBehaviour
     [SerializeField] private GameObject _shadow;
     [SerializeField] private CharacterSoundFX _characterSoundFX;
     [SerializeField] private GameObject _ghostRunFXAnimator;
+    [SerializeField] private ScreenFogMask _screenFogFX;
     [SerializeField] private Animator _avatarAnimator;
     private Rigidbody2D _rb;
 
@@ -73,6 +74,16 @@ public class PlayerEffectController : MonoBehaviour
         yield return new WaitForSecondsRealtime(effectTime);
         _ghostRunFXAnimator.SetActive(false);
         speedBoost_Co = null;
+    }
+
+    public void ScreenSmokeOn()
+    {
+        _screenFogFX.SetFogOn();
+    }
+
+    public void ScreenSmokeOff()
+    {
+        _screenFogFX.SetFogOff();
     }
 
     public void DeathEffect()

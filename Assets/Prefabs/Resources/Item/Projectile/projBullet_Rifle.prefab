@@ -24,12 +24,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1010017661642027585}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.36666664, y: 0.025641028, z: 0}
-  m_LocalScale: {x: 0.3333333, y: 0.5128205, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
+  m_LocalPosition: {x: 0.26599997, y: -0.001000001, z: 0}
+  m_LocalScale: {x: 0.24999997, y: 0.19999997, z: 1}
   m_Children: []
-  m_Father: {fileID: 2189865219563569744}
-  m_RootOrder: 0
+  m_Father: {fileID: 5279715861106610933}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2358903532726253666
 MonoBehaviour:
@@ -96,12 +96,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1274341185718922269}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.2953333, y: 0.05333333, z: 0}
-  m_LocalScale: {x: 1.6766666, y: 1.2205129, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
+  m_LocalPosition: {x: 0.21249996, y: -0.011799999, z: 0}
+  m_LocalScale: {x: 1.2574999, y: 0.47599998, z: 1}
   m_Children: []
-  m_Father: {fileID: 2189865219563569744}
-  m_RootOrder: 2
+  m_Father: {fileID: 5279715861106610933}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7217224566982104682
 SpriteRenderer:
@@ -183,7 +183,7 @@ Transform:
   m_LocalScale: {x: 1.3333334, y: 2.564103, z: 1}
   m_Children: []
   m_Father: {fileID: 2189865219563569744}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &72436205929182855
 AudioSource:
@@ -320,11 +320,9 @@ Transform:
   m_LocalPosition: {x: -0.009, y: 0.009, z: 0}
   m_LocalScale: {x: 0.75, y: 0.39, z: 1}
   m_Children:
-  - {fileID: 3383909085081118423}
   - {fileID: 3562334361882125646}
-  - {fileID: 4092274047153860242}
   m_Father: {fileID: 5279715861106610933}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!95 &6628558278862252384
 Animator:
@@ -337,7 +335,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 04d04dabd3aae434fa03ff99c9ecdaa1, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 2
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -409,6 +407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 6628558278862252384}
+  sprite: {fileID: 1274341185718922269}
 --- !u!1 &8342394046852364536
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,6 +438,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.57, y: 1.39, z: 1}
   m_Children:
+  - {fileID: 4092274047153860242}
+  - {fileID: 3383909085081118423}
   - {fileID: 2189865219563569744}
   m_Father: {fileID: 0}
   m_RootOrder: 0

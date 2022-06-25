@@ -5,6 +5,7 @@ using UnityEngine;
 public class BulletHitFX : FXPlayer_Projectile
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private GameObject sprite;
 
     public override void PlayInitializationFX()
     {
@@ -24,6 +25,8 @@ public class BulletHitFX : FXPlayer_Projectile
         parent.StopAllCoroutines();
 
         // start animation
+        sprite.SetActive(false);
+        animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
         animator.SetTrigger("Hit");
 
         // play soundFX
@@ -40,6 +43,8 @@ public class BulletHitFX : FXPlayer_Projectile
         parent.StopAllCoroutines();
 
         // start animation
+        sprite.SetActive(false);
+        animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
         animator.SetTrigger("Hit");
 
         // play soundFX

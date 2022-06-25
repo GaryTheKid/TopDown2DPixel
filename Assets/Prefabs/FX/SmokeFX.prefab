@@ -286,7 +286,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 4.96
+      scalar: 6.96
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -3806,12 +3806,11 @@ ParticleSystem:
     serializedVersion: 2
     inside: 0
     outside: 0
-    enter: 0
-    exit: 0
+    enter: 2
+    exit: 2
     colliderQueryMode: 0
     radiusScale: 1
-    primitives:
-    - {fileID: 0}
+    primitives: []
   SubModule:
     serializedVersion: 2
     enabled: 0
@@ -4829,6 +4828,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activationTime: 3
+  ScreenSmokeTrigger: {fileID: 0}
   throwingTorque: 2
   activationTorque: 8
   smoke: {fileID: 2974869591031269547}
