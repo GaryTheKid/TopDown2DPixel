@@ -10,6 +10,8 @@ public class Gun_Rifle : Gun
         itemID = 11;
         amount = 1;
         itemType = ItemType.RangedWeapon;
+        durability = 15;
+
         attackRange = 10f;
         attackSpeed = 0.7f;
         moveSlowDownModifier = 0.15f;
@@ -32,5 +34,10 @@ public class Gun_Rifle : Gun
     public override Sprite GetSprite()
     {
         return ItemAssets.itemAssets.gunSprite_Rifle;
+    }
+
+    public override Sprite GetDurabilitySprite()
+    {
+        return ItemAssets.itemAssets.ui_icon_rifleBullet;
     }
 }

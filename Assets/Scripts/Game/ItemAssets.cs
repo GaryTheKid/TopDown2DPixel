@@ -44,7 +44,7 @@ public class ItemAssets : MonoBehaviour
     public Transform pfLootBoxSpawner;
 
     // Sprite for inventory and itemworld
-    [Header("Sprites")]
+    [Header("Item Sprites")]
     public Sprite handsSprite;
     public Sprite swordSprite;
     public Sprite axeSprite;
@@ -54,15 +54,19 @@ public class ItemAssets : MonoBehaviour
     public Sprite gunSprite_Pistol;
     public Sprite gunSprite_Rifle;
     public Sprite SmokeGrenadeSprite;
-
-    public Sprite arrowSprite;
-    public Sprite bulletSprite;
-
     public Sprite healthPotionSprite;
     public Sprite bigHealthPotionSprite;
     public Sprite superHealthPotionSprite;
     public Sprite speedPotionSprite;
     public Sprite invinciblePotionSprite;
+
+    [Header("Durability Icon Sprites")]
+    public Sprite ui_icon_none;
+    public Sprite ui_icon_melee;
+    public Sprite ui_icon_pistolBullets;
+    public Sprite ui_icon_semiAutoBullets;
+    public Sprite ui_icon_rifleBullet;
+    public Sprite ui_icon_arrow;
 
     [Header("Item Dictionary")]
     public Dictionary<short, Item> itemDic;

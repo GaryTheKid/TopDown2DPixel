@@ -29,6 +29,6 @@ public class Bullet_SemiAuto : Projectile
 
     public override Sprite GetSprite()
     {
-        return ItemAssets.itemAssets.bulletSprite;
+        return ItemAssets.itemAssets.ui_icon_semiAutoBullets;
     }
 }

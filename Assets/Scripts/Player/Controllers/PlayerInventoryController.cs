@@ -154,6 +154,18 @@ public class PlayerInventoryController : MonoBehaviour
         _inventory.RemoveItem(item);
     }
 
+    public void UpdateItemDurability(short delta)
+    {
+        (int uiIndex, short newDurability) = _inventory.UpdateItemDurability(delta);
+        if (uiIndex == -1)
+        {
+            print("Can't find equipped item!");
+            return;
+        }
+
+        _uiInventory.UpdateItemDurabilityUI(uiIndex, newDurability);
+    }
+
     public Item GetItem(int itemIndex)
     {
         return _inventory.GetItemFromList(itemIndex);

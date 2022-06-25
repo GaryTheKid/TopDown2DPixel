@@ -28,6 +28,7 @@ public class UI_Inventory : MonoBehaviour
     [SerializeField] private List<Slot> _itemSlots;
     [SerializeField] private List<EquippingIndicator> _equippingIndicators;
     [SerializeField] private PlayerInventoryController _playerInventoryController;
+    [SerializeField] private PlayerWeaponController _playerWeaponController;
     [SerializeField] private Image _inventoryCDImage;
     private Inventory _inventory;
     private int _inventorySize;
@@ -85,6 +86,7 @@ public class UI_Inventory : MonoBehaviour
 
         inventory.OnItemListChanged += Inventory_OnItemListChanged;
         inventory.OnInventoryCD += Inventory_OnInventoryCD;
+        inventory.OnUnequipItem += Inventory_OnUnequipItem;
         UpdateInventoryItems();
     }
 
@@ -101,6 +103,11 @@ public class UI_Inventory : MonoBehaviour
     private void Inventory_OnInventoryCD(object sender, System.EventArgs e)
     {
         SetInventoryOnCD(_playerInventoryController.inventoryCD);
+    }
+
+    private void Inventory_OnUnequipItem(object sender, System.EventArgs e)
+    {
+        NetworkCalls.Weapon_Network.UnequipWeapon(GetComponentInParent<PhotonView>());
     }
 
     public void UpdateInventoryItems()
@@ -207,31 +214,50 @@ public class UI_Inventory : MonoBehaviour
             };
 
             // set item ui image
-            Image image = itemSlotRectTransform.Find("image").GetComponent<Image>();
-            image.sprite = item.GetSprite();
+            itemSlotRectTransform.Find("image").GetComponent<Image>().sprite = item.GetSprite();
 
-            // set item ui amount text
-            Text uiText = itemSlotRectTransform.Find("amountText").GetComponent<Text>();
+            // set durability icon
+            itemSlotRectTransform.Find("durabilityIcon").GetComponent<Image>().sprite = item.GetDurabilitySprite();
+            
+            // set item ui amount text and durability
+            Text uiAmountText = itemSlotRectTransform.Find("amountText").GetComponent<Text>();
+            Text uiDurabilityText = itemSlotRectTransform.Find("durabilityText").GetComponent<Text>();
             switch (item.itemType)
             {
+                case Item.ItemType.Consumable:
+                case Item.ItemType.Material:
+                case Item.ItemType.ThrowableWeapon:
+                    uiAmountText.text = item.amount.ToString(); 
+                    break;
+
                 default:
                     if (item.amount > 1)
                     {
-                        uiText.text = item.amount.ToString();
+                        uiAmountText.text = item.amount.ToString();
                     }
                     else
                     {
-                        uiText.text = "";
+                        uiAmountText.text = "";
                     }
+                    uiDurabilityText.text = item.durability.ToString();
                     break;
-                case Item.ItemType.Consumable:
-                case Item.ItemType.Material:
-                    uiText.text = item.amount.ToString(); break;
             }
 
             // nest the item in the slot
             itemSlotRectTransform.GetComponent<UI_Item>().currentSlot = _itemSlots[i];
             itemSlotRectTransform.anchoredPosition = _itemSlots[i].transform.GetComponent<RectTransform>().anchoredPosition;
+        }
+    }
+
+    public void UpdateItemDurabilityUI(int index, short newDurability)
+    {
+        foreach (UI_Item ui_item in _itemContainer.GetComponentsInChildren<UI_Item>())
+        {
+            if(ui_item.currentSlot.uiIndex == index)
+            {
+                ui_item.transform.Find("durabilityText").GetComponent<Text>().text = newDurability.ToString();
+                return;
+            }
         }
     }
 

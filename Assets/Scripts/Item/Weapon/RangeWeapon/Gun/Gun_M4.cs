@@ -10,6 +10,8 @@ public class Gun_M4 : Gun
         itemID = 6;
         amount = 1;
         itemType = ItemType.RangedWeapon;
+        durability = 30;
+
         attackRange = 10f;
         attackSpeed = 9f;
         moveSlowDownModifier = 0.1f;
@@ -32,5 +34,10 @@ public class Gun_M4 : Gun
     public override Sprite GetSprite()
     {
         return ItemAssets.itemAssets.gunSprite_M4;
+    }
+
+    public override Sprite GetDurabilitySprite()
+    {
+        return ItemAssets.itemAssets.ui_icon_semiAutoBullets;
     }
 }

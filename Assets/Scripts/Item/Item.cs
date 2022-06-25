@@ -28,11 +28,12 @@ public class Item
 
     public virtual Sprite GetSprite()
     {
-        switch (itemName)
-        {
-            default:
-            case "Sword": return ItemAssets.itemAssets.swordSprite;
-        }
+        return null;
+    }
+
+    public virtual Sprite GetDurabilitySprite()
+    {
+        return ItemAssets.itemAssets.ui_icon_none;
     }
 
     public virtual bool IsStackable()

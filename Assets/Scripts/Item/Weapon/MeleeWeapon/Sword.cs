@@ -11,6 +11,8 @@ public class Sword : Weapon
         itemID = 1;
         amount = 1;
         itemType = ItemType.MeleeWeapon;
+        durability = 10;
+
         accuracy = 1f;
         attackRange = 10f;
         attackSpeed = 1.8f;
@@ -44,5 +46,10 @@ public class Sword : Weapon
     public override Sprite GetSprite()
     {
         return ItemAssets.itemAssets.swordSprite;
+    }
+
+    public override Sprite GetDurabilitySprite()
+    {
+        return ItemAssets.itemAssets.ui_icon_melee;
     }
 }

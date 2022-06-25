@@ -28,6 +28,6 @@ public class Bullet_Rifle : Projectile
 
     public override Sprite GetSprite()
     {
-        return ItemAssets.itemAssets.bulletSprite;
+        return ItemAssets.itemAssets.ui_icon_rifleBullet;
     }
 }

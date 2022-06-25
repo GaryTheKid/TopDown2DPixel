@@ -29,6 +29,6 @@ public class Arrow : Projectile
 
     public override Sprite GetSprite()
     {
-        return ItemAssets.itemAssets.arrowSprite;
+        return ItemAssets.itemAssets.ui_icon_arrow;
     }
 }

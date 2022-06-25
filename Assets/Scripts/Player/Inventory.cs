@@ -17,6 +17,7 @@ public class Inventory
 {
     public int maxCapacity;
     public event EventHandler OnItemListChanged;
+    public event EventHandler OnUnequipItem;
     public event EventHandler OnInventoryCD;
     private List<Item> itemList;
 
@@ -226,6 +227,32 @@ public class Inventory
 
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
         OnInventoryCD?.Invoke(this, EventArgs.Empty);
+    }
+
+    // return (index, modified durability)
+    public (int, short) UpdateItemDurability(short delta)
+    {
+        // modify this to the equipped item
+        for (int i = 0; i < itemList.Count; i++)
+        {
+            Item item = itemList[i];
+
+            if (item == null)
+                continue;
+
+            if (item.isEquipped)
+            {
+                item.durability += delta;
+                if (item.durability <= 0)
+                {
+                    RemoveItem(item);
+                    OnUnequipItem?.Invoke(this, EventArgs.Empty);
+                }
+                return (i, item.durability);
+            }
+        }
+
+        return (-1, 0);
     }
 
     public List<Item> GetItemList()

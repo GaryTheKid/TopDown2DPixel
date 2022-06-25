@@ -10,6 +10,8 @@ public class Gun_AK : Gun
         itemID = 5;
         amount = 1;
         itemType = ItemType.RangedWeapon;
+        durability = 30;
+
         attackRange = 10f;
         attackSpeed = 8f;
         moveSlowDownModifier = 0.15f;
@@ -22,7 +24,7 @@ public class Gun_AK : Gun
         // projectile info
         projectile = new Bullet_SemiAuto();
         projectile.spawnWeapon = this;
-        projectile.speed = 22f;
+        projectile.speed = 20f;
         projectile.damageInfo.damageAmount = 20f;
         projectile.damageInfo.KnockBackDist = 3f;
     }
@@ -35,5 +37,10 @@ public class Gun_AK : Gun
     public override Sprite GetSprite()
     {
         return ItemAssets.itemAssets.gunSprite_AK;
+    }
+
+    public override Sprite GetDurabilitySprite()
+    {
+        return ItemAssets.itemAssets.ui_icon_semiAutoBullets;
     }
 }

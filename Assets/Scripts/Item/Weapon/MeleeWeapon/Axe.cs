@@ -11,6 +11,8 @@ public class Axe : Weapon
         itemID = 3;
         amount = 1;
         itemType = ItemType.MeleeWeapon;
+        durability = 8;
+
         accuracy = 1f;
         attackRange = 8f;
         attackSpeed = 1f;
@@ -44,6 +46,11 @@ public class Axe : Weapon
     public override Sprite GetSprite()
     {
         return ItemAssets.itemAssets.axeSprite;
+    }
+
+    public override Sprite GetDurabilitySprite()
+    {
+        return ItemAssets.itemAssets.ui_icon_melee;
     }
 }
     

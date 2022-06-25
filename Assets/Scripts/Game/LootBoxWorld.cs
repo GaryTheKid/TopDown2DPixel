@@ -76,17 +76,33 @@ public class LootBoxWorld : MonoBehaviour
         if (PhotonNetwork.IsMasterClient)
         {
             short randItemID = (short)UnityEngine.Random.Range(1, ItemAssets.itemAssets.itemDic.Count + 1);
+            Item item = ItemAssets.itemAssets.itemDic[randItemID];
             short amount = 1;
-            switch (ItemAssets.itemAssets.itemDic[randItemID].itemType)
+            short durability = item.durability;
+            switch (item.itemType)
             {
-                case Item.ItemType.Consumable:
-                    amount = (short)UnityEngine.Random.Range(1, 4);
+                case Item.ItemType.MeleeWeapon:
+                    durability += (short)UnityEngine.Random.Range(-5, 3);
                     break;
+
+                case Item.ItemType.RangedWeapon:
+                case Item.ItemType.ChargableRangedWeapon:
+                    durability += (short)UnityEngine.Random.Range(-10, 5);
+                    break;
+
+                case Item.ItemType.Consumable:
+                    // invincible potion, speed potion, super health potion
+                    if (!(item.itemID == 7 || item.itemID == 8 || item.itemID == 9))
+                    {
+                        amount = (short)UnityEngine.Random.Range(1, 4);
+                    }
+                    break;
+
                 case Item.ItemType.ThrowableWeapon:
-                    amount = (short)UnityEngine.Random.Range(1, 2);
+                    amount = (short)UnityEngine.Random.Range(1, 3);
                     break;
             }
-            GameManager.gameManager.SpawnItem(transform.position, randItemID, amount);
+            GameManager.gameManager.SpawnItem(transform.position, randItemID, amount, durability);
         }
     }
 

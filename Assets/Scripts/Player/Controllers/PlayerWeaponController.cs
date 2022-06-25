@@ -260,9 +260,6 @@ public class PlayerWeaponController : MonoBehaviour
     // Coroutine: Weapon attack, melee
     private IEnumerator Co_Attack()
     {
-        // lock aim
-        //_playerStats.isWeaponLocked = true;
-
         // lock inventory
         float attackCD = 1f / weapon.attackSpeed;
         _playerInventoryController.SetInventoryOnCD(attackCD);
@@ -320,10 +317,10 @@ public class PlayerWeaponController : MonoBehaviour
         // wait cd
         yield return new WaitForSecondsRealtime(attackCD);
 
-        // unlock aim
-        //_playerStats.isWeaponLocked = false;
+        // update durability
+        if (!(weapon is Hands))
+            _playerInventoryController.UpdateItemDurability(-1);
 
-        
         // clear co
         _co_Attack = null;
     }

@@ -11,6 +11,8 @@ public class Bow : Weapon
         itemID = 2;
         amount = 1;
         itemType = ItemType.ChargableRangedWeapon;
+        durability = 15;
+
         attackSpeed = 1.5f;
         moveSlowDownModifier = 0.8f;
         moveSlowDownTime = 0.3f;
@@ -44,5 +46,10 @@ public class Bow : Weapon
     public override Sprite GetSprite() 
     {
         return ItemAssets.itemAssets.bowSprite;
+    }
+
+    public override Sprite GetDurabilitySprite()
+    {
+        return ItemAssets.itemAssets.ui_icon_arrow;
     }
 }

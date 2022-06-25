@@ -3288,13 +3288,17 @@ MonoBehaviour:
   gunSprite_Pistol: {fileID: 21300000, guid: 8d723ee70c2209f4c84fd262acb24a5b, type: 3}
   gunSprite_Rifle: {fileID: 21300000, guid: e6c38c4fd248fc149acb7553c63332a5, type: 3}
   SmokeGrenadeSprite: {fileID: 21300000, guid: 0e03fb2a4b4312744b2fae847eaab0cb, type: 3}
-  arrowSprite: {fileID: 1396731222637651634, guid: a6b57d71e81e723468402bd4b49b48b5, type: 3}
-  bulletSprite: {fileID: 21300000, guid: 64bf69112397ec64bb89727ee78cf0bf, type: 3}
   healthPotionSprite: {fileID: 21300000, guid: 100b236b72daa4c4da4c410baada9739, type: 3}
   bigHealthPotionSprite: {fileID: 21300000, guid: 924b23edbd9de764197e92ae63be93da, type: 3}
   superHealthPotionSprite: {fileID: 21300000, guid: 4edf8952660c18443b305a0676f1f484, type: 3}
   speedPotionSprite: {fileID: 21300000, guid: 008f88bc7af2de747ad44c9303e5cc6d, type: 3}
   invinciblePotionSprite: {fileID: 21300000, guid: b8388814c643bef479cc49abda0b55c8, type: 3}
+  ui_icon_none: {fileID: 21300000, guid: 953a56938fe568c468552a8a4164b7ee, type: 3}
+  ui_icon_melee: {fileID: 21300000, guid: 831bc8d93d7ba7b46a9141929322eeb0, type: 3}
+  ui_icon_pistolBullets: {fileID: 21300000, guid: 3289c462cb0a0684eaef53223382120c, type: 3}
+  ui_icon_semiAutoBullets: {fileID: 21300000, guid: a6a07ef719d1bfb4984bf0e2b92bc041, type: 3}
+  ui_icon_rifleBullet: {fileID: 21300000, guid: 13c547f3d4fef1347a289fddbc6f569b, type: 3}
+  ui_icon_arrow: {fileID: 21300000, guid: 22194f4f709768a41959b15670795d20, type: 3}
 --- !u!1 &1536257103
 GameObject:
   m_ObjectHideFlags: 0
