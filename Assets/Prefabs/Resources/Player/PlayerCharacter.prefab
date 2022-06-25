@@ -1912,7 +1912,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -306, y: 497}
+  m_AnchoredPosition: {x: -307, y: 496}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4780631411482387762
@@ -3113,7 +3113,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5595210975991006983}
   m_Layer: 0
-  m_Name: ItemSlots
+  m_Name: BagSlots
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4556,9 +4556,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d7e5bb6243d0441ad0a25162a3c931, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryCD: 0
+  inventoryCD: 0.5
   _uiInventory: {fileID: 8307465710332931687}
-  _itemSlots: {fileID: 4223917211679191804}
   _playerAnchorPos: {fileID: 8031013269936304625}
 --- !u!114 &7578389046121567134
 MonoBehaviour:
@@ -6214,7 +6213,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6343267184009891037}
   m_Layer: 0
-  m_Name: EquipmentSlotContainer
+  m_Name: EquipmentSlots
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6343,7 +6342,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7971210513764705978}
   m_Layer: 0
-  m_Name: EmptySlotContainer
+  m_Name: EmptySlots
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7298,6 +7297,7 @@ MonoBehaviour:
   _emptySlotTemplate: {fileID: 2850361169917988380}
   _itemContainer: {fileID: 7918852594449155398}
   _itemTemplate: {fileID: 7689684214164178885}
+  _bagSlotContainer: {fileID: 4223917211679191804}
   _playerAnchorPos: {fileID: 8031013269936304625}
   _PV: {fileID: 8110680880012028758}
   _itemSlots: []

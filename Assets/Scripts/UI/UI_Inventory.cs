@@ -14,6 +14,7 @@ public class UI_Inventory : MonoBehaviour
     [SerializeField] private Transform _emptySlotTemplate;
     [SerializeField] private Transform _itemContainer;
     [SerializeField] private Transform _itemTemplate;
+    [SerializeField] private GameObject _bagSlotContainer; 
     [SerializeField] private Transform _playerAnchorPos;
     [SerializeField] private PhotonView _PV;
     [SerializeField] private List<Slot> _itemSlots;
@@ -57,7 +58,8 @@ public class UI_Inventory : MonoBehaviour
             _itemSlots.Add(itemSlot);
 
             // set position
-            slotRectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y * itemSlotCellSize);
+            Vector2 initPos = _emptySlotTemplate.GetComponent<RectTransform>().anchoredPosition;
+            slotRectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y * itemSlotCellSize) + initPos;
 
             // new line
             x++;
@@ -124,7 +126,8 @@ public class UI_Inventory : MonoBehaviour
 
             // instantiate item template
             RectTransform itemSlotRectTransform = Instantiate(_itemTemplate, _itemContainer).GetComponent<RectTransform>();
-            itemSlotRectTransform.gameObject.SetActive(true);
+            if (i < _equipmentSlotCount || _bagSlotContainer.activeInHierarchy)
+                itemSlotRectTransform.gameObject.SetActive(true);
 
             // set use item logic
             itemSlotRectTransform.GetComponent<Button_UI>().ClickFunc = () =>
@@ -255,6 +258,36 @@ public class UI_Inventory : MonoBehaviour
 
         // unlock
         _playerInventoryController.UnlockInventory();
+    }
+
+    public bool IsBagActive()
+    {
+        return _bagSlotContainer.activeSelf;
+    }
+
+    public void ShowBag()
+    {
+        _bagSlotContainer.SetActive(true);
+        foreach (Transform ui_Item in _itemContainer)
+        {
+            if (ui_Item == _itemTemplate)
+                continue;
+
+            ui_Item.gameObject.SetActive(true);
+        }
+    }
+
+    public void HideBag()
+    {
+        _bagSlotContainer.SetActive(false);
+        foreach (Transform ui_Item in _itemContainer)
+        {
+            if (ui_Item == _itemTemplate)
+                continue;
+
+            if (ui_Item.GetComponent<UI_Item>().currentSlot.uiIndex >= _equipmentSlotCount)
+                ui_Item.gameObject.SetActive(false);
+        }
     }
 
     private void ShowEquippingIndicator(int index)

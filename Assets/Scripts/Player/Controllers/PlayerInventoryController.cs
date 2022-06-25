@@ -16,7 +16,6 @@ public class PlayerInventoryController : MonoBehaviour
     public float inventoryCD;
 
     [SerializeField] private UI_Inventory _uiInventory;
-    [SerializeField] private GameObject _itemSlots;
     [SerializeField] private Transform _playerAnchorPos;
 
     private PlayerStats _playerStats;
@@ -56,7 +55,7 @@ public class PlayerInventoryController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (_itemSlots.activeSelf)
+            if (_uiInventory.IsBagActive())
                 CloseUIInventory();
             else
                 OpenUIInventory();
@@ -79,7 +78,7 @@ public class PlayerInventoryController : MonoBehaviour
 
     public void OpenUIInventory()
     {
-        _itemSlots.SetActive(true);
+        _uiInventory.ShowBag();
         _currLockFlag_Weapon = _playerStats.isWeaponLocked;
         _currLockFlag_Movement = _playerStats.isMovementLocked;
         _currLockFlag_Inventory = _playerStats.isInventoryLocked;
@@ -90,7 +89,7 @@ public class PlayerInventoryController : MonoBehaviour
 
     public void CloseUIInventory()
     {
-        _itemSlots.SetActive(false);
+        _uiInventory.HideBag();
         _playerStats.isWeaponLocked = _currLockFlag_Weapon;
         _playerStats.isMovementLocked = _currLockFlag_Movement;
         _playerStats.isInventoryLocked = _currLockFlag_Inventory;
