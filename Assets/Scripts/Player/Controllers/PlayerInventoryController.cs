@@ -13,6 +13,8 @@ using Photon.Pun;
 
 public class PlayerInventoryController : MonoBehaviour
 {
+    public float inventoryCD;
+
     [SerializeField] private UI_Inventory _uiInventory;
     [SerializeField] private GameObject _itemSlots;
     [SerializeField] private Transform _playerAnchorPos;
@@ -92,6 +94,26 @@ public class PlayerInventoryController : MonoBehaviour
         _playerStats.isWeaponLocked = _currLockFlag_Weapon;
         _playerStats.isMovementLocked = _currLockFlag_Movement;
         _playerStats.isInventoryLocked = _currLockFlag_Inventory;
+    }
+
+    public void LockInventory()
+    {
+        _playerStats.isInventoryLocked = true;
+    }
+
+    public void UnlockInventory()
+    {
+        _playerStats.isInventoryLocked = false;
+    }
+
+    public bool IsInventoryLocked()
+    {
+        return _playerStats.isInventoryLocked;
+    }
+
+    public void SetInventoryOnCD(float cd)
+    {
+        _uiInventory.SetInventoryOnCD(cd);
     }
 
     public Vector2 GetAnchorPos()

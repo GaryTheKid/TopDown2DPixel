@@ -17,6 +17,7 @@ public class Inventory
 {
     public int maxCapacity;
     public event EventHandler OnItemListChanged;
+    public event EventHandler OnInventoryCD;
     private List<Item> itemList;
 
     public Inventory()
@@ -224,6 +225,7 @@ public class Inventory
         }
 
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
+        OnInventoryCD?.Invoke(this, EventArgs.Empty);
     }
 
     public List<Item> GetItemList()

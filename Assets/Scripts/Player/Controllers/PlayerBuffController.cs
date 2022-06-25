@@ -93,11 +93,12 @@ public class PlayerBuffController : MonoBehaviour
         }
 
         // check if hp overflow, add healing amount to hp
-        if (speedBoost_Co == null)
+        if (speedBoost_Co != null)
         {
-            speedBoost_Co = Co_SpeedBoost(boostAmount, effectTime);
-            StartCoroutine(speedBoost_Co);
+            StopCoroutine(speedBoost_Co);
         }
+        speedBoost_Co = Co_SpeedBoost(boostAmount, effectTime);
+        StartCoroutine(speedBoost_Co);
 
         // consume potion effect
         _effectController.ConsumePotionEffect();
@@ -123,11 +124,12 @@ public class PlayerBuffController : MonoBehaviour
         }
 
         // check if hp overflow, add healing amount to hp
-        if (invincible_Co == null)
+        if (invincible_Co != null)
         {
-            invincible_Co = Co_Invincible(effectTime);
-            StartCoroutine(invincible_Co);
+            StopCoroutine(invincible_Co);
         }
+        invincible_Co = Co_Invincible(effectTime);
+        StartCoroutine(invincible_Co);
 
         // consume potion effect
         _effectController.ConsumePotionEffect();

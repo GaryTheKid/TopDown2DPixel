@@ -14,7 +14,8 @@ public class Slot : MonoBehaviour, IDropHandler
 
     private void Start()
     {
-        shortCutText.text = keyCode.ToString().Replace("Alpha","");
+        if (keyCode != KeyCode.None)
+            shortCutText.text = keyCode.ToString().Replace("Alpha", "");
     }
 
     public virtual void OnDrop(PointerEventData eventData)

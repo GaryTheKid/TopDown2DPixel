@@ -19,9 +19,12 @@ public class UI_Inventory : MonoBehaviour
     [SerializeField] private List<Slot> _itemSlots;
     [SerializeField] private List<EquippingIndicator> _equippingIndicators;
     [SerializeField] private PlayerInventoryController _playerInventoryController;
+    [SerializeField] private Image _inventoryCDImage;
     private Inventory _inventory;
     private int _inventorySize;
     private int _equipmentSlotCount;
+
+    private IEnumerator _inventoryCD_Co;
 
     public void SpawnItemSlots()
     {
@@ -71,6 +74,7 @@ public class UI_Inventory : MonoBehaviour
         this._inventory = inventory;
 
         inventory.OnItemListChanged += Inventory_OnItemListChanged;
+        inventory.OnInventoryCD += Inventory_OnInventoryCD;
         UpdateInventoryItems();
     }
 
@@ -82,6 +86,11 @@ public class UI_Inventory : MonoBehaviour
     private void Inventory_OnItemListChanged(object sender, System.EventArgs e) 
     {
         UpdateInventoryItems();
+    }
+
+    private void Inventory_OnInventoryCD(object sender, System.EventArgs e)
+    {
+        SetInventoryOnCD(_playerInventoryController.inventoryCD);
     }
 
     public void UpdateInventoryItems()
@@ -120,19 +129,21 @@ public class UI_Inventory : MonoBehaviour
             // set use item logic
             itemSlotRectTransform.GetComponent<Button_UI>().ClickFunc = () =>
             {
+                // check if inventory is on CD
+                if (_playerInventoryController.IsInventoryLocked())
+                    return;
+
                 // use item unless it is a equipable one and not be in the equipment slot
                 if (i >= _equipmentSlotCount && item is IEquipable)
-                {
                     return;
-                }
 
-                _inventory.UseItem(_PV, itemSlotRectTransform.GetComponent<DragDrop>().currentSlot.uiIndex);
+                _inventory.UseItem(_PV, itemSlotRectTransform.GetComponent<UI_Item>().currentSlot.uiIndex);
             };
 
             // set drop logic
             itemSlotRectTransform.GetComponent<Button_UI>().MouseRightClickFunc = () =>
             {
-                _playerInventoryController.DropItem(itemSlotRectTransform.GetComponent<DragDrop>().currentSlot.uiIndex);
+                _playerInventoryController.DropItem(itemSlotRectTransform.GetComponent<UI_Item>().currentSlot.uiIndex);
 
                 // if item is equipable, unequip it
                 if (item is IEquipable && item.isEquipped)
@@ -142,7 +153,7 @@ public class UI_Inventory : MonoBehaviour
             };
 
             // set drag drop logic
-            itemSlotRectTransform.GetComponent<DragDrop>().OnChangeItemUIIndex = (int currUIIndex, int newUIIndex) => 
+            itemSlotRectTransform.GetComponent<UI_Item>().OnChangeItemUIIndex = (int currUIIndex, int newUIIndex) => 
             {
                 // swap item in inventory
                 _inventory.SwapItems(currUIIndex, newUIIndex);
@@ -158,7 +169,7 @@ public class UI_Inventory : MonoBehaviour
             };
 
             // set drag drop logic
-            itemSlotRectTransform.GetComponent<DragDrop>().OnDragOutSideUI = (int currUIIndex) =>
+            itemSlotRectTransform.GetComponent<UI_Item>().OnDragOutSideUI = (int currUIIndex) =>
             {
                 // swap item pos
                 _playerInventoryController.DropItem((short)currUIIndex);
@@ -171,14 +182,14 @@ public class UI_Inventory : MonoBehaviour
             };
 
             // set drag drop logic
-            itemSlotRectTransform.GetComponent<DragDrop>().OnUsingUI = () =>
+            itemSlotRectTransform.GetComponent<UI_Item>().OnUsingUI = () =>
             {
                 // swap item pos
                 _playerInventoryController.IsUsingUI = true;
             };
 
             // set drag drop logic
-            itemSlotRectTransform.GetComponent<DragDrop>().OnFinishUsingUI = () =>
+            itemSlotRectTransform.GetComponent<UI_Item>().OnFinishUsingUI = () =>
             {
                 // swap item pos
                 _playerInventoryController.IsUsingUI = false;
@@ -208,9 +219,42 @@ public class UI_Inventory : MonoBehaviour
             }
 
             // nest the item in the slot
-            itemSlotRectTransform.GetComponent<DragDrop>().currentSlot = _itemSlots[i];
+            itemSlotRectTransform.GetComponent<UI_Item>().currentSlot = _itemSlots[i];
             itemSlotRectTransform.anchoredPosition = _itemSlots[i].transform.GetComponent<RectTransform>().anchoredPosition;
         }
+    }
+
+    public void SetInventoryOnCD(float cd)
+    {
+        if (_inventoryCD_Co != null)
+        {
+            StopCoroutine(_inventoryCD_Co);
+        }
+
+        _inventoryCD_Co = Co_inventoryCD(cd);
+        StartCoroutine(_inventoryCD_Co);
+    }
+    IEnumerator Co_inventoryCD(float cd)
+    {
+        // lock
+        _playerInventoryController.LockInventory();
+
+        // show cd ui
+        var time = 0f;
+        while (time < cd)
+        {
+            _inventoryCDImage.fillAmount = 1f - (time / cd);
+
+            // wait CD update
+            time += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        // restore cd ui
+        _inventoryCDImage.fillAmount = 0f;
+
+        // unlock
+        _playerInventoryController.UnlockInventory();
     }
 
     private void ShowEquippingIndicator(int index)

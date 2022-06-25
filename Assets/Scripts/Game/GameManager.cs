@@ -82,9 +82,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void Start()
     {
         SpawnPlayerCharacter();
-
-        if (PhotonNetwork.IsMasterClient)
-            SpawnItem(itemSpawns[1].position, 11, 3);
     }
 
     private void FixedUpdate()

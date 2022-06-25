@@ -263,6 +263,10 @@ public class PlayerWeaponController : MonoBehaviour
         // lock aim
         //_playerStats.isWeaponLocked = true;
 
+        // lock inventory
+        float attackCD = 1f / weapon.attackSpeed;
+        _playerInventoryController.SetInventoryOnCD(attackCD);
+
         // spread
         if (weapon.accuracy < 1f)
         {
@@ -314,7 +318,7 @@ public class PlayerWeaponController : MonoBehaviour
         }
 
         // wait cd
-        yield return new WaitForSecondsRealtime(1f / weapon.attackSpeed);
+        yield return new WaitForSecondsRealtime(attackCD);
 
         // unlock aim
         //_playerStats.isWeaponLocked = false;

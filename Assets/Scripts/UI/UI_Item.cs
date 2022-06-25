@@ -2,17 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
+public class UI_Item : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public Action<int, int> OnChangeItemUIIndex;
     public Action<int> OnDragOutSideUI;
     public Action OnUsingUI;
     public Action OnFinishUsingUI;
     public Slot currentSlot;
-    public RectTransform _rectTransform;
-    public CanvasGroup _canvasGroup;
+    public RectTransform rectTransform;
+    public CanvasGroup canvasGroup;
 
     [SerializeField] private Canvas _canvas;
     private Vector2 _initialPos;
@@ -20,30 +21,30 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     private void Awake()
     {
-        _rectTransform = GetComponent<RectTransform>();
-        _canvasGroup = GetComponent<CanvasGroup>();
+        rectTransform = GetComponent<RectTransform>();
+        canvasGroup = GetComponent<CanvasGroup>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         OnUsingUI?.Invoke();
-        _canvasGroup.alpha = 0.5f;
-        _canvasGroup.blocksRaycasts = false;     
-        _initialPos = _rectTransform.anchoredPosition;
+        canvasGroup.alpha = 0.5f;
+        canvasGroup.blocksRaycasts = false;     
+        _initialPos = rectTransform.anchoredPosition;
         DisableOthersBlockRaycast();
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         // move along the mouse position
-        _rectTransform.anchoredPosition += eventData.delta / _canvas.scaleFactor;
+        rectTransform.anchoredPosition += eventData.delta / _canvas.scaleFactor;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         OnFinishUsingUI?.Invoke();
-        _canvasGroup.alpha = 1f;
-        _canvasGroup.blocksRaycasts = true;
+        canvasGroup.alpha = 1f;
+        canvasGroup.blocksRaycasts = true;
         GameObject target = eventData.pointerEnter;
         EnableOthersBlockRaycast();
 
@@ -57,7 +58,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         // cannot be dropped outside the inventory bound
         if(!target.CompareTag("slot"))
         {
-            _rectTransform.anchoredPosition = _initialPos;
+            rectTransform.anchoredPosition = _initialPos;
             return;
         }
 
@@ -65,7 +66,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         Slot targetSlot = target.GetComponentInParent<Slot>();
         if (targetSlot == null)
         {
-            _rectTransform.anchoredPosition = _initialPos;
+            rectTransform.anchoredPosition = _initialPos;
             return;
         }
         // if drop into a new slot
@@ -106,21 +107,21 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     private void DisableOthersBlockRaycast()
     {
-        foreach (DragDrop child in transform.parent.GetComponentsInChildren<DragDrop>())
+        foreach (UI_Item child in transform.parent.GetComponentsInChildren<UI_Item>())
         {
             if (child == this)
                 continue;
-            child._canvasGroup.blocksRaycasts = false;
+            child.canvasGroup.blocksRaycasts = false;
         }
     }
 
     private void EnableOthersBlockRaycast()
     {
-        foreach (DragDrop child in transform.parent.GetComponentsInChildren<DragDrop>())
+        foreach (UI_Item child in transform.parent.GetComponentsInChildren<UI_Item>())
         {
             if (child == this)
                 continue;
-            child._canvasGroup.blocksRaycasts = true;
+            child.canvasGroup.blocksRaycasts = true;
         }
     }
 }
