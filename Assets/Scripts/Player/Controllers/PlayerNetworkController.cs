@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
 
 public class PlayerNetworkController : MonoBehaviourPunCallbacks
 {
     public string playerID;
     public ScoreboardTag scoreboardTag;
+    public TextMeshPro TMP_Name;
 
     private PhotonView _PV;
     [SerializeField] private GameObject _playerCamera;
@@ -44,10 +46,14 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
             _HitBox.tag = "Untagged";
             //characterSprite.color = Color.green;
         }
+
+        // update name
+        UpdatePlayerInfo();
     }
 
     public void UpdatePlayerInfo()
     {
-
+        string nameAndID = _PV.Owner.ToString().Split('\'')[1];
+        TMP_Name.text = nameAndID.Substring(0, nameAndID.IndexOf("#"));
     }
 }
