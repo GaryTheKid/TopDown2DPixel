@@ -17,8 +17,8 @@ public class Gun_Rifle : Gun
         moveSlowDownModifier = 0.15f;
         moveSlowDownTime = 0.8f;
         accuracy = 1f;
-        recoilForce = 0.45f;
-        recoilTime = 0.05f;
+        recoilForce = 5f;
+        recoilTime = 0.1f;
         recoilRecoverTime = 0.05f;
 
         // projectile info

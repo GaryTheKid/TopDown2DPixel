@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
+using Cinemachine;
+using MoreMountains.Feedbacks;
 
 public class PlayerEffectController : MonoBehaviour
 {
@@ -13,13 +16,43 @@ public class PlayerEffectController : MonoBehaviour
     [SerializeField] private GameObject _ghostRunFXAnimator;
     [SerializeField] private ScreenFogMask _screenFogFX;
     [SerializeField] private Animator _avatarAnimator;
+    [SerializeField] private CinemachineVirtualCamera _vCam;
+    [SerializeField] private MMF_Player mmf_player;
     private Rigidbody2D _rb;
 
     private IEnumerator speedBoost_Co;
+    private IEnumerator camShake_Co;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+    }
+
+    public void CameraShake(float intensity, float time)
+    {
+        if (time <= 0 || intensity <= 0)
+            return;
+
+        if (camShake_Co != null)
+        {
+            StopCoroutine(camShake_Co);
+        }
+
+        camShake_Co = Co_camShake(intensity, time);
+        StartCoroutine(camShake_Co);
+    }
+    IEnumerator Co_camShake(float intensity, float time)
+    {
+        var timer = time;
+        var perlin = _vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        perlin.m_AmplitudeGain = intensity;
+        while (timer >= 0f)
+        {
+            timer -= Time.deltaTime;
+            perlin.m_AmplitudeGain = timer / time;
+            yield return new WaitForEndOfFrame();
+        }
+        _vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0f;
     }
 
     public void ConsumePotionEffect()
@@ -28,22 +61,30 @@ public class PlayerEffectController : MonoBehaviour
         _characterSoundFX.ConsumePotion();
     }
 
-    public void ReceiveDamageEffect(int currHP, int maxHP, Vector3 attackerPos, float knockBackDist)
+    public void ReceiveDamageEffect(int maxHp, int hpBeforeChange, int dmgAmount, Vector3 attackerPos, float knockBackDist)
     {
         // play sound fx
         _characterSoundFX.BeingDamaged();
+
+        // camera shake
+        CameraShake(dmgAmount / 50f, 0.15f);
 
         // TODO: blink red
 
         // TODO: pop up text
 
-        // adjust hp bar
-        _hpBar.fillAmount = (float)currHP / (float)maxHP;
-
         // knock back: apply impulse force attacker -> player
         Vector3 myPos = transform.position;
         Vector2 knockBackDir = new Vector2(myPos.x - attackerPos.x, myPos.x - attackerPos.x).normalized * knockBackDist;
         _rb.AddForce(knockBackDir, ForceMode2D.Impulse);
+
+        // feedback effect
+        var end = (float)(hpBeforeChange - dmgAmount) / (float)maxHp;
+        mmf_player.GetFeedbackOfType<MMF_ImageFill>().DestinationFill = end;
+        mmf_player.PlayFeedbacks();
+
+        // adjust hp bar
+        _hpBar.fillAmount = end;
     }
 
     public void ReceiveHealingEffect(int currHP, int maxHP)

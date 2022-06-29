@@ -10,6 +10,7 @@ public class SmokeGrenade : Weapon
         itemName = "Smoke Grenade";
         itemID = 13;
         amount = 1;
+        durability = 999;
         itemType = ItemType.ThrowableWeapon;
         attackSpeed = 1.5f;
         moveSlowDownModifier = 0.8f;
@@ -29,6 +30,7 @@ public class SmokeGrenade : Weapon
         itemName = "Smoke Grenade";
         itemID = 13;
         this.amount = amount;
+        durability = 999;
         itemType = ItemType.ThrowableWeapon;
         attackSpeed = 1.5f;
         moveSlowDownModifier = 0.8f;

@@ -17,7 +17,7 @@ public class Gun_Pistol : Gun
         moveSlowDownModifier = 0.6f;
         moveSlowDownTime = 0.1f;
         accuracy = 0.95f;
-        recoilForce = 0.35f;
+        recoilForce = 0.5f;
         recoilTime = 0.03f;
         recoilRecoverTime = 0.03f;
 

@@ -17,7 +17,7 @@ public class Gun_AK : Gun
         moveSlowDownModifier = 0.15f;
         moveSlowDownTime = 0.20f;
         accuracy = 0.95f;
-        recoilForce = 0.40f;
+        recoilForce = 2f;
         recoilTime = 0.05f;
         recoilRecoverTime = 0.15f;
 

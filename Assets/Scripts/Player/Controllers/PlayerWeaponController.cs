@@ -28,6 +28,7 @@ public class PlayerWeaponController : MonoBehaviour
     private Rigidbody2D _rb;
     private Inventory _inventory;
     private PlayerInventoryController _playerInventoryController;
+    private PlayerEffectController _playerEffectController;
     private PlayerStats _playerStats;
     private IEnumerator _co_Attack;
     private IEnumerator _co_Charge;
@@ -36,12 +37,14 @@ public class PlayerWeaponController : MonoBehaviour
 
     public int chargeTier;
     public Item.ItemType weaponType;
+    public float weaponRecoilModifier;
 
     private void Awake()
     {
         _PV = GetComponent<PhotonView>();
         _playerStats = GetComponent<PlayerStatsController>().playerStats;
         _playerInventoryController = GetComponent<PlayerInventoryController>();
+        _playerEffectController = GetComponent<PlayerEffectController>();
         _rb = GetComponent<Rigidbody2D>();
         weaponType = Item.ItemType.Null;
     }
@@ -293,8 +296,8 @@ public class PlayerWeaponController : MonoBehaviour
         // recoil force
         _rb.AddForce(-Math.DegreeToVector2(aimTransform.eulerAngles.z) * weapon.recoilForce, ForceMode2D.Impulse);
 
-
-        // TODO: not attack speed, but recover time
+        // cam shake
+        _playerEffectController.CameraShake(weapon.recoilForce * weaponRecoilModifier, weapon.recoilTime * weaponRecoilModifier * 2f);
 
         // check if throwable
         if (weaponType == Item.ItemType.ThrowableWeapon)

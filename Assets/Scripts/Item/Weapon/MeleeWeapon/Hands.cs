@@ -16,6 +16,8 @@ public class Hands : Weapon
         attackSpeed = 2f;
         moveSlowDownModifier = 0.95f;
         moveSlowDownTime = 0.05f;
+        recoilForce = 0f;
+        recoilTime = 0f;
 
         damageInfo = new DamageInfo
         {

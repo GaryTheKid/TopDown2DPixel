@@ -13,6 +13,7 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
 
     private PhotonView _PV;
     [SerializeField] private GameObject _playerCamera;
+    [SerializeField] private GameObject _playerVCam;
     [SerializeField] private GameObject _audioListener;
     [SerializeField] private GameObject _ui_Canvas;
     [SerializeField] private GameObject _HitBox;
@@ -34,9 +35,10 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
             Destroy(_playerWeaponController);
             Destroy(GetComponent<PlayerMovementController>());
             Destroy(GetComponent<PlayerInteractionController>());
-            Destroy(_playerCamera);
             Destroy(_audioListener);
             Destroy(_ScreenSpaceFX);
+            _playerCamera.SetActive(false);
+            _playerVCam.SetActive(false);
             _ui_Canvas.SetActive(false);
             _CharacterCollider.layer = LayerMask.NameToLayer("Enemy");
             transform.parent = GameManager.gameManager.spawnedPlayerParent;
