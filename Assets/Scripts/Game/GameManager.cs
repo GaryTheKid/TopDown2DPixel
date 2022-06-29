@@ -142,6 +142,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region Room
+    public void LeaveRoom()
+    {
+        PhotonNetwork.Disconnect();
+    }
+
     private void UpdateRoomPlayerList()
     {
         playerList = PhotonNetwork.PlayerList;

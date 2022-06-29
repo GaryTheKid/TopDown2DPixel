@@ -6,6 +6,8 @@ public class SmokeGrenade_Proj : Projectile
 {
     public SmokeGrenade_Proj()
     {
+        projectileID = 3;
+
         speed = 5f;
         maxDist = 100f;
         explosiveRadius = 0f;

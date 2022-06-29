@@ -7,6 +7,8 @@ public class Bullet_SemiAuto : Projectile
 {
     public Bullet_SemiAuto()
     {
+        projectileID = 1;
+
         speed = 18f;
         maxDist = 100f;
         explosiveRadius = 0f;

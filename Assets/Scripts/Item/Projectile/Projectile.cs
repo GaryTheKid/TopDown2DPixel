@@ -5,6 +5,7 @@ using Photon.Pun;
 
 public abstract class Projectile : Item
 {
+    public short projectileID;
     public Weapon spawnWeapon;
     public DamageInfo damageInfo;
     public float speed;

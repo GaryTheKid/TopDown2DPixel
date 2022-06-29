@@ -161,6 +161,10 @@ public class UI_Inventory : MonoBehaviour
             // set drop logic
             itemSlotRectTransform.GetComponent<Button_UI>().MouseRightClickFunc = () =>
             {
+                // check if inventory is on CD
+                if (_playerInventoryController.IsInventoryLocked())
+                    return;
+
                 _playerInventoryController.DropItem(itemSlotRectTransform.GetComponent<UI_Item>().currentSlot.uiIndex);
 
                 // if item is equipable, unequip it

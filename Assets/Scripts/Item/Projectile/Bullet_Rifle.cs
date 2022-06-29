@@ -6,6 +6,8 @@ public class Bullet_Rifle : Projectile
 {
     public Bullet_Rifle()
     {
+        projectileID = 2;
+
         speed = 28f;
         maxDist = 100f;
         explosiveRadius = 0f;

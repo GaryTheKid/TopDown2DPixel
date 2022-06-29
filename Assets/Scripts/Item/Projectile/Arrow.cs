@@ -7,6 +7,8 @@ public class Arrow : Projectile
 {
     public Arrow()
     {
+        projectileID = 0;
+
         speed = 7f;
         maxDist = 100f;
         explosiveRadius = 0f;

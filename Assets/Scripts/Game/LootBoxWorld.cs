@@ -75,7 +75,7 @@ public class LootBoxWorld : MonoBehaviour
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            short randItemID = (short)UnityEngine.Random.Range(1, ItemAssets.itemAssets.itemDic.Count + 1);
+            short randItemID = (short)UnityEngine.Random.Range(1, ItemAssets.itemAssets.itemDic.Count);
             Item item = ItemAssets.itemAssets.itemDic[randItemID];
             short amount = 1;
             short durability = item.durability;

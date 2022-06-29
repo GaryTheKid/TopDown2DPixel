@@ -33,7 +33,7 @@ public class Hands : Weapon
         NetworkCalls.Weapon_Network.FireWeapon(attackerPV);
 
         // deal damage to all targets
-        NetworkCalls.Player_NetWork.DealDamage(attackerPV);
+        NetworkCalls.Player_NetWork.DealDamage(attackerPV, 0);
     }
 
     public override Transform GetEquipmentPrefab()

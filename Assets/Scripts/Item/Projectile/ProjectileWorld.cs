@@ -34,7 +34,7 @@ public class ProjectileWorld : MonoBehaviour
         {
             // deal dmg
             if(_projectile.damageInfo.damageAmount > 0f)
-                NetworkCalls.Player_NetWork.DealProjectileDamage(_PV, target.transform.parent.GetComponent<PhotonView>().ViewID, _dmgRatio);
+                NetworkCalls.Player_NetWork.DealProjectileDamage(_PV, target.transform.parent.GetComponent<PhotonView>().ViewID, _dmgRatio, _projectile.projectileID);
 
             // check if stick to the target
             if (_projectile.isSticky)

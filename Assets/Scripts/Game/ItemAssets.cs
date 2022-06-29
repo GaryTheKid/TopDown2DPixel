@@ -9,7 +9,7 @@ public class ItemAssets : MonoBehaviour
     private void Awake()
     {
         itemAssets = this;
-        InitItemDic();
+        InitItemDics();
     }
 
     // prefab for weapon Equipped
@@ -70,10 +70,12 @@ public class ItemAssets : MonoBehaviour
 
     [Header("Item Dictionary")]
     public Dictionary<short, Item> itemDic;
+    public Dictionary<short, Projectile> projectileDic;
 
-    private void InitItemDic()
+    private void InitItemDics()
     {
         itemDic = new Dictionary<short, Item>{
+            { 0, new Hands() },
             { 1, new Sword() },
             { 2, new Bow() },
             { 3, new Axe() },
@@ -87,6 +89,13 @@ public class ItemAssets : MonoBehaviour
             { 11, new Gun_Rifle() },
             { 12, new SuperHealthPotion() },
             { 13, new SmokeGrenade() },
+        };
+
+        projectileDic = new Dictionary<short, Projectile>{
+            { 0, new Arrow() },
+            { 1, new Bullet_SemiAuto() },
+            { 2, new Bullet_Rifle() },
+            { 3, new SmokeGrenade_Proj() },
         };
     }
 }

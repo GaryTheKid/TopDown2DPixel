@@ -84,9 +84,9 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_DealDamage()
+    void RPC_DealDamage(short whichWeapon)
     {
-        DamageInfo info = _playerWeaponController.weapon.damageInfo;
+        DamageInfo info = ((Weapon)(ItemAssets.itemAssets.itemDic[whichWeapon])).damageInfo;
 
         foreach (int id in targets)
         {
@@ -99,9 +99,9 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_DealProjectileDamage(int targetID, float dmgRatio)
+    void RPC_DealProjectileDamage(int targetID, float dmgRatio, short whichProjectile)
     {
-        DamageInfo info = _playerWeaponController.weapon.projectile.damageInfo;
+        DamageInfo info = ItemAssets.itemAssets.projectileDic[whichProjectile].damageInfo;
         info.damageAmount *= dmgRatio;
         PhotonView.Find(targetID).transform.GetComponent<PlayerBuffController>().ReceiveDamage(info, transform.position);
 
@@ -227,18 +227,18 @@ public class RPC_Player : MonoBehaviour
     [PunRPC]
     void RPC_UseHealthPotion(int healingAmount)
     {
-        _playerBuffController.ReceiveHealing(healingAmount);
+        _playerBuffController.ConsumeHealingPotion(healingAmount);
     }
 
     [PunRPC]
     void RPC_UseSpeedPotion(float boostAmount, float effectTime)
     {
-        _playerBuffController.SpeedBoost(boostAmount, effectTime);
+        _playerBuffController.ConsumeSpeedBoostPotion(boostAmount, effectTime);
     }
 
     [PunRPC]
     void RPC_UseInvinciblePotion(float effectTime)
     {
-        _playerBuffController.Invincible(effectTime);
+        _playerBuffController.ConsumeInvinciblePotion(effectTime);
     }
 }

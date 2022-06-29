@@ -202,19 +202,19 @@ namespace NetworkCalls
             }
         }
 
-        public static void DealDamage(PhotonView PV)
+        public static void DealDamage(PhotonView PV, short whichWeapon)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_DealDamage", RpcTarget.AllBuffered);
+                PV.RPC("RPC_DealDamage", RpcTarget.AllBuffered, whichWeapon);
             }
         }
 
-        public static void DealProjectileDamage(PhotonView PV, int targetID, float dmgRatio)
+        public static void DealProjectileDamage(PhotonView PV, int targetID, float dmgRatio, short whichProjectile)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_DealProjectileDamage", RpcTarget.AllBuffered, targetID, dmgRatio);
+                PV.RPC("RPC_DealProjectileDamage", RpcTarget.AllBuffered, targetID, dmgRatio, whichProjectile);
             }
         }
 

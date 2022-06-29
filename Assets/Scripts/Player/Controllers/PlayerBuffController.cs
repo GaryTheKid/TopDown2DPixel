@@ -76,9 +76,6 @@ public class PlayerBuffController : MonoBehaviour
         // check if hp overflow, add healing amount to hp
         _statsController.UpdateHP(healingAmount);
 
-        // consume potion effect
-        _effectController.ConsumePotionEffect();
-
         // show the visual effect
         _effectController.ReceiveHealingEffect(_playerStats.hp, _playerStats.maxHp);
     }
@@ -99,9 +96,6 @@ public class PlayerBuffController : MonoBehaviour
         }
         speedBoost_Co = Co_SpeedBoost(boostAmount, effectTime);
         StartCoroutine(speedBoost_Co);
-
-        // consume potion effect
-        _effectController.ConsumePotionEffect();
 
         // show the visual effect
         _effectController.SpeedBoostEffect(effectTime);
@@ -131,10 +125,8 @@ public class PlayerBuffController : MonoBehaviour
         invincible_Co = Co_Invincible(effectTime);
         StartCoroutine(invincible_Co);
 
-        // consume potion effect
-        _effectController.ConsumePotionEffect();
-
         // TODO: show the visual effect
+
     }
     IEnumerator Co_Invincible(float effectTime)
     {
@@ -142,6 +134,33 @@ public class PlayerBuffController : MonoBehaviour
         yield return new WaitForSecondsRealtime(effectTime);
         _playerStats.isInvincible = false;
         invincible_Co = null;
+    }
+
+    public void ConsumeHealingPotion(int healingAmount)
+    {
+        // consume potion effect
+        _effectController.ConsumePotionEffect();
+
+        // receive healing
+        ReceiveHealing(healingAmount);
+    }
+
+    public void ConsumeSpeedBoostPotion(float boostAmount, float effectTime)
+    {
+        // consume potion effect
+        _effectController.ConsumePotionEffect();
+
+        // speedBoost
+        SpeedBoost(boostAmount, effectTime);
+    }
+    
+    public void ConsumeInvinciblePotion(float effectTime)
+    {
+        // consume potion effect
+        _effectController.ConsumePotionEffect();
+
+        // be invincible
+        Invincible(effectTime);
     }
 
     public void Ghostify()
@@ -167,5 +186,8 @@ public class PlayerBuffController : MonoBehaviour
 
         // show the visual effect
         _effectController.RespawnEffect();
+
+        // stay invincible for a while
+        Invincible(2f);
     }
 }
