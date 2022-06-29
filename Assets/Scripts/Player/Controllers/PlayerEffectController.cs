@@ -17,7 +17,7 @@ public class PlayerEffectController : MonoBehaviour
     [SerializeField] private ScreenFogMask _screenFogFX;
     [SerializeField] private Animator _avatarAnimator;
     [SerializeField] private CinemachineVirtualCamera _vCam;
-    [SerializeField] private MMF_Player mmf_player;
+    [SerializeField] private MMF_Player mmf_hp;
     private Rigidbody2D _rb;
 
     private IEnumerator speedBoost_Co;
@@ -80,8 +80,8 @@ public class PlayerEffectController : MonoBehaviour
 
         // feedback effect
         var end = (float)(hpBeforeChange - dmgAmount) / (float)maxHp;
-        mmf_player.GetFeedbackOfType<MMF_ImageFill>().DestinationFill = end;
-        mmf_player.PlayFeedbacks();
+        mmf_hp.GetFeedbackOfType<MMF_ImageFill>().DestinationFill = end;
+        mmf_hp.PlayFeedbacks();
 
         // adjust hp bar
         _hpBar.fillAmount = end;

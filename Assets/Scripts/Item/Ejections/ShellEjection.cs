@@ -5,6 +5,13 @@ using Utilities;
 
 public class ShellEjection : MonoBehaviour
 {
+    private Rigidbody2D _rb;
+
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody2D>();
+    }
+
     private void OnEnable()
     {
         StartCoroutine(Co_Eject());
@@ -12,10 +19,11 @@ public class ShellEjection : MonoBehaviour
 
     IEnumerator Co_Eject()
     {
-        GetComponent<Rigidbody2D>().AddForce(Math.GetRandomDirectionV2() * 2f, ForceMode2D.Impulse);
-        GetComponent<Rigidbody2D>().AddTorque(Random.Range(1f, 5f), ForceMode2D.Impulse);
+        GetComponent<AudioSource>().pitch = Random.Range(1f, 1.2f);
+        _rb.AddForce(Math.GetRandomDirectionV2() * 2f, ForceMode2D.Impulse);
+        _rb.AddTorque(Random.Range(1f, 5f), ForceMode2D.Impulse);
         yield return new WaitForSeconds(0.5f);
-        GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        _rb.bodyType = RigidbodyType2D.Static;
         yield return new WaitForSeconds(0.8f);
         Destroy(gameObject);
     }

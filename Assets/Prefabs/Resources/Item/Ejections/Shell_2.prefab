@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5167141455920165088}
   - component: {fileID: 4690439476916929680}
   m_Layer: 0
-  m_Name: Shell_1
+  m_Name: Shell_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 20
-  m_Sprite: {fileID: -2430154189525589521, guid: e6c38c4fd248fc149acb7553c63332a5, type: 3}
+  m_Sprite: {fileID: -1905997959595283832, guid: 9fc3f56a4a294ee40936a365b5f9f348, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -116,7 +116,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ccd9bb17224e773479948ee8407b59a3, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 36f6ecb7e0976274fac18abf44c8cbfa, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Experimental.Rendering.Universal;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
+using MoreMountains.Feedbacks;
 
 public class PlayerNetworkController : MonoBehaviourPunCallbacks
 {
@@ -19,7 +22,11 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _HitBox;
     [SerializeField] private GameObject _CharacterCollider;
     [SerializeField] private GameObject _ScreenSpaceFX;
-    [SerializeField] private SpriteRenderer _characterSprite;
+    [SerializeField] private SpriteRenderer _ringSprite;
+    [SerializeField] private MMF_Player _mmf_hp;
+    [SerializeField] private Image _hpBar;
+    [SerializeField] private Gradient _enemyHpBarGradient;
+    [SerializeField] private Light2D _characterLight;
 
     private void Awake()
     {
@@ -42,11 +49,16 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
             _ui_Canvas.SetActive(false);
             _CharacterCollider.layer = LayerMask.NameToLayer("Enemy");
             transform.parent = GameManager.gameManager.spawnedPlayerParent;
+            _ringSprite.color = Color.red;
+            _hpBar.color = Color.red;
+            _mmf_hp.GetFeedbackOfType<MMF_Image>().ColorOverTime = _enemyHpBarGradient;
+            _characterLight.color = Color.red;
         }
         else 
         {
             _HitBox.tag = "Untagged";
-            //characterSprite.color = Color.green;
+            _ringSprite.color = Color.green;
+            _characterLight.color = Color.white;
         }
 
         // update name
