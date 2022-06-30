@@ -321,7 +321,7 @@ public class PlayerWeaponController : MonoBehaviour
         yield return new WaitForSecondsRealtime(attackCD);
 
         // update durability
-        if (!(weapon is Hands && weapon.itemType != Item.ItemType.ThrowableWeapon))
+        if (!(weapon is Hands) && weapon.itemType != Item.ItemType.ThrowableWeapon)
             _playerInventoryController.UpdateItemDurability(-1);
 
         // clear co

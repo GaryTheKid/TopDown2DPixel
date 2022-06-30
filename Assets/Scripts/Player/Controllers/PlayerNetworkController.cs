@@ -22,6 +22,7 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _HitBox;
     [SerializeField] private GameObject _CharacterCollider;
     [SerializeField] private GameObject _ScreenSpaceFX;
+    [SerializeField] private GameObject _postProcessing;
     [SerializeField] private SpriteRenderer _ringSprite;
     [SerializeField] private MMF_Player _mmf_hp;
     [SerializeField] private Image _hpBar;
@@ -44,6 +45,7 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
             Destroy(GetComponent<PlayerInteractionController>());
             Destroy(_audioListener);
             Destroy(_ScreenSpaceFX);
+            Destroy(_postProcessing);
             _playerCamera.SetActive(false);
             _playerVCam.SetActive(false);
             _ui_Canvas.SetActive(false);

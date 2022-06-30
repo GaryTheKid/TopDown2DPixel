@@ -99,7 +99,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -5312,6 +5312,7 @@ Transform:
   - {fileID: 7010384724425023286}
   - {fileID: 5200024796818758452}
   - {fileID: 5428256009005551065}
+  - {fileID: 7360926097048692897}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5421,6 +5422,7 @@ MonoBehaviour:
   _HitBox: {fileID: 3284385274884613445}
   _CharacterCollider: {fileID: 610052840383596814}
   _ScreenSpaceFX: {fileID: 3313487025906696851}
+  _postProcessing: {fileID: 8412606616092685466}
   _ringSprite: {fileID: 8003804981849215963}
   _mmf_hp: {fileID: 6579986730500040769}
   _hpBar: {fileID: 1303908172651529521}
@@ -9948,6 +9950,54 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Back
+--- !u!1 &8412606616092685466
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7360926097048692897}
+  - component: {fileID: 1793489517823646804}
+  m_Layer: 0
+  m_Name: CharacterVolume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7360926097048692897
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8412606616092685466}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.15109164, y: 0.8606646, z: -5.7446566}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5210151642737692040}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1793489517823646804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8412606616092685466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: d8d342e38fba8d1429dc519bc1624077, type: 2}
 --- !u!1 &8452760329683869102
 GameObject:
   m_ObjectHideFlags: 0
