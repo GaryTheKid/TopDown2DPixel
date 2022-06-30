@@ -9,6 +9,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using Utilities;
 using Photon.Pun;
 using ExitGames.Client.Photon;
@@ -39,6 +40,8 @@ public class PlayerWeaponController : MonoBehaviour
     public Item.ItemType weaponType;
     public float weaponRecoilModifier;
 
+    private PCInputActions _inputActions;
+
     private void Awake()
     {
         _PV = GetComponent<PhotonView>();
@@ -47,6 +50,10 @@ public class PlayerWeaponController : MonoBehaviour
         _playerEffectController = GetComponent<PlayerEffectController>();
         _rb = GetComponent<Rigidbody2D>();
         weaponType = Item.ItemType.Null;
+
+        _inputActions = GetComponent<PlayerInputActions>().inputActions;
+        _inputActions.Player.MouseClick.performed += HandleClickAttack;
+        _inputActions.Player.MouseHold.canceled += HandleMouseRelease;
     }
 
     private void Start()
@@ -59,11 +66,8 @@ public class PlayerWeaponController : MonoBehaviour
 
     private void Update()
     {
-        if (_playerStats.isDead)
-            return;
-
         HandleAiming();
-        HandleAttack();
+        HandleMouseHold();
     }
 
     public void EquipWeapon(Weapon weapon)
@@ -152,6 +156,9 @@ public class PlayerWeaponController : MonoBehaviour
     // handle the weapon aimming
     public void HandleAiming()
     {
+        if (_playerStats.isDead)
+            return;
+
         if (_playerStats.isWeaponLocked)
             return;
 
@@ -164,8 +171,88 @@ public class PlayerWeaponController : MonoBehaviour
     }
 
     // handle the weapon attack
-    public void HandleAttack()
+    public void HandleClickAttack(InputAction.CallbackContext context)
     {
+        if (context.performed)
+        {
+            if (_playerStats.isDead)
+                return;
+
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
+
+            if (_playerInventoryController.IsUsingUI)
+                return;
+
+            if (_playerStats.isWeaponLocked)
+                return;
+
+            if (weapon == null)
+                return;
+
+            switch (weaponType)
+            {
+                case Item.ItemType.MeleeWeapon:
+                    // click to attack
+                    if (_co_Attack == null)
+                    {
+                        _co_Attack = Co_Attack();
+                        StartCoroutine(_co_Attack);
+                    }
+                    break;
+            }
+        } 
+    }
+
+    public void HandleMouseHold()
+    {
+        if (_inputActions.Player.MouseHold.ReadValue<float>() > 0)
+        {
+            if (_playerStats.isDead)
+                return;
+
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
+
+            if (_playerInventoryController.IsUsingUI)
+                return;
+
+            if (_playerStats.isWeaponLocked)
+                return;
+
+            if (weapon == null)
+                return;
+
+            switch (weaponType)
+            {
+                case Item.ItemType.RangedWeapon:
+                    // click to attack
+                    if (_co_Attack == null)
+                    {
+                        _co_Attack = Co_Attack();
+                        StartCoroutine(_co_Attack);
+                    }
+                    break;
+
+                case Item.ItemType.ChargableRangedWeapon:
+                case Item.ItemType.ThrowableWeapon:
+                    // hold to charge
+                    if (_co_Charge == null && _co_Attack == null)
+                    {
+                        // start charge coroutine
+                        _co_Charge = Co_Charge();
+                        StartCoroutine(_co_Charge);
+                    }
+                    break;
+            }
+        }
+    }
+
+    public void HandleMouseRelease(InputAction.CallbackContext context)
+    {
+        if (_playerStats.isDead)
+            return;
+
         if (EventSystem.current.IsPointerOverGameObject())
             return;
 
@@ -180,62 +267,30 @@ public class PlayerWeaponController : MonoBehaviour
 
         switch (weaponType)
         {
-            case Item.ItemType.MeleeWeapon:
-                // click to attack
-                if (Input.GetMouseButtonDown(0) && _co_Attack == null)
-                {
-                    _co_Attack = Co_Attack();
-                    StartCoroutine(_co_Attack);
-                }
-                break;
-
-            case Item.ItemType.RangedWeapon:
-                // click to attack
-                if (Input.GetMouseButton(0) && _co_Attack == null)
-                {
-                    _co_Attack = Co_Attack();
-                    StartCoroutine(_co_Attack);
-                }
-                break;
-
             case Item.ItemType.ChargableRangedWeapon:
             case Item.ItemType.ThrowableWeapon:
-                // hold to charge
-                if (Input.GetMouseButton(0) && _co_Charge == null && _co_Attack == null)
-                {
-                    // start charge coroutine
-                    _co_Charge = Co_Charge();
-                    StartCoroutine(_co_Charge);
-                }
-
                 // when release charge
-                if (Input.GetMouseButtonUp(0))
+                // stop charge coroutine
+                if (_co_Charge != null)
                 {
-                    // stop charge coroutine
-                    if (_co_Charge != null)
-                    {
-                        StopCoroutine(_co_Charge);
-                        _co_Charge = null;
+                    StopCoroutine(_co_Charge);
+                    _co_Charge = null;
 
-                        // restore movement speed
-                        _playerStats.speedModifier = 1f;
-                    }
-
-                    // initiate the attack coroutine 
-                    if (_co_Attack == null)
-                    {
-                        _co_Attack = Co_Attack();
-                        StartCoroutine(_co_Attack);
-                    }
-                    
-                    // reset charge Tier
-                    chargeTier = 0;
+                    // restore movement speed
+                    _playerStats.speedModifier = 1f;
                 }
+
+                // initiate the attack coroutine 
+                if (_co_Attack == null)
+                {
+                    _co_Attack = Co_Attack();
+                    StartCoroutine(_co_Attack);
+                }
+
+                // reset charge Tier
+                chargeTier = 0;
                 break;
-            default: 
-                return;
         }
-        
     }
 
     // Flip weapon transform if > 90 or < -90 deg

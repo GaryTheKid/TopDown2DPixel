@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Utilities
 {
@@ -52,17 +53,20 @@ namespace Utilities
     {
         public static Vector3 GetMouseWorldPosition()
         {
-            Vector3 v3 = GetMousePostionWorldWithZ(Input.mousePosition, Camera.main);
+            var currMousePos = Mouse.current.position.ReadValue();
+            Vector3 v3 = GetMousePostionWorldWithZ(new Vector3(currMousePos.x, currMousePos.y), Camera.main);
             v3.z = 0f;
             return v3;
         }
         public static Vector3 GetMousePostionWorldWithZ()
         {
-            return GetMousePostionWorldWithZ(Input.mousePosition, Camera.main);
+            var currMousePos = Mouse.current.position.ReadValue();
+            return GetMousePostionWorldWithZ(new Vector3(currMousePos.x, currMousePos.y), Camera.main);
         }
         public static Vector3 GetMousePostionWorldWithZ(Camera worldCamera)
         {
-            return GetMousePostionWorldWithZ(Input.mousePosition, worldCamera);
+            var currMousePos = Mouse.current.position.ReadValue();
+            return GetMousePostionWorldWithZ(new Vector3(currMousePos.x, currMousePos.y), worldCamera);
         }
         public static Vector3 GetMousePostionWorldWithZ(Vector3 screenPos, Camera worldCamera) 
         {

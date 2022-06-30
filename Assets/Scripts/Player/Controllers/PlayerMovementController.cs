@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovementController : MonoBehaviour
 {
@@ -14,46 +13,16 @@ public class PlayerMovementController : MonoBehaviour
     private Rigidbody2D _rb;
     private Vector3 _moveDir;
 
+    private PCInputActions _inputActions;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _playerStatsController = GetComponent<PlayerStatsController>();
         _playerStats = _playerStatsController.playerStats;
-    }
 
-    // Update is called once per frame
-    private void Update()
-    {
-        /// player dead will turn to ghost, and move even faster!
-
-        if (_playerStats.isMovementLocked)
-            return;
-
-        float moveX = 0f;
-        float moveY = 0f;
-        if (Input.GetKey(KeyCode.W))
-        {
-            moveY = +1f;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            moveY = -1f;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            moveX = -1f;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            moveX = +1f;
-        }
-
-        _moveDir = new Vector3(moveX, moveY).normalized;
-
-        /*if (Input.GetKeyDown(KeyCode.Space))
-        {
-            isDashing = true;
-        }*/
+        // bind and enable input
+        _inputActions = GetComponent<PlayerInputActions>().inputActions;
     }
 
     private void FixedUpdate()
@@ -70,7 +39,8 @@ public class PlayerMovementController : MonoBehaviour
             }
             return;
         }
-            
+
+        _moveDir = _inputActions.Player.Move.ReadValue<Vector2>().normalized;
 
         bool isIdle = _moveDir == Vector3.zero;
 

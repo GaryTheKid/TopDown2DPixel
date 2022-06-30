@@ -1,0 +1,33 @@
+{
+    "name": "Mobile",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "7af4dd35-0aad-45e9-9f12-06ddf6e423d3",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "4e195e5a-a57a-4892-afec-d03a0121ae88",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ff107ea8-0251-4de2-a613-9e60a9586aa9",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

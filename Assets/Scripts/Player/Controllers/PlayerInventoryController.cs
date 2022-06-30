@@ -9,6 +9,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Photon.Pun;
 
 public class PlayerInventoryController : MonoBehaviour
@@ -32,6 +33,8 @@ public class PlayerInventoryController : MonoBehaviour
         set { _isUsingUI = value; }
     }
 
+    private PCInputActions _inputActions;
+
     private void Awake()
     {
         _playerStats = GetComponent<PlayerStatsController>().playerStats;
@@ -40,20 +43,33 @@ public class PlayerInventoryController : MonoBehaviour
         _uiInventory.SetInventory(_inventory);
         _uiInventory.SpawnItemSlots();
         _equipmentSlots = _uiInventory.GetEquipmentSlots();
+
+        // bind and enable input
+        _inputActions = GetComponent<PlayerInputActions>().inputActions;
+        _inputActions.Player.InventoryActivation.performed += HandleUIInventory;
+        _inputActions.Player.EquipmentQuickCast_1.performed += HandleUseEquipment_1;
+        _inputActions.Player.EquipmentQuickCast_2.performed += HandleUseEquipment_2;
+        _inputActions.Player.EquipmentQuickCast_3.performed += HandleUseEquipment_3;
+        _inputActions.Player.EquipmentQuickCast_4.performed += HandleUseEquipment_4;
+        _inputActions.Player.EquipmentQuickCast_5.performed += HandleUseEquipment_5;
+        _inputActions.Player.EquipmentQuickCast_6.performed += HandleUseEquipment_6;
     }
 
-    private void Update()
+    /*private void Update()
     {
         if (_playerStats.isDead)
             return;
 
         HandleUIInventory();
         HandleUseEquipment();
-    }
+    }*/
 
-    private void HandleUIInventory() 
+    private void HandleUIInventory(InputAction.CallbackContext context)
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (_playerStats.isDead)
+            return;
+
+        if (context.performed)
         {
             if (_uiInventory.IsBagActive())
                 CloseUIInventory();
@@ -62,17 +78,87 @@ public class PlayerInventoryController : MonoBehaviour
         }
     }
 
-    private void HandleUseEquipment()
+    private void HandleUseEquipment_1(InputAction.CallbackContext context)
     {
+        if (_playerStats.isDead)
+            return;
+
         if (_playerStats.isInventoryLocked)
             return;
 
-        for (int i = 0; i < _equipmentSlots.Count; i++)
+        if (context.performed && _inventory.GetItemFromList(0) != null)
         {
-            if (Input.GetKeyDown(_equipmentSlots[i].keyCode) && _inventory.GetItemFromList(i) != null)
-            {
-                _inventory.UseItem(_PV, i);
-            }
+            _inventory.UseItem(_PV, 0);
+        }
+    }
+
+    private void HandleUseEquipment_2(InputAction.CallbackContext context)
+    {
+        if (_playerStats.isDead)
+            return;
+
+        if (_playerStats.isInventoryLocked)
+            return;
+
+        if (context.performed && _inventory.GetItemFromList(1) != null)
+        {
+            _inventory.UseItem(_PV, 1);
+        }
+    }
+
+    private void HandleUseEquipment_3(InputAction.CallbackContext context)
+    {
+        if (_playerStats.isDead)
+            return;
+
+        if (_playerStats.isInventoryLocked)
+            return;
+
+        if (context.performed && _inventory.GetItemFromList(2) != null)
+        {
+            _inventory.UseItem(_PV, 2);
+        }
+    }
+
+    private void HandleUseEquipment_4(InputAction.CallbackContext context)
+    {
+        if (_playerStats.isDead)
+            return;
+
+        if (_playerStats.isInventoryLocked)
+            return;
+
+        if (context.performed && _inventory.GetItemFromList(3) != null)
+        {
+            _inventory.UseItem(_PV, 3);
+        }
+    }
+
+    private void HandleUseEquipment_5(InputAction.CallbackContext context)
+    {
+        if (_playerStats.isDead)
+            return;
+
+        if (_playerStats.isInventoryLocked)
+            return;
+
+        if (context.performed && _inventory.GetItemFromList(4) != null)
+        {
+            _inventory.UseItem(_PV, 4);
+        }
+    }
+
+    private void HandleUseEquipment_6(InputAction.CallbackContext context)
+    {
+        if (_playerStats.isDead)
+            return;
+
+        if (_playerStats.isInventoryLocked)
+            return;
+
+        if (context.performed && _inventory.GetItemFromList(5) != null)
+        {
+            _inventory.UseItem(_PV, 5);
         }
     }
 

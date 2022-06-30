@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Utilities;
 
 public class PlayerInteractionController : MonoBehaviour
@@ -9,56 +10,52 @@ public class PlayerInteractionController : MonoBehaviour
 
     private PlayerInventoryController _playerInventoryController;
 
+    private PCInputActions _inputActions;
+
     private void Awake()
     {
         _playerInventoryController = GetComponent<PlayerInventoryController>();
+
+        _inputActions = GetComponent<PlayerInputActions>().inputActions;
+        _inputActions.Player.Interact.performed += OpenLootBox;
+        _inputActions.Player.Interact.performed += PickItem;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OpenLootBox(InputAction.CallbackContext context)
     {
-        // interact loot box
-        if (Input.GetKeyDown(KeyCode.E) && _worldInteracter.lootBoxesInRange.Count > 0)
+        if (context.performed && _worldInteracter.lootBoxesInRange.Count > 0)
         {
-            OpenLootBox();
-        }
-
-        // interact item world
-        if (Input.GetKeyDown(KeyCode.E) && _worldInteracter.itemWorldsInRange.Count > 0)
-        {
-            PickItem();
+            var lootBoxes = _worldInteracter.lootBoxesInRange;
+            var lastIndex = lootBoxes.Count - 1;
+            lootBoxes[lastIndex].OpenLootBox();
         }
     }
 
-    private void OpenLootBox()
+    private void PickItem(InputAction.CallbackContext context)
     {
-        var lootBoxes = _worldInteracter.lootBoxesInRange;
-        var lastIndex = lootBoxes.Count - 1;
-        lootBoxes[lastIndex].OpenLootBox();
-    }
-
-    private void PickItem()
-    {
-        var itemWorlds = _worldInteracter.itemWorldsInRange;
-        var lastIndex = itemWorlds.Count - 1;
-
-        // get item
-        Item item = itemWorlds[lastIndex].item;
-        Item itemCopy = (Item)Common.GetObjectCopyFromInstance(item);
-        itemCopy.amount = item.amount;
-        itemCopy.durability = item.durability;
-
-        // check if inventory is full
-        bool isInventoryFull = _playerInventoryController.AddItem(itemCopy);
-        if (!isInventoryFull)
+        if (context.performed && _worldInteracter.itemWorldsInRange.Count > 0)
         {
-            // destroy the picked item
-            itemWorlds[lastIndex].PickItem();
-        }
-        else
-        {
-            // TODO: display inventory full effect
-            print("Inventory is full");
+            var itemWorlds = _worldInteracter.itemWorldsInRange;
+            var lastIndex = itemWorlds.Count - 1;
+
+            // get item
+            Item item = itemWorlds[lastIndex].item;
+            Item itemCopy = (Item)Common.GetObjectCopyFromInstance(item);
+            itemCopy.amount = item.amount;
+            itemCopy.durability = item.durability;
+
+            // check if inventory is full
+            bool isInventoryFull = _playerInventoryController.AddItem(itemCopy);
+            if (!isInventoryFull)
+            {
+                // destroy the picked item
+                itemWorlds[lastIndex].PickItem();
+            }
+            else
+            {
+                // TODO: display inventory full effect
+                print("Inventory is full");
+            }
         }
     }
 }

@@ -270,6 +270,7 @@ public class UI_Inventory : MonoBehaviour
         if (_inventoryCD_Co != null)
         {
             StopCoroutine(_inventoryCD_Co);
+            _inventoryCD_Co = null;
         }
 
         _inventoryCD_Co = Co_inventoryCD(cd);

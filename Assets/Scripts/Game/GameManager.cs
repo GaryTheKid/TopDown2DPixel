@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         SpawnPlayerCharacter();
 
-        SpawnItem(itemSpawns[1].position, 11, 1);
+        SpawnItem(itemSpawns[1].position, 2, 1);
     }
 
     private void FixedUpdate()
