@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using Photon.Pun;
 
 [Serializable]
@@ -45,18 +46,8 @@ public class PlayerStatsController : MonoBehaviour
     private void Awake()
     {
         _PV = GetComponent<PhotonView>();
-    }
 
-    private void Update()
-    {
-        if (!playerStats.isDead)
-            return;
-
-        // handle respawn
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Respawn();
-        }
+        GetComponent<PlayerInputActions>().inputActions.Player.Respawn.performed += Respawn;
     }
 
     // restore to max hp
@@ -107,8 +98,11 @@ public class PlayerStatsController : MonoBehaviour
     }
 
     // respawn
-    public void Respawn()
+    public void Respawn(InputAction.CallbackContext context)
     {
+        if (!playerStats.isDead)
+            return;
+
         NetworkCalls.Player_NetWork.Respawn(_PV);
     }
 }

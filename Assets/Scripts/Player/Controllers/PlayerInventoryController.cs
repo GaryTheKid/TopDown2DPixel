@@ -55,15 +55,6 @@ public class PlayerInventoryController : MonoBehaviour
         _inputActions.Player.EquipmentQuickCast_6.performed += HandleUseEquipment_6;
     }
 
-    /*private void Update()
-    {
-        if (_playerStats.isDead)
-            return;
-
-        HandleUIInventory();
-        HandleUseEquipment();
-    }*/
-
     private void HandleUIInventory(InputAction.CallbackContext context)
     {
         if (_playerStats.isDead)

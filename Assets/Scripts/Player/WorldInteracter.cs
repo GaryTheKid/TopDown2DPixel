@@ -6,10 +6,17 @@ using Utilities;
 
 public class WorldInteracter : MonoBehaviour
 {
+#if PLATFORM_ANDROID
+    [SerializeField] private UI_MobileInput _ui_MobileInput;
+#endif
+
     public List<LootBoxWorld> lootBoxesInRange;
     public List<ItemWorld> itemWorldsInRange;
 
     private PhotonView _PV;
+
+    private bool _isInteractionButtonActivated;
+    private IEnumerator _Co_ExitingSmoke;
 
     private void Awake()
     {
@@ -55,10 +62,28 @@ public class WorldInteracter : MonoBehaviour
                 itemWorldsInRange[i].HideInteractionText();
             }
         }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+#if PLATFORM_ANDROID
+        // swap right pad
+        if (!_isInteractionButtonActivated && (collision.GetComponent<LootBoxWorld>() != null || collision.GetComponent<ItemWorld>() != null))
+        {
+            _ui_MobileInput.ActivateInteractionButton();
+            _isInteractionButtonActivated = true;
+        }
+#endif
 
         // trigger screen smoke
         if (collision.gameObject.layer == LayerMask.NameToLayer("ScreenSmoke"))
         {
+            if (_Co_ExitingSmoke != null)
+            {
+                StopCoroutine(_Co_ExitingSmoke);
+                _Co_ExitingSmoke = null;
+            }
+
             GetComponentInParent<PlayerEffectController>().ScreenSmokeOn();
         }
     }
@@ -83,6 +108,12 @@ public class WorldInteracter : MonoBehaviour
             {
                 lootBoxesInRange[lootBoxesInRange.Count - 1].DisplayInteractionText();
             }
+
+#if PLATFORM_ANDROID
+            // swap right pad
+            _ui_MobileInput.DeactivateInteractionButton();
+            _isInteractionButtonActivated = false;
+#endif
         }
 
         // interact with loot box
@@ -100,12 +131,34 @@ public class WorldInteracter : MonoBehaviour
             {
                 itemWorldsInRange[itemWorldsInRange.Count - 1].DisplayInteractionText();
             }
+
+#if PLATFORM_ANDROID
+            // swap right pad
+            _ui_MobileInput.DeactivateInteractionButton();
+            _isInteractionButtonActivated = false;
+#endif
         }
 
         // screen smoke off
         if (collision.gameObject.layer == LayerMask.NameToLayer("ScreenSmoke"))
         {
-            GetComponentInParent<PlayerEffectController>().ScreenSmokeOff();
+            if (_Co_ExitingSmoke == null)
+            {
+                _Co_ExitingSmoke = Co_ExitingSmoke();
+                StartCoroutine(_Co_ExitingSmoke);
+            }
         }
+    }
+
+    private IEnumerator Co_ExitingSmoke()
+    {
+        // wait
+        yield return new WaitForSecondsRealtime(0.3f);
+
+        // turn off smoke
+        GetComponentInParent<PlayerEffectController>().ScreenSmokeOff();
+
+        // clear
+        _Co_ExitingSmoke = null;
     }
 }

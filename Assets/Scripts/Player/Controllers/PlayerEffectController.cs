@@ -67,7 +67,7 @@ public class PlayerEffectController : MonoBehaviour
         _characterSoundFX.BeingDamaged();
 
         // camera shake
-        CameraShake(dmgAmount / 50f, 0.15f);
+        CameraShake(dmgAmount / 30f, 0.15f);
 
         // TODO: blink red
 

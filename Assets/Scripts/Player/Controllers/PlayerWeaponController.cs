@@ -34,13 +34,19 @@ public class PlayerWeaponController : MonoBehaviour
     private IEnumerator _co_Attack;
     private IEnumerator _co_Charge;
     private IEnumerator _co_Slow;
-    private bool isFlipped;
+    private bool _isFlipped;
+    private bool _isHolding;
+    private float _aimAngle;
 
     public int chargeTier;
     public Item.ItemType weaponType;
     public float weaponRecoilModifier;
 
     private PCInputActions _inputActions;
+
+#if PLATFORM_ANDROID
+    [SerializeField] private UI_MobileInput mobileInput;
+#endif
 
     private void Awake()
     {
@@ -52,8 +58,8 @@ public class PlayerWeaponController : MonoBehaviour
         weaponType = Item.ItemType.Null;
 
         _inputActions = GetComponent<PlayerInputActions>().inputActions;
-        _inputActions.Player.MouseClick.performed += HandleClickAttack;
-        _inputActions.Player.MouseHold.canceled += HandleMouseRelease;
+        //_inputActions.Player.FireOrChargeWeapon.canceled += HandleWeaponRelease;
+        //_inputActions.Player.TouchCanceled.performed += HandleWeaponRelease;
     }
 
     private void Start()
@@ -66,8 +72,17 @@ public class PlayerWeaponController : MonoBehaviour
 
     private void Update()
     {
+        float pressVal = _inputActions.Player.FireOrChargeWeapon.ReadValue<float>();
+
         HandleAiming();
-        HandleMouseHold();
+        if (pressVal == 1)
+        {
+            HandleWeaponHolding();
+        }
+        else
+        {
+            HandleWeaponRelease();
+        }
     }
 
     public void EquipWeapon(Weapon weapon)
@@ -100,6 +115,9 @@ public class PlayerWeaponController : MonoBehaviour
         weaponAnimator = weaponPrefab.GetComponent<Animator>();
         fireTransform = weaponPrefab.Find("FirePos");
         fireFX = weaponPrefab.Find("FireFX").GetComponent<AudioSource>();
+
+        // flip if rotate over 90 deg
+        FilpWeapon(_aimAngle);
     }
 
     public void UnequipWeapon()
@@ -114,7 +132,7 @@ public class PlayerWeaponController : MonoBehaviour
             Destroy(weaponPrefab.gameObject);
             weaponPrefab = null;
         }
-        isFlipped = false;
+        _isFlipped = false;
 
         // reset charge Tier
         chargeTier = 0;
@@ -162,99 +180,38 @@ public class PlayerWeaponController : MonoBehaviour
         if (_playerStats.isWeaponLocked)
             return;
 
+#if PLATFORM_ANDROID
+        /*// rotate weapon
+        var input = _inputActions.Player.Aim.ReadValue<Vector2>();
+        if (input != Vector2.zero)
+        {
+            _aimAngle = Math.Vector2ToDegree(input);
+            aimTransform.eulerAngles = new Vector3(0f, 0f, _aimAngle);
+
+            // flip if rotate over 90 deg
+            FilpWeapon(_aimAngle);
+        }*/
+
+#elif UNITY_EDITOR_WIN || PLATFORM_STANDALONE_WIN
         // rotate weapon
-        float angle = Common.GetMouseRotationEulerAngle(transform.position);
+        var angle = Common.GetMouseRotationEulerAngle(transform.position);
         aimTransform.eulerAngles = new Vector3(0f, 0f, angle);
 
         // flip if rotate over 90 deg
         FilpWeapon(angle);
+#endif
     }
 
     // handle the weapon attack
-    public void HandleClickAttack(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            if (_playerStats.isDead)
-                return;
-
-            if (EventSystem.current.IsPointerOverGameObject())
-                return;
-
-            if (_playerInventoryController.IsUsingUI)
-                return;
-
-            if (_playerStats.isWeaponLocked)
-                return;
-
-            if (weapon == null)
-                return;
-
-            switch (weaponType)
-            {
-                case Item.ItemType.MeleeWeapon:
-                    // click to attack
-                    if (_co_Attack == null)
-                    {
-                        _co_Attack = Co_Attack();
-                        StartCoroutine(_co_Attack);
-                    }
-                    break;
-            }
-        } 
-    }
-
-    public void HandleMouseHold()
-    {
-        if (_inputActions.Player.MouseHold.ReadValue<float>() > 0)
-        {
-            if (_playerStats.isDead)
-                return;
-
-            if (EventSystem.current.IsPointerOverGameObject())
-                return;
-
-            if (_playerInventoryController.IsUsingUI)
-                return;
-
-            if (_playerStats.isWeaponLocked)
-                return;
-
-            if (weapon == null)
-                return;
-
-            switch (weaponType)
-            {
-                case Item.ItemType.RangedWeapon:
-                    // click to attack
-                    if (_co_Attack == null)
-                    {
-                        _co_Attack = Co_Attack();
-                        StartCoroutine(_co_Attack);
-                    }
-                    break;
-
-                case Item.ItemType.ChargableRangedWeapon:
-                case Item.ItemType.ThrowableWeapon:
-                    // hold to charge
-                    if (_co_Charge == null && _co_Attack == null)
-                    {
-                        // start charge coroutine
-                        _co_Charge = Co_Charge();
-                        StartCoroutine(_co_Charge);
-                    }
-                    break;
-            }
-        }
-    }
-
-    public void HandleMouseRelease(InputAction.CallbackContext context)
+    public void HandleWeaponHolding()
     {
         if (_playerStats.isDead)
             return;
 
-        if (EventSystem.current.IsPointerOverGameObject())
-            return;
+#if UNITY_EDITOR_WIN
+        /*if (EventSystem.current.IsPointerOverGameObject())
+            return;*/
+#endif
 
         if (_playerInventoryController.IsUsingUI)
             return;
@@ -263,6 +220,36 @@ public class PlayerWeaponController : MonoBehaviour
             return;
 
         if (weapon == null)
+            return;
+
+        switch (weaponType)
+        {
+            case Item.ItemType.MeleeWeapon:
+            case Item.ItemType.RangedWeapon:
+                // click to attack
+                if (_co_Attack == null)
+                {
+                    _co_Attack = Co_Attack();
+                    StartCoroutine(_co_Attack);
+                }
+                break;
+
+            case Item.ItemType.ChargableRangedWeapon:
+            case Item.ItemType.ThrowableWeapon:
+                // hold to charge
+                if (_co_Charge == null && _co_Attack == null)
+                {
+                    // start charge coroutine
+                    _co_Charge = Co_Charge();
+                    StartCoroutine(_co_Charge);
+                }
+                break;
+        }
+    }
+
+    public void HandleWeaponRelease()
+    {
+        if (!(_isHolding))
             return;
 
         switch (weaponType)
@@ -291,6 +278,28 @@ public class PlayerWeaponController : MonoBehaviour
                 chargeTier = 0;
                 break;
         }
+
+        _isHolding = false;
+    }
+
+    // clear the attack coroutine
+    public void ClearAttackCo()
+    {
+        if (_co_Attack != null)
+        {
+            StopCoroutine(_co_Attack);
+            _co_Attack = null;
+        }
+    }
+
+    // clear the charge coroutine
+    public void ClearChargeCo()
+    {
+        if (_co_Charge != null)
+        {
+            StopCoroutine(_co_Charge);
+            _co_Charge = null;
+        }
     }
 
     // Flip weapon transform if > 90 or < -90 deg
@@ -299,18 +308,18 @@ public class PlayerWeaponController : MonoBehaviour
         // flip if rotate over 90 deg
         if (weaponPrefab != null && (angle > 90f || angle < -90f))
         {
-            if (!isFlipped)
+            if (!_isFlipped)
             {
                 NetworkCalls.Weapon_Network.FlipWeapon(_PV);
-                isFlipped = true;
+                _isFlipped = true;
             }
         }
         else
         {
-            if (isFlipped)
+            if (_isFlipped)
             {
                 NetworkCalls.Weapon_Network.UnflipWeapon(_PV);
-                isFlipped = false;
+                _isFlipped = false;
             }
         }
     }
@@ -411,6 +420,8 @@ public class PlayerWeaponController : MonoBehaviour
     // Coroutine: Weapon charge
     private IEnumerator Co_Charge()
     {
+        _isHolding = true;
+
         // slow down movement during charge
         _playerStats.speedModifier = weapon.chargeMoveSlowRate;
 

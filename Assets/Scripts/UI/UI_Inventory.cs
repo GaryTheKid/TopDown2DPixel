@@ -147,12 +147,8 @@ public class UI_Inventory : MonoBehaviour
             // set use item logic
             itemSlotRectTransform.GetComponent<Button_UI>().ClickFunc = () =>
             {
-                // check if inventory is on CD
+                // check if inventory is locked
                 if (_playerInventoryController.IsInventoryLocked())
-                    return;
-
-                // use item unless it is a equipable one and not be in the equipment slot
-                if (i >= _equipmentSlotCount && item is IEquipable)
                     return;
 
                 _inventory.UseItem(_PV, itemSlotRectTransform.GetComponent<UI_Item>().currentSlot.uiIndex);

@@ -38,6 +38,11 @@ namespace Utilities
             return RadianToVector2(degree * Mathf.Deg2Rad);
         }
 
+        public static float Vector2ToDegree(Vector2 v2)
+        {
+            return Vector2.SignedAngle(Vector2.up, v2) + 90f;
+        }
+
         public static Vector3 RadianToVector3(float radian)
         {
             return new Vector3(Mathf.Cos(radian), Mathf.Sin(radian), 0f);

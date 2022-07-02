@@ -38,20 +38,44 @@ public class @PCInputActions : IInputActionCollection, IDisposable
                     ""name"": ""Aim"",
                     ""type"": ""Value"",
                     ""id"": ""5ba20108-e010-4195-8db7-c6d0f7579770"",
-                    ""expectedControlType"": ""Vector3"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""MouseClick"",
+                    ""name"": ""TouchStart"",
                     ""type"": ""Button"",
-                    ""id"": ""d345d5e7-025b-4cfa-926e-27610f53e161"",
+                    ""id"": ""057b188d-227a-4f00-bb59-971548f1423a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""MouseHold"",
+                    ""name"": ""TouchCanceled"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""437b0d8a-6c58-4872-a89f-de46882e6cc8"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""TouchPos"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""81b41110-5c95-4370-8696-ec00e3b7a033"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""TouchDelta"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""748ef298-fd65-4fd6-9503-7673401e834e"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""FireOrChargeWeapon"",
                     ""type"": ""PassThrough"",
                     ""id"": ""686a0fc1-4ffa-446d-854b-9960c04e6780"",
                     ""expectedControlType"": ""Button"",
@@ -113,11 +137,19 @@ public class @PCInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Respawn"",
+                    ""type"": ""Button"",
+                    ""id"": ""7730b492-fa32-48e3-8123-9b1b8ae5d07a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
                 {
-                    ""name"": ""2D Vector"",
+                    ""name"": ""KeyBoard"",
                     ""id"": ""414138fb-5004-4b70-a234-e8d03b59bff8"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
@@ -172,6 +204,61 @@ public class @PCInputActions : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""Mobile"",
+                    ""id"": ""8c261a07-a487-431b-9b4f-d5cb50b88b85"",
+                    ""path"": ""2DVector(mode=2)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""29e7742c-ed1a-4028-86c2-b5afd7721001"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""dd9a8bc2-eb0b-41fb-84fe-8181b610d154"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""4067e726-51c8-4312-8a09-0340f935c5ca"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""85848212-004c-436b-b00e-6123b5a65354"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""fa77c7c9-037e-4f9f-ba24-2be958a7cc6f"",
                     ""path"": ""<Keyboard>/e"",
@@ -184,9 +271,31 @@ public class @PCInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""065d7213-13e3-48e2-820c-583136995e73"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""6db0bfad-cf04-4bce-b6a8-679edd33f962"",
                     ""path"": ""<Keyboard>/tab"",
                     ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InventoryActivation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8657b0a2-8908-4022-8bfd-d828680900a6"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""InventoryActivation"",
@@ -261,23 +370,133 @@ public class @PCInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""854759bc-3417-4f65-9235-b5cf512ce340"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MouseClick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""e84b5889-c9fe-4f75-81a1-98aed2222310"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MouseHold"",
+                    ""action"": ""FireOrChargeWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""486eda76-85a1-4b16-b500-a6b332165098"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FireOrChargeWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Mobile"",
+                    ""id"": ""a9b917f6-ed86-46bb-be22-4b4d7b73b74b"",
+                    ""path"": ""2DVector(mode=2)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""741e6099-1ee8-43f8-959e-aaaaaee38712"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""dba7bee7-2ac9-4c1f-9a63-f96f693cf552"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""d7dc93c8-c4ec-4cfc-b1b5-a203a23d9989"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""aa029681-bf3f-41e0-92ed-406ba79a9047"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f072a435-3c35-4fdd-a7b5-e9038f8a7ed1"",
+                    ""path"": ""<Touchscreen>/position"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchPos"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4cb4c30c-7dc1-46ab-a5c8-ae67dfc00193"",
+                    ""path"": ""<Touchscreen>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchDelta"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""891c24fd-2dcd-47d3-9b89-c43cb4948cf0"",
+                    ""path"": ""<Touchscreen>/primaryTouch/press"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchStart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0dacf2a8-db17-4141-8eeb-4112db81426e"",
+                    ""path"": ""<Touchscreen>/primaryTouch/press"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchCanceled"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""29f836ec-b43c-4504-a8d7-c8fc6bf3b654"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Respawn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -291,8 +510,11 @@ public class @PCInputActions : IInputActionCollection, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
-        m_Player_MouseClick = m_Player.FindAction("MouseClick", throwIfNotFound: true);
-        m_Player_MouseHold = m_Player.FindAction("MouseHold", throwIfNotFound: true);
+        m_Player_TouchStart = m_Player.FindAction("TouchStart", throwIfNotFound: true);
+        m_Player_TouchCanceled = m_Player.FindAction("TouchCanceled", throwIfNotFound: true);
+        m_Player_TouchPos = m_Player.FindAction("TouchPos", throwIfNotFound: true);
+        m_Player_TouchDelta = m_Player.FindAction("TouchDelta", throwIfNotFound: true);
+        m_Player_FireOrChargeWeapon = m_Player.FindAction("FireOrChargeWeapon", throwIfNotFound: true);
         m_Player_InventoryActivation = m_Player.FindAction("InventoryActivation", throwIfNotFound: true);
         m_Player_EquipmentQuickCast_1 = m_Player.FindAction("EquipmentQuickCast_1", throwIfNotFound: true);
         m_Player_EquipmentQuickCast_2 = m_Player.FindAction("EquipmentQuickCast_2", throwIfNotFound: true);
@@ -300,6 +522,7 @@ public class @PCInputActions : IInputActionCollection, IDisposable
         m_Player_EquipmentQuickCast_4 = m_Player.FindAction("EquipmentQuickCast_4", throwIfNotFound: true);
         m_Player_EquipmentQuickCast_5 = m_Player.FindAction("EquipmentQuickCast_5", throwIfNotFound: true);
         m_Player_EquipmentQuickCast_6 = m_Player.FindAction("EquipmentQuickCast_6", throwIfNotFound: true);
+        m_Player_Respawn = m_Player.FindAction("Respawn", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -352,8 +575,11 @@ public class @PCInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Aim;
-    private readonly InputAction m_Player_MouseClick;
-    private readonly InputAction m_Player_MouseHold;
+    private readonly InputAction m_Player_TouchStart;
+    private readonly InputAction m_Player_TouchCanceled;
+    private readonly InputAction m_Player_TouchPos;
+    private readonly InputAction m_Player_TouchDelta;
+    private readonly InputAction m_Player_FireOrChargeWeapon;
     private readonly InputAction m_Player_InventoryActivation;
     private readonly InputAction m_Player_EquipmentQuickCast_1;
     private readonly InputAction m_Player_EquipmentQuickCast_2;
@@ -361,6 +587,7 @@ public class @PCInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_EquipmentQuickCast_4;
     private readonly InputAction m_Player_EquipmentQuickCast_5;
     private readonly InputAction m_Player_EquipmentQuickCast_6;
+    private readonly InputAction m_Player_Respawn;
     public struct PlayerActions
     {
         private @PCInputActions m_Wrapper;
@@ -368,8 +595,11 @@ public class @PCInputActions : IInputActionCollection, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
-        public InputAction @MouseClick => m_Wrapper.m_Player_MouseClick;
-        public InputAction @MouseHold => m_Wrapper.m_Player_MouseHold;
+        public InputAction @TouchStart => m_Wrapper.m_Player_TouchStart;
+        public InputAction @TouchCanceled => m_Wrapper.m_Player_TouchCanceled;
+        public InputAction @TouchPos => m_Wrapper.m_Player_TouchPos;
+        public InputAction @TouchDelta => m_Wrapper.m_Player_TouchDelta;
+        public InputAction @FireOrChargeWeapon => m_Wrapper.m_Player_FireOrChargeWeapon;
         public InputAction @InventoryActivation => m_Wrapper.m_Player_InventoryActivation;
         public InputAction @EquipmentQuickCast_1 => m_Wrapper.m_Player_EquipmentQuickCast_1;
         public InputAction @EquipmentQuickCast_2 => m_Wrapper.m_Player_EquipmentQuickCast_2;
@@ -377,6 +607,7 @@ public class @PCInputActions : IInputActionCollection, IDisposable
         public InputAction @EquipmentQuickCast_4 => m_Wrapper.m_Player_EquipmentQuickCast_4;
         public InputAction @EquipmentQuickCast_5 => m_Wrapper.m_Player_EquipmentQuickCast_5;
         public InputAction @EquipmentQuickCast_6 => m_Wrapper.m_Player_EquipmentQuickCast_6;
+        public InputAction @Respawn => m_Wrapper.m_Player_Respawn;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -395,12 +626,21 @@ public class @PCInputActions : IInputActionCollection, IDisposable
                 @Aim.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
                 @Aim.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
                 @Aim.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
-                @MouseClick.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseClick;
-                @MouseClick.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseClick;
-                @MouseClick.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseClick;
-                @MouseHold.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseHold;
-                @MouseHold.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseHold;
-                @MouseHold.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseHold;
+                @TouchStart.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchStart;
+                @TouchStart.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchStart;
+                @TouchStart.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchStart;
+                @TouchCanceled.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchCanceled;
+                @TouchCanceled.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchCanceled;
+                @TouchCanceled.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchCanceled;
+                @TouchPos.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchPos;
+                @TouchPos.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchPos;
+                @TouchPos.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchPos;
+                @TouchDelta.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchDelta;
+                @TouchDelta.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchDelta;
+                @TouchDelta.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTouchDelta;
+                @FireOrChargeWeapon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFireOrChargeWeapon;
+                @FireOrChargeWeapon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFireOrChargeWeapon;
+                @FireOrChargeWeapon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFireOrChargeWeapon;
                 @InventoryActivation.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryActivation;
                 @InventoryActivation.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryActivation;
                 @InventoryActivation.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventoryActivation;
@@ -422,6 +662,9 @@ public class @PCInputActions : IInputActionCollection, IDisposable
                 @EquipmentQuickCast_6.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipmentQuickCast_6;
                 @EquipmentQuickCast_6.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipmentQuickCast_6;
                 @EquipmentQuickCast_6.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipmentQuickCast_6;
+                @Respawn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRespawn;
+                @Respawn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRespawn;
+                @Respawn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRespawn;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -435,12 +678,21 @@ public class @PCInputActions : IInputActionCollection, IDisposable
                 @Aim.started += instance.OnAim;
                 @Aim.performed += instance.OnAim;
                 @Aim.canceled += instance.OnAim;
-                @MouseClick.started += instance.OnMouseClick;
-                @MouseClick.performed += instance.OnMouseClick;
-                @MouseClick.canceled += instance.OnMouseClick;
-                @MouseHold.started += instance.OnMouseHold;
-                @MouseHold.performed += instance.OnMouseHold;
-                @MouseHold.canceled += instance.OnMouseHold;
+                @TouchStart.started += instance.OnTouchStart;
+                @TouchStart.performed += instance.OnTouchStart;
+                @TouchStart.canceled += instance.OnTouchStart;
+                @TouchCanceled.started += instance.OnTouchCanceled;
+                @TouchCanceled.performed += instance.OnTouchCanceled;
+                @TouchCanceled.canceled += instance.OnTouchCanceled;
+                @TouchPos.started += instance.OnTouchPos;
+                @TouchPos.performed += instance.OnTouchPos;
+                @TouchPos.canceled += instance.OnTouchPos;
+                @TouchDelta.started += instance.OnTouchDelta;
+                @TouchDelta.performed += instance.OnTouchDelta;
+                @TouchDelta.canceled += instance.OnTouchDelta;
+                @FireOrChargeWeapon.started += instance.OnFireOrChargeWeapon;
+                @FireOrChargeWeapon.performed += instance.OnFireOrChargeWeapon;
+                @FireOrChargeWeapon.canceled += instance.OnFireOrChargeWeapon;
                 @InventoryActivation.started += instance.OnInventoryActivation;
                 @InventoryActivation.performed += instance.OnInventoryActivation;
                 @InventoryActivation.canceled += instance.OnInventoryActivation;
@@ -462,6 +714,9 @@ public class @PCInputActions : IInputActionCollection, IDisposable
                 @EquipmentQuickCast_6.started += instance.OnEquipmentQuickCast_6;
                 @EquipmentQuickCast_6.performed += instance.OnEquipmentQuickCast_6;
                 @EquipmentQuickCast_6.canceled += instance.OnEquipmentQuickCast_6;
+                @Respawn.started += instance.OnRespawn;
+                @Respawn.performed += instance.OnRespawn;
+                @Respawn.canceled += instance.OnRespawn;
             }
         }
     }
@@ -471,8 +726,11 @@ public class @PCInputActions : IInputActionCollection, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
-        void OnMouseClick(InputAction.CallbackContext context);
-        void OnMouseHold(InputAction.CallbackContext context);
+        void OnTouchStart(InputAction.CallbackContext context);
+        void OnTouchCanceled(InputAction.CallbackContext context);
+        void OnTouchPos(InputAction.CallbackContext context);
+        void OnTouchDelta(InputAction.CallbackContext context);
+        void OnFireOrChargeWeapon(InputAction.CallbackContext context);
         void OnInventoryActivation(InputAction.CallbackContext context);
         void OnEquipmentQuickCast_1(InputAction.CallbackContext context);
         void OnEquipmentQuickCast_2(InputAction.CallbackContext context);
@@ -480,5 +738,6 @@ public class @PCInputActions : IInputActionCollection, IDisposable
         void OnEquipmentQuickCast_4(InputAction.CallbackContext context);
         void OnEquipmentQuickCast_5(InputAction.CallbackContext context);
         void OnEquipmentQuickCast_6(InputAction.CallbackContext context);
+        void OnRespawn(InputAction.CallbackContext context);
     }
 }

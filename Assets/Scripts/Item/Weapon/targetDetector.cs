@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class targetDetector : MonoBehaviour
 {
-    private TargetList _targetList;
+    [SerializeField] private TargetList _targetList;
 
     private void Awake()
     {

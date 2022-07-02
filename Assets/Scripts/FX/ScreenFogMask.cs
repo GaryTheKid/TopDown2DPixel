@@ -13,11 +13,17 @@ public class ScreenFogMask : MonoBehaviour
 
     public void SetFogOn()
     {
+        if (animator.GetBool("isFogOn"))
+            return;
+
         animator.SetBool("isFogOn", true);
     }
 
     public void SetFogOff()
     {
+        if (!animator.GetBool("isFogOn"))
+            return;
+
         animator.SetBool("isFogOn", false);
     }
 }

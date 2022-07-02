@@ -17,11 +17,15 @@ public class PlayerInputActions : MonoBehaviour
         // interact
         inputActions.Player.Interact.Enable();
 
-        //
+        // aim
+        inputActions.Player.Aim.Enable();
+        inputActions.Player.TouchStart.Enable();
+        inputActions.Player.TouchCanceled.Enable();
+        inputActions.Player.TouchPos.Enable();
+        inputActions.Player.TouchDelta.Enable();
 
         // attack
-        inputActions.Player.MouseClick.Enable();
-        inputActions.Player.MouseHold.Enable();
+        inputActions.Player.FireOrChargeWeapon.Enable();
 
         // inventory
         inputActions.Player.InventoryActivation.Enable();
@@ -31,5 +35,8 @@ public class PlayerInputActions : MonoBehaviour
         inputActions.Player.EquipmentQuickCast_4.Enable();
         inputActions.Player.EquipmentQuickCast_5.Enable();
         inputActions.Player.EquipmentQuickCast_6.Enable();
+
+        // respawn
+        inputActions.Player.Respawn.Enable();
     }
 }
