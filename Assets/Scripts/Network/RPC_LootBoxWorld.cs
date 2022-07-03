@@ -9,6 +9,9 @@ public class RPC_LootBoxWorld : MonoBehaviour
     [PunRPC]
     void RPC_SetLootBox(int areaIndex)
     {
+        transform.parent = GameManager.gameManager.spawnedLootBoxParent;
+        gameObject.name = "LootBox " + GetComponent<PhotonView>().ViewID.ToString();
+
         GetComponent<LootBoxWorld>().areaIndex = areaIndex;
     }
 

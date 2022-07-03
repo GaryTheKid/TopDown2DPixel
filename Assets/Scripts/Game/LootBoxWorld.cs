@@ -41,11 +41,6 @@ public class LootBoxWorld : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    private void Start()
-    {
-        gameObject.name = "LootBox " + PV.ViewID.ToString();
-    }
-
     public void DisplayInteractionText()
     {
         interactionText.gameObject.SetActive(true);
