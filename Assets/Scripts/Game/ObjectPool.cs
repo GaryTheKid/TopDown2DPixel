@@ -14,24 +14,31 @@ using UnityEngine;
 public class ObjectPool : MonoBehaviour
 {
     public static ObjectPool objectPool;
-    public List<GameObject> pooledObjects;
-    public GameObject objectToPool;
-    public int amountToPool;
+    public readonly List<GameObject> pooledLootBoxes = new List<GameObject>();
+    public bool isAllLootBoxActive;
 
     void Awake()
     {
         objectPool = this;
+
+        foreach (Transform lootBox in GameManager.gameManager.spawnedLootBoxParent)
+        {
+            pooledLootBoxes.Add(lootBox.gameObject);
+        }
     }
 
-    void Start()
+    public int RequestLootBoxIndexFromPool()
     {
-        pooledObjects = new List<GameObject>();
-        GameObject tmp;
-        for (int i = 0; i < amountToPool; i++)
+        for (int i = 0; i < pooledLootBoxes.Count; i++)
         {
-            tmp = Instantiate(objectToPool);
-            tmp.SetActive(false);
-            pooledObjects.Add(tmp);
+            if (!pooledLootBoxes[i].activeInHierarchy)
+            {
+                isAllLootBoxActive = false;
+                return i;
+            }
         }
+
+        isAllLootBoxActive = true;
+        return -1;
     }
 }

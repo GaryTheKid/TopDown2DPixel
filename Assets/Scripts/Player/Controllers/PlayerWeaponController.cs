@@ -181,7 +181,7 @@ public class PlayerWeaponController : MonoBehaviour
             return;
 
 #if PLATFORM_ANDROID
-        /*// rotate weapon
+        // rotate weapon
         var input = _inputActions.Player.Aim.ReadValue<Vector2>();
         if (input != Vector2.zero)
         {
@@ -190,7 +190,7 @@ public class PlayerWeaponController : MonoBehaviour
 
             // flip if rotate over 90 deg
             FilpWeapon(_aimAngle);
-        }*/
+        }
 
 #elif UNITY_EDITOR_WIN || PLATFORM_STANDALONE_WIN
         // rotate weapon

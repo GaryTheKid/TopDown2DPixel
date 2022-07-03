@@ -22,4 +22,12 @@ public class RPC_GameManager : MonoBehaviour
         player.GetComponent<PlayerNetworkController>().playerID = name;
         player.GetComponent<PlayerNetworkController>().scoreboardTag = GameManager.gameManager.SpawnScoreboardTag(name);
     }
+
+    [PunRPC]
+    void RPC_SpawnLootBox(int index, Vector2 pos)
+    {
+        var obj = ObjectPool.objectPool.pooledLootBoxes[index].gameObject;
+        obj.SetActive(true);
+        obj.transform.position = pos;
+    }
 }

@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         timer += Time.fixedDeltaTime;
 
         // stop spawning loot box if reach max
-        if (spawnedLootBoxParent.childCount > maxLootBoxSpawnInWorld)
+        if (ObjectPool.objectPool.isAllLootBoxActive)
             return;
 
         // spawn loot box randomly
@@ -202,14 +202,21 @@ public class GameManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region Loot Box
-    public void SpawnLootBox(Vector2 pos, int areaIndex)
+    public void SpawnLootBox(Vector2 pos, int areaIndex, out bool succeed)
     {
-        var newLootBox = PhotonNetwork.InstantiateRoomObject("Item/pfLootBox", pos, Quaternion.identity);
-        newLootBox.transform.parent = spawnedLootBoxParent;
-
-        LootBoxWorld lootBoxWorld = newLootBox.GetComponent<LootBoxWorld>();
-        lootBoxWorld.SetLootBox(areaIndex);
-        lootBoxWorld.Expire();
+        int requestedLootBoxIndex = ObjectPool.objectPool.RequestLootBoxIndexFromPool();
+        if (requestedLootBoxIndex != -1)
+        {
+            PV.RPC("RPC_SpawnLootBox", RpcTarget.AllBuffered, requestedLootBoxIndex, pos);
+            LootBoxWorld lootBoxWorld = ObjectPool.objectPool.pooledLootBoxes[requestedLootBoxIndex].GetComponent<LootBoxWorld>();
+            lootBoxWorld.SetLootBox(areaIndex);
+            lootBoxWorld.Expire();
+            succeed = true;
+        }
+        else
+        {
+            succeed = false;
+        }
     }
 
     public void SpawnLootBoxRandomly()

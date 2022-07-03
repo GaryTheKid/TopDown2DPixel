@@ -27,6 +27,7 @@ public class LootBoxWorld : MonoBehaviour
     }*/
 
     [SerializeField] private Text interactionText;
+    [SerializeField] private Sprite defaultSprite; 
 
     public PhotonView PV;
     public int areaIndex;
@@ -137,7 +138,19 @@ public class LootBoxWorld : MonoBehaviour
 
     public void DestroySelf()
     {
-        Destroy(gameObject);
-        //LootBox_NetWork.DestroyLootBox(PV);
+        gameObject.SetActive(false);
+
+        // reset sprite
+        var spriteRenderer = GetComponent<SpriteRenderer>();
+        var col = spriteRenderer.color;
+        col.a = 1f;
+        spriteRenderer.color = col;
+        spriteRenderer.sprite = defaultSprite;
+
+        // re-enable colliders
+        foreach (Collider2D collider in GetComponents<Collider2D>()) collider.enabled = true;
+
+        // inform object pool
+        ObjectPool.objectPool.isAllLootBoxActive = false;
     }
 }

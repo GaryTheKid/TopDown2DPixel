@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-#if PLATFORM_ANDROID
 public class UI_MobileInput : MonoBehaviour
 {
     public RectTransform Pad_Left;
@@ -17,6 +16,13 @@ public class UI_MobileInput : MonoBehaviour
     private Text DEBUG_TEXT;
 
     private PCInputActions _inputActions;
+
+    private void OnValidate()
+    {
+#if UNITY_EDITOR_WIN || PLATFORM_STANDALONE_WIN
+        gameObject.SetActive(false);
+#endif
+    }
 
     private void Awake()
     {
@@ -43,8 +49,6 @@ public class UI_MobileInput : MonoBehaviour
     {
         Pad_Right.gameObject.SetActive(false);
         Button_Interaction.gameObject.SetActive(true);
-        GetComponentInParent<PlayerWeaponController>().ClearAttackCo();
-        GetComponentInParent<PlayerWeaponController>().ClearChargeCo();
     }
 
     public void DeactivateInteractionButton()
@@ -53,4 +57,3 @@ public class UI_MobileInput : MonoBehaviour
         Button_Interaction.gameObject.SetActive(false);
     }
 }
-#endif

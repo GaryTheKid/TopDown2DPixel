@@ -33,12 +33,18 @@ public class LootBoxSpawner : MonoBehaviour
         }
 
         // spawn Loot box
-        GameManager.gameManager.SpawnLootBox(transform.position, whichArea);
+        bool isSpawnSucceed = false;
+        GameManager.gameManager.SpawnLootBox(transform.position, whichArea, out isSpawnSucceed);
 
         // spawn area available count + 1
-        var area = GameManager.gameManager.lootBoxSpawnAreas[whichArea];
-        var updatedArea = (area.Item1, area.Item2, area.Item3 + 1);
-        GameManager.gameManager.lootBoxSpawnAreas[whichArea] = updatedArea;
+        if (isSpawnSucceed)
+        {
+            var area = GameManager.gameManager.lootBoxSpawnAreas[whichArea];
+            var updatedArea = (area.Item1, area.Item2, area.Item3 + 1);
+            GameManager.gameManager.lootBoxSpawnAreas[whichArea] = updatedArea;
+        }
+
+        // destroy
         Destroy(gameObject);
     }
 }
