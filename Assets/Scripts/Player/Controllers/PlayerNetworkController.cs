@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Experimental.Rendering.Universal;
+
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
@@ -27,7 +27,7 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
     [SerializeField] private MMF_Player _mmf_hp;
     [SerializeField] private Image _hpBar;
     [SerializeField] private Gradient _enemyHpBarGradient;
-    [SerializeField] private Light2D _characterLight;
+    [SerializeField] private UnityEngine.Rendering.Universal.Light2D _characterLight;
 
     private void Awake()
     {
