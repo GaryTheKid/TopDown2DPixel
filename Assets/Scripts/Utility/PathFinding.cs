@@ -17,7 +17,7 @@ public class PathFinding : MonoBehaviour
         FunctionPeriodic.Create(() => {
             float startTime = Time.realtimeSinceStartup;
 
-            int findPathJobCount = 50;
+            int findPathJobCount = 2;
             NativeArray<JobHandle> jobHandleArray = new NativeArray<JobHandle>(findPathJobCount, Allocator.TempJob);
 
             for (int i = 0; i < findPathJobCount; i++)

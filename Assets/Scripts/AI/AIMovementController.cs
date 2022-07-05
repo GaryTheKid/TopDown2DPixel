@@ -65,7 +65,7 @@ public class AIMovementController : MonoBehaviour
         else
         {
             // is moving
-            _rb.velocity = (_moveDestination * _StatsController.GetCurrentSpeed());
+            _rb.velocity = _moveDestination * _StatsController.GetCurrentSpeed() * Time.fixedDeltaTime;
             if (!_animator.GetBool("isMoving"))
                 _animator.SetBool("isMoving", true);
             _animator.SetFloat("moveX", _moveDestination.x);

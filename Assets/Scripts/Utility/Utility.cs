@@ -75,7 +75,7 @@ namespace Utilities
         }
         public static Vector3 GetMousePostionWorldWithZ(Vector3 screenPos, Camera worldCamera) 
         {
-            screenPos.z = 999f;
+            screenPos.z = Mathf.Abs(worldCamera.transform.position.z);
             Vector3 worldPos = worldCamera.ScreenToWorldPoint(screenPos);
             return worldPos;
         }
