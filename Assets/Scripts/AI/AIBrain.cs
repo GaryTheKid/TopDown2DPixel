@@ -1,3 +1,12 @@
+/* Last Edition: 07/03/2022
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * 
+ * Description: 
+ *   The AI Brain to control the how AI Behaves.
+ * Last Edition:
+ *   Just Created.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

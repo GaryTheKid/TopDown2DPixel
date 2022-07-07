@@ -1,3 +1,13 @@
+/* Last Edition: 05/28/2022
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * 
+ * Description: 
+ *   Weapon - Gun - Gun_AK
+ * Last Edition:
+ *   Just Created.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

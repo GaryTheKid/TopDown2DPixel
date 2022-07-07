@@ -11,10 +11,12 @@
  */
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Unity.Jobs;
+using Unity.Burst;
 using CodeMonkey.Utils;
+using Unity.Collections;
+using Unity.Entities;
 
 public class GridMap<TGridObject>
 {
@@ -28,15 +30,13 @@ public class GridMap<TGridObject>
     private int width;
     private int height;
     private float cellSize;
-    private Vector3 originPosition;
     private TGridObject[,] gridArray;
 
-    public GridMap(int width, int height, float cellSize, Vector3 originPosition, Func<GridMap<TGridObject>, int, int, TGridObject> createGridObject)
+    public GridMap(int width, int height, float cellSize, Func<GridMap<TGridObject>, int, int, TGridObject> createGridObject)
     {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
-        this.originPosition = originPosition;
 
         gridArray = new TGridObject[width, height];
 
@@ -73,6 +73,16 @@ public class GridMap<TGridObject>
         }
     }
 
+    public int GetWidth()
+    {
+        return width;
+    }
+
+    public int GetHeight()
+    {
+        return height;
+    }
+
     public float GetCellSize()
     {
         return cellSize;
@@ -80,13 +90,13 @@ public class GridMap<TGridObject>
 
     private Vector3 GetWorldPosition(int x, int y)
     {
-        return new Vector3(x, y) * cellSize + originPosition;
+        return new Vector3(x, y) * cellSize;
     }
 
-    private void GetXY(Vector3 worldPosition, out int x, out int y)
+    public void GetXY(Vector3 worldPosition, out int x, out int y)
     {
-        x = Mathf.FloorToInt((worldPosition - originPosition).x / cellSize);
-        y = Mathf.FloorToInt((worldPosition - originPosition).y / cellSize);
+        x = Mathf.FloorToInt(worldPosition.x / cellSize);
+        y = Mathf.FloorToInt(worldPosition.y / cellSize);
     }
 
     public void SetGridObject(int x, int y, TGridObject value) 
@@ -130,6 +140,76 @@ public class GridMap<TGridObject>
 
     public void GenerateCollisionMap()
     {
+        for (int x = 0; x < gridArray.GetLength(0); x++)
+        {
+            for (int y = 0; y < gridArray.GetLength(1); y++)
+            {
+                Collider2D hitCollider = Physics2D.OverlapBox(GetWorldPosition(x, y), new Vector2(cellSize / 1.5f, cellSize / 1.5f), 0f, LayerMask.NameToLayer("Everything"));
+                if (hitCollider != null)
+                {
+                    PathfindingGridSetup.Instance.pathfindingGrid.GetGridObject(x, y).SetIsWalkable(false);
 
+                }
+            }
+        }
+
+        /*// calculate all nodes' collision
+        NativeArray<bool> walkableResults = new NativeArray<bool>(width * height, Allocator.TempJob);
+        GridMapCollisionDetectionJob collisionDetectionJob = new GridMapCollisionDetectionJob
+        {
+            width = width,
+            height = height,
+            cellSize = cellSize,
+            originPosition = originPosition,
+            layerMask = LayerMask.NameToLayer("Everything"),
+            result = walkableResults
+
+        };
+        JobHandle jobHandle = collisionDetectionJob.Schedule();
+
+        // wait job complete
+        jobHandle.Complete();
+
+        // inject calculated results to the gridmap
+        for (int x = 0; x < gridArray.GetLength(0); x++)
+        {
+            for (int y = 0; y < gridArray.GetLength(1); y++)
+            {
+                PathfindingGridSetup.Instance.pathfindingGrid.GetGridObject(x, y).SetIsWalkable(walkableResults[CalculateIndex(x, y, width)]);
+            }
+        }
+
+        // dispose
+        walkableResults.Dispose();*/
+    }
+
+    private struct GridMapCollisionDetectionJob : IJob
+    {
+        public int width;
+        public int height;
+        public float cellSize;
+        public Vector3 originPosition;
+        public LayerMask layerMask;
+        public NativeArray<bool> result;
+
+        public void Execute()
+        {
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    Collider2D hitCollider = Physics2D.OverlapBox(new Vector3(x, y) * cellSize + originPosition, new Vector2(cellSize / 1.5f, cellSize / 1.5f), 0f, layerMask);
+                    if (hitCollider != null)
+                    {
+                        result[CalculateIndex(x, y, width)] = false;
+                    }
+                }
+            }
+        }
+    }
+
+    private static int CalculateIndex(int x, int y, int gridWidth)
+    {
+        return x + y * gridWidth;
     }
 }

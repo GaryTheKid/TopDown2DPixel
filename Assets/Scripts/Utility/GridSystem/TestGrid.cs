@@ -1,3 +1,12 @@
+/* Last Edition: 07/05/2022
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * 
+ * Description: 
+ *   To test the gridmap system.
+ * Last Edition:
+ *   Just Created.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +20,7 @@ public class TestGrid : MonoBehaviour
 
     private void Start()
     {
-        grid = new GridMap<bool>(30, 20, 1f, transform.position, (GridMap<bool> grid, int x, int y) => true);
+        grid = new GridMap<bool>(30, 20, 1f, (GridMap<bool> grid, int x, int y) => true);
         //StartCoroutine(Co_TraverseGridCollision());
     }
 

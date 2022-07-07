@@ -1,3 +1,12 @@
+/* Last Edition: 07/03/2022
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * 
+ * Description: 
+ *   The script attached to the character collider for the world objs interactions.
+ * Last Edition:
+ *   Just Created.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

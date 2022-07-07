@@ -1,3 +1,12 @@
+/* Last Edition: 06/28/2022
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * 
+ * Description: 
+ *   The spawn area that constraints where the loot boxes can be spawned.
+ * Last Edition:
+ *   Just Created.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

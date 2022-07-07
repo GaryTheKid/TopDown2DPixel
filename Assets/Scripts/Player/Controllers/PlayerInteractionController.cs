@@ -1,3 +1,12 @@
+/* Last Edition: 06/28/2022
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * 
+ * Description: 
+ *   The interaction controller for the player to interact with interactable world objs.
+ * Last Edition:
+ *   Just Created.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

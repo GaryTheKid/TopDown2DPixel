@@ -1,3 +1,12 @@
+/* Last Edition: 05/28/2022
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * 
+ * Description: 
+ *   The stats controller that holds all player stats 
+ * Last Edition:
+ *   Just Created.
+ */
 using System;
 using System.Collections;
 using System.Collections.Generic;

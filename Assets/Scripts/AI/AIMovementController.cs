@@ -1,3 +1,12 @@
+/* Last Edition: 07/03/2022
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * 
+ * Description: 
+ *   The AI movement Controller that controls AI physical moves.
+ * Last Edition:
+ *   Just Created.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
