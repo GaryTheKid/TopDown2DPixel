@@ -1,3 +1,14 @@
+/* Last Edition: 07/07/2022
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * reference: Codemonkey
+ * 
+ * Description: 
+ *   Setup for the global grid system.
+ *   step by step.
+ * Last Edition:
+ *   Just created.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,24 +23,18 @@ public class PathfindingGridSetup : MonoBehaviour
     [SerializeField] private Tilemap tilemap;
 
     public GridMap<GridNode> pathfindingGrid;
-
+    
     private void Awake()
     {
         Instance = this;
+        var gridSize = tilemap.cellBounds.size;
+        pathfindingGrid = new GridMap<GridNode>(gridSize.x, gridSize.y, 1f, (GridMap<GridNode> grid, int x, int y) => new GridNode(grid, x, y));
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        var time = Time.realtimeSinceStartup;
-
-        var gridSize = tilemap.cellBounds.size;
-        pathfindingGrid = new GridMap<GridNode>(gridSize.x, gridSize.y, 1f, (GridMap<GridNode> grid, int x, int y) => new GridNode(grid, x, y));
-
         pathfindingGrid.GenerateCollisionMap();
-
-        time = Time.realtimeSinceStartup - time;
-        print(time);
     }
 
     // Update is called once per frame

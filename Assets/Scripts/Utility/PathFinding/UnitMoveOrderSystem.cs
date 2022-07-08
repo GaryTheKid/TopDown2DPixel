@@ -1,3 +1,15 @@
+/* Last Edition: 07/07/2022
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * reference: Codemonkey
+ * 
+ * Description: 
+ *   The unit move component system. Give each entity a position to move
+ *   step by step.
+ * Last Edition:
+ *   Set to legacy
+ */
+
 using UnityEngine;
 using Unity.Entities;
 using Unity.Transforms;
@@ -9,7 +21,7 @@ public class UnitMoveOrderSystem : ComponentSystem
 {
     protected override void OnUpdate()
     {
-        if (Input.GetMouseButtonDown(0))
+        /*if (Input.GetMouseButtonDown(0))
         {
             Vector3 mousePosition = Common.GetMouseWorldPosition();
 
@@ -34,7 +46,7 @@ public class UnitMoveOrderSystem : ComponentSystem
                     endPosition = new int2(endX, endY)
                 });
             });
-        }
+        }*/
     }
 
     private void ValidateGridPosition(ref int x, ref int y)

@@ -21,7 +21,7 @@ public class AIStats
         isWeaponLocked = false;
         maxHp = 100;
         hp = 100;
-        baseSpeed = 5f;
+        baseSpeed = 1f;
         speedModifier = 1f;
     }
 }

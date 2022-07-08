@@ -11,6 +11,7 @@
  */
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Unity.Mathematics;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
@@ -25,12 +26,16 @@ public class PathFinding : ComponentSystem
 
     protected override void OnUpdate()
     {
+        if (SceneManager.GetActiveScene().buildIndex != 1)
+            return;
+
         int gridWidth = PathfindingGridSetup.Instance.pathfindingGrid.GetWidth();
         int gridHeight = PathfindingGridSetup.Instance.pathfindingGrid.GetHeight();
         int2 gridSize = new int2(gridWidth, gridHeight);
 
         List<FindPathJob> findPathJobList = new List<FindPathJob>();
         NativeList<JobHandle> jobHandleList = new NativeList<JobHandle>(Allocator.Temp);
+
         Entities.ForEach((Entity entity, DynamicBuffer<PathPosition> pathPositionBuffer, ref PathFindingParams pathfindingParams) =>
         {
             FindPathJob findPathJob = new FindPathJob
@@ -40,12 +45,10 @@ public class PathFinding : ComponentSystem
                 startPosition = pathfindingParams.startPosition,
                 endPosition = pathfindingParams.endPosition,
                 entity = entity,
-                //pathPositionBuffer = pathPositionBuffer,
                 pathFollowComponentDataFromEntity = GetComponentDataFromEntity<PathFollow>(),
             };
             findPathJobList.Add(findPathJob);
             jobHandleList.Add(findPathJob.Schedule());
-            // findPathJob.Run();
 
             PostUpdateCommands.RemoveComponent<PathFindingParams>(entity);
         });

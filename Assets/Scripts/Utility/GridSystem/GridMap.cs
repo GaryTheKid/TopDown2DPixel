@@ -140,11 +140,14 @@ public class GridMap<TGridObject>
 
     public void GenerateCollisionMap()
     {
+        int detectionLayer = LayerMask.NameToLayer("Everything");
+        detectionLayer = ~LayerMask.GetMask("EnemyAI", "AIChaseRadius", "AIAttackRadius", "Enemy", "Character");
+
         for (int x = 0; x < gridArray.GetLength(0); x++)
         {
             for (int y = 0; y < gridArray.GetLength(1); y++)
             {
-                Collider2D hitCollider = Physics2D.OverlapBox(GetWorldPosition(x, y), new Vector2(cellSize / 1.5f, cellSize / 1.5f), 0f, LayerMask.NameToLayer("Everything"));
+                Collider2D hitCollider = Physics2D.OverlapBox(GetWorldPosition(x, y), new Vector2(cellSize / 1.5f, cellSize / 1.5f), 0f, detectionLayer);
                 if (hitCollider != null)
                 {
                     PathfindingGridSetup.Instance.pathfindingGrid.GetGridObject(x, y).SetIsWalkable(false);
