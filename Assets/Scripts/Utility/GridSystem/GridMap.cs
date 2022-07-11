@@ -1,4 +1,4 @@
-/* Last Edition: 07/05/2022
+/* Last Edition: 07/09/2022
  * Author: Chongyang Wang
  * Collaborators: 
  * Reference: CodeMonkey
@@ -7,7 +7,7 @@
  *  A grid system for pathfinding, building, etc.
  *   
  * Last Edition:
- *  Just created.
+ *  Grid collision detection from single box 2d overlay to area all.
  */
 
 using System;
@@ -48,7 +48,7 @@ public class GridMap<TGridObject>
             }
         }
 
-        bool showDebug = true;
+        bool showDebug = false;
         if (showDebug)
         {
             TextMesh[,] debugTextArray = new TextMesh[width, height];
@@ -143,15 +143,15 @@ public class GridMap<TGridObject>
         int detectionLayer = LayerMask.NameToLayer("Everything");
         detectionLayer = ~LayerMask.GetMask("EnemyAI", "AIChaseRadius", "AIAttackRadius", "Enemy", "Character");
 
+        var offset = new Vector3(cellSize * 0.5f, cellSize * 0.5f);
         for (int x = 0; x < gridArray.GetLength(0); x++)
         {
             for (int y = 0; y < gridArray.GetLength(1); y++)
             {
-                Collider2D hitCollider = Physics2D.OverlapBox(GetWorldPosition(x, y), new Vector2(cellSize / 1.5f, cellSize / 1.5f), 0f, detectionLayer);
+                Collider2D hitCollider = Physics2D.OverlapBox(GetWorldPosition(x, y) + offset, new Vector2(cellSize * 0.8f, cellSize * 0.8f), 0f, detectionLayer);
                 if (hitCollider != null)
                 {
                     PathfindingGridSetup.Instance.pathfindingGrid.GetGridObject(x, y).SetIsWalkable(false);
-
                 }
             }
         }

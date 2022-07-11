@@ -19,6 +19,34 @@ namespace NetworkCalls
         {
             PV.RPC("RPC_UpdatePlayerInfo", RpcTarget.AllBuffered, viewID, name);
         }
+
+        public static void SpawnLootBox(PhotonView PV, int requestedLootBoxIndex, Vector2 pos)
+        {
+            PV.RPC("RPC_SpawnLootBox", RpcTarget.AllBuffered, requestedLootBoxIndex, pos);
+        }
+
+        public static void SpawnAI(PhotonView PV, int requestedAIIndex, Vector2 pos)
+        {
+            PV.RPC("RPC_SpawnAI", RpcTarget.AllBuffered, requestedAIIndex, pos);
+        }
+    }
+
+    public class AI_NetWork
+    {
+        public static void SetAI(PhotonView PV)
+        {
+            PV.RPC("RPC_SetAI", RpcTarget.AllBuffered);
+        }
+
+        public static void Die(PhotonView PV)
+        {
+            PV.RPC("RPC_AIDie", RpcTarget.AllViaServer);
+        }
+
+        public static void Respawn(PhotonView PV)
+        {
+            PV.RPC("RPC_AIRespawn", RpcTarget.AllViaServer);
+        }
     }
 
     public class LootBox_NetWork

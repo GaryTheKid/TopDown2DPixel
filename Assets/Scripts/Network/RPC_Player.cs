@@ -90,7 +90,19 @@ public class RPC_Player : MonoBehaviour
 
         foreach (int id in targets)
         {
-            PhotonView.Find(id).transform.GetComponent<PlayerBuffController>().ReceiveDamage(info, transform.position);
+            var target = PhotonView.Find(id).transform;
+            var enemyPlayer = target.GetComponent<PlayerBuffController>();
+            var enemyAI = target.GetComponent<AIBuffController>();
+
+            if (enemyPlayer != null)
+            {
+                enemyPlayer.ReceiveDamage(info, transform.position);
+            }
+
+            if (enemyAI != null)
+            {
+                enemyAI.ReceiveDamage(info, transform.position);
+            }
 
             // add score
             _playerStatsController.UpdateScore((int)info.damageAmount);
@@ -103,7 +115,20 @@ public class RPC_Player : MonoBehaviour
     {
         DamageInfo info = ItemAssets.itemAssets.projectileDic[whichProjectile].damageInfo;
         info.damageAmount *= dmgRatio;
-        PhotonView.Find(targetID).transform.GetComponent<PlayerBuffController>().ReceiveDamage(info, transform.position);
+
+        var target = PhotonView.Find(targetID).transform;
+        var enemyPlayer = target.GetComponent<PlayerBuffController>();
+        var enemyAI = target.GetComponent<AIBuffController>();
+
+        if (enemyPlayer != null)
+        {
+            enemyPlayer.ReceiveDamage(info, transform.position);
+        }
+
+        if (enemyAI != null)
+        {
+            enemyAI.ReceiveDamage(info, transform.position);
+        }
 
         // add score
         _playerStatsController.UpdateScore((int)info.damageAmount);

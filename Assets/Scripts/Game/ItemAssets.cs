@@ -43,6 +43,10 @@ public class ItemAssets : MonoBehaviour
     [Header("LootBox Spawner Prefab")]
     public Transform pfLootBoxSpawner;
 
+    // prefab for ai spawner
+    [Header("AI Spawner Prefab")]
+    public Transform pfAISpawner;
+
     // Sprite for inventory and itemworld
     [Header("Item Sprites")]
     public Sprite handsSprite;

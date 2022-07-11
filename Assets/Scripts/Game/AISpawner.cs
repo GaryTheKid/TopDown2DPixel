@@ -11,7 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LootBoxSpawner : MonoBehaviour
+public class AISpawner : MonoBehaviour
 {
     public float spawnDelay;
     private bool hasObstacle;
@@ -21,12 +21,12 @@ public class LootBoxSpawner : MonoBehaviour
         hasObstacle = true;
     }
 
-    public void SpawnLootBox(int whichArea)
+    public void SpawnAI(int whichArea)
     {
-        StartCoroutine(Co_SpawnLootBox(whichArea));
+        StartCoroutine(Co_SpawnAI(whichArea));
     }
 
-    IEnumerator Co_SpawnLootBox(int whichArea)
+    IEnumerator Co_SpawnAI(int whichArea)
     {
         // check if there is any obstacle
         var timer = 0f;
@@ -36,21 +36,13 @@ public class LootBoxSpawner : MonoBehaviour
             timer += Time.fixedDeltaTime;
             if (hasObstacle)
             {
-                GameManager.gameManager.SpawnLootBoxRandomlyInArea(whichArea);
+                GameManager.gameManager.SpawnAIRandomlyInArea(whichArea);
                 Destroy(gameObject);
             }
         }
 
-        // spawn Loot box
-        GameManager.gameManager.SpawnLootBox(transform.position, whichArea, out bool isSpawnSucceed);
-
-        // spawn area available count + 1
-        if (isSpawnSucceed)
-        {
-            var area = GameManager.gameManager.lootBoxSpawnAreas[whichArea];
-            var updatedArea = (area.Item1, area.Item2, area.Item3 + 1);
-            GameManager.gameManager.lootBoxSpawnAreas[whichArea] = updatedArea;
-        }
+        // spawn AI
+        GameManager.gameManager.SpawnAI(transform.position);
 
         // destroy
         Destroy(gameObject);

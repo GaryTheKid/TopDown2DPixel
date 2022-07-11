@@ -18,6 +18,14 @@ using UnityEditor;
 
 public class SpawnArea : MonoBehaviour
 {
+    private enum AreaType
+    {
+        LootBox,
+        Item,
+        AI
+    }
+
+    [SerializeField] private AreaType _areaType;
     [SerializeField] private Transform _v1;
     [SerializeField] private Transform _v2;
     [Tooltip("By default, if this value is 0. If not, it will override the game manager spawn density for this spawn area.")]
@@ -27,22 +35,59 @@ public class SpawnArea : MonoBehaviour
     // turn this off when build, only works on Editor
     private void OnDrawGizmos()
     {
-        // draw area
-        (Vector3 center, Vector3 size) = ConvertTwoVertsToCenterSize();
-        Color col = Color.blue;
-        col.a = 0.5f;
-        Gizmos.color = col;
-        Gizmos.DrawCube(center, size);
+        switch(_areaType)
+        {
+            case AreaType.LootBox:
+                {
+                    // draw area
+                    (Vector3 center, Vector3 size) = ConvertTwoVertsToCenterSize();
+                    Color col = Color.blue;
+                    col.a = 0.5f;
+                    Gizmos.color = col;
+                    Gizmos.DrawCube(center, size);
 
-        // draw text
-        Vector3 textCenter = new Vector3(center.x - 1.5f, center.y + 0.5f);
-        Handles.Label(textCenter, "Spawn Area");
+                    // draw text
+                    Vector3 textCenter = new Vector3(center.x - 1.5f, center.y + 0.5f);
+                    Handles.Label(textCenter, "Loot Box Spawn");
+                } 
+                break;
+
+            case AreaType.AI:
+                {
+                    // draw area
+                    (Vector3 center, Vector3 size) = ConvertTwoVertsToCenterSize();
+                    Color col = Color.red;
+                    col.a = 0.5f;
+                    Gizmos.color = col;
+                    Gizmos.DrawCube(center, size);
+
+                    // draw text
+                    Vector3 textCenter = new Vector3(center.x - 1.5f, center.y + 0.5f);
+                    Handles.Label(textCenter, "AI Spawn");
+                }
+                break;
+        }
     }
 #endif
+
+    public Vector3 GetCenter()
+    {
+        return (_v1.position + _v2.position) / 2f;
+    }
 
     public float GetAreaSize()
     {
         return Math.GetSizeFromTwoVerts(_v1.position, _v2.position);
+    }
+
+    public Vector3 GetV1()
+    {
+        return _v1.position;
+    }
+
+    public Vector3 GetV2()
+    {
+        return _v2.position;
     }
 
     public Vector3 GetRandomPointFromArea()

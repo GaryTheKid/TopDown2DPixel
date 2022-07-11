@@ -15,16 +15,40 @@ public class ObjectPool : MonoBehaviour
 {
     public static ObjectPool objectPool;
     public readonly List<GameObject> pooledLootBoxes = new List<GameObject>();
+    public readonly List<GameObject> pooledAI = new List<GameObject>();
     public bool isAllLootBoxActive;
+    public bool isAllAIActive;
 
     void Awake()
     {
         objectPool = this;
 
+        // add disabled loot box
         foreach (Transform lootBox in GameManager.gameManager.spawnedLootBoxParent)
         {
             pooledLootBoxes.Add(lootBox.gameObject);
         }
+
+        // add disabled AI
+        foreach (Transform AI in GameManager.gameManager.spawnedAIParent)
+        {
+            pooledAI.Add(AI.gameObject);
+        }
+    }
+
+    public int RequestAIIndexFromPool()
+    {
+        for (int i = 0; i < pooledAI.Count; i++)
+        {
+            if (!pooledAI[i].activeInHierarchy)
+            {
+                isAllAIActive = false;
+                return i;
+            }
+        }
+
+        isAllAIActive = true;
+        return -1;
     }
 
     public int RequestLootBoxIndexFromPool()

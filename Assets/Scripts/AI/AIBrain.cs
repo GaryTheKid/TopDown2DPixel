@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;
+using Photon.Pun;
 
 public class AIBrain : MonoBehaviour
 {
@@ -23,17 +24,20 @@ public class AIBrain : MonoBehaviour
         Attack
     }
 
+    public State aiState;
+
     private AIMovementController _aiMovementController;
+    private PhotonView _PV;
     private Vector3 _startingPos;
     private Vector3 _roamPosition;
     private Transform _chaseTarget;
-    private State _aiState;
     private float _roamTimer;
     private float _randomRoamTime;
     private float _chaseTimer;
 
     private void Awake()
     {
+        _PV = GetComponent<PhotonView>();
         _aiMovementController = GetComponent<AIMovementController>();
     }
 
@@ -41,12 +45,12 @@ public class AIBrain : MonoBehaviour
     {
         _startingPos = transform.position;
         _randomRoamTime = Random.Range(5f, 7f);
-        SetState(State.Roam);
+        SetState((byte)State.Roam);
     }
 
     private void Update()
     {
-        switch (_aiState)
+        switch (aiState)
         {
             case State.Idle:
                 {
@@ -69,7 +73,7 @@ public class AIBrain : MonoBehaviour
                 {
                     _chaseTimer += Time.deltaTime;
 
-                    if (_chaseTimer > 1f)
+                    if (_chaseTimer > 1.2f)
                     {
                         Chase();
                         _chaseTimer = 0f;
@@ -84,21 +88,30 @@ public class AIBrain : MonoBehaviour
                 break;
         }
     }
-    public void SetState(State state)
+    public void SetState(byte state)
     {
-        _aiState = state;
+        _PV.RPC("RPC_SetState", RpcTarget.AllViaServer, state);
     }
 
     public void SetChaseTarget(Transform target)
     {
         _chaseTarget = target;
-        SetState(State.Chase);
+        SetState((byte)State.Chase);
     }
 
     public void ResetChaseTarget()
     {
         _chaseTarget = null;
-        SetState(State.ResetChase);
+        SetState((byte)State.ResetChase);
+    }
+
+    public void ResetAll()
+    {
+        _chaseTarget = null;
+        _roamTimer = 0f;
+        _chaseTimer = 0f;
+        _randomRoamTime = Random.Range(5f, 7f);
+        SetState((byte)State.Roam);
     }
 
     private Vector3 GetRoamingPosition()
@@ -123,7 +136,7 @@ public class AIBrain : MonoBehaviour
         }
         else
         {
-            SetState(State.ResetChase);
+            SetState((byte)State.ResetChase);
         }
     }
 
@@ -135,7 +148,7 @@ public class AIBrain : MonoBehaviour
         }
         else
         {
-            SetState(State.Roam);
+            SetState((byte)State.Roam);
         }
     }
 }

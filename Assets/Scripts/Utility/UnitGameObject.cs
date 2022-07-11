@@ -28,14 +28,14 @@ public class UnitGameObject : MonoBehaviour
     private Entity entity;
     private EntityManager entityManager;
 
-    private void Start()
-    {
-        entity = convertedEntityHolder.GetEntity();
-        entityManager = convertedEntityHolder.GetEntityManager();
-    }
+    private float timer;
 
     private void Update()
     {
+        timer += Time.deltaTime;
+        if (timer < 5f)
+            return;
+
         FollowPath();
     }
 

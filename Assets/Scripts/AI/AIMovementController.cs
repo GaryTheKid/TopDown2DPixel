@@ -14,19 +14,21 @@ using UnityEngine;
 using Unity.Entities;
 using Unity.Mathematics;
 using Utilities;
-
+using Photon.Pun;
+ 
 public class AIMovementController : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
     [SerializeField] private ConvertedToEntityHolder convertedEntityHolder;
 
+    private PhotonView _PV;
     private GridMap<GridNode> gridMap;
     private AIStatsController _StatsController;
     private AIStats _aiStats;
     //private Rigidbody2D _rb;
     //private Vector3 _moveDestination;
-    private Entity entity;
-    private EntityManager entityManager;
+    public Entity entity;
+    public EntityManager entityManager;
 
     //public List<Vector3> _wayPoints;
     [SerializeField] private int2 currentGridNodeStandingOn;
@@ -34,6 +36,7 @@ public class AIMovementController : MonoBehaviour
     private void Awake()
     {
         //_rb = GetComponent<Rigidbody2D>();
+        _PV = GetComponent<PhotonView>();
         _StatsController = GetComponent<AIStatsController>();
     }
 
@@ -41,26 +44,26 @@ public class AIMovementController : MonoBehaviour
     {
         gridMap = PathfindingGridSetup.Instance.pathfindingGrid;
         _aiStats = _StatsController.aiStats;
-        entity = convertedEntityHolder.GetEntity();
-        entityManager = convertedEntityHolder.GetEntityManager();
     }
 
     private void Update()
     {
+        if (_aiStats.isDead)
+            return;
+
         UnitGridCollisionUpdate();
         FollowPath();
     }
 
-    public void Move(Vector3 position)
+    public void Move(Vector2 position)
     {
-        MoveTo(position);
+        _PV.RPC("RPC_Move", RpcTarget.AllViaServer, position);
         //wayPoints.Add(position);
     }
 
     public void Halt()
     {
-        entityManager.RemoveComponent<PathFindingParams>(entity);
-        entityManager.SetComponentData(entity, new PathFollow { pathIndex = -1 });
+        _PV.RPC("RPC_Halt", RpcTarget.AllViaServer);
     }
 
     public void Stop()
@@ -75,12 +78,12 @@ public class AIMovementController : MonoBehaviour
         //wayPoints.Clear();
     }
 
-    private void MoveTo(Vector3 endPosition)
+    public void MoveTo(Vector2 endPosition)
     {
         // give move order
         float cellSize = gridMap.GetCellSize();
 
-        gridMap.GetXY(endPosition + new Vector3(1, 1) * cellSize * +0.5f, out int endX, out int endY);
+        gridMap.GetXY(endPosition + new Vector2(1, 1) * cellSize * +0.5f, out int endX, out int endY);
 
         ValidateGridPosition(ref endX, ref endY);
 
@@ -116,41 +119,48 @@ public class AIMovementController : MonoBehaviour
             return;
         }
 
-        // follow the path
-        PathFollow pathFollow = entityManager.GetComponentData<PathFollow>(entity);
-        DynamicBuffer<PathPosition> pathPositionBuffer = entityManager.GetBuffer<PathPosition>(entity);
+        try
+        {   
+            // follow the path
+            PathFollow pathFollow = entityManager.GetComponentData<PathFollow>(entity);
+            DynamicBuffer<PathPosition> pathPositionBuffer = entityManager.GetBuffer<PathPosition>(entity);
 
-        bool isIdle = pathFollow.pathIndex < 0;
+            bool isIdle = pathFollow.pathIndex < 0;
 
-        if (isIdle)
-        {
-            // Idle
-            if (_animator.GetBool("isMoving"))
+            if (isIdle)
             {
-                _animator.SetBool("isMoving", false);
-                _animator.SetFloat("moveX", 0f);
+                // Idle
+                if (_animator.GetBool("isMoving"))
+                {
+                    _animator.SetBool("isMoving", false);
+                    _animator.SetFloat("moveX", 0f);
+                }
+            }
+            else
+            {
+                // is moving
+                PathPosition pathPosition = pathPositionBuffer[pathFollow.pathIndex];
+
+                float3 targetPosition = new float3(pathPosition.position.x, pathPosition.position.y, 0);
+                float3 moveDir = math.normalizesafe(targetPosition - (float3)transform.position);
+
+                transform.position += (Vector3)(moveDir * _StatsController.GetCurrentSpeed() * Time.deltaTime);
+
+                if (!_animator.GetBool("isMoving"))
+                    _animator.SetBool("isMoving", true);
+                _animator.SetFloat("moveX", moveDir.x);
+
+                if (math.distance(transform.position, targetPosition) < 0.1f)
+                {
+                    // Next Waypoint
+                    pathFollow.pathIndex--;
+                    entityManager.SetComponentData(entity, pathFollow);
+                }
             }
         }
-        else
+        catch//(NullReferenceException e)
         {
-            // is moving
-            PathPosition pathPosition = pathPositionBuffer[pathFollow.pathIndex];
-
-            float3 targetPosition = new float3(pathPosition.position.x, pathPosition.position.y, 0);
-            float3 moveDir = math.normalizesafe(targetPosition - (float3)transform.position);
-
-            transform.position += (Vector3)(moveDir * _StatsController.GetCurrentSpeed() * Time.deltaTime);
-
-            if (!_animator.GetBool("isMoving"))
-                _animator.SetBool("isMoving", true);
-            _animator.SetFloat("moveX", moveDir.x);
-
-            if (math.distance(transform.position, targetPosition) < 0.1f)
-            {
-                // Next Waypoint
-                pathFollow.pathIndex--;
-                entityManager.SetComponentData(entity, pathFollow);
-            } 
+            //Debug.Log(e);
         }
     }
 

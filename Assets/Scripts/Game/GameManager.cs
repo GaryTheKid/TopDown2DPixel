@@ -33,16 +33,28 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Header("Spawn")]
     public List<Transform> playerSpawns;
     public List<Transform> itemSpawns;
+    [Tooltip("(Area, current count, max count)")]
     public List<(SpawnArea, int, int)> lootBoxSpawnAreas;
+    [Tooltip("(Area, max count)")]
+    public List<(SpawnArea, int)> aiSpawnAreas;
     [Tooltip("This value determines how many objects can be instantiated within 1 spawn area. The larger the more.")]
-    public int spawnDensity;
+    public int lootBoxSpawnDensity;
     [Tooltip("This value determines how fast objects can be spawned.")]
-    public float spawnWaveTimeStep;
+    public float lootBoxSpawnWaveTimeStep;
     [Tooltip("This value determines how many objs will be spawned per wave.")]
-    public float spawnQuantity;
+    public float lootBoxSpawnQuantity;
+    [Tooltip("This value determines how many objects can be instantiated within 1 spawn area. The larger the more.")]
+    public int aiSpawnDensity;
+    [Tooltip("This value determines how fast objects can be spawned.")]
+    public float aiSpawnWaveTimeStep;
+    [Tooltip("This value determines how many objs will be spawned per wave.")]
+    public float aiSpawnQuantity;
 
     // players
     public Player[] playerList;
+
+    // AIs
+    
 
     // lootBoxes
     [Header("Loot Box")]
@@ -60,7 +72,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     // parents
     [Header("Parents")]
     public Transform lootBoxSpawnAreaParent;
+    public Transform aiSpawnAreaParent;
     public Transform spawnedPlayerParent;
+    public Transform spawnedAIParent;
     public Transform spawnedLootBoxParent;
     public Transform spawnedItemParent;
     public Transform spawnedProjectileParent;
@@ -70,7 +84,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     // timer
     [Header("Timer")]
     public float timer;
-    public float spawnTimer;
+    public float lootBoxSpawnTimer;
+    public float aiSpawnTimer;
 
     private void Awake()
     {
@@ -104,15 +119,27 @@ public class GameManager : MonoBehaviourPunCallbacks
             return;
 
         // spawn loot box randomly
-        spawnTimer += Time.fixedDeltaTime;
-        if (spawnTimer >= spawnWaveTimeStep)
+        lootBoxSpawnTimer += Time.fixedDeltaTime;
+        if (lootBoxSpawnTimer >= lootBoxSpawnWaveTimeStep)
         {
             // spawn loot boxes randomly
-            for (int i = 0; i < spawnQuantity; i++)
+            for (int i = 0; i < lootBoxSpawnQuantity; i++)
             {
                 SpawnLootBoxRandomly();
             }
-            spawnTimer = 0f;
+            lootBoxSpawnTimer = 0f;
+        }
+
+        // spawn ai randomly
+        aiSpawnTimer += Time.fixedDeltaTime;
+        if (aiSpawnTimer >= aiSpawnWaveTimeStep)
+        {
+            // spawn loot boxes randomly
+            for (int i = 0; i < aiSpawnQuantity; i++)
+            {
+                SpawnAIRandomly();
+            }
+            aiSpawnTimer = 0f;
         }
     }
 
@@ -208,7 +235,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         int requestedLootBoxIndex = ObjectPool.objectPool.RequestLootBoxIndexFromPool();
         if (requestedLootBoxIndex != -1)
         {
-            PV.RPC("RPC_SpawnLootBox", RpcTarget.AllBuffered, requestedLootBoxIndex, pos);
+            Game_Network.SpawnLootBox(PV, requestedLootBoxIndex, pos);
             LootBoxWorld lootBoxWorld = ObjectPool.objectPool.pooledLootBoxes[requestedLootBoxIndex].GetComponent<LootBoxWorld>();
             lootBoxWorld.SetLootBox(areaIndex);
             lootBoxWorld.Expire();
@@ -222,7 +249,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void SpawnLootBoxRandomly()
     {
-        var randAreaIndex = GetRandomSpawnArea();
+        var randAreaIndex = GetRandomSpawnArea_LootBox();
 
         // if run out of spawn space
         if (randAreaIndex == -1)
@@ -250,6 +277,47 @@ public class GameManager : MonoBehaviourPunCallbacks
         // try spawn a loot box spawner
         Transform spawner = Instantiate(ItemAssets.itemAssets.pfLootBoxSpawner, spawnPoint, Quaternion.identity, spawnedLootBoxParent);
         spawner.GetComponent<LootBoxSpawner>().SpawnLootBox(whichArea);
+    }
+    #endregion
+
+    #region AI
+    public void SpawnAI(Vector2 pos)
+    {
+        int requestedAIIndex = ObjectPool.objectPool.RequestAIIndexFromPool();
+        if (requestedAIIndex != -1)
+        {
+            Game_Network.SpawnAI(PV, requestedAIIndex, pos);
+            AIWorld aiWorld = ObjectPool.objectPool.pooledAI[requestedAIIndex].GetComponent<AIWorld>();
+            aiWorld.SetAI();
+        }
+    }
+
+    public void SpawnAIRandomly()
+    {
+        var randAreaIndex = GetRandomSpawnArea_AI();
+
+        // if run out of spawn space
+        if (randAreaIndex == -1)
+        {
+            return;
+        }
+
+        var randSpawnArea = aiSpawnAreas[randAreaIndex].Item1;
+        var spawnPoint = randSpawnArea.GetRandomPointFromArea();
+
+        // try spawn an AI spawner
+        Transform spawner = Instantiate(ItemAssets.itemAssets.pfAISpawner, spawnPoint, Quaternion.identity, spawnedAIParent);
+        spawner.GetComponent<AISpawner>().SpawnAI(randAreaIndex);
+    }
+
+    public void SpawnAIRandomlyInArea(int whichArea)
+    {
+        var randSpawnPoint = aiSpawnAreas[whichArea].Item1;
+        var spawnPoint = randSpawnPoint.GetRandomPointFromArea();
+
+        // try spawn an AI spawner
+        Transform spawner = Instantiate(ItemAssets.itemAssets.pfAISpawner, spawnPoint, Quaternion.identity, spawnedAIParent);
+        spawner.GetComponent<AISpawner>().SpawnAI(whichArea);
     }
     #endregion
 
@@ -281,13 +349,14 @@ public class GameManager : MonoBehaviourPunCallbacks
     #region Spawn Areas
     private void InitializeSpawnAreas()
     {
+        // loot box
         lootBoxSpawnAreas = new List<(SpawnArea, int, int)>();
         foreach (Transform child in lootBoxSpawnAreaParent)
         {
             var area = child.GetComponent<SpawnArea>();
 
             // calculate max capacity based on density
-            int maxCapacity = Mathf.RoundToInt(((area.GetAreaSize()) / 11.25f) * spawnDensity);
+            int maxCapacity = Mathf.RoundToInt(((area.GetAreaSize()) / 11.25f) * lootBoxSpawnDensity);
 
             // check override value
             if (area.overrideSpawnDensity != 0)
@@ -295,9 +364,25 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             lootBoxSpawnAreas.Add((area, maxCapacity, 0));
         }
+
+        // ai
+        aiSpawnAreas = new List<(SpawnArea, int)>();
+        foreach (Transform child in aiSpawnAreaParent)
+        {
+            var area = child.GetComponent<SpawnArea>();
+
+            // calculate max capacity based on density
+            int maxCapacity = Mathf.RoundToInt(((area.GetAreaSize()) / 11.25f) * aiSpawnDensity);
+
+            // check override value
+            if (area.overrideSpawnDensity != 0)
+                maxCapacity = Mathf.RoundToInt(((area.GetAreaSize()) / 11.25f) * area.overrideSpawnDensity);
+
+            aiSpawnAreas.Add((area, maxCapacity));
+        }
     }
 
-    private int GetRandomSpawnArea()
+    private int GetRandomSpawnArea_LootBox()
     {
         List<int> indices = new List<int>();
         for (int i = 0; i < lootBoxSpawnAreas.Count; i++)
@@ -312,6 +397,36 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             // check if the area is full
             if (lootBoxSpawnAreas[randIndex].Item3 < lootBoxSpawnAreas[randIndex].Item2)
+            {
+                return randIndex;
+            }
+            else
+            {
+                indices.Remove(randIndex);
+            }
+        }
+
+        // if can't find available, return -1
+        return -1;
+    }
+
+    private int GetRandomSpawnArea_AI()
+    {
+        List<int> indices = new List<int>();
+        for (int i = 0; i < aiSpawnAreas.Count; i++)
+        {
+            indices.Add(i);
+        }
+
+        // randomly select an available area
+        for (int i = 0; i < aiSpawnAreas.Count; i++)
+        {
+            int randIndex = UnityEngine.Random.Range(0, indices.Count);
+
+            // check if the area is full
+            var area = aiSpawnAreas[randIndex].Item1;
+            Collider2D[] hitCollider = Physics2D.OverlapAreaAll(area.GetV1(), area.GetV2(), LayerMask.NameToLayer("EnemyAI"));
+            if (hitCollider != null && hitCollider.Length <= aiSpawnAreas[randIndex].Item2)
             {
                 return randIndex;
             }

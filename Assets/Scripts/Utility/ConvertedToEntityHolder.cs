@@ -5,22 +5,10 @@ using Unity.Entities;
 
 public class ConvertedToEntityHolder : MonoBehaviour, IConvertGameObjectToEntity
 {
-    private Entity entity;
-    private EntityManager entityManager;
-
     public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
-        this.entity = entity;
-        this.entityManager = dstManager;
-    }
-
-    public Entity GetEntity()
-    {
-        return entity;
-    }
-
-    public EntityManager GetEntityManager()
-    {
-        return entityManager;
+        GetComponentInParent<AIMovementController>().entity = entity;
+        GetComponentInParent<AIMovementController>().entityManager = dstManager;
+        transform.parent.gameObject.SetActive(false);
     }
 }

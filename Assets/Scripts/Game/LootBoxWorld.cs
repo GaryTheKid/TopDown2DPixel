@@ -16,16 +16,6 @@ using NetworkCalls;
 
 public class LootBoxWorld : MonoBehaviour
 {
-    /*public static LootBoxWorld SpawnLootBoxWorld(Vector3 postion, short lootBoxWorldID, int areaIndex)
-    {
-        Transform transform = Instantiate(ItemAssets.itemAssets.pfLootBoxWorld, postion, Quaternion.identity, GameManager.gameManager.spawnedLootBoxParent);
-        transform.name = "L" + lootBoxWorldID.ToString();
-        LootBoxWorld lootBoxWorld = transform.GetComponent<LootBoxWorld>();
-        lootBoxWorld.lootBoxWorldID = lootBoxWorldID;
-        lootBoxWorld.areaIndex = areaIndex;
-        return lootBoxWorld;
-    }*/
-
     [SerializeField] private Text interactionText;
     [SerializeField] private Sprite defaultSprite; 
 

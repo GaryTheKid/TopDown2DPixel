@@ -30,4 +30,13 @@ public class RPC_GameManager : MonoBehaviour
         obj.SetActive(true);
         obj.transform.position = pos;
     }
+
+    [PunRPC]
+    void RPC_SpawnAI(int index, Vector2 pos)
+    {
+        var obj = ObjectPool.objectPool.pooledAI[index].gameObject;
+        obj.SetActive(true);
+        obj.GetComponent<AIStatsController>().Respawn();
+        obj.transform.position = pos;
+    }
 }
