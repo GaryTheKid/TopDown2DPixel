@@ -27,18 +27,22 @@ public class AIBrain : MonoBehaviour
     public State aiState;
 
     private AIMovementController _aiMovementController;
+    private AIWeaponController _aiWeaponController;
     private PhotonView _PV;
     private Vector3 _startingPos;
     private Vector3 _roamPosition;
     private Transform _chaseTarget;
-    private float _roamTimer;
+    private Transform _attackTarget;
     private float _randomRoamTime;
+    private float _roamTimer;
     private float _chaseTimer;
+    private float _attackTimer;
 
     private void Awake()
     {
         _PV = GetComponent<PhotonView>();
         _aiMovementController = GetComponent<AIMovementController>();
+        _aiWeaponController = GetComponent<AIWeaponController>();
     }
 
     private void Start()
@@ -71,9 +75,15 @@ public class AIBrain : MonoBehaviour
 
             case State.Chase:
                 {
+                    if (_attackTarget != null)
+                    {
+                        SetState((byte)State.Attack);
+                        return;
+                    }
+
                     _chaseTimer += Time.deltaTime;
 
-                    if (_chaseTimer > 1.2f)
+                    if (_chaseTimer > 1f)
                     {
                         Chase();
                         _chaseTimer = 0f;
@@ -84,6 +94,18 @@ public class AIBrain : MonoBehaviour
             case State.ResetChase:
                 {
                     ResetChase();
+                }
+                break;
+
+            case State.Attack:
+                {
+                    _attackTimer += Time.deltaTime;
+
+                    if (_attackTimer > 2f)
+                    {
+                        Attack();
+                        _attackTimer = 0f;
+                    }
                 }
                 break;
         }
@@ -102,15 +124,39 @@ public class AIBrain : MonoBehaviour
     public void ResetChaseTarget()
     {
         _chaseTarget = null;
+        _chaseTimer = 0f;
         SetState((byte)State.ResetChase);
+    }
+
+    public void SetAttackTarget(Transform target)
+    {
+        _attackTarget = target;
+        _attackTimer = 1.8f;
+        SetState((byte)State.Attack);
+    }
+
+    public void ResetAttackTarget()
+    {
+        _attackTarget = null;
+        _attackTimer = 0f;
+        if (_chaseTarget != null)
+        {
+            SetState((byte)State.Chase);
+        }
+        else
+        {
+            SetState((byte)State.Roam);
+        }
     }
 
     public void ResetAll()
     {
         _chaseTarget = null;
+        _attackTarget = null;
         _roamTimer = 0f;
         _chaseTimer = 0f;
-        _randomRoamTime = Random.Range(5f, 7f);
+        _attackTimer = 0f;
+        _randomRoamTime = Random.Range(4.5f, 6f);
         SetState((byte)State.Roam);
     }
 
@@ -124,7 +170,7 @@ public class AIBrain : MonoBehaviour
         _roamPosition = GetRoamingPosition();
         _aiMovementController.Move(_roamPosition);
         _roamTimer = 0f;
-        _randomRoamTime = Random.Range(5f, 7f);
+        _randomRoamTime = Random.Range(4.5f, 6f);
     }
 
     private void Chase()
@@ -142,13 +188,21 @@ public class AIBrain : MonoBehaviour
 
     private void ResetChase()
     {
-        if (Vector3.Distance(transform.position, _roamPosition) < 0.1f)
+        if (_attackTarget == null && Vector3.Distance(transform.position, _roamPosition) < 0.1f)
         {
             _aiMovementController.Move(_roamPosition);
         }
         else
         {
             SetState((byte)State.Roam);
+        }
+    }
+
+    private void Attack()
+    {
+        if (_attackTarget != null)
+        {
+            _aiWeaponController.Attack(_attackTarget);
         }
     }
 }

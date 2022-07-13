@@ -38,6 +38,15 @@ namespace NetworkCalls
             PV.RPC("RPC_SetAI", RpcTarget.AllBuffered);
         }
 
+        public static void Attack(PhotonView PV, Transform target)
+        {
+            var targetPV = target.GetComponent<PhotonView>();
+            if (targetPV.IsMine)
+            {
+                PV.RPC("RPC_AIDealDamage", RpcTarget.All, targetPV.ViewID);
+            }
+        }
+
         public static void Die(PhotonView PV)
         {
             PV.RPC("RPC_AIDie", RpcTarget.AllViaServer);

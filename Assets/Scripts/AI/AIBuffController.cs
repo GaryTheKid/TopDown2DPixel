@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class AIBuffController : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class AIBuffController : MonoBehaviour
         _effectController = GetComponent<AIEffectController>();
     }
 
-    public void ReceiveDamage(DamageInfo damageInfo, Vector3 attackerPos)
+    public void ReceiveDamage(int attackerID, DamageInfo damageInfo, Vector3 attackerPos)
     {
         // check if player is dead
         if (_aiStats.isDead)
@@ -43,13 +44,18 @@ public class AIBuffController : MonoBehaviour
         var maxHp = _aiStats.maxHp;
 
         // check if damage overflow, minus damage amount from hp
-        _statsController.UpdateHP(-dmg);
+        _statsController.UpdateHP(-dmg, out bool isKilled);
 
-        // TODO: check if dead
-
-
-        // TODO: dmg duration
-
+        // if dead, giving the attacker feedback
+        if (isKilled)
+        {
+            var effectController = PhotonView.Find(attackerID).transform.GetComponent<PlayerEffectController>();
+            print(attackerID + " " + effectController);
+            if (effectController != null)
+            {
+                effectController.MultiKillEffect();
+            }
+        }
 
         // show the visual effect
         _effectController.ReceiveDamageEffect(maxHp, hpBeforeChange, dmg, attackerPos, damageInfo.KnockBackDist);

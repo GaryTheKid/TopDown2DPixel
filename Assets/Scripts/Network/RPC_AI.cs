@@ -5,14 +5,18 @@ using Photon.Pun;
 
 public class RPC_AI : MonoBehaviour
 {
+    private PhotonView _PV;
     private AIMovementController _aiMovementController;
     private AIStatsController _aiStatsController;
+    private AIWeaponController _aiWeaponController;
     private AIBrain _aiBrain;
 
     private void Awake()
     {
+        _PV = GetComponent<PhotonView>();
         _aiMovementController = GetComponent<AIMovementController>();
         _aiStatsController = GetComponent<AIStatsController>();
+        _aiWeaponController = GetComponent<AIWeaponController>();
         _aiBrain = GetComponent<AIBrain>();
     }
 
@@ -53,5 +57,23 @@ public class RPC_AI : MonoBehaviour
     {
         _aiStatsController.OnRespawn.Invoke();
         _aiStatsController.aiStats.isDead = false;
+    }
+
+    [PunRPC]
+    void RPC_AIDealDamage(int targetId)
+    {
+        var target = PhotonView.Find(targetId).transform;
+        var enemyPlayer = target.GetComponent<PlayerBuffController>();
+        var enemyAI = target.GetComponent<AIBuffController>();
+
+        if (enemyPlayer != null)
+        {
+            enemyPlayer.ReceiveDamage(_PV.ViewID, _aiWeaponController.damageInfo, transform.position);
+        }
+
+        if (enemyAI != null)
+        {
+            enemyAI.ReceiveDamage(_PV.ViewID, _aiWeaponController.damageInfo, transform.position);
+        }
     }
 }

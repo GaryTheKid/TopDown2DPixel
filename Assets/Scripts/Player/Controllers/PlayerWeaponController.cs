@@ -361,7 +361,7 @@ public class PlayerWeaponController : MonoBehaviour
         _rb.AddForce(-Math.DegreeToVector2(aimTransform.eulerAngles.z) * weapon.recoilForce, ForceMode2D.Impulse);
 
         // cam shake
-        _playerEffectController.CameraShake(weapon.recoilForce * weaponRecoilModifier, weapon.recoilTime * weaponRecoilModifier * 2f);
+        _playerEffectController.CameraShake(weapon.recoilForce * weaponRecoilModifier * 0.5f, weapon.recoilTime * weaponRecoilModifier * 1.5f);
 
         // check if throwable
         if (weaponType == Item.ItemType.ThrowableWeapon)
@@ -385,7 +385,7 @@ public class PlayerWeaponController : MonoBehaviour
         yield return new WaitForSecondsRealtime(attackCD);
 
         // update durability
-        if (!(weapon is Hands) && weapon.itemType != Item.ItemType.ThrowableWeapon)
+        if (!_playerStats.isDead && !(weapon is Hands) && weapon.itemType != Item.ItemType.ThrowableWeapon)
             _playerInventoryController.UpdateItemDurability(-1);
 
         // clear co

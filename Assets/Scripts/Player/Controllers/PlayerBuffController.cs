@@ -29,7 +29,7 @@ public class PlayerBuffController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
     }
 
-    public void ReceiveDamage(DamageInfo damageInfo, Vector3 attackerPos)
+    public void ReceiveDamage(int attackerID, DamageInfo damageInfo, Vector3 attackerPos)
     {
         // check if player is dead
         if (_playerStats.isDead)
@@ -56,13 +56,19 @@ public class PlayerBuffController : MonoBehaviour
         var maxHp = _playerStats.maxHp;
 
         // check if damage overflow, minus damage amount from hp
-        _statsController.UpdateHP(-dmg);
+        _statsController.UpdateHP(-dmg, out bool isKilled);
 
-        // TODO: check if dead
+        // if dead, giving the attacker feedback
+        if (isKilled)
+        {
+            print(attackerID);
 
-
-        // TODO: dmg duration
-
+            var effectController = PhotonView.Find(attackerID).transform.GetComponent<PlayerEffectController>();
+            if (effectController != null)
+            {
+                effectController.MultiKillEffect();
+            }
+        }
 
         // show the visual effect
         _effectController.ReceiveDamageEffect(maxHp, hpBeforeChange, dmg, attackerPos, damageInfo.KnockBackDist);
@@ -78,7 +84,7 @@ public class PlayerBuffController : MonoBehaviour
         }
 
         // check if hp overflow, add healing amount to hp
-        _statsController.UpdateHP(healingAmount);
+        _statsController.UpdateHP(healingAmount, out bool isKilled);
 
         // show the visual effect
         _effectController.ReceiveHealingEffect(_playerStats.hp, _playerStats.maxHp);

@@ -66,7 +66,7 @@ public class PlayerStatsController : MonoBehaviour
     }
 
     // update hp after receive damage or healing
-    public void UpdateHP(int deltaHP)
+    public void UpdateHP(int deltaHP, out bool isKilled)
     {
         // receive dmg
         if (deltaHP < 0)
@@ -84,8 +84,13 @@ public class PlayerStatsController : MonoBehaviour
         }
 
         // check death
+        isKilled = false;
         if (playerStats.hp <= 0)
+        {
+            isKilled = true;
             Die();
+        }
+            
     }
 
     // update player score

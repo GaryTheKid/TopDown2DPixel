@@ -18,6 +18,8 @@ using Photon.Pun;
  
 public class AIMovementController : MonoBehaviour
 {
+    private const float TARGET_REACH_MIN_DISTANCE = 0.4f;
+
     [SerializeField] private Animator _animator;
     [SerializeField] private ConvertedToEntityHolder convertedEntityHolder;
 
@@ -25,8 +27,8 @@ public class AIMovementController : MonoBehaviour
     private GridMap<GridNode> gridMap;
     private AIStatsController _StatsController;
     private AIStats _aiStats;
-    //private Rigidbody2D _rb;
-    //private Vector3 _moveDestination;
+    private Rigidbody2D _rb;
+
     public Entity entity;
     public EntityManager entityManager;
 
@@ -35,7 +37,7 @@ public class AIMovementController : MonoBehaviour
 
     private void Awake()
     {
-        //_rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
         _PV = GetComponent<PhotonView>();
         _StatsController = GetComponent<AIStatsController>();
     }
@@ -46,7 +48,7 @@ public class AIMovementController : MonoBehaviour
         _aiStats = _StatsController.aiStats;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (_aiStats.isDead)
             return;
@@ -57,13 +59,13 @@ public class AIMovementController : MonoBehaviour
 
     public void Move(Vector2 position)
     {
-        _PV.RPC("RPC_Move", RpcTarget.AllViaServer, position);
+        _PV.RPC("RPC_Move", RpcTarget.MasterClient, position);
         //wayPoints.Add(position);
     }
 
     public void Halt()
     {
-        _PV.RPC("RPC_Halt", RpcTarget.AllViaServer);
+        _PV.RPC("RPC_Halt", RpcTarget.MasterClient);
     }
 
     public void Stop()
@@ -144,13 +146,16 @@ public class AIMovementController : MonoBehaviour
                 float3 targetPosition = new float3(pathPosition.position.x, pathPosition.position.y, 0);
                 float3 moveDir = math.normalizesafe(targetPosition - (float3)transform.position);
 
-                transform.position += (Vector3)(moveDir * _StatsController.GetCurrentSpeed() * Time.deltaTime);
+                _rb.AddForce((Vector3)moveDir * _StatsController.GetCurrentSpeed());
+
+                //_rb.velocity = (Vector3)(moveDir * _StatsController.GetCurrentSpeed() * Time.deltaTime);
+                //transform.position += (Vector3)(moveDir * _StatsController.GetCurrentSpeed() * Time.deltaTime);
 
                 if (!_animator.GetBool("isMoving"))
                     _animator.SetBool("isMoving", true);
                 _animator.SetFloat("moveX", moveDir.x);
 
-                if (math.distance(transform.position, targetPosition) < 0.1f)
+                if (math.distance(transform.position, targetPosition) < TARGET_REACH_MIN_DISTANCE)
                 {
                     // Next Waypoint
                     pathFollow.pathIndex--;

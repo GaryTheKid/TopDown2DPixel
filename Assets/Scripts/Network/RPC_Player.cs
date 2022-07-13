@@ -96,12 +96,12 @@ public class RPC_Player : MonoBehaviour
 
             if (enemyPlayer != null)
             {
-                enemyPlayer.ReceiveDamage(info, transform.position);
+                enemyPlayer.ReceiveDamage(_PV.ViewID, info, transform.position);
             }
 
             if (enemyAI != null)
             {
-                enemyAI.ReceiveDamage(info, transform.position);
+                enemyAI.ReceiveDamage(_PV.ViewID, info, transform.position);
             }
 
             // add score
@@ -122,12 +122,12 @@ public class RPC_Player : MonoBehaviour
 
         if (enemyPlayer != null)
         {
-            enemyPlayer.ReceiveDamage(info, transform.position);
+            enemyPlayer.ReceiveDamage(_PV.ViewID, info, transform.position);
         }
 
         if (enemyAI != null)
         {
-            enemyAI.ReceiveDamage(info, transform.position);
+            enemyAI.ReceiveDamage(_PV.ViewID, info, transform.position);
         }
 
         // add score

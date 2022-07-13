@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,7 +24,7 @@ public class AIStats
         isWeaponLocked = false;
         maxHp = 50;
         hp = 50;
-        baseSpeed = 3f;
+        baseSpeed = 27f;
         speedModifier = 1f;
     }
 }
@@ -54,7 +55,7 @@ public class AIStatsController : MonoBehaviour
     }
 
     // update hp after receive damage or healing
-    public void UpdateHP(int deltaHP)
+    public void UpdateHP(int deltaHP, out bool isKilled)
     {
         // receive dmg
         if (deltaHP < 0)
@@ -72,8 +73,12 @@ public class AIStatsController : MonoBehaviour
         }
 
         // check death
+        isKilled = false;
         if (aiStats.hp <= 0)
+        {
+            isKilled = true;
             Die();
+        }
     }
 
     // death coroutine

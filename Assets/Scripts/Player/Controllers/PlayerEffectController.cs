@@ -8,8 +8,12 @@ using MoreMountains.Feedbacks;
 
 public class PlayerEffectController : MonoBehaviour
 {
+    private const float KILLING_SPREE_LAST_TIME = 2f;
+
+    [SerializeField] private UI_MultiKillIcon _ui_killIcon;
     [SerializeField] private Transform _hpBarParent;
     [SerializeField] private Image _hpBar;
+    [SerializeField] private Image _ui_hpBar;
     [SerializeField] private GameObject _ring;
     [SerializeField] private GameObject _shadow;
     [SerializeField] private CharacterSoundFX _characterSoundFX;
@@ -19,9 +23,11 @@ public class PlayerEffectController : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera _vCam;
     [SerializeField] private MMF_Player mmf_hp;
     private Rigidbody2D _rb;
+    private int _multiKillCount;
 
     private IEnumerator speedBoost_Co;
     private IEnumerator camShake_Co;
+    private IEnumerator multiKill_Co;
 
     private void Awake()
     {
@@ -49,10 +55,10 @@ public class PlayerEffectController : MonoBehaviour
         while (timer >= 0f)
         {
             timer -= Time.deltaTime;
-            perlin.m_AmplitudeGain = timer / time;
+            perlin.m_AmplitudeGain = intensity * (timer / time);
             yield return new WaitForEndOfFrame();
         }
-        _vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0f;
+        perlin.m_AmplitudeGain = 0f;
     }
 
     public void ConsumePotionEffect()
@@ -67,7 +73,7 @@ public class PlayerEffectController : MonoBehaviour
         _characterSoundFX.BeingDamaged();
 
         // camera shake
-        CameraShake(dmgAmount / 30f, 0.15f);
+        CameraShake(dmgAmount / 20f, 0.15f);
 
         // TODO: blink red
 
@@ -80,11 +86,15 @@ public class PlayerEffectController : MonoBehaviour
 
         // feedback effect
         var end = (float)(hpBeforeChange - dmgAmount) / (float)maxHp;
-        mmf_hp.GetFeedbackOfType<MMF_ImageFill>().DestinationFill = end;
+        foreach (var feedBack in mmf_hp.GetFeedbacksOfType<MMF_ImageFill>())
+        {
+            feedBack.DestinationFill = end;
+        }
         mmf_hp.PlayFeedbacks();
 
         // adjust hp bar
         _hpBar.fillAmount = end;
+        _ui_hpBar.fillAmount = end;
     }
 
     public void ReceiveHealingEffect(int currHP, int maxHP)
@@ -94,7 +104,9 @@ public class PlayerEffectController : MonoBehaviour
         // TODO: pop up text
 
         // adjust hp bar
-        _hpBar.fillAmount = (float)currHP / (float)maxHP;
+        var fillAmount = (float)currHP / (float)maxHP;
+        _hpBar.fillAmount = fillAmount;
+        _ui_hpBar.fillAmount = fillAmount;
     }
 
     public void SpeedBoostEffect(float effectTime)
@@ -164,5 +176,24 @@ public class PlayerEffectController : MonoBehaviour
 
         // adjust hp bar
         _hpBar.fillAmount = 1f;
+        _ui_hpBar.fillAmount = 1f;
+    }
+
+    public void MultiKillEffect()
+    {
+        if (multiKill_Co != null)
+        {
+            StopCoroutine(multiKill_Co);
+            multiKill_Co = null;
+        }
+        multiKill_Co = Co_KillingSpree();
+        StartCoroutine(multiKill_Co);
+    }
+    IEnumerator Co_KillingSpree()
+    {
+        _multiKillCount++;
+        _ui_killIcon.SetMultiKillIcon(_multiKillCount);
+        yield return new WaitForSecondsRealtime(KILLING_SPREE_LAST_TIME);
+        _multiKillCount = 0;
     }
 }

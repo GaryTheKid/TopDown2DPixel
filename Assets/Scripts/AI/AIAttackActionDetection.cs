@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class AIAttackActionDetection : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private AIBrain _aiBrain;
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        _aiBrain.SetAttackTarget(collision.transform.parent);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        
+        _aiBrain.ResetAttackTarget();
     }
 }

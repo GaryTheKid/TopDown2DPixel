@@ -793,7 +793,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundtracks:
-  - {fileID: 8300000, guid: 561dccb09ae459c4ca625426ec55041a, type: 3}
+  - {fileID: 8300000, guid: 4ac9347c1fa252a4a8c0c9e7f65233db, type: 3}
+  - {fileID: 8300000, guid: 8c0acbdf9a01c344baa2716e82ca061a, type: 3}
   audioPlayer: {fileID: 171090114}
   switchInterval: 1
 --- !u!1001 &227469929
@@ -4621,8 +4622,8 @@ MonoBehaviour:
   lootBoxSpawnWaveTimeStep: 8
   lootBoxSpawnQuantity: 2
   aiSpawnDensity: 1
-  aiSpawnWaveTimeStep: 6
-  aiSpawnQuantity: 1
+  aiSpawnWaveTimeStep: 7
+  aiSpawnQuantity: 3
   maxLootBoxSpawnInWorld: 8
   lootBoxWorldLifeTime: 30
   maxItemSpawnInWorld: 150
