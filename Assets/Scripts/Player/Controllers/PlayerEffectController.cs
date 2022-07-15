@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using Cinemachine;
 using MoreMountains.Feedbacks;
+using Photon.Pun;
 
 public class PlayerEffectController : MonoBehaviour
 {
@@ -25,7 +26,8 @@ public class PlayerEffectController : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera _vCam;
     [SerializeField] private GameObject _popTextTemplate;
     [SerializeField] private MMF_Player mmf_hp;
-    
+
+    private PhotonView _PV;
     private Rigidbody2D _rb;
     private int _comboCount;
     private int _multiKillCount;
@@ -37,6 +39,7 @@ public class PlayerEffectController : MonoBehaviour
 
     private void Awake()
     {
+        _PV = GetComponent<PhotonView>();
         _rb = GetComponent<Rigidbody2D>();
     }
 
@@ -193,6 +196,9 @@ public class PlayerEffectController : MonoBehaviour
 
     public void MultiKillEffect()
     {
+        if (!_PV.IsMine)
+            return;
+
         if (multiKill_Co != null)
         {
             StopCoroutine(multiKill_Co);
@@ -211,6 +217,9 @@ public class PlayerEffectController : MonoBehaviour
 
     public void ComboTextEffect()
     {
+        if (!_PV.IsMine)
+            return;
+
         if (combo_Co != null)
         {
             StopCoroutine(combo_Co);
