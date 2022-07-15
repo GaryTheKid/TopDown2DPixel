@@ -5,6 +5,8 @@ using Photon.Pun;
 
 public class ExplosionFX : MonoBehaviour
 {
+    private const float MIN_EXPLOSION_DAMAGE_RATIO = 0.2f;
+
     [SerializeField] private GameObject _parent;
     [SerializeField] private SpriteRenderer _grenadeSprite;
 
@@ -44,6 +46,10 @@ public class ExplosionFX : MonoBehaviour
         var dmgRatio = 0f;
         if (distanceFromCenter <= _explosionRadius)
             dmgRatio = 1f - (distanceFromCenter / _explosionRadius);
+
+        // set minimal damage
+        if (dmgRatio < MIN_EXPLOSION_DAMAGE_RATIO)
+            dmgRatio = MIN_EXPLOSION_DAMAGE_RATIO;
 
         // deal dmg
         if (_projectile.damageInfo.damageAmount > 0f)

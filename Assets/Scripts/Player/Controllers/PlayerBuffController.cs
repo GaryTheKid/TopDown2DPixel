@@ -16,12 +16,14 @@ public class PlayerBuffController : MonoBehaviour
     private PlayerEffectController _effectController;
     private PlayerInventoryController _inventoryController;
     private Rigidbody2D _rb;
+    private PhotonView _PV;
 
     private IEnumerator speedBoost_Co;
     private IEnumerator invincible_Co;
 
     private void Awake()
     {
+        _PV = GetComponent<PhotonView>();
         _statsController = GetComponent<PlayerStatsController>();
         _playerStats = _statsController.playerStats;
         _effectController = GetComponent<PlayerEffectController>();
@@ -58,16 +60,20 @@ public class PlayerBuffController : MonoBehaviour
         // check if damage overflow, minus damage amount from hp
         _statsController.UpdateHP(-dmg, out bool isKilled);
 
-        // if dead, giving the attacker feedback
-        if (isKilled)
+        // giving the attacker hit feedback
+        var attackerEffectController = PhotonView.Find(attackerID).transform.GetComponent<PlayerEffectController>();
+        if (attackerEffectController != null)
         {
-            var effectController = PhotonView.Find(attackerID).transform.GetComponent<PlayerEffectController>();
-            if (effectController != null)
+            // combo indicator
+            attackerEffectController.ComboTextEffect();
+
+            // if this dead, giving the attacker feedback
+            if (isKilled && _PV.ViewID != attackerID)
             {
-                effectController.MultiKillEffect();
+                attackerEffectController.MultiKillEffect();
             }
         }
-
+        
         // show the visual effect
         _effectController.ReceiveDamageEffect(maxHp, hpBeforeChange, dmg, attackerPos, damageInfo.KnockBackDist);
     }
@@ -85,7 +91,7 @@ public class PlayerBuffController : MonoBehaviour
         _statsController.UpdateHP(healingAmount, out bool isKilled);
 
         // show the visual effect
-        _effectController.ReceiveHealingEffect(_playerStats.hp, _playerStats.maxHp);
+        _effectController.ReceiveHealingEffect(healingAmount, _playerStats.hp, _playerStats.maxHp);
     }
 
     public void SpeedBoost(float boostAmount, float effectTime)

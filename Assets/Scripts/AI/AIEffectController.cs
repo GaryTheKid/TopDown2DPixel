@@ -12,6 +12,7 @@ public class AIEffectController : MonoBehaviour
     [SerializeField] private SpriteRenderer _body;
     [SerializeField] private AISoundFX _aiSoundFX;
     [SerializeField] private Animator _avatarAnimator;
+    [SerializeField] private GameObject _popTextTemplate;
     [SerializeField] private MMF_Player mmf_hp;
     private Rigidbody2D _rb;
 
@@ -25,9 +26,12 @@ public class AIEffectController : MonoBehaviour
         // play sound fx
         _aiSoundFX.BeingDamaged();
 
-        // TODO: blink red
-
-        // TODO: pop up text
+        // pop up text
+        GameObject popText = Instantiate(_popTextTemplate, _popTextTemplate.transform.position, Quaternion.identity, _popTextTemplate.transform.parent);
+        UI_PopText ui_popText = popText.GetComponent<UI_PopText>();
+        ui_popText.textAmount = dmgAmount;
+        ui_popText.textType = UI_PopText.TextType.Damage;
+        popText.SetActive(true);
 
         // knock back: apply impulse force attacker -> player
         Vector3 myPos = transform.position;

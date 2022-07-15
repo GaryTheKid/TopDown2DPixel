@@ -46,13 +46,17 @@ public class AIBuffController : MonoBehaviour
         // check if damage overflow, minus damage amount from hp
         _statsController.UpdateHP(-dmg, out bool isKilled);
 
-        // if dead, giving the attacker feedback
-        if (isKilled)
+        // giving the attacker hit feedback
+        var attackerEffectController = PhotonView.Find(attackerID).transform.GetComponent<PlayerEffectController>();
+        if (attackerEffectController != null)
         {
-            var effectController = PhotonView.Find(attackerID).transform.GetComponent<PlayerEffectController>();
-            if (effectController != null)
+            // combo indicator
+            attackerEffectController.ComboTextEffect();
+
+            // if this dead, giving the attacker feedback
+            if (isKilled)
             {
-                effectController.MultiKillEffect();
+                attackerEffectController.MultiKillEffect();
             }
         }
 

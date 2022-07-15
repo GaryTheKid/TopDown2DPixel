@@ -9,8 +9,10 @@ using MoreMountains.Feedbacks;
 public class PlayerEffectController : MonoBehaviour
 {
     private const float KILLING_SPREE_LAST_TIME = 2f;
+    private const float COMBO_TEXT_LAST_TIME = 1.5f;
 
     [SerializeField] private UI_MultiKillIcon _ui_killIcon;
+    [SerializeField] private UI_ComboText _ui_ComboText;
     [SerializeField] private Transform _hpBarParent;
     [SerializeField] private Image _hpBar;
     [SerializeField] private Image _ui_hpBar;
@@ -21,12 +23,16 @@ public class PlayerEffectController : MonoBehaviour
     [SerializeField] private ScreenFogMask _screenFogFX;
     [SerializeField] private Animator _avatarAnimator;
     [SerializeField] private CinemachineVirtualCamera _vCam;
+    [SerializeField] private GameObject _popTextTemplate;
     [SerializeField] private MMF_Player mmf_hp;
+    
     private Rigidbody2D _rb;
+    private int _comboCount;
     private int _multiKillCount;
 
     private IEnumerator speedBoost_Co;
     private IEnumerator camShake_Co;
+    private IEnumerator combo_Co;
     private IEnumerator multiKill_Co;
 
     private void Awake()
@@ -75,9 +81,12 @@ public class PlayerEffectController : MonoBehaviour
         // camera shake
         CameraShake(dmgAmount / 20f, 0.15f);
 
-        // TODO: blink red
-
-        // TODO: pop up text
+        // pop up text
+        GameObject popText = Instantiate(_popTextTemplate, _popTextTemplate.transform.position, Quaternion.identity, _popTextTemplate.transform.parent);
+        UI_PopText ui_popText = popText.GetComponent<UI_PopText>();
+        ui_popText.textAmount = dmgAmount;
+        ui_popText.textType = UI_PopText.TextType.Damage;
+        popText.SetActive(true);
 
         // knock back: apply impulse force attacker -> player
         Vector3 myPos = transform.position;
@@ -97,11 +106,14 @@ public class PlayerEffectController : MonoBehaviour
         _ui_hpBar.fillAmount = end;
     }
 
-    public void ReceiveHealingEffect(int currHP, int maxHP)
+    public void ReceiveHealingEffect(int healingAmount, int currHP, int maxHP)
     {
-        // TODO: blink green
-
-        // TODO: pop up text
+        // pop up text
+        GameObject popText = Instantiate(_popTextTemplate, _popTextTemplate.transform.position, Quaternion.identity, _popTextTemplate.transform.parent);
+        UI_PopText ui_popText = popText.GetComponent<UI_PopText>();
+        ui_popText.textAmount = healingAmount;
+        ui_popText.textType = UI_PopText.TextType.Heal;
+        popText.SetActive(true);
 
         // adjust hp bar
         var fillAmount = (float)currHP / (float)maxHP;
@@ -195,5 +207,23 @@ public class PlayerEffectController : MonoBehaviour
         _ui_killIcon.SetMultiKillIcon(_multiKillCount);
         yield return new WaitForSecondsRealtime(KILLING_SPREE_LAST_TIME);
         _multiKillCount = 0;
+    }
+
+    public void ComboTextEffect()
+    {
+        if (combo_Co != null)
+        {
+            StopCoroutine(combo_Co);
+            combo_Co = null;
+        }
+        combo_Co = Co_Combo();
+        StartCoroutine(combo_Co);
+    }
+    IEnumerator Co_Combo()
+    {
+        _comboCount++;
+        _ui_ComboText.SetComboText(_comboCount);
+        yield return new WaitForSecondsRealtime(COMBO_TEXT_LAST_TIME);
+        _comboCount = 0;
     }
 }
