@@ -61,8 +61,6 @@ public class PlayerBuffController : MonoBehaviour
         // if dead, giving the attacker feedback
         if (isKilled)
         {
-            print(attackerID);
-
             var effectController = PhotonView.Find(attackerID).transform.GetComponent<PlayerEffectController>();
             if (effectController != null)
             {

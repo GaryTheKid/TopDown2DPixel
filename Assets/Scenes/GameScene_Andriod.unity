@@ -5359,10 +5359,14 @@ MonoBehaviour:
   pfGun_Pistol: {fileID: 5279715861106610933, guid: e5a2f64db629e4644b6b2dacde74a482, type: 3}
   pfGun_Rifle: {fileID: 5279715861106610933, guid: 04facdb24244f39499dd428fbcfc27b0, type: 3}
   pfSmokeGrenade: {fileID: 5279715861106610933, guid: bff45e1700a61244fb4b69fd526ecd1b, type: 3}
+  pfHEGrenade: {fileID: 5279715861106610933, guid: 608802d3530e1014582c506e16b22489, type: 3}
+  pfImpactGrenade: {fileID: 5279715861106610933, guid: 4f2e836638b4e2d44a96f70b11656d8e, type: 3}
   projArrow: {fileID: 5279715861106610933, guid: 3167f9cc11682244a8f501d7cd7053c0, type: 3}
   projBullet_SemiAuto: {fileID: 5279715861106610933, guid: b98cb6e57f03a0c46aae82821427c5b6, type: 3}
   projBullet_Rifle: {fileID: 5279715861106610933, guid: f78ee781e2345e14d830b40d37406a19, type: 3}
   projSmokeGrenade: {fileID: 5279715861106610933, guid: 2c13044ba34e95346811f7406a78a30f, type: 3}
+  projHEGrenade: {fileID: 5279715861106610933, guid: 058a4456af8154c4390517cc568f2301, type: 3}
+  projImpactGrenade: {fileID: 5279715861106610933, guid: 7fa2306e46a8f1f46a7a5b0134c4b699, type: 3}
   pfItemWorld: {fileID: 5917098666106380704, guid: c975b21b7bec97a43b5742d72d1cf4d2, type: 3}
   pfLootBoxWorld: {fileID: 5917098666106380704, guid: 87ff2176c086bcb4b8761dd870822000, type: 3}
   pfLootBoxSpawner: {fileID: 5917098666106380704, guid: 7ed4b6b9fe75fab46a51030aa4b51580, type: 3}
@@ -5376,6 +5380,8 @@ MonoBehaviour:
   gunSprite_Pistol: {fileID: 3772173155015185346, guid: 8d723ee70c2209f4c84fd262acb24a5b, type: 3}
   gunSprite_Rifle: {fileID: 5758646838473462783, guid: e6c38c4fd248fc149acb7553c63332a5, type: 3}
   SmokeGrenadeSprite: {fileID: 21300000, guid: 0e03fb2a4b4312744b2fae847eaab0cb, type: 3}
+  HEGrenadeSprite: {fileID: 21300000, guid: 34d63691bd849fe4c87531608a20f01f, type: 3}
+  ImpactGrenadeSprite: {fileID: 21300000, guid: 4793d782b3014a144853a0aba1ec245f, type: 3}
   healthPotionSprite: {fileID: 21300000, guid: 100b236b72daa4c4da4c410baada9739, type: 3}
   bigHealthPotionSprite: {fileID: 21300000, guid: 924b23edbd9de764197e92ae63be93da, type: 3}
   superHealthPotionSprite: {fileID: 21300000, guid: 4edf8952660c18443b305a0676f1f484, type: 3}

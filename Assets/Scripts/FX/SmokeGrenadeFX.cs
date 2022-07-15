@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class SmokeGrenadeFX : FXPlayer_Projectile
 {
-    public float activationTime;
-
     [SerializeField] private GameObject ScreenSmokeTrigger;
     [SerializeField] private float throwingTorque;
     [SerializeField] private float activationTorque;
@@ -26,7 +24,7 @@ public class SmokeGrenadeFX : FXPlayer_Projectile
         parent.StopAllCoroutines();
 
         // wait for activation
-        yield return new WaitForSecondsRealtime(activationTime);
+        yield return new WaitForSecondsRealtime(parent.GetComponent<ProjectileWorld>().GetProjectile().activationTime);
 
         // activate trigger
         ScreenSmokeTrigger.SetActive(true);

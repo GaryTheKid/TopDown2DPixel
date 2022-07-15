@@ -11,9 +11,11 @@ public abstract class Projectile : Item
     public float speed;
     public float maxDist;
     public float lifeTime;
+    public float activationTime;
     public float explosiveRadius;
     public float explosiveTime;
     public bool isSticky;
+    public bool isExplosive;
 
     public abstract Transform GetProjectilePrefab();
 }

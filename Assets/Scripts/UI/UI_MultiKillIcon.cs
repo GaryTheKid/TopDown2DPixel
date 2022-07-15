@@ -19,6 +19,7 @@ public class UI_MultiKillIcon : MonoBehaviour
         {
             case 0:
                 _icon.sprite = null;
+                _multiKillFeedBacks.StopAllCoroutines();
                 _icon.color = new Color(1f, 1f, 1f, 0f);
                 break;
 

@@ -240,7 +240,10 @@ public class RPC_Player : MonoBehaviour
             // set projectile world script
             var projectileWorld = projectilePf.GetComponent<ProjectileWorld>();
             projectileWorld.SetProjectile(projectile);
-            projectileWorld.SetDamageRatio((float)chargeTier / (float)_playerWeaponController.weapon.maxChargeTier);
+            if (!projectile.isExplosive)
+                projectileWorld.SetDamageRatio((float)chargeTier / (float)_playerWeaponController.weapon.maxChargeTier);
+            else
+                projectileWorld.SetDamageRatio(1f);
             projectileWorld.SetAttackerPV(GetComponent<PhotonView>());
             projectileWorld.PerishInTime();
 

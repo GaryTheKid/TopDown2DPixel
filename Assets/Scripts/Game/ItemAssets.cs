@@ -23,6 +23,8 @@ public class ItemAssets : MonoBehaviour
     public Transform pfGun_Pistol;
     public Transform pfGun_Rifle;
     public Transform pfSmokeGrenade;
+    public Transform pfHEGrenade;
+    public Transform pfImpactGrenade;
 
     // prefab for weapon Equipped
     [Header("Projectile Prefabs")]
@@ -30,6 +32,8 @@ public class ItemAssets : MonoBehaviour
     public Transform projBullet_SemiAuto;
     public Transform projBullet_Rifle;
     public Transform projSmokeGrenade;
+    public Transform projHEGrenade;
+    public Transform projImpactGrenade;
 
     // prefab for item world
     [Header("ItemWorld Prefab")]
@@ -58,6 +62,8 @@ public class ItemAssets : MonoBehaviour
     public Sprite gunSprite_Pistol;
     public Sprite gunSprite_Rifle;
     public Sprite SmokeGrenadeSprite;
+    public Sprite HEGrenadeSprite;
+    public Sprite ImpactGrenadeSprite;
     public Sprite healthPotionSprite;
     public Sprite bigHealthPotionSprite;
     public Sprite superHealthPotionSprite;
@@ -93,6 +99,8 @@ public class ItemAssets : MonoBehaviour
             { 11, new Gun_Rifle() },
             { 12, new SuperHealthPotion() },
             { 13, new SmokeGrenade() },
+            { 14, new HEGrenade() },
+            { 15, new ImpactGrenade() },
         };
 
         projectileDic = new Dictionary<short, Projectile>{
@@ -100,6 +108,8 @@ public class ItemAssets : MonoBehaviour
             { 1, new Bullet_SemiAuto() },
             { 2, new Bullet_Rifle() },
             { 3, new SmokeGrenade_Proj() },
+            { 4, new HEGrenade_proj() },
+            { 5, new ImpactGrenade_Proj() }
         };
     }
 }

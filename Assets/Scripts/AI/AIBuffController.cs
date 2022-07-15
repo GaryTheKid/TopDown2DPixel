@@ -50,7 +50,6 @@ public class AIBuffController : MonoBehaviour
         if (isKilled)
         {
             var effectController = PhotonView.Find(attackerID).transform.GetComponent<PlayerEffectController>();
-            print(attackerID + " " + effectController);
             if (effectController != null)
             {
                 effectController.MultiKillEffect();

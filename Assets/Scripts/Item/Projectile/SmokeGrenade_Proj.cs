@@ -12,6 +12,7 @@ public class SmokeGrenade_Proj : Projectile
         maxDist = 100f;
         explosiveRadius = 0f;
         lifeTime = 10f;
+        activationTime = 3f;
         isSticky = false;
         damageInfo = new DamageInfo
         {

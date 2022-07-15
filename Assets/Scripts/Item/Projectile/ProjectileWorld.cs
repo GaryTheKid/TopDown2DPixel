@@ -61,9 +61,19 @@ public class ProjectileWorld : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public Projectile GetProjectile()
+    {
+        return _projectile;
+    }
+
     public void SetProjectile(Projectile projectile)
     {
         _projectile = projectile;
+    }
+
+    public PhotonView GetAttackPV()
+    {
+        return _PV;
     }
 
     public void SetAttackerPV(PhotonView PV)
