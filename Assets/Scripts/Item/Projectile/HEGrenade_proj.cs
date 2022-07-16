@@ -15,6 +15,7 @@ public class HEGrenade_proj : Projectile
         activationTime = 2f;
         isSticky = false;
         isExplosive = true;
+        canDirectHit = false;
         damageInfo = new DamageInfo
         {
             damageType = DamageInfo.DamageType.Physics,

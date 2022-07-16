@@ -14,6 +14,7 @@ public class Arrow : Projectile
         explosiveRadius = 0f;
         lifeTime = 1.8f;
         isSticky = true;
+        canDirectHit = true;
         damageInfo = new DamageInfo
         {
             damageType = DamageInfo.DamageType.Physics,

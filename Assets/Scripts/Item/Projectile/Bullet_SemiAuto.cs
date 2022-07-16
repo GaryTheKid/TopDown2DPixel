@@ -14,6 +14,7 @@ public class Bullet_SemiAuto : Projectile
         explosiveRadius = 0f;
         lifeTime = 1.2f;
         isSticky = false;
+        canDirectHit = true;
         damageInfo = new DamageInfo
         {
             damageType = DamageInfo.DamageType.Physics,

@@ -14,6 +14,7 @@ public class SmokeGrenade_Proj : Projectile
         lifeTime = 10f;
         activationTime = 3f;
         isSticky = false;
+        canDirectHit = false;
         damageInfo = new DamageInfo
         {
             damageType = DamageInfo.DamageType.Physics,

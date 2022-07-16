@@ -30,7 +30,7 @@ public class ProjectileWorld : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject target = collision.gameObject;
-        if (target != null && target.transform != _PV.transform.Find("HitBox"))
+        if (target != null && target.transform != _PV.transform.Find("HitBox") && _projectile.canDirectHit)
         {
             // deal dmg
             if(_projectile.damageInfo.damageAmount > 0f)

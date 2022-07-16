@@ -16,6 +16,7 @@ public abstract class Projectile : Item
     public float explosiveTime;
     public bool isSticky;
     public bool isExplosive;
+    public bool canDirectHit;
 
     public abstract Transform GetProjectilePrefab();
 }

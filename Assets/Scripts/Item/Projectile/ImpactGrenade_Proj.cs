@@ -15,6 +15,7 @@ public class ImpactGrenade_Proj : Projectile
         activationTime = 2f;
         isSticky = false;
         isExplosive = true;
+        canDirectHit = true;
         damageInfo = new DamageInfo
         {
             damageType = DamageInfo.DamageType.Physics,

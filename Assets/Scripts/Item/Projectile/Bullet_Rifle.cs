@@ -13,6 +13,7 @@ public class Bullet_Rifle : Projectile
         explosiveRadius = 0f;
         lifeTime = 1f;
         isSticky = false;
+        canDirectHit = true;
         damageInfo = new DamageInfo
         {
             damageType = DamageInfo.DamageType.Physics,
