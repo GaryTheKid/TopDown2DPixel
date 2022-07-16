@@ -39,4 +39,70 @@ public class RPC_GameManager : MonoBehaviour
         obj.GetComponent<AIStatsController>().Respawn();
         obj.transform.position = pos;
     }
+
+    [PunRPC]
+    void RPC_SpawnItemWorld(int index, Vector2 pos, short itemID, short amount, short durability)
+    {
+        var obj = ObjectPool.objectPool.pooledItemWorld[index].gameObject;
+        obj.SetActive(true);
+        ItemWorld itemWorld = obj.GetComponent<ItemWorld>();
+        /*itemWorld.SetItem(itemID, amount, durability);*/
+
+        // set item world
+        obj.name = "ItemWorld " + obj.GetComponent<PhotonView>().ViewID.ToString();
+        Item item = ItemAssets.itemAssets.itemDic[itemID];
+        Item itemCopy = (Item)Common.GetObjectCopyFromInstance(item);
+        itemWorld.item = itemCopy;
+        itemWorld.item.amount = amount;
+        itemWorld.item.durability = durability;
+        itemWorld.interactionText.text = itemWorld.item.itemName;
+        itemWorld.spriteRenderer.sprite = itemWorld.item.GetSprite();
+        if (itemWorld.item.amount > 1)
+        {
+            itemWorld.amountText.text = itemWorld.item.amount.ToString();
+        }
+        else
+        {
+            itemWorld.amountText.text = "";
+        }
+
+        // set expire
+        itemWorld.Expire();
+        obj.transform.position = pos;
+    }
+
+    [PunRPC]
+    void RPC_DropItemWorld(int index, float forceDir, Vector2 pos, short itemID, short amount, short durability)
+    {
+        var obj = ObjectPool.objectPool.pooledItemWorld[index].gameObject;
+        obj.SetActive(true);
+        ItemWorld itemWorld = obj.GetComponent<ItemWorld>();
+
+        // set item world
+        obj.name = "ItemWorld " + obj.GetComponent<PhotonView>().ViewID.ToString();
+        Item item = ItemAssets.itemAssets.itemDic[itemID];
+        Item itemCopy = (Item)Common.GetObjectCopyFromInstance(item);
+        itemWorld.item = itemCopy;
+        itemWorld.item.amount = amount;
+        itemWorld.item.durability = durability;
+        itemWorld.interactionText.text = itemWorld.item.itemName;
+        itemWorld.spriteRenderer.sprite = itemWorld.item.GetSprite();
+        if (itemWorld.item.amount > 1)
+        {
+            itemWorld.amountText.text = itemWorld.item.amount.ToString();
+        }
+        else
+        {
+            itemWorld.amountText.text = "";
+        }
+
+        // add force
+        var dropDirV2 = Math.DegreeToVector2(forceDir);
+        obj.GetComponent<Rigidbody2D>().AddForce(dropDirV2 * 1.5f, ForceMode2D.Impulse);
+
+        // set expire
+        itemWorld.Expire();
+
+        obj.transform.position = pos;
+    }
 }

@@ -29,6 +29,16 @@ namespace NetworkCalls
         {
             PV.RPC("RPC_SpawnAI", RpcTarget.AllBuffered, requestedAIIndex, pos);
         }
+
+        public static void SpawnItemWorld(PhotonView PV, int requestedAIIndex, Vector2 pos, short itemID, short amount, short durability)
+        {
+            PV.RPC("RPC_SpawnItemWorld", RpcTarget.AllBuffered, requestedAIIndex, pos, itemID, amount, durability);
+        }
+
+        public static void DropItemWorld(PhotonView PV, int requestedAIIndex, float forceDir, Vector2 pos, short itemID, short amount, short durability)
+        {
+            PV.RPC("RPC_DropItemWorld", RpcTarget.AllBuffered, requestedAIIndex, forceDir, pos, itemID, amount, durability);
+        }
     }
 
     public class AI_NetWork
@@ -83,15 +93,18 @@ namespace NetworkCalls
 
     public class ItemWorld_Network
     {
-        public static void SetItem(PhotonView PV, short itemID, short amount, short durability)
+
+        // TODO: change this to something inside SpawnItemWorld in Game manager
+
+        /*public static void SetItem(PhotonView PV, short itemID, short amount, short durability)
         {
             PV.RPC("RPC_SetItem", RpcTarget.AllBuffered, itemID, amount, durability);
-        }
+        }*/
 
-        public static void AddForce(PhotonView PV, float dirDeg)
+        /*public static void AddForce(PhotonView PV, float dirDeg)
         {
             PV.RPC("RPC_ItemWorldAddForce", RpcTarget.AllBuffered, dirDeg);
-        }
+        }*/
 
         public static void Expire(PhotonView PV)
         {

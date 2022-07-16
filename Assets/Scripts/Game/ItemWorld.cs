@@ -52,10 +52,10 @@ public class ItemWorld : MonoBehaviour
         interactionText.gameObject.SetActive(false);
     }
 
-    public void SetItem(short itemID, short amount, short durability)
+/*    public void SetItem(short itemID, short amount, short durability)
     {
         ItemWorld_Network.SetItem(PV, itemID, amount, durability);
-    }
+    }*/
 
     public void PickItem()
     {
@@ -73,10 +73,10 @@ public class ItemWorld : MonoBehaviour
         ItemWorld_Network.DestroyItemWorld(PV);
     }
 
-    public void AddForce()
+    /*public void AddForce()
     {
         ItemWorld_Network.AddForce(PV, Utilities.Math.GetRandomDegree());
-    }
+    }*/
 
     public void Expire()
     {
@@ -109,7 +109,15 @@ public class ItemWorld : MonoBehaviour
 
     public void DestroySelf()
     {
-        Destroy(gameObject);
-        //ItemWorld_Network.DestroyItemWorld(PV);
+        gameObject.SetActive(false);
+
+        // reset sprite
+        var spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        var col = spriteRenderer.color;
+        col.a = 1f;
+        spriteRenderer.color = col;
+
+        // re-enable colliders
+        foreach (Collider2D collider in GetComponents<Collider2D>()) collider.enabled = true;
     }
 }

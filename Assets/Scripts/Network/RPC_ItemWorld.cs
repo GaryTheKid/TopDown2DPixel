@@ -6,7 +6,7 @@ using Utilities;
 
 public class RPC_ItemWorld : MonoBehaviour
 {
-    [PunRPC]
+    /*[PunRPC]
     void RPC_SetItem(short itemID, short amount, short durability)
     {
         transform.parent = GameManager.gameManager.spawnedItemParent;
@@ -36,7 +36,7 @@ public class RPC_ItemWorld : MonoBehaviour
     {
         var dropDirV2 = Math.DegreeToVector2(dropDirAngle);
         GetComponent<Rigidbody2D>().AddForce(dropDirV2 * 1.5f, ForceMode2D.Impulse);
-    }
+    }*/
 
     [PunRPC]
     void RPC_ItemWorldExpire()
@@ -50,6 +50,15 @@ public class RPC_ItemWorld : MonoBehaviour
     [PunRPC]
     void RPC_DestroyItemWorld()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+
+        // reset sprite
+        var spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        var col = spriteRenderer.color;
+        col.a = 1f;
+        spriteRenderer.color = col;
+
+        // re-enable colliders
+        foreach (Collider2D collider in GetComponents<Collider2D>()) collider.enabled = true;
     }
 }

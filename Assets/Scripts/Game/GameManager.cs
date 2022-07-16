@@ -322,27 +322,41 @@ public class GameManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region Item World
-    public ItemWorld SpawnItem(Vector2 pos, short itemID, short amount=1, short durability=100)
+    public void SpawnItem(Vector2 pos, short itemID, short amount=1, short durability=100)
     {
-        var newItemWorld = PhotonNetwork.InstantiateRoomObject("Item/pfItemWorld", pos, Quaternion.identity);
+        /*var newItemWorld = PhotonNetwork.InstantiateRoomObject("Item/pfItemWorld", pos, Quaternion.identity);
 
         ItemWorld itemWorld = newItemWorld.GetComponent<ItemWorld>();
         itemWorld.SetItem(itemID, amount, durability);
-        itemWorld.Expire();
+        itemWorld.Expire();*/
 
-        return itemWorld;
+        int requestedItemWorldIndex = ObjectPool.objectPool.RequestItemWorldIndexFromPool();
+
+        if (requestedItemWorldIndex != -1)
+        {
+            Game_Network.SpawnItemWorld(PV, requestedItemWorldIndex, pos, itemID, amount, durability);
+        }
+
+        //return ObjectPool.objectPool.pooledItemWorld[requestedItemWorldIndex];
     }
 
-    public ItemWorld DropItem(Vector2 pos, short itemID, short amount, short durability)
+    public void DropItem(Vector2 pos, short itemID, short amount, short durability)
     {
-        var newItemWorld = PhotonNetwork.InstantiateRoomObject("Item/pfItemWorld", pos, Quaternion.identity);
+        int requestedItemWorldIndex = ObjectPool.objectPool.RequestItemWorldIndexFromPool();
+
+        if (requestedItemWorldIndex != -1)
+        {
+            Game_Network.DropItemWorld(PV, requestedItemWorldIndex, Utilities.Math.GetRandomDegree(), pos, itemID, amount, durability);
+        }
+
+        /*var newItemWorld = PhotonNetwork.InstantiateRoomObject("Item/pfItemWorld", pos, Quaternion.identity);
 
         ItemWorld itemWorld = newItemWorld.GetComponent<ItemWorld>();
         itemWorld.SetItem(itemID, amount, durability);
         itemWorld.Expire();
         itemWorld.AddForce();
 
-        return itemWorld;
+        return itemWorld;*/
     }
     #endregion
 
