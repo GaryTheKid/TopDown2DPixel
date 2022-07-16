@@ -53,7 +53,7 @@ public class AIMovementController : MonoBehaviour
         if (_aiStats.isDead)
             return;
 
-        UnitGridCollisionUpdate();
+        //UnitGridCollisionUpdate();
         FollowPath();
     }
 

@@ -38,6 +38,10 @@ public class ExplosionFX : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var target = collision.transform;
+        var targetPV = target.parent.GetComponent<PhotonView>();
+
+        if (targetPV == null)
+            return;
 
         // calculate distance
         var distanceFromCenter = Vector2.Distance(target.position, transform.position);
@@ -53,6 +57,6 @@ public class ExplosionFX : MonoBehaviour
 
         // deal dmg
         if (_projectile.damageInfo.damageAmount > 0f)
-            NetworkCalls.Player_NetWork.DealProjectileDamage(_projectileWorld.GetAttackPV(), target.parent.GetComponent<PhotonView>().ViewID, dmgRatio, _projectile.projectileID);
+            NetworkCalls.Player_NetWork.DealProjectileDamage(_projectileWorld.GetAttackPV(), targetPV.ViewID, dmgRatio, _projectile.projectileID);
     }
 }
