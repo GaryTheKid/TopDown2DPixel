@@ -27,6 +27,9 @@ public class HEGrenadeFX : FXPlayer_Projectile
         var soundFX = GetComponentInChildren<AudioSource>();
         soundFX.PlayOneShot(soundFX.clip);
 
+        // disable trail line
+        parent.transform.GetComponent<TrailRenderer>().enabled = false;
+
         // explode, calculate damage
         explosionHETrigger.SetActive(true);
     }

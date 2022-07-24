@@ -6,7 +6,11 @@ using MoreMountains.Feedbacks;
 
 public class AIEffectController : MonoBehaviour
 {
+    private const float CORPSE_EXPIRE_TIME = 3f;
+
     [SerializeField] private GameObject _ring;
+    [SerializeField] private GameObject _shadow;
+    [SerializeField] private GameObject _hitBox;
     [SerializeField] private Transform _hpBarParent;
     [SerializeField] private Image _hpBar;
     [SerializeField] private SpriteRenderer _body;
@@ -52,8 +56,17 @@ public class AIEffectController : MonoBehaviour
         // reset feedback
         mmf_hp.ResetFeedbacks();
 
-        // set ring
+        // disable ring
         _ring.SetActive(false);
+
+        // disable shadow
+        _shadow.SetActive(false);
+
+        // disable hitbox
+        _hitBox.SetActive(false);
+
+        // set speed 0
+        _rb.velocity = Vector2.zero;
 
         // Play Death Animation
         _avatarAnimator.SetBool("isDead", true);
@@ -66,11 +79,17 @@ public class AIEffectController : MonoBehaviour
             sprite.color = col;
         }
 
+        // set active to false after corpse expires
+        CorpseExpire();
+    }
+
+    public void CorpseExpire()
+    {
         StartCoroutine(Co_DeathDelay());
     }
     IEnumerator Co_DeathDelay()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(CORPSE_EXPIRE_TIME);
         gameObject.SetActive(false);
     }
 
@@ -81,6 +100,12 @@ public class AIEffectController : MonoBehaviour
 
         // set ring
         _ring.SetActive(true);
+
+        // set shadow
+        _shadow.SetActive(true);
+
+        // set hitbox
+        _hitBox.SetActive(true);
 
         // Play Death Animation
         _avatarAnimator.SetBool("isDead", false);

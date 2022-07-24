@@ -10,7 +10,7 @@ public class Gun_M4 : Gun
         itemID = 6;
         amount = 1;
         itemType = ItemType.RangedWeapon;
-        durability = 30;
+        durability = 60;
 
         attackRange = 10f;
         attackSpeed = 9f;

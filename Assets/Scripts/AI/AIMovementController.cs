@@ -1,11 +1,11 @@
-/* Last Edition: 07/03/2022
+/* Last Edition: 07/23/2022
  * Author: Chongyang Wang
  * Collaborators: 
  * 
  * Description: 
  *   The AI movement Controller that controls AI physical moves.
  * Last Edition:
- *   Just Created.
+ *   Add move animation handling
  */
 using System;
 using System.Collections;
@@ -15,10 +15,12 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Utilities;
 using Photon.Pun;
- 
+using NetworkCalls;
+
 public class AIMovementController : MonoBehaviour
 {
     private const float TARGET_REACH_MIN_DISTANCE = 0.4f;
+    private const float CONSIDER_IDLE_SPEED_THRESHOLD = 0.5f;
 
     [SerializeField] private Animator _animator;
     [SerializeField] private ConvertedToEntityHolder convertedEntityHolder;
@@ -57,15 +59,23 @@ public class AIMovementController : MonoBehaviour
         FollowPath();
     }
 
+    private void Update()
+    {
+        if (_aiStats.isDead)
+            return;
+
+        HandleMoveAnimation();
+    }
+
     public void Move(Vector2 position)
     {
-        _PV.RPC("RPC_Move", RpcTarget.MasterClient, position);
+        AI_NetWork.Move(_PV, position);
         //wayPoints.Add(position);
     }
 
     public void Halt()
     {
-        _PV.RPC("RPC_Halt", RpcTarget.MasterClient);
+        AI_NetWork.Halt(_PV);
     }
 
     public void Stop()
@@ -110,35 +120,13 @@ public class AIMovementController : MonoBehaviour
 
     private void FollowPath()
     {
-        if (_aiStats.isMovementLocked)
-        {
-            // Idle
-            if (_animator.GetBool("isMoving"))
-            {
-                _animator.SetBool("isMoving", false);
-                _animator.SetFloat("moveX", 0f);
-            }
-            return;
-        }
-
         try
         {   
             // follow the path
             PathFollow pathFollow = entityManager.GetComponentData<PathFollow>(entity);
             DynamicBuffer<PathPosition> pathPositionBuffer = entityManager.GetBuffer<PathPosition>(entity);
 
-            bool isIdle = pathFollow.pathIndex < 0;
-
-            if (isIdle)
-            {
-                // Idle
-                if (_animator.GetBool("isMoving"))
-                {
-                    _animator.SetBool("isMoving", false);
-                    _animator.SetFloat("moveX", 0f);
-                }
-            }
-            else
+            if (pathFollow.pathIndex >= 0)
             {
                 // is moving
                 PathPosition pathPosition = pathPositionBuffer[pathFollow.pathIndex];
@@ -147,13 +135,6 @@ public class AIMovementController : MonoBehaviour
                 float3 moveDir = math.normalizesafe(targetPosition - (float3)transform.position);
 
                 _rb.AddForce((Vector3)moveDir * _StatsController.GetCurrentSpeed());
-
-                //_rb.velocity = (Vector3)(moveDir * _StatsController.GetCurrentSpeed() * Time.deltaTime);
-                //transform.position += (Vector3)(moveDir * _StatsController.GetCurrentSpeed() * Time.deltaTime);
-
-                if (!_animator.GetBool("isMoving"))
-                    _animator.SetBool("isMoving", true);
-                _animator.SetFloat("moveX", moveDir.x);
 
                 if (math.distance(transform.position, targetPosition) < TARGET_REACH_MIN_DISTANCE)
                 {
@@ -166,6 +147,33 @@ public class AIMovementController : MonoBehaviour
         catch//(NullReferenceException e)
         {
             //Debug.Log(e);
+        }
+    }
+
+    private void HandleMoveAnimation()
+    {
+        if (_rb.velocity.magnitude < CONSIDER_IDLE_SPEED_THRESHOLD && _animator.GetBool("isMoving"))
+        {
+            _animator.SetBool("isMoving", false);
+            _animator.SetFloat("moveX", 0f);
+        }
+
+        if (_rb.velocity.magnitude >= CONSIDER_IDLE_SPEED_THRESHOLD)
+        {
+            if (!_animator.GetBool("isMoving"))
+            {
+                _animator.SetBool("isMoving", true);
+            }
+
+            // check move direction
+            if (_rb.velocity.x >= 0 && _animator.GetFloat("moveX") != 1f)
+            {
+                _animator.SetFloat("moveX", 1f);
+            }
+            else if(_rb.velocity.x < 0 && _animator.GetFloat("moveX") != -1f)
+            {
+                _animator.SetFloat("moveX", -1f);
+            }
         }
     }
 

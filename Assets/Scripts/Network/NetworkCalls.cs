@@ -48,6 +48,16 @@ namespace NetworkCalls
             PV.RPC("RPC_SetAI", RpcTarget.AllBuffered);
         }
 
+        public static void Halt(PhotonView PV)
+        {
+            PV.RPC("RPC_Halt", RpcTarget.MasterClient);
+        }
+
+        public static void Move(PhotonView PV, Vector2 position)
+        {
+            PV.RPC("RPC_Move", RpcTarget.MasterClient, position);
+        }
+
         public static void Attack(PhotonView PV, Transform target)
         {
             var targetPV = target.GetComponent<PhotonView>();

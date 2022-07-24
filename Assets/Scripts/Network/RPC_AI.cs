@@ -5,6 +5,8 @@ using Photon.Pun;
 
 public class RPC_AI : MonoBehaviour
 {
+    [SerializeField] private Animator _animator;
+ 
     private PhotonView _PV;
     private AIMovementController _aiMovementController;
     private AIStatsController _aiStatsController;
@@ -42,6 +44,7 @@ public class RPC_AI : MonoBehaviour
     void RPC_Halt()
     {
         _aiMovementController.entityManager.SetComponentData(_aiMovementController.entity, new PathFollow { pathIndex = -1 });
+        _animator.SetBool("isMoving", false);
     }
 
     [PunRPC]
@@ -66,14 +69,38 @@ public class RPC_AI : MonoBehaviour
         var enemyPlayer = target.GetComponent<PlayerBuffController>();
         var enemyAI = target.GetComponent<AIBuffController>();
 
+        // player target
         if (enemyPlayer != null)
         {
             enemyPlayer.ReceiveDamage(_PV.ViewID, _aiWeaponController.damageInfo, transform.position);
+            _animator.SetTrigger("isAttacking");
+
+            // attack towards the enemy
+            if (target.transform.position.x >= transform.position.x)
+            {
+                _animator.SetFloat("moveX", 1f);
+            }
+            else
+            {
+                _animator.SetFloat("moveX", -1f);
+            }
         }
 
+        // ai target
         if (enemyAI != null)
         {
             enemyAI.ReceiveDamage(_PV.ViewID, _aiWeaponController.damageInfo, transform.position);
+            _animator.SetTrigger("isAttacking");
+
+            // attack towards the enemy
+            if (target.transform.position.x >= transform.position.x)
+            {
+                _animator.SetFloat("moveX", 1f);
+            }
+            else
+            {
+                _animator.SetFloat("moveX", -1f);
+            }
         }
     }
 }

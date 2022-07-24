@@ -28,6 +28,7 @@ public class AIBrain : MonoBehaviour
 
     private AIMovementController _aiMovementController;
     private AIWeaponController _aiWeaponController;
+    private AIStats _aiStats;
     private PhotonView _PV;
     private Vector3 _startingPos;
     private Vector3 _roamPosition;
@@ -43,6 +44,7 @@ public class AIBrain : MonoBehaviour
         _PV = GetComponent<PhotonView>();
         _aiMovementController = GetComponent<AIMovementController>();
         _aiWeaponController = GetComponent<AIWeaponController>();
+        _aiStats = GetComponent<AIStatsController>().aiStats;
     }
 
     private void Start()
@@ -54,6 +56,9 @@ public class AIBrain : MonoBehaviour
 
     private void Update()
     {
+        if (_aiStats.isDead)
+            return;
+
         switch (aiState)
         {
             case State.Idle:
