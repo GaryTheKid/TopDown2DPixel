@@ -25,6 +25,8 @@ public class PlayerWeaponController : MonoBehaviour
     public Transform spreadTransform;
     public Transform animationTransform;
     public AudioSource fireFX;
+    public CastIndicatorController castIndicatorController;
+    public UI_ChannelingBar ui_ChannelingBar;
     private PhotonView _PV;
     private Rigidbody2D _rb;
     private Inventory _inventory;
@@ -33,10 +35,14 @@ public class PlayerWeaponController : MonoBehaviour
     private PlayerStats _playerStats;
     private IEnumerator _co_Attack;
     private IEnumerator _co_Charge;
+    private IEnumerator _co_Cast;
+    private IEnumerator _co_Channel;
+    private IEnumerator _co_Unleash;
     private IEnumerator _co_Slow;
     private bool _isFlipped;
     private bool _isHolding;
     private float _aimAngle;
+    private Vector2 _castPos;
 
     public int chargeTier;
     public Item.ItemType weaponType;
@@ -74,6 +80,7 @@ public class PlayerWeaponController : MonoBehaviour
     {
         float pressVal = _inputActions.Player.FireOrChargeWeapon.ReadValue<float>();
 
+        // handle input
         HandleAiming();
         if (pressVal == 1)
         {
@@ -127,6 +134,8 @@ public class PlayerWeaponController : MonoBehaviour
         weaponAnimator = null;
         fireTransform = null;
         fireFX = null;
+        castIndicatorController.DeactivateIndicator();
+        ui_ChannelingBar.Deactivate();
         if (weaponPrefab != null && weaponPrefab != bareHandsPrefab)
         {
             Destroy(weaponPrefab.gameObject);
@@ -142,6 +151,23 @@ public class PlayerWeaponController : MonoBehaviour
         {
             StopCoroutine(_co_Charge);
             _co_Charge = null;
+
+            // restore movement speed
+            _playerStats.speedModifier = 1f;
+        }
+
+        // stop cast coroutine
+        if (_co_Cast != null)
+        {
+            StopCoroutine(_co_Cast);
+            _co_Cast = null;
+        }
+
+        // stop channel coroutine
+        if (_co_Channel != null)
+        {
+            StopCoroutine(_co_Channel);
+            _co_Channel = null;
 
             // restore movement speed
             _playerStats.speedModifier = 1f;
@@ -244,6 +270,16 @@ public class PlayerWeaponController : MonoBehaviour
                     StartCoroutine(_co_Charge);
                 }
                 break;
+
+            case Item.ItemType.Scroll:
+                // hold to charge
+                if (_co_Cast == null && _co_Channel == null)
+                {
+                    // start charge coroutine
+                    _co_Cast = Co_Cast();
+                    StartCoroutine(_co_Cast);
+                }
+                break;
         }
     }
 
@@ -276,6 +312,23 @@ public class PlayerWeaponController : MonoBehaviour
 
                 // reset charge Tier
                 chargeTier = 0;
+                break;
+
+            case Item.ItemType.Scroll:
+                // stop cast coroutine
+                if (_co_Cast != null)
+                {
+                    StopCoroutine(_co_Cast);
+                    _co_Cast = null;
+                }
+
+                // start channeling
+                if (_co_Cast == null && _co_Channel == null)
+                {
+                    // start charge coroutine
+                    _co_Channel = Co_Channeling();
+                    StartCoroutine(_co_Channel);
+                }
                 break;
         }
 
@@ -322,6 +375,11 @@ public class PlayerWeaponController : MonoBehaviour
                 _isFlipped = false;
             }
         }
+    }
+
+    private void ShowCastIndicator()
+    {
+        
     }
 
     // Coroutine: Weapon attack, melee
@@ -433,6 +491,103 @@ public class PlayerWeaponController : MonoBehaviour
             // wait cd
             yield return new WaitForSecondsRealtime(1f / weapon.chargeSpeed);
         }
+    }
+
+    // Coroutine: Weapon cast
+    private IEnumerator Co_Cast()
+    {
+        _isHolding = true;
+        castIndicatorController.indicatorType = weapon.castIndicatorType;
+        castIndicatorController.ActivateIndicator();
+
+        while (true)
+        {
+
+#if UNITY_EDITOR_WIN || PLATFORM_STANDALONE_WIN
+            // rotate weapon
+            _castPos = Common.GetMouseWorldPosition();
+#endif
+            castIndicatorController.PositionIndicator(_castPos);
+
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    // Coroutine: Weapon channel
+    private IEnumerator Co_Channeling()
+    {
+        // slow down movement during charge
+        _playerStats.speedModifier = weapon.castChannelMovementSlotRate;
+
+        print("Start Channeling");
+        // lock inventory while channeling
+        _playerStats.isInventoryLocked = true;
+
+        // show channeling bar
+        ui_ChannelingBar.Activate();
+
+        // channel animation
+        weapon.Channel(_PV);
+
+        // reset indicator
+        castIndicatorController.DeactivateIndicator();
+
+        // channel time
+        var timer = 0f;
+        var totalChannelTime = weapon.castChannelTime;
+        while (timer < totalChannelTime)
+        {
+            timer += Time.deltaTime;
+
+            // channel bar progress
+            ui_ChannelingBar.UpdateProgress(timer / totalChannelTime);
+
+            // wait
+            yield return new WaitForEndOfFrame();
+        }
+
+        print("End Channeling");
+
+        // unleash
+        if (_co_Unleash == null)
+        {
+            _co_Unleash = Co_Unleash();
+            StartCoroutine(_co_Unleash);
+        }
+
+        // hide channeling bar
+        ui_ChannelingBar.Deactivate();
+
+        // clear co
+        _co_Channel = null;
+    }
+
+    // Coroutine: Weapon unleash
+    private IEnumerator Co_Unleash()
+    {
+        _isHolding = false;
+
+        // slow down movement during charge
+        _playerStats.speedModifier = 1f;
+
+        // unleash
+        weapon.Unleash(_PV, _castPos);
+
+        // clear cast pos
+        _castPos = Vector3.zero;
+
+        // update durability
+        if (!_playerStats.isDead && !(weapon is Hands) && weapon.itemType != Item.ItemType.ThrowableWeapon)
+            _playerInventoryController.UpdateItemDurability(-1);
+
+        // wait cd
+        yield return new WaitForSecondsRealtime(weapon.unleashCD);
+
+        // unlock inventory after channeling
+        _playerStats.isInventoryLocked = false;
+
+        // clear co
+        _co_Unleash = null;
     }
 
     // Coroutine: Weapon slow movement speed

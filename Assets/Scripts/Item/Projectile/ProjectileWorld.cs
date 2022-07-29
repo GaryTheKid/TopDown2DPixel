@@ -8,13 +8,13 @@ public class ProjectileWorld : MonoBehaviour
     [SerializeField] private FXPlayer_Projectile _FX_projectile;
 
     private Projectile _projectile;
-    private PhotonView _PV;
+    private PhotonView _attackerPV;
     private float _dmgRatio = 1f;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // only collide non-self colliders
-        if (collision.transform != _PV.transform)
+        if (collision.transform != _attackerPV.transform)
         {
             if (_projectile.isSticky)
             {
@@ -29,12 +29,18 @@ public class ProjectileWorld : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // proceed effects
         GameObject target = collision.gameObject;
-        if (target != null && target.transform != _PV.transform.Find("HitBox") && _projectile.canDirectHit)
+
+        // ignore layers
+        if (target.layer == LayerMask.NameToLayer("TornadoAttraction"))
+            return; 
+
+        if (target != null && target.transform != _attackerPV.transform.Find("HitBox") && _projectile.canDirectHit)
         {
             // deal dmg
             if(_projectile.damageInfo.damageAmount > 0f)
-                NetworkCalls.Player_NetWork.DealProjectileDamage(_PV, target.transform.parent.GetComponent<PhotonView>().ViewID, _dmgRatio, _projectile.projectileID);
+                NetworkCalls.Player_NetWork.DealProjectileDamage(_attackerPV, target.transform.parent.GetComponent<PhotonView>().ViewID, _dmgRatio, _projectile.projectileID);
 
             // check if stick to the target
             if (_projectile.isSticky)
@@ -73,12 +79,12 @@ public class ProjectileWorld : MonoBehaviour
 
     public PhotonView GetAttackPV()
     {
-        return _PV;
+        return _attackerPV;
     }
 
     public void SetAttackerPV(PhotonView PV)
     {
-        _PV = PV;
+        _attackerPV = PV;
     }
 
     public void SetDamageRatio(float dmgRatio)

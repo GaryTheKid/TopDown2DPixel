@@ -33,6 +33,6 @@ public class ImpactGrenade_Proj : Projectile
 
     public override Sprite GetSprite()
     {
-        return ItemAssets.itemAssets.ImpactGrenadeSprite;
+        return ItemAssets.itemAssets.impactGrenadeSprite;
     }
 }

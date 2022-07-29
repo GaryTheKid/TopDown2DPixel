@@ -17,7 +17,8 @@ using NetworkCalls;
 public class LootBoxWorld : MonoBehaviour
 {
     [SerializeField] private Text interactionText;
-    [SerializeField] private Sprite defaultSprite; 
+    [SerializeField] private Sprite defaultSprite;
+    [SerializeField] private GameObject shadow;
 
     public PhotonView PV;
     public int areaIndex;
@@ -92,6 +93,10 @@ public class LootBoxWorld : MonoBehaviour
                 case Item.ItemType.ThrowableWeapon:
                     amount = (short)UnityEngine.Random.Range(1, 3);
                     break;
+
+                case Item.ItemType.Scroll:
+                    durability += (short)UnityEngine.Random.Range(1, 2);
+                    break;
             }
             GameManager.gameManager.SpawnItem(transform.position, randItemID, amount, durability);
         }
@@ -139,6 +144,9 @@ public class LootBoxWorld : MonoBehaviour
 
         // re-enable colliders
         foreach (Collider2D collider in GetComponents<Collider2D>()) collider.enabled = true;
+
+        // re-enable shadow
+        shadow.SetActive(true);
 
         // inform object pool
         ObjectPool.objectPool.isAllLootBoxActive = false;

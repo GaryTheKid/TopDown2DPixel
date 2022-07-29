@@ -25,6 +25,7 @@ public class ItemAssets : MonoBehaviour
     public Transform pfSmokeGrenade;
     public Transform pfHEGrenade;
     public Transform pfImpactGrenade;
+    public Transform pfScroll;
 
     // prefab for weapon Equipped
     [Header("Projectile Prefabs")]
@@ -34,6 +35,10 @@ public class ItemAssets : MonoBehaviour
     public Transform projSmokeGrenade;
     public Transform projHEGrenade;
     public Transform projImpactGrenade;
+
+    // prefab for spell
+    [Header("Spell Prefabs")]
+    public Transform pfSpell_Tornado;
 
     // prefab for item world
     [Header("ItemWorld Prefab")]
@@ -61,14 +66,20 @@ public class ItemAssets : MonoBehaviour
     public Sprite gunSprite_M4;
     public Sprite gunSprite_Pistol;
     public Sprite gunSprite_Rifle;
-    public Sprite SmokeGrenadeSprite;
+    public Sprite smokeGrenadeSprite;
     public Sprite HEGrenadeSprite;
-    public Sprite ImpactGrenadeSprite;
+    public Sprite impactGrenadeSprite;
     public Sprite healthPotionSprite;
     public Sprite bigHealthPotionSprite;
     public Sprite superHealthPotionSprite;
     public Sprite speedPotionSprite;
     public Sprite invinciblePotionSprite;
+    public Sprite blinkScrollSprite;
+    public Sprite stealthScrollSprite;
+    public Sprite earthquakeScrollSprite;
+    public Sprite meteorRainScrollSprite;
+    public Sprite tornadoScrollSprite;
+    public Sprite stormScrollSprite;
 
     [Header("Durability Icon Sprites")]
     public Sprite ui_icon_none;
@@ -101,6 +112,8 @@ public class ItemAssets : MonoBehaviour
             { 13, new SmokeGrenade() },
             { 14, new HEGrenade() },
             { 15, new ImpactGrenade() },
+            { 16, new Scroll_Blink() },
+            { 17, new Scroll_Tornado() }
         };
 
         projectileDic = new Dictionary<short, Projectile>{

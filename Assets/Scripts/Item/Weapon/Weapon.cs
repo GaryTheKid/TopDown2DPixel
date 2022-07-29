@@ -37,9 +37,46 @@ public abstract class Weapon : Item, IEquipable
     public float accuracy;
     public int maxChargeTier;
 
+    // castable
+    public enum CastTargetType
+    {
+        Self,
+        Other,
+        Global
+    }
+    public enum CastIndicatorType
+    {
+        Line,
+        Point,
+        Circle,
+
+    }
+    public CastTargetType castTargetType;
+    public CastIndicatorType castIndicatorType;
+    public short castTargetAmount;
+    public float castChannelTime;
+    public float castChannelMovementSlotRate;
+    public float castRange;
+    public float castLinearWidth;
+    public float castCircleRadius;
+    public float unleashCD;
+
+    // scroll
+    public enum ScollType
+    {
+        Light,
+        Air,
+        Fire,
+        Earth,
+        Water
+    }
+    public ScollType scollType;
+
     public virtual void Attack(PhotonView PV) { }
     public virtual void Attack(PhotonView PV, Vector2 firePos, float fireDirDeg) { }
     public virtual void Charge(PhotonView PV) { }
+    public virtual void Channel(PhotonView PV) { }
+    public virtual void Unleash(PhotonView PV, Vector2 targetPos) { }
     public override void UseItem(PhotonView PV)
     {
         if (!isEquipped)

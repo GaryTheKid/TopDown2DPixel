@@ -253,6 +253,40 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
+    void RPC_ShowChannelingAnimation()
+    {
+        // reset charge and play attack animation
+        _playerWeaponController.weaponAnimator.SetTrigger("Channel");
+    }
+
+    [PunRPC]
+    void RPC_ShowUnleashAnimation()
+    {
+        // reset charge and play attack animation
+        _playerWeaponController.weaponAnimator.SetTrigger("Unleash");
+    }
+
+    [PunRPC]
+    void RPC_BlinkSpell(Vector2 targetPos)
+    {
+        transform.position = targetPos;
+    }
+
+    [PunRPC]
+    void RPC_TornadoSpell(Vector2 targetPos)
+    {
+        // instantiate
+        var initPos = transform.position;
+        var pfTornado = Instantiate(ItemAssets.itemAssets.pfSpell_Tornado, initPos, Quaternion.identity);
+        pfTornado.parent = GameManager.gameManager.FXParent;
+
+        // set fx controller
+        var tornadoFX = pfTornado.GetComponent<TornadoFX>();
+        tornadoFX.MoveTowards(initPos, targetPos);
+        tornadoFX.Expire();
+    }
+
+    [PunRPC]
     void RPC_UseHealthPotion(int healingAmount)
     {
         _playerBuffController.ConsumeHealingPotion(healingAmount);

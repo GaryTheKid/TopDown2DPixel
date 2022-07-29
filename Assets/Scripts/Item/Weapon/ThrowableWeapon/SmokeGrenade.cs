@@ -68,6 +68,6 @@ public class SmokeGrenade : Weapon
 
     public override Sprite GetSprite()
     {
-        return ItemAssets.itemAssets.SmokeGrenadeSprite;
+        return ItemAssets.itemAssets.smokeGrenadeSprite;
     }
 }

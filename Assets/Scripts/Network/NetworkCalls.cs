@@ -154,6 +154,25 @@ namespace NetworkCalls
         }
     }
 
+    public class Spell_Network
+    {
+        public static void Spell_Blink(PhotonView PV, Vector2 targetPos)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_BlinkSpell", RpcTarget.All, targetPos);
+            }
+        }
+
+        public static void Spell_Tornado(PhotonView PV, Vector2 targetPos)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_TornadoSpell", RpcTarget.All, targetPos);
+            }
+        }
+    }
+
     public class Weapon_Network
     {
         public static void EquipWeapon(PhotonView PV, short itemID)
@@ -217,6 +236,22 @@ namespace NetworkCalls
             if (PV.IsMine)
             {
                 PV.RPC("RPC_FireChargedProjectile", RpcTarget.All, firePos, fireDirDeg);
+            }
+        }
+
+        public static void ShowChannelingAnimation(PhotonView PV)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_ShowChannelingAnimation", RpcTarget.All);
+            }
+        }
+
+        public static void ShowUnleashAnimation(PhotonView PV)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_ShowUnleashAnimation", RpcTarget.All);
             }
         }
     }

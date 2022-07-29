@@ -32,6 +32,6 @@ public class SmokeGrenade_Proj : Projectile
 
     public override Sprite GetSprite()
     {
-        return ItemAssets.itemAssets.SmokeGrenadeSprite;
+        return ItemAssets.itemAssets.smokeGrenadeSprite;
     }
 }

@@ -23,7 +23,9 @@ public class Item
         MeleeWeapon,
         RangedWeapon,
         ChargableRangedWeapon,
-        ThrowableWeapon
+        ThrowableWeapon,
+        TargetWeapon,
+        Scroll,
     }
 
     public virtual Sprite GetSprite()
