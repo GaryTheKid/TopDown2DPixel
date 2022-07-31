@@ -171,6 +171,14 @@ namespace NetworkCalls
                 PV.RPC("RPC_TornadoSpell", RpcTarget.All, targetPos);
             }
         }
+
+        public static void Spell_Meteor(PhotonView PV, Vector2 targetPos)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_MeteorSpell", RpcTarget.All, targetPos);
+            }
+        }
     }
 
     public class Weapon_Network
@@ -310,6 +318,14 @@ namespace NetworkCalls
             if (PV.IsMine)
             {
                 PV.RPC("RPC_DealProjectileDamage", RpcTarget.AllBuffered, targetID, dmgRatio, whichProjectile);
+            }
+        }
+
+        public static void DealSpellDamage(PhotonView PV, int targetID, float dmgRatio, short whichSpell)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_DealSpellDamage", RpcTarget.AllBuffered, targetID, dmgRatio, whichSpell);
             }
         }
 

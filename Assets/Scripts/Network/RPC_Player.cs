@@ -18,6 +18,7 @@ public class RPC_Player : MonoBehaviour
     private PhotonView _PV;
     private PlayerWeaponController _playerWeaponController;
     private PlayerBuffController _playerBuffController;
+    private PlayerEffectController _playerEffectController;
     private PlayerStatsController _playerStatsController;
     private PlayerNetworkController _playerNetworkController;
     private HashSet<int> targets;
@@ -27,6 +28,7 @@ public class RPC_Player : MonoBehaviour
         _PV = GetComponent<PhotonView>();
         _playerWeaponController = GetComponent<PlayerWeaponController>();
         _playerBuffController = GetComponent<PlayerBuffController>();
+        _playerEffectController = GetComponent<PlayerEffectController>();
         _playerStatsController = GetComponent<PlayerStatsController>();
         _playerNetworkController = GetComponent<PlayerNetworkController>();
     }
@@ -114,6 +116,31 @@ public class RPC_Player : MonoBehaviour
     void RPC_DealProjectileDamage(int targetID, float dmgRatio, short whichProjectile)
     {
         DamageInfo info = ItemAssets.itemAssets.projectileDic[whichProjectile].damageInfo;
+        info.damageAmount *= dmgRatio;
+
+        var target = PhotonView.Find(targetID).transform;
+        var enemyPlayer = target.GetComponent<PlayerBuffController>();
+        var enemyAI = target.GetComponent<AIBuffController>();
+
+        if (enemyPlayer != null)
+        {
+            enemyPlayer.ReceiveDamage(_PV.ViewID, info, transform.position);
+        }
+
+        if (enemyAI != null)
+        {
+            enemyAI.ReceiveDamage(_PV.ViewID, info, transform.position);
+        }
+
+        // add score
+        _playerStatsController.UpdateScore((int)info.damageAmount);
+        GameManager.gameManager.AddScoreUI(_playerNetworkController.playerID, (int)info.damageAmount);
+    }
+
+    [PunRPC]
+    void RPC_DealSpellDamage(int targetID, float dmgRatio, short whichSpell)
+    {
+        DamageInfo info = ((Weapon)ItemAssets.itemAssets.itemDic[whichSpell]).damageInfo;
         info.damageAmount *= dmgRatio;
 
         var target = PhotonView.Find(targetID).transform;
@@ -252,6 +279,7 @@ public class RPC_Player : MonoBehaviour
         }
     }
 
+    #region Spell
     [PunRPC]
     void RPC_ShowChannelingAnimation()
     {
@@ -270,21 +298,35 @@ public class RPC_Player : MonoBehaviour
     void RPC_BlinkSpell(Vector2 targetPos)
     {
         transform.position = targetPos;
+        _playerEffectController.BlinkEffect();
     }
 
     [PunRPC]
     void RPC_TornadoSpell(Vector2 targetPos)
     {
         // instantiate
-        var initPos = transform.position;
-        var pfTornado = Instantiate(ItemAssets.itemAssets.pfSpell_Tornado, initPos, Quaternion.identity);
-        pfTornado.parent = GameManager.gameManager.FXParent;
+        Vector2 initPos = transform.position;
+        var pfTornado = Instantiate(ItemAssets.itemAssets.pfSpell_Tornado, initPos + (targetPos - initPos) * 0.15f, Quaternion.identity, GameManager.gameManager.FXParent);
 
         // set fx controller
         var tornadoFX = pfTornado.GetComponent<TornadoFX>();
         tornadoFX.MoveTowards(initPos, targetPos);
         tornadoFX.Expire();
     }
+
+    [PunRPC]
+    void RPC_MeteorSpell(Vector2 targetPos)
+    {
+        // instantiate
+        var pfMeteor = Instantiate(ItemAssets.itemAssets.pfSpell_Meteor, targetPos, Quaternion.identity, GameManager.gameManager.FXParent);
+
+        // set fx controller
+        var spellMeteor = pfMeteor.GetComponent<SpellMeteor>();
+        spellMeteor.attackerPV = _PV;
+        spellMeteor.spellID = 18;
+        spellMeteor.explosiveRadius = 4.5f;
+    }
+    #endregion
 
     [PunRPC]
     void RPC_UseHealthPotion(int healingAmount)

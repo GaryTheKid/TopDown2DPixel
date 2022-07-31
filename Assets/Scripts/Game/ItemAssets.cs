@@ -39,6 +39,7 @@ public class ItemAssets : MonoBehaviour
     // prefab for spell
     [Header("Spell Prefabs")]
     public Transform pfSpell_Tornado;
+    public Transform pfSpell_Meteor;
 
     // prefab for item world
     [Header("ItemWorld Prefab")]
@@ -77,6 +78,7 @@ public class ItemAssets : MonoBehaviour
     public Sprite blinkScrollSprite;
     public Sprite stealthScrollSprite;
     public Sprite earthquakeScrollSprite;
+    public Sprite meteorStrikeScrollSprite;
     public Sprite meteorRainScrollSprite;
     public Sprite tornadoScrollSprite;
     public Sprite stormScrollSprite;
@@ -113,7 +115,8 @@ public class ItemAssets : MonoBehaviour
             { 14, new HEGrenade() },
             { 15, new ImpactGrenade() },
             { 16, new Scroll_Blink() },
-            { 17, new Scroll_Tornado() }
+            { 17, new Scroll_Tornado() },
+            { 18, new Scroll_MeteorStrike() },
         };
 
         projectileDic = new Dictionary<short, Projectile>{

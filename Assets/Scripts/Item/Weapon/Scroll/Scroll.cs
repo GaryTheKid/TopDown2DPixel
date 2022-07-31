@@ -18,7 +18,7 @@ public abstract class Scroll : Weapon
         castRange = 10f;
         castLinearWidth = 5f;
         castCircleRadius = 5f;
-        unleashCD = 0.5f;
+        unleashDelay = 0.5f;
     }
 
     public override bool IsStackable()

@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class CastIndicatorController : MonoBehaviour
 {
+    private const float INVALID_CAST_TEXT_DISPLAY_TIME = 3f;
+
     public Weapon.CastIndicatorType indicatorType;
+    public LayerMask invalidCastLayerMask;
+    public bool isCastValid;
+    [SerializeField] private GameObject invalidCastText;
     [SerializeField] private Transform indicator_point;
     [SerializeField] private Transform indicator_circle;
     [SerializeField] private Transform indicator_line;
+
+    private IEnumerator _co_showInvalidCastText;
 
     public void ActivateIndicator()
     {
@@ -35,6 +42,21 @@ public class CastIndicatorController : MonoBehaviour
         indicator_line.gameObject.SetActive(false);
     }
 
+    public void SetIndicator_Point()
+    {
+
+    }
+
+    public void SetIndicator_Line(float width, float range)
+    {
+        indicator_line.localScale = new Vector3(width, range, 1f);
+    }
+
+    public void SetIndicator_Circle()
+    {
+        
+    }
+
     public void PositionIndicator(Vector2 pos)
     {
         switch (indicatorType)
@@ -46,6 +68,7 @@ public class CastIndicatorController : MonoBehaviour
                 indicator_circle.position = pos;
                 break;
             case Weapon.CastIndicatorType.Line:
+                isCastValid = true;
                 Vector2 origin = transform.position;
                 Vector2 aimDir = (pos - origin).normalized;
                 var angle = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg - 90f;
@@ -53,5 +76,35 @@ public class CastIndicatorController : MonoBehaviour
                 indicator_line.eulerAngles = eular;
                 break;
         }
+    }
+
+    public void DisableInvalidCastText()
+    {
+        if (_co_showInvalidCastText != null)
+        {
+            StopCoroutine(_co_showInvalidCastText);
+            _co_showInvalidCastText = null;
+        }
+
+        invalidCastText.SetActive(false);
+    }
+
+    public void ShowInvalidCastText()
+    {
+        if (_co_showInvalidCastText != null)
+        {
+            StopCoroutine(_co_showInvalidCastText);
+            _co_showInvalidCastText = null;
+        }
+        _co_showInvalidCastText = Co_ShowInvalidCastText();
+        StartCoroutine(_co_showInvalidCastText);
+    }
+    IEnumerator Co_ShowInvalidCastText()
+    {
+        invalidCastText.SetActive(true);
+        yield return new WaitForSecondsRealtime(INVALID_CAST_TEXT_DISPLAY_TIME);
+        invalidCastText.SetActive(false);
+
+        _co_showInvalidCastText = null;
     }
 }

@@ -43,7 +43,7 @@ public class ExplosionFX : MonoBehaviour
         if (targetPV == null)
             return;
 
-        // calculate distance
+        // calculate distance       
         var distanceFromCenter = Vector2.Distance(target.position, transform.position);
 
         // tiers of dmg

@@ -8,6 +8,7 @@ public class CharacterSoundFX : MonoBehaviour
     [SerializeField] private AudioClip _speedBoost;
     [SerializeField] private AudioClip _beingDamaged;
     [SerializeField] private AudioClip _killFeedBack;
+    [SerializeField] private AudioClip _blink;
 
     private AudioSource _player;
 
@@ -34,5 +35,10 @@ public class CharacterSoundFX : MonoBehaviour
     public void KillFeedBack()
     {
         _player.PlayOneShot(_killFeedBack);
+    }
+
+    public void Blink()
+    {
+        _player.PlayOneShot(_blink);
     }
 }

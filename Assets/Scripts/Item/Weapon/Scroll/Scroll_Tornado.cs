@@ -8,38 +8,38 @@ public class Scroll_Tornado : Scroll
 {
     public Scroll_Tornado()
     {
-        itemName = "Blink Scroll";
+        itemName = "Scroll: Tornado";
         itemID = 17;
         amount = 1;
         itemType = ItemType.Scroll;
+        castText = "Summon Tornado";
         scollType = ScollType.Air;
         castTargetType = CastTargetType.Other;
         castIndicatorType = CastIndicatorType.Line;
         castTargetAmount = 1;
         castChannelTime = 1.5f;
         castChannelMovementSlotRate = 0.05f;
-        castRange = 10f;
+        castRange = 5f;
         castLinearWidth = 5f;
-        castCircleRadius = 5f;
-        unleashCD = 0.5f;
+        unleashDelay = 0.2f;
     }
 
     public Scroll_Tornado(short amount)
     {
-        itemName = "Blink Scroll";
+        itemName = "Scroll: Tornado";
         itemID = 17;
         this.amount = amount;
         itemType = ItemType.Scroll;
+        castText = "Summon Tornado";
         scollType = ScollType.Air;
         castTargetType = CastTargetType.Other;
         castIndicatorType = CastIndicatorType.Line;
         castTargetAmount = 1;
         castChannelTime = 1.5f;
         castChannelMovementSlotRate = 0.05f;
-        castRange = 10f;
+        castRange = 5f;
         castLinearWidth = 5f;
-        castCircleRadius = 5f;
-        unleashCD = 0.5f;
+        unleashDelay = 0.2f;
     }
 
     public override void Channel(PhotonView PV)

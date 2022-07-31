@@ -8,6 +8,7 @@ public struct DamageInfo
     public enum DamageType 
     {
         Physics,
+        Spell
     }
     public DamageType damageType;
     public float damageAmount;
@@ -53,13 +54,15 @@ public abstract class Weapon : Item, IEquipable
     }
     public CastTargetType castTargetType;
     public CastIndicatorType castIndicatorType;
+    public LayerMask invalidCastLayerMask;
+    public string castText;
     public short castTargetAmount;
     public float castChannelTime;
     public float castChannelMovementSlotRate;
     public float castRange;
     public float castLinearWidth;
     public float castCircleRadius;
-    public float unleashCD;
+    public float unleashDelay;
 
     // scroll
     public enum ScollType

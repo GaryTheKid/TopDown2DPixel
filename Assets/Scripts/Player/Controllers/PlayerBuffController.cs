@@ -18,7 +18,6 @@ public class PlayerBuffController : MonoBehaviour
     private Rigidbody2D _rb;
     private PhotonView _PV;
 
-    private IEnumerator speedBoost_Co;
     private IEnumerator invincible_Co;
 
     private void Awake()
@@ -103,13 +102,8 @@ public class PlayerBuffController : MonoBehaviour
             return;
         }
 
-        // check if hp overflow, add healing amount to hp
-        if (speedBoost_Co != null)
-        {
-            StopCoroutine(speedBoost_Co);
-        }
-        speedBoost_Co = Co_SpeedBoost(boostAmount, effectTime);
-        StartCoroutine(speedBoost_Co);
+        // speedBoost
+        StartCoroutine(Co_SpeedBoost(boostAmount, effectTime));
 
         // show the visual effect
         _effectController.SpeedBoostEffect(effectTime);
@@ -119,7 +113,6 @@ public class PlayerBuffController : MonoBehaviour
         _playerStats.baseSpeed += boostAmount;
         yield return new WaitForSecondsRealtime(effectTime);
         _playerStats.baseSpeed -= boostAmount;
-        speedBoost_Co = null;
     }
 
     public void Invincible(float effectTime)

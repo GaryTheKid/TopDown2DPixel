@@ -7,12 +7,12 @@ public class TornadoFX : MonoBehaviour
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _lifeTime;
     [SerializeField] private float _growSpeed;
-    [SerializeField] private Effector2D _effector;
-    [SerializeField] private Collider2D _collider;
+    [SerializeField] private AudioSource _soundFX;
 
     private void Start()
     {
         transform.localScale = new Vector3(0.3f, 0.3f, 1f);
+        _soundFX.Play();
     }
 
     private void Update()
@@ -21,18 +21,6 @@ public class TornadoFX : MonoBehaviour
         {
             var newScale = transform.localScale.x + Time.deltaTime * _growSpeed;
             transform.localScale = new Vector3(newScale, newScale, 1f);
-        }
-        else
-        {
-            if (_effector.enabled == false)
-            {
-                _effector.enabled = true;
-            }
-
-            if (_collider.enabled == false)
-            {
-                _collider.enabled = true;
-            }
         }
     }
 

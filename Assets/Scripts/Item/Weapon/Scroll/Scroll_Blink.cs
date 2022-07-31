@@ -8,38 +8,48 @@ public class Scroll_Blink : Scroll
 {
     public Scroll_Blink()
     {
-        itemName = "Blink Scroll";
+        itemName = "Scroll: Blink";
         itemID = 16;
         amount = 1;
         itemType = ItemType.Scroll;
+        castText = "Blink";
         scollType = ScollType.Light;
         castTargetType = CastTargetType.Self;
         castIndicatorType = CastIndicatorType.Point;
         castTargetAmount = 1;
         castChannelTime = 0.5f;
         castChannelMovementSlotRate = 0.8f;
-        castRange = 10f;
-        castLinearWidth = 5f;
-        castCircleRadius = 5f;
-        unleashCD = 0.5f;
+        unleashDelay = 0.5f;
+        invalidCastLayerMask = (1 << LayerMask.NameToLayer("Default")) |
+            (1 << LayerMask.NameToLayer("Water")) |
+            (1 << LayerMask.NameToLayer("Enemy")) |
+            (1 << LayerMask.NameToLayer("Deco")) |
+            (1 << LayerMask.NameToLayer("Map_Wall")) |
+            (1 << LayerMask.NameToLayer("Character")) |
+            (1 << LayerMask.NameToLayer("EnemyAI"));
     }
 
     public Scroll_Blink(short amount)
     {
-        itemName = "Blink Scroll";
+        itemName = "Scroll: Blink";
         itemID = 16;
         this.amount = amount;
         itemType = ItemType.Scroll;
+        castText = "Blink";
         scollType = ScollType.Light;
         castTargetType = CastTargetType.Self;
         castIndicatorType = CastIndicatorType.Point;
         castTargetAmount = 1;
         castChannelTime = 0.5f;
         castChannelMovementSlotRate = 0.8f;
-        castRange = 10f;
-        castLinearWidth = 5f;
-        castCircleRadius = 5f;
-        unleashCD = 0.5f;
+        unleashDelay = 0.5f;
+        invalidCastLayerMask = (1 << LayerMask.NameToLayer("Default")) |
+            (1 << LayerMask.NameToLayer("Water")) |
+            (1 << LayerMask.NameToLayer("Enemy")) |
+            (1 << LayerMask.NameToLayer("Deco")) |
+            (1 << LayerMask.NameToLayer("Map_Wall")) |
+            (1 << LayerMask.NameToLayer("Character")) |
+            (1 << LayerMask.NameToLayer("EnemyAI"));
     }
 
     public override void Channel(PhotonView PV)

@@ -21,6 +21,7 @@ public class PlayerEffectController : MonoBehaviour
     [SerializeField] private GameObject _shadow;
     [SerializeField] private CharacterSoundFX _characterSoundFX;
     [SerializeField] private GameObject _ghostRunFXAnimator;
+    [SerializeField] private GameObject _BlinkFX;
     [SerializeField] private ScreenFogMask _screenFogFX;
     [SerializeField] private Animator _avatarAnimator;
     [SerializeField] private CinemachineVirtualCamera _vCam;
@@ -152,6 +153,12 @@ public class PlayerEffectController : MonoBehaviour
     public void ScreenSmokeOff()
     {
         _screenFogFX.SetFogOff();
+    }
+
+    public void BlinkEffect()
+    {
+        _BlinkFX.SetActive(true);
+        _characterSoundFX.Blink();
     }
 
     public void DeathEffect()

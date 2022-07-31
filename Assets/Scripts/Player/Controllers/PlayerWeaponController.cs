@@ -10,6 +10,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using TMPro;
 using Utilities;
 using Photon.Pun;
 using ExitGames.Client.Photon;
@@ -27,6 +28,7 @@ public class PlayerWeaponController : MonoBehaviour
     public AudioSource fireFX;
     public CastIndicatorController castIndicatorController;
     public UI_ChannelingBar ui_ChannelingBar;
+    public TextMeshProUGUI castText;
     private PhotonView _PV;
     private Rigidbody2D _rb;
     private Inventory _inventory;
@@ -325,9 +327,20 @@ public class PlayerWeaponController : MonoBehaviour
                 // start channeling
                 if (_co_Cast == null && _co_Channel == null)
                 {
-                    // start charge coroutine
-                    _co_Channel = Co_Channeling();
-                    StartCoroutine(_co_Channel);
+                    // check if cast is valid
+                    if (!castIndicatorController.isCastValid)
+                    {
+                        castText.gameObject.SetActive(false);
+                        castIndicatorController.DeactivateIndicator();
+                        castIndicatorController.ShowInvalidCastText();
+                    }
+                    else
+                    {
+                        // start charge coroutine
+                        castIndicatorController.DisableInvalidCastText();
+                        _co_Channel = Co_Channeling();
+                        StartCoroutine(_co_Channel);
+                    }
                 }
                 break;
         }
@@ -497,7 +510,22 @@ public class PlayerWeaponController : MonoBehaviour
     private IEnumerator Co_Cast()
     {
         _isHolding = true;
+
+        // set cast text
+        castText.text = weapon.castText;
+        castText.gameObject.SetActive(true);
+
+        // set indicator
+        castIndicatorController.DisableInvalidCastText();
+        castIndicatorController.invalidCastLayerMask = weapon.invalidCastLayerMask;
         castIndicatorController.indicatorType = weapon.castIndicatorType;
+        switch (castIndicatorController.indicatorType)
+        {
+            case Weapon.CastIndicatorType.Line:
+                castIndicatorController.SetIndicator_Line(weapon.castLinearWidth, weapon.castRange);
+                break;
+
+        }
         castIndicatorController.ActivateIndicator();
 
         while (true)
@@ -516,6 +544,9 @@ public class PlayerWeaponController : MonoBehaviour
     // Coroutine: Weapon channel
     private IEnumerator Co_Channeling()
     {
+        // disable cast text
+        castText.gameObject.SetActive(false);
+
         // slow down movement during charge
         _playerStats.speedModifier = weapon.castChannelMovementSlotRate;
 
@@ -581,7 +612,7 @@ public class PlayerWeaponController : MonoBehaviour
             _playerInventoryController.UpdateItemDurability(-1);
 
         // wait cd
-        yield return new WaitForSecondsRealtime(weapon.unleashCD);
+        yield return new WaitForSecondsRealtime(weapon.unleashDelay);
 
         // unlock inventory after channeling
         _playerStats.isInventoryLocked = false;
