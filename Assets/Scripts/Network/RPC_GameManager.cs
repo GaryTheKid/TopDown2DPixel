@@ -13,6 +13,8 @@ using Utilities;
 
 public class RPC_GameManager : MonoBehaviour
 {
+    private const float LIGHT_UPDATE_SPEED = 2f;
+
     [PunRPC]
     void RPC_UpdatePlayerInfo(int viewID, string name)
     {
@@ -104,5 +106,37 @@ public class RPC_GameManager : MonoBehaviour
         itemWorld.Expire();
 
         obj.transform.position = pos;
+    }
+
+    [PunRPC]
+    void RPC_NightToDay()
+    {
+        StartCoroutine(Co_IncreaseGlobalLight());
+    }
+
+    [PunRPC]
+    void RPC_DayToNight()
+    {
+        StartCoroutine(Co_DecreaseGlobalLight());
+    }
+
+    IEnumerator Co_IncreaseGlobalLight()
+    {
+        while (GameManager.gameManager.globalLight.intensity < 1f)
+        {
+            GameManager.gameManager.globalLight.intensity += Time.deltaTime * LIGHT_UPDATE_SPEED;
+            yield return new WaitForEndOfFrame();
+        }
+        GameManager.gameManager.globalLight.intensity = 1f;
+    }
+
+    IEnumerator Co_DecreaseGlobalLight()
+    {
+        while (GameManager.gameManager.globalLight.intensity > 0f)
+        {
+            GameManager.gameManager.globalLight.intensity -= Time.deltaTime * LIGHT_UPDATE_SPEED;
+            yield return new WaitForEndOfFrame();
+        }
+        GameManager.gameManager.globalLight.intensity = 0f;
     }
 }

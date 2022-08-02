@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Rendering.Universal;
 using Photon.Pun;
 using Photon.Realtime;
 using NetworkCalls;
@@ -28,6 +29,16 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     // scoreboard
     public RectTransform scoreboardTemplate;
+
+    // day-night cycle
+    public Light2D globalLight;
+    public float dayLength;
+    public enum DayNight
+    {
+        Day,
+        Night
+    }
+    public DayNight dayNight;
 
     // spawns
     [Header("Spawn")]
@@ -84,6 +95,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     // timer
     [Header("Timer")]
     public float timer;
+    public float dayNightTimer;
     public float lootBoxSpawnTimer;
     public float aiSpawnTimer;
 
@@ -99,10 +111,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         SpawnPlayerCharacter();
 
         // Debug Items
-        SpawnItem(itemSpawns[1].position, 7, 5, 1);
+        SpawnItem(itemSpawns[1].position, 16, 1, 5);
+        SpawnItem(itemSpawns[1].position, 17, 1, 5);
+        SpawnItem(itemSpawns[1].position, 18, 1, 5);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         // must be master client
         if (!PhotonNetwork.IsMasterClient)
@@ -112,26 +126,28 @@ public class GameManager : MonoBehaviourPunCallbacks
         ping.text = PhotonNetwork.GetPing().ToString() + "ms";
 
         // running timers
-        timer += Time.fixedDeltaTime;
+        timer += Time.deltaTime;
 
-        // stop spawning loot box if reach max
-        if (ObjectPool.objectPool.isAllLootBoxActive)
-            return;
-
-        // spawn loot box randomly
-        lootBoxSpawnTimer += Time.fixedDeltaTime;
-        if (lootBoxSpawnTimer >= lootBoxSpawnWaveTimeStep)
+        // day-night cycle
+        dayNightTimer += Time.deltaTime;
+        if (dayNightTimer >= dayLength)
         {
-            // spawn loot boxes randomly
-            for (int i = 0; i < lootBoxSpawnQuantity; i++)
+            switch (dayNight)
             {
-                SpawnLootBoxRandomly();
+                case DayNight.Day:
+                    DayToNight();
+                    dayNight = DayNight.Night;
+                    break;
+                case DayNight.Night:
+                    NightToDay();
+                    dayNight = DayNight.Day;
+                    break;
             }
-            lootBoxSpawnTimer = 0f;
+            dayNightTimer = 0f;
         }
 
         // spawn ai randomly
-        aiSpawnTimer += Time.fixedDeltaTime;
+        aiSpawnTimer += Time.deltaTime;
         if (aiSpawnTimer >= aiSpawnWaveTimeStep)
         {
             // spawn loot boxes randomly
@@ -141,7 +157,31 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             aiSpawnTimer = 0f;
         }
+
+        // spawn loot box randomly
+        lootBoxSpawnTimer += Time.deltaTime;
+        if (!ObjectPool.objectPool.isAllLootBoxActive && lootBoxSpawnTimer >= lootBoxSpawnWaveTimeStep)
+        {
+            // spawn loot boxes randomly
+            for (int i = 0; i < lootBoxSpawnQuantity; i++)
+            {
+                SpawnLootBoxRandomly();
+            }
+            lootBoxSpawnTimer = 0f;
+        }
     }
+
+    #region Day-Night Cycle
+    private void NightToDay()
+    {
+        Game_Network.NightToDay(PV);
+    }
+
+    private void DayToNight()
+    {
+        Game_Network.DayToNight(PV);
+    }
+    #endregion
 
     #region Character
     private void SpawnPlayerCharacter()

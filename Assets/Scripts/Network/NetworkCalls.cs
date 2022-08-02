@@ -39,6 +39,16 @@ namespace NetworkCalls
         {
             PV.RPC("RPC_DropItemWorld", RpcTarget.AllBuffered, requestedAIIndex, forceDir, pos, itemID, amount, durability);
         }
+
+        public static void DayToNight(PhotonView PV)
+        {
+            PV.RPC("RPC_DayToNight", RpcTarget.AllBuffered);
+        }
+
+        public static void NightToDay(PhotonView PV)
+        {
+            PV.RPC("RPC_NightToDay", RpcTarget.AllBuffered);
+        }
     }
 
     public class AI_NetWork
