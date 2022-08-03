@@ -17,6 +17,7 @@ public class PlayerEffectController : MonoBehaviour
     [SerializeField] private Transform _hpBarParent;
     [SerializeField] private Image _hpBar;
     [SerializeField] private Image _ui_hpBar;
+    [SerializeField] private Image _ui_expBar;
     [SerializeField] private GameObject _ring;
     [SerializeField] private GameObject _shadow;
     [SerializeField] private CharacterSoundFX _characterSoundFX;
@@ -26,7 +27,10 @@ public class PlayerEffectController : MonoBehaviour
     [SerializeField] private Animator _avatarAnimator;
     [SerializeField] private CinemachineVirtualCamera _vCam;
     [SerializeField] private GameObject _popTextTemplate;
-    [SerializeField] private MMF_Player mmf_hp;
+    [SerializeField] private MMF_Player mmf_receiveDamage;
+    [SerializeField] private MMF_Player mmf_receiveHealing;
+    [SerializeField] private MMF_Player mmf_updateExp;
+    [SerializeField] private MMF_Player mmf_levelUp;
 
     private PhotonView _PV;
     private Rigidbody2D _rb;
@@ -98,20 +102,24 @@ public class PlayerEffectController : MonoBehaviour
         _rb.AddForce(knockBackDir, ForceMode2D.Impulse);
 
         // feedback effect
+        mmf_receiveDamage.GetFeedbackOfType<MMF_TMPText>().NewText = (hpBeforeChange - dmgAmount).ToString();
         var end = (float)(hpBeforeChange - dmgAmount) / (float)maxHp;
-        foreach (var feedBack in mmf_hp.GetFeedbacksOfType<MMF_ImageFill>())
+        foreach (var feedBack in mmf_receiveDamage.GetFeedbacksOfType<MMF_ImageFill>())
         {
             feedBack.DestinationFill = end;
         }
-        mmf_hp.PlayFeedbacks();
+        mmf_receiveDamage.PlayFeedbacks();
 
         // adjust hp bar
         _hpBar.fillAmount = end;
         _ui_hpBar.fillAmount = end;
     }
 
-    public void ReceiveHealingEffect(int healingAmount, int currHP, int maxHP)
+    public void ReceiveHealingEffect(int healingAmount, int currHP, int maxHp)
     {
+        // play sound fx
+        _characterSoundFX.ReceiveHealing();
+
         // pop up text
         GameObject popText = Instantiate(_popTextTemplate, _popTextTemplate.transform.position, Quaternion.identity, _popTextTemplate.transform.parent);
         UI_PopText ui_popText = popText.GetComponent<UI_PopText>();
@@ -119,10 +127,46 @@ public class PlayerEffectController : MonoBehaviour
         ui_popText.textType = UI_PopText.TextType.Heal;
         popText.SetActive(true);
 
+        // feedback effect
+        mmf_receiveHealing.GetFeedbackOfType<MMF_TMPText>().NewText = currHP.ToString();
+        var end = (float)currHP / (float)maxHp;
+        foreach (var feedBack in mmf_receiveHealing.GetFeedbacksOfType<MMF_ImageFill>())
+        {
+            feedBack.DestinationFill = end;
+        }
+        mmf_receiveHealing.PlayFeedbacks();
+
         // adjust hp bar
-        var fillAmount = (float)currHP / (float)maxHP;
-        _hpBar.fillAmount = fillAmount;
-        _ui_hpBar.fillAmount = fillAmount;
+        _hpBar.fillAmount = end;
+        _ui_hpBar.fillAmount = end;
+    }
+
+    public void UpdateExpEffect(int expDelta, int currExp, int maxExp)
+    {
+        /*// pop up text
+        GameObject popText = Instantiate(_popTextTemplate, _popTextTemplate.transform.position, Quaternion.identity, _popTextTemplate.transform.parent);
+        UI_PopText ui_popText = popText.GetComponent<UI_PopText>();
+        ui_popText.textAmount = expDelta;
+        ui_popText.textType = UI_PopText.TextType.Heal;
+        popText.SetActive(true);*/
+
+        // feedback effect
+        mmf_updateExp.GetFeedbackOfType<MMF_TMPText>().NewText = currExp.ToString();
+        var end = (float)currExp / (float)maxExp;
+        foreach (var feedBack in mmf_updateExp.GetFeedbacksOfType<MMF_ImageFill>())
+        {
+            feedBack.DestinationFill = end;
+        }
+        mmf_updateExp.PlayFeedbacks();
+
+        // adjust exp bar
+        _ui_expBar.fillAmount = end;
+    }
+
+    public void LevelUpEffect(short newLevel)
+    {
+        mmf_levelUp.GetFeedbackOfType<MMF_TMPText>().NewText = "lv. " + newLevel.ToString();
+        mmf_levelUp.PlayFeedbacks();
     }
 
     public void SpeedBoostEffect(float effectTime)

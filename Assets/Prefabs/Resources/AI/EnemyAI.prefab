@@ -1706,7 +1706,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5807756422305851624, guid: 72893545478bfab4493cd4417f3d1181, type: 2}
+  - {fileID: -587428312103402540, guid: 79f12ffe1ee72e043806eb8b10098cde, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1750,15 +1750,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: 20
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 72893545478bfab4493cd4417f3d1181, type: 2}
-  m_sharedMaterial: {fileID: 5807756422305851624, guid: 72893545478bfab4493cd4417f3d1181, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 79f12ffe1ee72e043806eb8b10098cde, type: 2}
+  m_sharedMaterial: {fileID: -587428312103402540, guid: 79f12ffe1ee72e043806eb8b10098cde, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4279435008
-  m_fontColor: {r: 0, g: 1, b: 0.071677685, a: 1}
+    rgba: 4278201056
+  m_fontColor: {r: 0.8773585, g: 0.16478644, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1775,13 +1775,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 4
-  m_fontSizeBase: 4
+  m_fontSize: 5
+  m_fontSizeBase: 5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 2
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -1817,8 +1817,8 @@ MonoBehaviour:
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 241597599786832842}
+  m_hasFontAssetChanged: 1
+  m_renderer: {fileID: 0}
   m_maskType: 0
 --- !u!114 &902206644130149808
 MonoBehaviour:
@@ -1834,7 +1834,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textType: 0
   textAmount: 0
-  damageTextColor: {r: 0.9254902, g: 0.3578344, b: 0, a: 1}
+  damageTextColor: {r: 0.8784314, g: 0.16470589, b: 0, a: 1}
   HealTextColor: {r: 0, g: 1, b: 0.07450981, a: 1}
   activationTime: 0.2
   fadingTime: 0.5

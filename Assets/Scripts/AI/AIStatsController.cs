@@ -13,6 +13,7 @@ public class AIStats
     public bool isWeaponLocked;
     public int maxHp;
     public int hp;
+    public int expWorth;
     public float baseSpeed;
     public float speedModifier;
 
@@ -24,6 +25,7 @@ public class AIStats
         isWeaponLocked = false;
         maxHp = 50;
         hp = 50;
+        expWorth = 10;
         baseSpeed = 27f;
         speedModifier = 1f;
     }

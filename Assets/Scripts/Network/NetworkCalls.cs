@@ -339,6 +339,14 @@ namespace NetworkCalls
             }
         }
 
+        public static void LevelUp(PhotonView PV, short newLevel)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_LevelUp", RpcTarget.AllBuffered, newLevel);
+            }
+        }
+
         public static void Die(PhotonView PV)
         {
             if (PV.IsMine)

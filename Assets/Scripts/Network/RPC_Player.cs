@@ -50,6 +50,17 @@ public class RPC_Player : MonoBehaviour
         GameManager.gameManager.DestroyScoreBoardTag(playerID);
     }
 
+    [PunRPC]
+    void RPC_LevelUp(short newLevel)
+    {
+        _playerEffectController.LevelUpEffect(newLevel);
+
+        // TODO: update player stats; perk system!!!!
+
+
+
+    }
+
     [PunRPC] 
     void RPC_Die()
     {

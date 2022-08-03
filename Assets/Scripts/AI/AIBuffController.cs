@@ -47,7 +47,9 @@ public class AIBuffController : MonoBehaviour
         _statsController.UpdateHP(-dmg, out bool isKilled);
 
         // giving the attacker hit feedback
-        var attackerEffectController = PhotonView.Find(attackerID).transform.GetComponent<PlayerEffectController>();
+        var attacker = PhotonView.Find(attackerID).transform;
+        var attackerEffectController = attacker.GetComponent<PlayerEffectController>();
+        var attackerStatsController = attacker.GetComponent<PlayerStatsController>();
         if (attackerEffectController != null)
         {
             // combo indicator
@@ -57,6 +59,8 @@ public class AIBuffController : MonoBehaviour
             if (isKilled)
             {
                 attackerEffectController.MultiKillEffect();
+                if (attackerStatsController != null)
+                    attackerStatsController.UpdateExp(_aiStats.expWorth);
             }
         }
 

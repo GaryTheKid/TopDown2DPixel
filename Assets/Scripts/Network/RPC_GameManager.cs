@@ -13,7 +13,7 @@ using Utilities;
 
 public class RPC_GameManager : MonoBehaviour
 {
-    private const float LIGHT_UPDATE_SPEED = 2f;
+    private const float LIGHT_UPDATE_SPEED = 0.8f;
 
     [PunRPC]
     void RPC_UpdatePlayerInfo(int viewID, string name)

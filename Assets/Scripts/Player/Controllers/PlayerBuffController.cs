@@ -33,7 +33,7 @@ public class PlayerBuffController : MonoBehaviour
     public void ReceiveDamage(int attackerID, DamageInfo damageInfo, Vector3 attackerPos)
     {
         // check if player is dead
-        if (_playerStats.isDead)
+        if (_playerStats.isDead || _playerStats.hp <= 0)
         {
             Debug.Log("Player is dead, can't receive damage!");
             return;
@@ -60,7 +60,9 @@ public class PlayerBuffController : MonoBehaviour
         _statsController.UpdateHP(-dmg, out bool isKilled);
 
         // giving the attacker hit feedback
-        var attackerEffectController = PhotonView.Find(attackerID).transform.GetComponent<PlayerEffectController>();
+        var attacker = PhotonView.Find(attackerID).transform;
+        var attackerEffectController = attacker.GetComponent<PlayerEffectController>();
+        var attackerStatsController = attacker.GetComponent<PlayerStatsController>();
         if (attackerEffectController != null)
         {
             // combo indicator
@@ -70,6 +72,8 @@ public class PlayerBuffController : MonoBehaviour
             if (isKilled && _PV.ViewID != attackerID)
             {
                 attackerEffectController.MultiKillEffect();
+                if (attackerStatsController != null)
+                    attackerStatsController.UpdateExp(_playerStats.expWorth);
             }
         }
         
@@ -85,6 +89,8 @@ public class PlayerBuffController : MonoBehaviour
             Debug.Log("Player is dead, can't receive healing!");
             return;
         }
+
+        var hpBeforeChange = _playerStats.hp;
 
         // check if hp overflow, add healing amount to hp
         _statsController.UpdateHP(healingAmount, out bool isKilled);

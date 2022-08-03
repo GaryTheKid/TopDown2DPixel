@@ -9,6 +9,7 @@ public class CharacterSoundFX : MonoBehaviour
     [SerializeField] private AudioClip _beingDamaged;
     [SerializeField] private AudioClip _killFeedBack;
     [SerializeField] private AudioClip _blink;
+    [SerializeField] private AudioClip _receiveHealing;
 
     private AudioSource _player;
 
@@ -40,5 +41,10 @@ public class CharacterSoundFX : MonoBehaviour
     public void Blink()
     {
         _player.PlayOneShot(_blink);
+    }
+
+    public void ReceiveHealing()
+    {
+        _player.PlayOneShot(_receiveHealing);
     }
 }

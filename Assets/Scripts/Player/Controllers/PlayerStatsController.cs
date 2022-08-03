@@ -1,11 +1,11 @@
-/* Last Edition: 05/28/2022
+/* Last Edition: 08/02/2022
  * Author: Chongyang Wang
  * Collaborators: 
  * 
  * Description: 
  *   The stats controller that holds all player stats 
  * Last Edition:
- *   Just Created.
+ *   Add exp, level up.
  */
 using System;
 using System.Collections;
@@ -25,6 +25,10 @@ public class PlayerStats
     public bool isWeaponLocked;
     public int maxHp;
     public int hp;
+    public int maxExp;
+    public int exp;
+    public short level;
+    public int expWorth;
     public float baseSpeed;
     public float speedModifier;
     public int score;
@@ -38,6 +42,10 @@ public class PlayerStats
         isWeaponLocked = false;
         maxHp = 100;
         hp = 100;
+        maxExp = 100;
+        exp = 0;
+        level = 1;
+        expWorth = 50;
         baseSpeed = 30f;
         speedModifier = 1f;
         score = 0;
@@ -51,10 +59,12 @@ public class PlayerStatsController : MonoBehaviour
     public UnityEvent OnRespawn;
 
     private PhotonView _PV;
+    private PlayerEffectController _playerEffectController;
 
     private void Awake()
     {
         _PV = GetComponent<PhotonView>();
+        _playerEffectController = GetComponent<PlayerEffectController>();
 
         GetComponent<PlayerInputActions>().inputActions.Player.Respawn.performed += Respawn;
     }
@@ -93,6 +103,29 @@ public class PlayerStatsController : MonoBehaviour
             
     }
 
+    // update hp after receive damage or healing
+    public void UpdateExp(int deltaExp)
+    {
+        // receive dmg
+        if (deltaExp < 0)
+            return;
+
+        int totalExp = playerStats.exp + deltaExp;
+
+        // check if level up
+        while (totalExp >= playerStats.maxExp)
+        {
+            totalExp -= playerStats.maxExp;
+            LevelUp();
+        }
+
+        // add leftover exp
+        playerStats.exp = totalExp;
+
+        // show visual
+        _playerEffectController.UpdateExpEffect(deltaExp, playerStats.exp, playerStats.maxExp);
+    }
+
     // update player score
     public void UpdateScore(int deltaScore)
     {
@@ -103,6 +136,15 @@ public class PlayerStatsController : MonoBehaviour
     public float GetCurrentSpeed()
     {
         return playerStats.baseSpeed * playerStats.speedModifier;
+    }
+
+    // level up
+    public void LevelUp()
+    {
+        playerStats.level++;
+
+        // show visual
+        NetworkCalls.Player_NetWork.LevelUp(_PV, playerStats.level);
     }
 
     // death coroutine
