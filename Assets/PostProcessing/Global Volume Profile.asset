@@ -110,28 +110,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b2db86121404754db890f4c8dfe81b2, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 0.9
+    m_Value: 0.71
   intensity:
     m_OverrideState: 1
-    m_Value: 0.9
+    m_Value: 0.13
   scatter:
-    m_OverrideState: 0
-    m_Value: 0.7
+    m_OverrideState: 1
+    m_Value: 0.119
   clamp:
     m_OverrideState: 0
     m_Value: 65472
   tint:
     m_OverrideState: 1
-    m_Value: {r: 0.9716981, g: 0.8472336, b: 0.55612904, a: 1}
+    m_Value: {r: 0.99999744, g: 1, b: 0.9685534, a: 1}
   highQualityFiltering:
     m_OverrideState: 0
     m_Value: 0
   skipIterations:
     m_OverrideState: 0
-    m_Value: 1
+    m_Value: 0
   dirtTexture:
     m_OverrideState: 0
     m_Value: {fileID: 0}

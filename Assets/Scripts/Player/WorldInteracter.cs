@@ -32,6 +32,12 @@ public class WorldInteracter : MonoBehaviour
         _PV = GetComponentInParent<PhotonView>();
     }
 
+    private void OnDisable()
+    {
+        // turn off smoke
+        GetComponentInParent<PlayerEffectController>().ScreenSmokeOff();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!_PV.IsMine)
@@ -99,6 +105,9 @@ public class WorldInteracter : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (!gameObject.activeInHierarchy)
+            return;
+
         if (!_PV.IsMine)
             return;
 

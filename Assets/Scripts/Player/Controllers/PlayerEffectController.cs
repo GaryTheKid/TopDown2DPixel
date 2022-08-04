@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Cinemachine;
 using MoreMountains.Feedbacks;
 using Photon.Pun;
+using TMPro;
 
 public class PlayerEffectController : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class PlayerEffectController : MonoBehaviour
     [SerializeField] private Transform _hpBarParent;
     [SerializeField] private Image _hpBar;
     [SerializeField] private Image _ui_hpBar;
+    [SerializeField] private TextMeshProUGUI _ui_hpText;
+    [SerializeField] private TextMeshProUGUI _ui_hpMaxText;
+    [SerializeField] private TextMeshProUGUI _ui_expMaxText;
     [SerializeField] private Image _ui_expBar;
     [SerializeField] private GameObject _ring;
     [SerializeField] private GameObject _shadow;
@@ -81,7 +85,15 @@ public class PlayerEffectController : MonoBehaviour
         _characterSoundFX.ConsumePotion();
     }
 
-    public void ReceiveDamageEffect(int maxHp, int hpBeforeChange, int dmgAmount, Vector3 attackerPos, float knockBackDist)
+    public void KnockbackEffect(Vector3 attackerPos, float knockBackDist)
+    {
+        // knock back: apply impulse force attacker -> player
+        Vector3 myPos = transform.position;
+        Vector2 knockBackDir = new Vector2(myPos.x - attackerPos.x, myPos.x - attackerPos.x).normalized * knockBackDist;
+        _rb.AddForce(knockBackDir, ForceMode2D.Impulse);
+    }
+
+    public void ReceiveDamageEffect(int dmgAmount, int currHp, int maxHp)
     {
         // play sound fx
         _characterSoundFX.BeingDamaged();
@@ -96,14 +108,12 @@ public class PlayerEffectController : MonoBehaviour
         ui_popText.textType = UI_PopText.TextType.Damage;
         popText.SetActive(true);
 
-        // knock back: apply impulse force attacker -> player
-        Vector3 myPos = transform.position;
-        Vector2 knockBackDir = new Vector2(myPos.x - attackerPos.x, myPos.x - attackerPos.x).normalized * knockBackDist;
-        _rb.AddForce(knockBackDir, ForceMode2D.Impulse);
-
         // feedback effect
-        mmf_receiveDamage.GetFeedbackOfType<MMF_TMPText>().NewText = (hpBeforeChange - dmgAmount).ToString();
-        var end = (float)(hpBeforeChange - dmgAmount) / (float)maxHp;
+        var updatedHp = currHp + dmgAmount;
+        if (updatedHp < 0)
+            updatedHp = 0;
+        mmf_receiveDamage.GetFeedbackOfType<MMF_TMPText>().NewText = updatedHp.ToString();
+        var end = (float)updatedHp / (float)maxHp;
         foreach (var feedBack in mmf_receiveDamage.GetFeedbacksOfType<MMF_ImageFill>())
         {
             feedBack.DestinationFill = end;
@@ -128,8 +138,11 @@ public class PlayerEffectController : MonoBehaviour
         popText.SetActive(true);
 
         // feedback effect
-        mmf_receiveHealing.GetFeedbackOfType<MMF_TMPText>().NewText = currHP.ToString();
-        var end = (float)currHP / (float)maxHp;
+        var updatedHp = currHP + healingAmount;
+        if (updatedHp > maxHp)
+            updatedHp = maxHp;
+        mmf_receiveHealing.GetFeedbackOfType<MMF_TMPText>().NewText = updatedHp.ToString();
+        var end = (float)updatedHp / (float)maxHp;
         foreach (var feedBack in mmf_receiveHealing.GetFeedbacksOfType<MMF_ImageFill>())
         {
             feedBack.DestinationFill = end;
@@ -139,6 +152,15 @@ public class PlayerEffectController : MonoBehaviour
         // adjust hp bar
         _hpBar.fillAmount = end;
         _ui_hpBar.fillAmount = end;
+    }
+
+    public void UpdateMaxHPEffect(int currentHp, int newMaxHP)
+    {
+        _ui_hpText.text = currentHp.ToString();
+        _ui_hpMaxText.text = newMaxHP.ToString();
+        var newFillAmount = (float)currentHp / (float)newMaxHP;
+        _ui_hpBar.fillAmount = newFillAmount;
+        _hpBar.fillAmount = newFillAmount;
     }
 
     public void UpdateExpEffect(int expDelta, int currExp, int maxExp)
@@ -161,6 +183,12 @@ public class PlayerEffectController : MonoBehaviour
 
         // adjust exp bar
         _ui_expBar.fillAmount = end;
+    }
+
+    public void UpdateMaxExpEffect(int currentHp, int newMaxExp)
+    {
+        _ui_expMaxText.text = newMaxExp.ToString();
+        _ui_expBar.fillAmount = (float)currentHp / (float)newMaxExp;
     }
 
     public void LevelUpEffect(short newLevel)

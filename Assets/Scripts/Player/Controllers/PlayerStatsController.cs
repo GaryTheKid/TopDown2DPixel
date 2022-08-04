@@ -42,10 +42,10 @@ public class PlayerStats
         isWeaponLocked = false;
         maxHp = 100;
         hp = 100;
-        maxExp = 100;
+        maxExp = 50;
         exp = 0;
         level = 1;
-        expWorth = 50;
+        expWorth = 30;
         baseSpeed = 30f;
         speedModifier = 1f;
         score = 0;
@@ -54,6 +54,25 @@ public class PlayerStats
 
 public class PlayerStatsController : MonoBehaviour
 {
+    private const int BASE_EXP = 50;
+    private const int BASE_WORTH_EXP = 30;
+    private const int BASE_HP = 100;
+
+    public static int GetMaxHpBasedOnLevel(short level)
+    {
+        return BASE_HP + level * 10 + 2 * level * level;
+    }
+
+    public static int GetMaxExpBasedOnLevel(short level)
+    {
+        return BASE_EXP + level * 30 + 5 * level * level;
+    }
+
+    public static int GetWorthExpBasedOnLevel(short level)
+    {
+        return BASE_WORTH_EXP + level * 30 + 2 * level * level;
+    }
+
     public PlayerStats playerStats = new PlayerStats();
     public UnityEvent OnDeath;
     public UnityEvent OnRespawn;
@@ -65,7 +84,6 @@ public class PlayerStatsController : MonoBehaviour
     {
         _PV = GetComponent<PhotonView>();
         _playerEffectController = GetComponent<PlayerEffectController>();
-
         GetComponent<PlayerInputActions>().inputActions.Player.Respawn.performed += Respawn;
     }
 
@@ -73,6 +91,7 @@ public class PlayerStatsController : MonoBehaviour
     public void RestoreFullHp()
     {
         playerStats.hp = playerStats.maxHp;
+        _playerEffectController.ReceiveHealingEffect(playerStats.maxHp, playerStats.hp, playerStats.maxHp);
     }
 
     // update hp after receive damage or healing
@@ -82,6 +101,8 @@ public class PlayerStatsController : MonoBehaviour
         if (deltaHP < 0)
         {
             Debug.Log("Hp " + deltaHP);
+            _playerEffectController.ReceiveDamageEffect(deltaHP, playerStats.hp, playerStats.maxHp);
+
             playerStats.hp = playerStats.hp + deltaHP >= 0 ?
                 playerStats.hp + deltaHP : 0;
         }
@@ -89,6 +110,8 @@ public class PlayerStatsController : MonoBehaviour
         else
         {
             Debug.Log("HP +" + deltaHP);
+            _playerEffectController.ReceiveHealingEffect(deltaHP, playerStats.hp, playerStats.maxHp);
+            
             playerStats.hp = playerStats.hp + deltaHP <= playerStats.maxHp ?
                 playerStats.hp + deltaHP : playerStats.maxHp;
         }
@@ -103,10 +126,22 @@ public class PlayerStatsController : MonoBehaviour
             
     }
 
+    // update the max Hp
+    public void UpdateMaxHP(int deltaHPMax)
+    {
+        if (deltaHPMax < 0)
+            return;
+
+        playerStats.hp += deltaHPMax;
+        playerStats.maxHp += deltaHPMax;
+
+        // show visual
+        _playerEffectController.UpdateMaxHPEffect(playerStats.hp, playerStats.maxHp);
+    }
+
     // update hp after receive damage or healing
     public void UpdateExp(int deltaExp)
     {
-        // receive dmg
         if (deltaExp < 0)
             return;
 
@@ -126,6 +161,27 @@ public class PlayerStatsController : MonoBehaviour
         _playerEffectController.UpdateExpEffect(deltaExp, playerStats.exp, playerStats.maxExp);
     }
 
+    // update the max exp for leveling up
+    public void UpdateMaxExp(int deltaExpMax)
+    {
+        if (deltaExpMax < 0)
+            return;
+
+        playerStats.maxExp += deltaExpMax;
+
+        // show visual
+        _playerEffectController.UpdateMaxExpEffect(playerStats.exp, playerStats.maxExp);
+    }
+
+    // update player's worth exp once level up
+    public void UpdateWorthExp(int deltaExpWorth)
+    {
+        if (deltaExpWorth < 0)
+            return;
+
+        playerStats.expWorth += deltaExpWorth;
+    }
+
     // update player score
     public void UpdateScore(int deltaScore)
     {
@@ -141,7 +197,7 @@ public class PlayerStatsController : MonoBehaviour
     // level up
     public void LevelUp()
     {
-        playerStats.level++;
+        playerStats.level += 1;
 
         // show visual
         NetworkCalls.Player_NetWork.LevelUp(_PV, playerStats.level);

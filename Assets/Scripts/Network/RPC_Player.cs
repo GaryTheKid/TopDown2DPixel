@@ -54,11 +54,10 @@ public class RPC_Player : MonoBehaviour
     void RPC_LevelUp(short newLevel)
     {
         _playerEffectController.LevelUpEffect(newLevel);
-
-        // TODO: update player stats; perk system!!!!
-
-
-
+        _playerStatsController.UpdateMaxExp(PlayerStatsController.GetMaxExpBasedOnLevel(newLevel) - _playerStatsController.playerStats.maxExp);
+        _playerStatsController.UpdateMaxHP(PlayerStatsController.GetMaxHpBasedOnLevel(newLevel) - _playerStatsController.playerStats.maxHp);
+        _playerStatsController.UpdateWorthExp(PlayerStatsController.GetWorthExpBasedOnLevel(newLevel) - _playerStatsController.playerStats.expWorth);
+        // TODO: perk system!!!!
     }
 
     [PunRPC] 

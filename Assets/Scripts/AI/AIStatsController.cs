@@ -62,14 +62,12 @@ public class AIStatsController : MonoBehaviour
         // receive dmg
         if (deltaHP < 0)
         {
-            Debug.Log("Hp " + deltaHP);
             aiStats.hp = aiStats.hp + deltaHP >= 0 ?
                 aiStats.hp + deltaHP : 0;
         }
         // receive healing
         else
         {
-            Debug.Log("HP +" + deltaHP);
             aiStats.hp = aiStats.hp + deltaHP <= aiStats.maxHp ?
                 aiStats.hp + deltaHP : aiStats.maxHp;
         }

@@ -27,7 +27,8 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _ui_CastText;
     [SerializeField] private GameObject _castIndicators;
     [SerializeField] private SpriteRenderer _ringSprite;
-    [SerializeField] private MMF_Player _mmf_hp;
+    [SerializeField] private MMF_Player _mmf_ReceiveDamage;
+    [SerializeField] private MMF_Player _mmf_ReceiveHealing;
     [SerializeField] private Image _hpBar;
     [SerializeField] private Gradient _enemyHpBarGradient;
     [SerializeField] private UnityEngine.Rendering.Universal.Light2D _characterLight;
@@ -59,7 +60,8 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
             transform.parent = GameManager.gameManager.spawnedPlayerParent;
             _ringSprite.color = Color.red;
             _hpBar.color = Color.red;
-            _mmf_hp.GetFeedbackOfType<MMF_Image>().ColorOverTime = _enemyHpBarGradient;
+            _mmf_ReceiveDamage.GetFeedbackOfType<MMF_Image>().ColorOverTime = _enemyHpBarGradient;
+            _mmf_ReceiveHealing.GetFeedbackOfType<MMF_Image>().ColorOverTime = _enemyHpBarGradient;
             _characterLight.color = Color.red;
         }
         else 

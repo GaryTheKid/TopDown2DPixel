@@ -53,8 +53,6 @@ public class PlayerBuffController : MonoBehaviour
 
         // convert dmg to int
         var dmg = Convert.ToInt32(damageInfo.damageAmount);
-        var hpBeforeChange = _playerStats.hp;
-        var maxHp = _playerStats.maxHp;
 
         // check if damage overflow, minus damage amount from hp
         _statsController.UpdateHP(-dmg, out bool isKilled);
@@ -76,9 +74,9 @@ public class PlayerBuffController : MonoBehaviour
                     attackerStatsController.UpdateExp(_playerStats.expWorth);
             }
         }
-        
-        // show the visual effect
-        _effectController.ReceiveDamageEffect(maxHp, hpBeforeChange, dmg, attackerPos, damageInfo.KnockBackDist);
+
+        // show knock back effect
+        _effectController.KnockbackEffect(attackerPos, damageInfo.KnockBackDist);
     }
 
     public void ReceiveHealing(int healingAmount)
@@ -94,9 +92,6 @@ public class PlayerBuffController : MonoBehaviour
 
         // check if hp overflow, add healing amount to hp
         _statsController.UpdateHP(healingAmount, out bool isKilled);
-
-        // show the visual effect
-        _effectController.ReceiveHealingEffect(healingAmount, _playerStats.hp, _playerStats.maxHp);
     }
 
     public void SpeedBoost(float boostAmount, float effectTime)
