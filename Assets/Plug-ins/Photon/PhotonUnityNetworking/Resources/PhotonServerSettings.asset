@@ -87,6 +87,10 @@ MonoBehaviour:
   - RPC_DayToNight
   - RPC_NightToDay
   - RPC_LevelUp
+  - RPC_ChangeWeather
+  - RPC_TeleportFunctioning
+  - RPC_TeleportPrepare
+  - RPC_TeleportReset
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

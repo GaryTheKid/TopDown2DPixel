@@ -35,6 +35,12 @@ public class ExplosionFX : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void TurnOffParentBehaviors()
+    {
+        _parent.GetComponent<TrailRenderer>().enabled = false;
+        _parent.GetComponent<Collider2D>().enabled = false;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var target = collision.transform;

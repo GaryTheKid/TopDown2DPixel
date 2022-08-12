@@ -49,6 +49,11 @@ namespace NetworkCalls
         {
             PV.RPC("RPC_NightToDay", RpcTarget.AllBuffered);
         }
+
+        public static void ChangeWeather(PhotonView PV, byte weatherCode)
+        {
+            PV.RPC("RPC_ChangeWeather", RpcTarget.AllBuffered, weatherCode);
+        }
     }
 
     public class AI_NetWork
@@ -134,6 +139,24 @@ namespace NetworkCalls
         public static void DestroyItemWorld(PhotonView PV)
         {
             PV.RPC("RPC_DestroyItemWorld", RpcTarget.AllBuffered);
+        }
+    }
+
+    public class Portal_Network
+    {
+        public static void Prepare(PhotonView PV, int teleportTargetID)
+        {
+            PV.RPC("RPC_TeleportPrepare", RpcTarget.AllBuffered, teleportTargetID);
+        }
+
+        public static void Reset(PhotonView PV)
+        {
+            PV.RPC("RPC_TeleportReset", RpcTarget.AllBuffered);
+        }
+
+        public static void Functioning(PhotonView PV)
+        {
+            PV.RPC("RPC_TeleportFunctioning", RpcTarget.AllBuffered);
         }
     }
 

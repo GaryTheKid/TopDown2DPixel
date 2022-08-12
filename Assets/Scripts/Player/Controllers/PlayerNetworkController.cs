@@ -22,6 +22,7 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _HitBox;
     [SerializeField] private GameObject _CharacterCollider;
     [SerializeField] private GameObject _ScreenSpaceFX;
+    [SerializeField] private GameObject _rainingFX;
     [SerializeField] private GameObject _postProcessing;
     [SerializeField] private GameObject _ui_channeling;
     [SerializeField] private GameObject _ui_CastText;
@@ -32,6 +33,8 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
     [SerializeField] private Image _hpBar;
     [SerializeField] private Gradient _enemyHpBarGradient;
     [SerializeField] private UnityEngine.Rendering.Universal.Light2D _characterLight;
+    
+
 
     private void Awake()
     {
@@ -47,9 +50,10 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
             _playerWeaponController.enabled = false;
             GetComponent<PlayerMovementController>().enabled = false;
             GetComponent<PlayerInteractionController>().enabled = false;
-            Destroy(_audioListener);
-            Destroy(_ScreenSpaceFX);
-            Destroy(_postProcessing);
+            _audioListener.SetActive(false);
+            _ScreenSpaceFX.SetActive(false);
+            _postProcessing.SetActive(false);
+            _rainingFX.SetActive(false);
             _playerCamera.SetActive(false);
             _playerVCam.SetActive(false);
             _ui_Canvas.SetActive(false);

@@ -117,6 +117,8 @@ public class ItemAssets : MonoBehaviour
             { 16, new Scroll_Blink() },
             { 17, new Scroll_Tornado() },
             { 18, new Scroll_MeteorStrike() },
+            { 19, new Gun_Shotgun() },
+
         };
 
         projectileDic = new Dictionary<short, Projectile>{

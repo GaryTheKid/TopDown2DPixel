@@ -29,6 +29,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.20847198, y: 0.20847198, z: 0.20847198}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 764370325305358976}
   m_Father: {fileID: 0}
@@ -82,7 +83,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &5504546822146536575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,19 +203,19 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 9138820532460162960, guid: e839d8e97f50fed498240afa8c6a8248, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e839d8e97f50fed498240afa8c6a8248, type: 3}
---- !u!1 &7970698868599624212 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2790347115115286187, guid: e839d8e97f50fed498240afa8c6a8248, type: 3}
-  m_PrefabInstance: {fileID: 5198510256871087295}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &764370325305358976 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4809641318574351935, guid: e839d8e97f50fed498240afa8c6a8248, type: 3}
   m_PrefabInstance: {fileID: 5198510256871087295}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7970698868599624212 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2790347115115286187, guid: e839d8e97f50fed498240afa8c6a8248, type: 3}
+  m_PrefabInstance: {fileID: 5198510256871087295}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &2708903767700455272
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -227,6 +228,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1

@@ -21,24 +21,49 @@ public class GameManager : MonoBehaviourPunCallbacks
     // singleton
     public static GameManager gameManager;
 
-    // PV
+    // Network
+    [Header("Network")]
     public PhotonView PV;
-
-    // connection info
     public Text ping;
 
     // scoreboard
+    [Header("Scoreboard")]
     public RectTransform scoreboardTemplate;
 
     // day-night cycle
-    public Light2D globalLight;
-    public float dayLength;
     public enum DayNight
     {
         Day,
         Night
     }
+    [Header("Day-Night Cycle")]
+    [Tooltip("The day night enum.")]
     public DayNight dayNight;
+    [Tooltip("The global illumination.")]
+    public Light2D globalLight;
+    [Tooltip("How long a day lasts.")]
+    public float dayLength;
+
+    // weather
+    public enum Weather 
+    {
+        Sunny,
+        Rainning,
+        Snowing,
+        Windy,
+        Storming,
+    }
+    [Header("Weather")]
+    [Tooltip("The current weather.")]
+    public Weather weather;
+    [Tooltip("Time gap between 2 weather")]
+    public float weatherChangeTimeStep;
+    [Tooltip("Time gap variation.")]
+    public float weatherChangeTimeStepVariation;
+    [Tooltip("How long one weather lasts.")]
+    public float weatherLastingTime;
+    [Tooltip("Variation of the weather lasting time.")]
+    public float weatherLastingVariation;
 
     // spawns
     [Header("Spawn")]
@@ -95,9 +120,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     // timer
     [Header("Timer")]
     public float timer;
-    public float dayNightTimer;
-    public float lootBoxSpawnTimer;
-    public float aiSpawnTimer;
+    public float nextDayNightSwapTime;
+    public float nextWeatherStartTime;
+    public float nextWeatherLastingTime;
+    public float nextWeatherStopTime;
+    public float nextAISpawnTime;
+    public float nextLootBoxSpawnTime;
+
 
     private void Awake()
     {
@@ -111,9 +140,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         SpawnPlayerCharacter();
 
         // Debug Items
-        SpawnItem(itemSpawns[1].position, 16, 1, 5);
-        SpawnItem(itemSpawns[1].position, 17, 1, 5);
-        SpawnItem(itemSpawns[1].position, 18, 1, 5);
+        SpawnItem(itemSpawns[1].position, 19, 1, 99);
+
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+
+        InitializeTimer();
     }
 
     private void Update()
@@ -125,12 +157,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         // show pin
         ping.text = PhotonNetwork.GetPing().ToString() + "ms";
 
-        // running timers
+        // timer
         timer += Time.deltaTime;
 
         // day-night cycle
-        dayNightTimer += Time.deltaTime;
-        if (dayNightTimer >= dayLength)
+        if (timer >= nextDayNightSwapTime)
         {
             switch (dayNight)
             {
@@ -143,33 +174,59 @@ public class GameManager : MonoBehaviourPunCallbacks
                     dayNight = DayNight.Day;
                     break;
             }
-            dayNightTimer = 0f;
+            nextDayNightSwapTime += dayLength;
+        }
+
+        // weather
+        if (timer >= nextWeatherStartTime)
+        {
+            StartRandomWeather();
+            nextWeatherStartTime += nextWeatherLastingTime + weatherChangeTimeStep + UnityEngine.Random.Range(0f, weatherChangeTimeStepVariation);
+        }
+
+        // reset weather
+        if(timer >= nextWeatherStopTime)
+        {
+            ChangeWeather(0);
+            nextWeatherLastingTime = weatherLastingTime + UnityEngine.Random.Range(0f, weatherLastingVariation);
+            nextWeatherStopTime = nextWeatherStartTime + nextWeatherLastingTime;
         }
 
         // spawn ai randomly
-        aiSpawnTimer += Time.deltaTime;
-        if (aiSpawnTimer >= aiSpawnWaveTimeStep)
+        if (timer >= nextAISpawnTime)
         {
             // spawn loot boxes randomly
             for (int i = 0; i < aiSpawnQuantity; i++)
             {
                 SpawnAIRandomly();
             }
-            aiSpawnTimer = 0f;
+            nextAISpawnTime += aiSpawnWaveTimeStep;
         }
 
         // spawn loot box randomly
-        lootBoxSpawnTimer += Time.deltaTime;
-        if (!ObjectPool.objectPool.isAllLootBoxActive && lootBoxSpawnTimer >= lootBoxSpawnWaveTimeStep)
+        if (!ObjectPool.objectPool.isAllLootBoxActive && timer >= nextLootBoxSpawnTime)
         {
             // spawn loot boxes randomly
             for (int i = 0; i < lootBoxSpawnQuantity; i++)
             {
                 SpawnLootBoxRandomly();
             }
-            lootBoxSpawnTimer = 0f;
+            nextLootBoxSpawnTime += lootBoxSpawnWaveTimeStep;
         }
     }
+
+    #region Timer
+    private void InitializeTimer()
+    {
+        timer = 0f;
+        nextDayNightSwapTime = dayLength;
+        nextWeatherStartTime = weatherChangeTimeStep + UnityEngine.Random.Range(0f, weatherChangeTimeStepVariation);
+        nextWeatherLastingTime = weatherLastingTime + UnityEngine.Random.Range(0f, weatherLastingVariation);
+        nextWeatherStopTime = nextWeatherStartTime + nextWeatherLastingTime;
+        nextAISpawnTime = aiSpawnWaveTimeStep;
+        nextLootBoxSpawnTime = lootBoxSpawnWaveTimeStep;
+    }
+    #endregion
 
     #region Day-Night Cycle
     private void NightToDay()
@@ -180,6 +237,19 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void DayToNight()
     {
         Game_Network.DayToNight(PV);
+    }
+    #endregion
+
+    #region Weather
+    public void StartRandomWeather()
+    {
+        var randWeatherCode = (byte)UnityEngine.Random.Range(0, 1 + 1);
+        ChangeWeather(randWeatherCode);
+    }
+
+    public void ChangeWeather(byte weatherCode)
+    {
+        Game_Network.ChangeWeather(PV, weatherCode);
     }
     #endregion
 

@@ -139,4 +139,21 @@ public class RPC_GameManager : MonoBehaviour
         }
         GameManager.gameManager.globalLight.intensity = 0f;
     }
+
+    [PunRPC]
+    void RPC_ChangeWeather(byte weatherCode)
+    {
+        // init weather buff for each player
+        byte prevWeatherCode = (byte)GameManager.gameManager.weather;
+        foreach (Transform player in GameManager.gameManager.spawnedPlayerParent)
+        {
+            if (player.GetComponent<PhotonView>().IsMine)
+            {
+                player.GetComponent<PlayerBuffController>().WeatherBuff(prevWeatherCode, weatherCode);
+            }
+        }
+
+        // update weather code
+        GameManager.gameManager.weather = (GameManager.Weather)weatherCode;
+    }
 }

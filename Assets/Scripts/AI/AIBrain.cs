@@ -88,7 +88,7 @@ public class AIBrain : MonoBehaviour
 
                     _chaseTimer += Time.deltaTime;
 
-                    if (_chaseTimer > 1f)
+                    if (_chaseTimer > 0.8f)
                     {
                         Chase();
                         _chaseTimer = 0f;
@@ -106,7 +106,7 @@ public class AIBrain : MonoBehaviour
                 {
                     _attackTimer += Time.deltaTime;
 
-                    if (_attackTimer > 2f)
+                    if (_attackTimer > 1.5f)
                     {
                         Attack();
                         _attackTimer = 0f;
@@ -136,7 +136,7 @@ public class AIBrain : MonoBehaviour
     public void SetAttackTarget(Transform target)
     {
         _attackTarget = target;
-        _attackTimer = 1.8f;
+        _attackTimer = 1.4f;
         SetState((byte)State.Attack);
     }
 

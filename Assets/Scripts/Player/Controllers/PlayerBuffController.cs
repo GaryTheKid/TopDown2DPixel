@@ -144,6 +144,35 @@ public class PlayerBuffController : MonoBehaviour
         invincible_Co = null;
     }
 
+    public void WeatherBuff(byte prevWeatherCode, byte newWeatherCode)
+    {
+        // stop previous weather
+        switch ((GameManager.Weather)prevWeatherCode)
+        {
+            case GameManager.Weather.Sunny:
+                break;
+            case GameManager.Weather.Rainning:
+
+                // TODO: add weather buff
+
+                _effectController.StopRainningEffect();
+                break;
+        }
+
+        // start new weather
+        switch ((GameManager.Weather)newWeatherCode)
+        {
+            case GameManager.Weather.Sunny:
+                break;
+            case GameManager.Weather.Rainning:
+
+                // TODO: add weather buff
+
+                _effectController.StartRainningEffect();
+                break;
+        }
+    }
+
     public void ConsumeHealingPotion(int healingAmount)
     {
         // consume potion effect

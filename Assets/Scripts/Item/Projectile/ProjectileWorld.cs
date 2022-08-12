@@ -33,10 +33,12 @@ public class ProjectileWorld : MonoBehaviour
         GameObject target = collision.gameObject;
 
         // ignore layers
-        if (target.layer == LayerMask.NameToLayer("TornadoAttraction"))
+        if (target == null || 
+            target.layer == LayerMask.NameToLayer("TornadoAttraction") ||
+            target.CompareTag("Portal"))
             return; 
 
-        if (target != null && target.transform != _attackerPV.transform.Find("HitBox") && _projectile.canDirectHit)
+        if (target.transform != _attackerPV.transform.Find("HitBox") && _projectile.canDirectHit)
         {
             // deal dmg
             if(_projectile.damageInfo.damageAmount > 0f)

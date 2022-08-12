@@ -28,6 +28,7 @@ public class PlayerEffectController : MonoBehaviour
     [SerializeField] private GameObject _ghostRunFXAnimator;
     [SerializeField] private GameObject _BlinkFX;
     [SerializeField] private ScreenFogMask _screenFogFX;
+    [SerializeField] private RainningFX _rainningFX;
     [SerializeField] private Animator _avatarAnimator;
     [SerializeField] private CinemachineVirtualCamera _vCam;
     [SerializeField] private GameObject _popTextTemplate;
@@ -225,6 +226,16 @@ public class PlayerEffectController : MonoBehaviour
     public void ScreenSmokeOff()
     {
         _screenFogFX.SetFogOff();
+    }
+
+    public void StartRainningEffect()
+    {
+        _rainningFX.StartRainning();
+    }
+
+    public void StopRainningEffect()
+    {
+        _rainningFX.StopRainning();
     }
 
     public void BlinkEffect()
