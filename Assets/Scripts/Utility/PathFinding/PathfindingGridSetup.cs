@@ -27,7 +27,7 @@ public class PathfindingGridSetup : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        var gridSize = tilemap.cellBounds.size;
+        var gridSize = new Vector2Int(100, 100); //tilemap.cellBounds.size;
         pathfindingGrid = new GridMap<GridNode>(gridSize.x, gridSize.y, 1f, (GridMap<GridNode> grid, int x, int y) => new GridNode(grid, x, y));
     }
 
@@ -35,20 +35,6 @@ public class PathfindingGridSetup : MonoBehaviour
     void Start()
     {
         pathfindingGrid.GenerateCollisionMap();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Mouse.current.rightButton.ReadValue() != 0f)
-        {
-            Vector3 mousePosition = Common.GetMouseWorldPosition() + (new Vector3(+1, +1) * pathfindingGrid.GetCellSize() * 0.5f);
-            GridNode gridNode = pathfindingGrid.GetGridObject(mousePosition);
-            if(gridNode != null)
-            {
-                gridNode.SetIsWalkable(!gridNode.IsWalkable());
-            }
-        }
     }
 }
 

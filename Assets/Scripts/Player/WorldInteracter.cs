@@ -21,6 +21,7 @@ public class WorldInteracter : MonoBehaviour
 
     public List<LootBoxWorld> lootBoxesInRange;
     public List<ItemWorld> itemWorldsInRange;
+    public Well wellInRange;
 
     private PhotonView _PV;
 
@@ -76,6 +77,13 @@ public class WorldInteracter : MonoBehaviour
             {
                 itemWorldsInRange[i].HideInteractionText();
             }
+        }
+
+        // interact with well
+        wellInRange = collision.GetComponent<Well>();
+        if (wellInRange != null && wellInRange.isUsable)
+        {
+            wellInRange.DisplayInteractionText();
         }
     }
 
@@ -155,6 +163,14 @@ public class WorldInteracter : MonoBehaviour
             _ui_MobileInput.DeactivateInteractionButton();
             _isInteractionButtonActivated = false;
 #endif
+        }
+
+        // interact with well
+        wellInRange = collision.GetComponent<Well>();
+        if (wellInRange != null)
+        {
+            wellInRange.HideInteractionText();
+            wellInRange = null;
         }
 
         // screen smoke off

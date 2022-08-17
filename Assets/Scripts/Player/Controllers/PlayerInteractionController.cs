@@ -28,6 +28,7 @@ public class PlayerInteractionController : MonoBehaviour
         _inputActions = GetComponent<PlayerInputActions>().inputActions;
         _inputActions.Player.Interact.performed += OpenLootBox;
         _inputActions.Player.Interact.performed += PickItem;
+        _inputActions.Player.Interact.performed += InteractWithWell;
     }
 
     private void OpenLootBox(InputAction.CallbackContext context)
@@ -65,6 +66,15 @@ public class PlayerInteractionController : MonoBehaviour
                 // TODO: display inventory full effect
                 print("Inventory is full");
             }
+        }
+    }
+
+    private void InteractWithWell(InputAction.CallbackContext context)
+    {
+        if (context.performed && _worldInteracter.wellInRange != null)
+        {
+            // drink
+            _worldInteracter.wellInRange.Drink();
         }
     }
 }
