@@ -9,7 +9,10 @@
  * Last Edition:
  *   convert from MonoBehavior to ComponentSystem.
  */
-using System.Collections.Generic;
+
+# region Legacy
+
+/*using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Mathematics;
@@ -251,7 +254,7 @@ public class PathFinding : ComponentSystem
                 }
             }
 
-            /*pathPositionBuffer.Clear();
+            *//*pathPositionBuffer.Clear();
 
             PathNode endNode = pathNodeArray[endNodeIndex];
             if (endNode.cameFromNodeIndex == -1)
@@ -265,7 +268,7 @@ public class PathFinding : ComponentSystem
                 // Found a path
                 //CalculatePath(pathNodeArray, endNode, pathPositionBuffer);
                 //pathFollowComponentDataFromEntity[entity] = new PathFollow { pathIndex = pathPositionBuffer.Length - 1 };
-            }*/
+            }*//*
 
             neighbourOffsetArray.Dispose();
             openList.Dispose();
@@ -328,9 +331,9 @@ public class PathFinding : ComponentSystem
             gridPosition.y < gridSize.y;
     }
 
-    private static int CalculateIndex(int x, int y, int gridWidth)
+    private static int CalculateIndex(int x, int y, int gridWidth, int offset=0)
     {
-        return x + y * gridWidth;
+        return (x + y * gridWidth) + offset;
     }
 
     private static int CalculateDistanceCost(int2 aPosition, int2 bPosition)
@@ -379,4 +382,5 @@ public class PathFinding : ComponentSystem
             this.isWalkable = isWalkable;
         }
     }
-}
+}*/
+#endregion

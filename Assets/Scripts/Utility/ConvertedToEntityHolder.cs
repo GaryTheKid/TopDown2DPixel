@@ -7,8 +7,8 @@ public class ConvertedToEntityHolder : MonoBehaviour, IConvertGameObjectToEntity
 {
     public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
-        GetComponentInParent<AIMovementController>().entity = entity;
-        GetComponentInParent<AIMovementController>().entityManager = dstManager;
+        //GetComponentInParent<AIMovementController>().entity = entity;
+        //GetComponentInParent<AIMovementController>().entityManager = dstManager;
         transform.parent.gameObject.SetActive(false);
     }
 }

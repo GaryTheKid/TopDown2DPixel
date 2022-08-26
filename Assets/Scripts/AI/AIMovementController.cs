@@ -16,26 +16,132 @@ using Unity.Mathematics;
 using Utilities;
 using Photon.Pun;
 using NetworkCalls;
+using Pathfinding;
 
 public class AIMovementController : MonoBehaviour
 {
-    private const float TARGET_REACH_MIN_DISTANCE = 0.4f;
-    private const float CONSIDER_IDLE_SPEED_THRESHOLD = 0.5f;
+    private const float CONSIDER_IDLE_SPEED_THRESHOLD = 0.01f;
 
     [SerializeField] private Animator _animator;
-    [SerializeField] private ConvertedToEntityHolder convertedEntityHolder;
+    public Transform _moveTarget;
 
     private PhotonView _PV;
-    private GridMap<GridNode> gridMap;
     private AIStatsController _StatsController;
     private AIStats _aiStats;
-    private Rigidbody2D _rb;
+    private AIDestinationSetter _aiDestinationSetter;
+    private Vector3 _prevPos;
+    private Rigidbody2D _rigidbody;
 
-    public Entity entity;
-    public EntityManager entityManager;
+    private void Awake()
+    {
+        _PV = GetComponent<PhotonView>();
+        _StatsController = GetComponent<AIStatsController>();
+        _aiDestinationSetter = GetComponent<AIDestinationSetter>();
+        _rigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    private void Start()
+    {
+        _moveTarget.parent = transform.root.parent;
+        _aiStats = _StatsController.aiStats;
+        _aiDestinationSetter.target = _moveTarget;
+        _prevPos = transform.position;
+    }
+
+    private void Update()
+    {
+        if (_aiStats.isDead)
+            return;
+
+        HandleMoveAnimation();
+    }
+
+    public void MoveTo(Vector2 pos)
+    {
+        _moveTarget.position = pos;
+        //AI_NetWork.Move(_PV, pos);
+    }
+
+    public void Chase(Transform target)
+    {
+        _aiDestinationSetter.target = target;
+    }
+
+    public void StopChasing()
+    {
+        _moveTarget.position = transform.position;
+        _aiDestinationSetter.target = _moveTarget;
+        _animator.SetBool("isMoving", false);
+        //AI_NetWork.Halt(_PV);
+    }
+
+    public void Halt()
+    {
+        _moveTarget.position = transform.position;
+        _aiDestinationSetter.target = _moveTarget;
+        _animator.SetBool("isMoving", false);
+        //AI_NetWork.Halt(_PV);
+    }
+        
+    public void Stop()
+    {
+        _rigidbody.constraints = RigidbodyConstraints2D.FreezePosition;
+        Halt();
+        //ClearWayPoints();
+        //GetCurrentWayPoint();
+    }
+
+    public void Respawn()
+    {
+        _aiDestinationSetter.target = _moveTarget;
+        _aiDestinationSetter.target.position = transform.position;
+        _rigidbody.constraints = RigidbodyConstraints2D.None;
+        _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+    }
+
+    private void HandleMoveAnimation()
+    {
+        var velocity = transform.position - _prevPos;
+
+        if (velocity.magnitude <= CONSIDER_IDLE_SPEED_THRESHOLD && _animator.GetBool("isMoving"))
+        {
+            _animator.SetBool("isMoving", false);
+            _animator.SetFloat("moveX", 0f);
+        }
+
+        if (velocity.magnitude > CONSIDER_IDLE_SPEED_THRESHOLD)
+        {
+            if (!_animator.GetBool("isMoving"))
+            {
+                _animator.SetBool("isMoving", true);
+            }
+
+            // check move direction
+            if (velocity.x >= 0 && _animator.GetFloat("moveX") != 1f)
+            {
+                _animator.SetFloat("moveX", 1f);
+            }
+            else if(velocity.x < 0 && _animator.GetFloat("moveX") != -1f)
+            {
+                _animator.SetFloat("moveX", -1f);
+            }
+        }
+
+        _prevPos = transform.position;
+    }
+
+    #region Legacy
+    /*//private const float TARGET_REACH_MIN_DISTANCE = 0.4f;
+    //private const float CONSIDER_IDLE_SPEED_THRESHOLD = 0.5f;
+
+    //private Rigidbody2D _rb;
+    //private GridMap<GridNode> gridMap;
+    //public Entity entity;
+    //public EntityManager entityManager;
 
     //public List<Vector3> _wayPoints;
-    [SerializeField] private int2 currentGridNodeStandingOn;
+    //[SerializeField] private ConvertedToEntityHolder convertedEntityHolder;
+    //[SerializeField] private int2 currentGridNodeStandingOn;
 
     private void Awake()
     {
@@ -50,49 +156,22 @@ public class AIMovementController : MonoBehaviour
         _aiStats = _StatsController.aiStats;
     }
 
-    private void FixedUpdate()
+    *//*private void FixedUpdate()
     {
         if (_aiStats.isDead)
             return;
 
         //UnitGridCollisionUpdate();
-        FollowPath();
-    }
-
-    private void Update()
-    {
-        if (_aiStats.isDead)
-            return;
-
-        HandleMoveAnimation();
-    }
-
-    public void Move(Vector2 position)
-    {
-        AI_NetWork.Move(_PV, position);
-        //wayPoints.Add(position);
-    }
-
-    public void Halt()
-    {
-        AI_NetWork.Halt(_PV);
-    }
-
-    public void Stop()
-    {
-        Halt();
-        //ClearWayPoints();
-        //GetCurrentWayPoint();
-    }
+        //FollowPath();
+    }*//*
 
     private void ClearWayPoints()
     {
         //wayPoints.Clear();
     }
 
-    public void MoveTo(Vector2 endPosition)
+    *//*public void MoveTo(Vector2 endPosition)
     {
-        // give move order
         float cellSize = gridMap.GetCellSize();
 
         gridMap.GetXY(endPosition + new Vector2(1, 1) * cellSize * +0.5f, out int endX, out int endY);
@@ -116,9 +195,9 @@ public class AIMovementController : MonoBehaviour
         {
             Debug.Log(e);
         }
-    }
+    }*/
 
-    private void FollowPath()
+    /*private void FollowPath()
     {
         try
         {   
@@ -148,9 +227,9 @@ public class AIMovementController : MonoBehaviour
         {
             //Debug.Log(e);
         }
-    }
+    }*/
 
-    private void HandleMoveAnimation()
+    /*private void HandleMoveAnimation()
     {
         if (_rb.velocity.magnitude < CONSIDER_IDLE_SPEED_THRESHOLD && _animator.GetBool("isMoving"))
         {
@@ -175,9 +254,9 @@ public class AIMovementController : MonoBehaviour
                 _animator.SetFloat("moveX", -1f);
             }
         }
-    }
+    }*/
 
-    private void ValidateGridPosition(ref int x, ref int y)
+    /*private void ValidateGridPosition(ref int x, ref int y)
     {
         x = math.clamp(x, 0, gridMap.GetWidth() - 1);
         y = math.clamp(y, 0, gridMap.GetHeight() - 1);
@@ -199,5 +278,7 @@ public class AIMovementController : MonoBehaviour
         gridMap.GetXY(transform.position + new Vector3(1, 1, 0) * PathfindingGridSetup.Instance.pathfindingGrid.GetCellSize() * +0.5f, out int startX, out int startY);
         ValidateGridPosition(ref startX, ref startY);
         //currentWayPoint = new Vector3(startX, startY);
-    }
+    }*/
+    #endregion
+
 }

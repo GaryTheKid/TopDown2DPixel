@@ -27,7 +27,7 @@ public class PathfindingGridSetup : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        var gridSize = new Vector2Int(100, 100); //tilemap.cellBounds.size;
+        var gridSize = new Vector2Int(80, 80); //tilemap.cellBounds.size;
         pathfindingGrid = new GridMap<GridNode>(gridSize.x, gridSize.y, 1f, (GridMap<GridNode> grid, int x, int y) => new GridNode(grid, x, y));
     }
 

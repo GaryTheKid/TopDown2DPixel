@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Utilities;
+using Pathfinding;
 
 public class RPC_GameManager : MonoBehaviour
 {

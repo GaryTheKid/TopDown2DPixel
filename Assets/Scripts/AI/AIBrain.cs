@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;
 using Photon.Pun;
+using Pathfinding;
 
 public class AIBrain : MonoBehaviour
 {
@@ -69,6 +70,9 @@ public class AIBrain : MonoBehaviour
 
             case State.Roam:
                 {
+                    if (!PhotonNetwork.IsMasterClient)
+                        return;
+
                     _roamTimer += Time.deltaTime;
 
                     if (_roamTimer > _randomRoamTime)
@@ -80,6 +84,9 @@ public class AIBrain : MonoBehaviour
 
             case State.Chase:
                 {
+                    if (!PhotonNetwork.IsMasterClient)
+                        return;
+
                     if (_attackTarget != null)
                     {
                         SetState((byte)State.Attack);
@@ -98,6 +105,9 @@ public class AIBrain : MonoBehaviour
 
             case State.ResetChase:
                 {
+                    if (!PhotonNetwork.IsMasterClient)
+                        return;
+
                     ResetChase();
                 }
                 break;
@@ -172,8 +182,7 @@ public class AIBrain : MonoBehaviour
 
     private void Roam()
     {
-        _roamPosition = GetRoamingPosition();
-        _aiMovementController.Move(_roamPosition);
+        _aiMovementController.MoveTo(GetRoamingPosition());
         _roamTimer = 0f;
         _randomRoamTime = Random.Range(4.5f, 6f);
     }
@@ -182,8 +191,7 @@ public class AIBrain : MonoBehaviour
     {
         if (_chaseTarget != null)
         {
-            _aiMovementController.Halt();
-            _aiMovementController.Move(_chaseTarget.position);
+            _aiMovementController.Chase(_chaseTarget);
         }
         else
         {
@@ -195,7 +203,7 @@ public class AIBrain : MonoBehaviour
     {
         if (_attackTarget == null && Vector3.Distance(transform.position, _roamPosition) < 0.1f)
         {
-            _aiMovementController.Move(_roamPosition);
+            _aiMovementController.StopChasing();
         }
         else
         {
@@ -207,6 +215,7 @@ public class AIBrain : MonoBehaviour
     {
         if (_attackTarget != null)
         {
+            _aiMovementController.Halt();
             _aiWeaponController.Attack(_attackTarget);
         }
     }

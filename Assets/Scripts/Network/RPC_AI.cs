@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Pathfinding;
 
 public class RPC_AI : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class RPC_AI : MonoBehaviour
     private AIMovementController _aiMovementController;
     private AIStatsController _aiStatsController;
     private AIWeaponController _aiWeaponController;
+    private AIDestinationSetter _aiDestinationSetter;
     private AIBrain _aiBrain;
 
     private void Awake()
@@ -19,6 +21,7 @@ public class RPC_AI : MonoBehaviour
         _aiMovementController = GetComponent<AIMovementController>();
         _aiStatsController = GetComponent<AIStatsController>();
         _aiWeaponController = GetComponent<AIWeaponController>();
+        _aiDestinationSetter = GetComponent<AIDestinationSetter>();
         _aiBrain = GetComponent<AIBrain>();
     }
 
@@ -37,22 +40,24 @@ public class RPC_AI : MonoBehaviour
     [PunRPC]
     void RPC_Move(Vector2 pos)
     {
-        _aiMovementController.MoveTo(pos);
+        _aiMovementController._moveTarget.position = pos;
     }
 
     [PunRPC]
     void RPC_Halt()
     {
-        _aiMovementController.entityManager.SetComponentData(_aiMovementController.entity, new PathFollow { pathIndex = -1 });
+        //_aiMovementController.entityManager.SetComponentData(_aiMovementController.entity, new PathFollow { pathIndex = -1 });
+        _aiMovementController._moveTarget.position = transform.position;
+        _aiDestinationSetter.target = _aiMovementController._moveTarget;
         _animator.SetBool("isMoving", false);
     }
 
     [PunRPC]
     void RPC_AIDie()
     {
-        _aiMovementController.Stop();
         _aiStatsController.OnDeath.Invoke();
         _aiStatsController.aiStats.isDead = true;
+        _aiMovementController.Stop();
     }
 
     [PunRPC]
@@ -60,6 +65,7 @@ public class RPC_AI : MonoBehaviour
     {
         _aiStatsController.OnRespawn.Invoke();
         _aiStatsController.aiStats.isDead = false;
+        _aiMovementController.Respawn();
     }
 
     [PunRPC]
