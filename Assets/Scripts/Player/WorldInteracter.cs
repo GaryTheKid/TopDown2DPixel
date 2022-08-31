@@ -11,7 +11,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using Utilities;
 
 public class WorldInteracter : MonoBehaviour
 {
@@ -84,6 +83,13 @@ public class WorldInteracter : MonoBehaviour
         if (wellInRange != null && wellInRange.isUsable)
         {
             wellInRange.DisplayInteractionText();
+        }
+
+        // interact with bush
+        Bush bush = collision.GetComponent<Bush>();
+        if (bush != null)
+        {
+            bush.RevealBush();
         }
     }
 
@@ -171,6 +177,13 @@ public class WorldInteracter : MonoBehaviour
         {
             wellInRange.HideInteractionText();
             wellInRange = null;
+        }
+
+        // interact with bush
+        Bush bush = collision.GetComponent<Bush>();
+        if (bush != null)
+        {
+            bush.HideBush();
         }
 
         // screen smoke off

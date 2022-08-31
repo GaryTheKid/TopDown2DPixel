@@ -35,7 +35,9 @@ public class ProjectileWorld : MonoBehaviour
         // ignore layers
         if (target == null || 
             target.layer == LayerMask.NameToLayer("TornadoAttraction") ||
-            target.CompareTag("Portal"))
+            target.CompareTag("Portal") ||
+            target.CompareTag("Well") ||
+            target.CompareTag("Bush"))
             return; 
 
         if (target.transform != _attackerPV.transform.Find("HitBox") && _projectile.canDirectHit)

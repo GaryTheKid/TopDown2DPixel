@@ -7,15 +7,8 @@
  * Last Edition:
  *   Add move animation handling
  */
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Unity.Entities;
-using Unity.Mathematics;
-using Utilities;
 using Photon.Pun;
-using NetworkCalls;
 using Pathfinding;
 
 public class AIMovementController : MonoBehaviour

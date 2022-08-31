@@ -6,7 +6,6 @@
  *   The inventory controller attached to the player character, handling all actions relating to inventory.
  */
 
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;

@@ -1,22 +1,23 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using Photon.Pun;
 
 public class Well : MonoBehaviour
 {
     private const float WELL_RESTORE_TIME = 5f;
 
-    public bool isUsable;
-
     [SerializeField] private GameObject interactionText;
 
-    private Animator animator;
-    
+    public bool isUsable;
+    public Animator animator;
+
+    private PhotonView _PV;
+
     private void Awake()
     {
         isUsable = true;
         animator = GetComponent<Animator>();
+        _PV = GetComponent<PhotonView>();
     }
 
     public void DisplayInteractionText()
@@ -32,16 +33,7 @@ public class Well : MonoBehaviour
 
     public void Drink()
     {
-        isUsable = false;
-        animator.SetTrigger("Drink");
-        foreach (Collider2D collider in GetComponents<Collider2D>())
-        {
-            if (collider.isTrigger)
-            {
-                collider.enabled = false;
-            }
-        }
-        Restore();
+        NetworkCalls.MapObj_Network.DrinkFromWell(_PV);
     }
 
     public void Restore()

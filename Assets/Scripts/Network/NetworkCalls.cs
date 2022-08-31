@@ -142,8 +142,13 @@ namespace NetworkCalls
         }
     }
 
-    public class Portal_Network
+    public class MapObj_Network
     {
+        public static void DrinkFromWell(PhotonView PV)
+        {
+            PV.RPC("RPC_DrinkFromWell", RpcTarget.AllBuffered);
+        }
+        
         public static void Prepare(PhotonView PV, int teleportTargetID)
         {
             PV.RPC("RPC_TeleportPrepare", RpcTarget.AllBuffered, teleportTargetID);

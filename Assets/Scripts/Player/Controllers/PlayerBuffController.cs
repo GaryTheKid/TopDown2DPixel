@@ -144,6 +144,24 @@ public class PlayerBuffController : MonoBehaviour
         invincible_Co = null;
     }
 
+    public void Stealth_HalfTransparent()
+    {
+        // show Stealth Effect (half transparent)
+        _effectController.StealthEffect_HalfTransparent();
+    }
+
+    public void Stealth_FullyTransparent()
+    {
+        // show Stealth Effect (fully transparent)
+        _effectController.StealthEffect_FullyTransparent();
+    }
+
+    public void RevealFromStealth()
+    {
+        // reveal from the stealth effect
+        _effectController.RevealStealthEffect();
+    }
+
     public void WeatherBuff(byte prevWeatherCode, byte newWeatherCode)
     {
         // stop previous weather

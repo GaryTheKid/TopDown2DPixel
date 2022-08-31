@@ -12,11 +12,15 @@ public class PlayerEffectController : MonoBehaviour
 {
     private const float KILLING_SPREE_LAST_TIME = 2f;
     private const float COMBO_TEXT_LAST_TIME = 1.5f;
-
+    
+    [SerializeField] private Transform _WorldCanvasParent;
+    [SerializeField] private TextMeshPro _nameTag;
+    [SerializeField] private Image _bar;
+    [SerializeField] private Image _barGrid;
+    [SerializeField] private Image _hp;
+    [SerializeField] private SpriteRenderer _bodySprite;
     [SerializeField] private UI_MultiKillIcon _ui_killIcon;
     [SerializeField] private UI_ComboText _ui_ComboText;
-    [SerializeField] private Transform _hpBarParent;
-    [SerializeField] private Image _hpBar;
     [SerializeField] private Image _ui_hpBar;
     [SerializeField] private TextMeshProUGUI _ui_hpText;
     [SerializeField] private TextMeshProUGUI _ui_hpMaxText;
@@ -122,7 +126,7 @@ public class PlayerEffectController : MonoBehaviour
         mmf_receiveDamage.PlayFeedbacks();
 
         // adjust hp bar
-        _hpBar.fillAmount = end;
+        _hp.fillAmount = end;
         _ui_hpBar.fillAmount = end;
     }
 
@@ -151,7 +155,7 @@ public class PlayerEffectController : MonoBehaviour
         mmf_receiveHealing.PlayFeedbacks();
 
         // adjust hp bar
-        _hpBar.fillAmount = end;
+        _hp.fillAmount = end;
         _ui_hpBar.fillAmount = end;
     }
 
@@ -161,7 +165,7 @@ public class PlayerEffectController : MonoBehaviour
         _ui_hpMaxText.text = newMaxHP.ToString();
         var newFillAmount = (float)currentHp / (float)newMaxHP;
         _ui_hpBar.fillAmount = newFillAmount;
-        _hpBar.fillAmount = newFillAmount;
+        _hp.fillAmount = newFillAmount;
     }
 
     public void UpdateExpEffect(int expDelta, int currExp, int maxExp)
@@ -244,6 +248,41 @@ public class PlayerEffectController : MonoBehaviour
         _characterSoundFX.Blink();
     }
 
+    public void InvincibleEffect()
+    {
+
+    }
+
+    public void StealthEffect_HalfTransparent()
+    {
+        _bar.color = new Color(1f, 1f, 1f, 0.5f);
+        _barGrid.color = new Color(1f, 1f, 1f, 0.5f);
+        _hp.color = new Color(1f, 1f, 1f, 0.5f);
+        _nameTag.alpha = 0.5f;
+        _ring.SetActive(false);
+        _shadow.SetActive(false);
+    }
+
+    public void StealthEffect_FullyTransparent()
+    {
+        _bar.color = new Color(1f, 1f, 1f, 0f);
+        _barGrid.color = new Color(1f, 1f, 1f, 0f);
+        _hp.color = new Color(1f, 1f, 1f, 0f);
+        _nameTag.alpha = 0f;
+        _ring.SetActive(false);
+        _shadow.SetActive(false);
+    }
+
+    public void RevealStealthEffect()
+    {
+        _bar.color = new Color(1f, 1f, 1f, 1f);
+        _barGrid.color = new Color(1f, 1f, 1f, 1f);
+        _hp.color = new Color(1f, 1f, 1f, 1f);
+        _nameTag.alpha = 1f;
+        _ring.SetActive(true);
+        _shadow.SetActive(true);
+    }
+
     public void DeathEffect()
     {
         // visual effect
@@ -254,7 +293,7 @@ public class PlayerEffectController : MonoBehaviour
         _avatarAnimator.SetBool("isDead", true);
 
         // Hp Bar disappear
-        foreach (var sprite in _hpBarParent.GetComponentsInChildren<Image>())
+        foreach (var sprite in _WorldCanvasParent.GetComponentsInChildren<Image>())
         {
             var col = sprite.color;
             col.a = 0f;
@@ -272,7 +311,7 @@ public class PlayerEffectController : MonoBehaviour
         _avatarAnimator.SetBool("isDead", false);
 
         // Hp Bar disappear
-        foreach (var sprite in _hpBarParent.GetComponentsInChildren<Image>())
+        foreach (var sprite in _WorldCanvasParent.GetComponentsInChildren<Image>())
         {
             var col = sprite.color;
             col.a = 1f;
@@ -280,7 +319,7 @@ public class PlayerEffectController : MonoBehaviour
         }
 
         // adjust hp bar
-        _hpBar.fillAmount = 1f;
+        _hp.fillAmount = 1f;
         _ui_hpBar.fillAmount = 1f;
     }
 

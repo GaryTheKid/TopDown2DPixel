@@ -7,12 +7,9 @@
  * Last Edition:
  *   Just Created.
  */
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;
 using Photon.Pun;
-using Pathfinding;
 
 public class AIBrain : MonoBehaviour
 {

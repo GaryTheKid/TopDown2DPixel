@@ -7,25 +7,26 @@
  * Last Edition:
  *   Just Created.
  */
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utilities;
+using Photon.Pun;
 
 public class PlayerInteractionController : MonoBehaviour
 {
     [SerializeField] private WorldInteracter _worldInteracter;
 
     private PlayerInventoryController _playerInventoryController;
-
+    private PlayerBuffController _playerBuffController;
     private PCInputActions _inputActions;
+    private PhotonView _PV;
 
     private void Awake()
     {
         _playerInventoryController = GetComponent<PlayerInventoryController>();
-
+        _playerBuffController = GetComponent<PlayerBuffController>();
         _inputActions = GetComponent<PlayerInputActions>().inputActions;
+        _PV = GetComponent<PhotonView>();
         _inputActions.Player.Interact.performed += OpenLootBox;
         _inputActions.Player.Interact.performed += PickItem;
         _inputActions.Player.Interact.performed += InteractWithWell;
@@ -75,6 +76,7 @@ public class PlayerInteractionController : MonoBehaviour
         {
             // drink
             _worldInteracter.wellInRange.Drink();
+            NetworkCalls.Consumables_NetWork.UseHealthPotion(_PV, 50);
         }
     }
 }

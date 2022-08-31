@@ -29,7 +29,7 @@ public class Teleport_Single : MonoBehaviour
         {
             animator.ResetTrigger("Reset");
             animator.SetTrigger("Preparing");
-            Portal_Network.Prepare(_PV, collision.transform.parent.GetComponent<PhotonView>().ViewID);
+            MapObj_Network.Prepare(_PV, collision.transform.parent.GetComponent<PhotonView>().ViewID);
         }
     }
 
@@ -38,13 +38,13 @@ public class Teleport_Single : MonoBehaviour
         if (!isRecharging && collision.gameObject.layer == LayerMask.NameToLayer("Character"))
         {
             animator.SetTrigger("Reset");
-            Portal_Network.Reset(_PV);
+            MapObj_Network.Reset(_PV);
         }
     }
 
     public void Functioning()
     {
-        Portal_Network.Functioning(_PV);
+        MapObj_Network.Functioning(_PV);
     }
 
     public void Recharge()
