@@ -34,8 +34,8 @@ public class WorldInteracter : MonoBehaviour
 
     private void OnDisable()
     {
-        // turn off smoke
-        GetComponentInParent<PlayerEffectController>().ScreenSmokeOff();
+        // close all interactions when dead
+        ClearAll();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -207,5 +207,13 @@ public class WorldInteracter : MonoBehaviour
 
         // clear
         _Co_ExitingSmoke = null;
+    }
+
+    public void ClearAll()
+    {
+        GetComponentInParent<PlayerEffectController>().ScreenSmokeOff();
+        lootBoxesInRange.Clear();
+        itemWorldsInRange.Clear();
+        wellInRange = null;
     }
 }

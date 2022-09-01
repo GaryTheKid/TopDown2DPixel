@@ -13,11 +13,11 @@ public class Bush : MonoBehaviour
 
     public void RevealBush()
     {
-        _animator.SetTrigger("Reveal");
+        _animator.SetBool("Reveal", true);
     }
 
     public void HideBush()
     {
-        _animator.SetTrigger("Hide");
+        _animator.SetBool("Reveal", false);
     }
 }

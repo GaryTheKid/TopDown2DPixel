@@ -198,9 +198,10 @@ public class AIBrain : MonoBehaviour
 
     private void ResetChase()
     {
-        if (_attackTarget == null && Vector3.Distance(transform.position, _roamPosition) < 0.1f)
+        if (Vector3.Distance(transform.position, _roamPosition) < 0.1f)
         {
             _aiMovementController.StopChasing();
+            _chaseTarget = null;
         }
         else
         {

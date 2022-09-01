@@ -21907,7 +21907,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.9649335, y: 1}
+    m_SensorSize: {x: 2.3949997, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -23553,6 +23553,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6767447341836561869}
   - component: {fileID: 6724405430191152799}
+  - component: {fileID: 5924796379944257634}
   m_Layer: 12
   m_Name: GhostCollider
   m_TagString: Untagged
@@ -23591,6 +23592,18 @@ CapsuleCollider2D:
   m_Offset: {x: 0.0046857595, y: 0.52949363}
   m_Size: {x: 0.72491753, y: 1.2624041}
   m_Direction: 0
+--- !u!114 &5924796379944257634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8726647576459141715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ff028377dfb8774480ffebf8400ce3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8752209880217162323
 GameObject:
   m_ObjectHideFlags: 0

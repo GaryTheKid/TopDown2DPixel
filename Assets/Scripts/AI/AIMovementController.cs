@@ -51,6 +51,10 @@ public class AIMovementController : MonoBehaviour
 
     public void MoveTo(Vector2 pos)
     {
+        if (_aiDestinationSetter.target != _moveTarget)
+        {
+            _aiDestinationSetter.target = _moveTarget;
+        }
         _moveTarget.position = pos;
         //AI_NetWork.Move(_PV, pos);
     }
