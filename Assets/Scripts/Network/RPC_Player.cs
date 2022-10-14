@@ -60,6 +60,18 @@ public class RPC_Player : MonoBehaviour
         // TODO: perk system!!!!
     }
 
+    [PunRPC]
+    void RPC_SturdyBody(int maxHpBonus)
+    {
+        _playerStatsController.UpdateMaxExp(maxHpBonus);
+    }
+
+    [PunRPC]
+    void RPC_Regeneration(int regenAmount)
+    {
+        _playerBuffController.Regeneration(regenAmount);
+    }
+
     [PunRPC] 
     void RPC_Die()
     {
@@ -225,10 +237,6 @@ public class RPC_Player : MonoBehaviour
         // reset charge and play attack animation
         _playerWeaponController.weaponAnimator.SetTrigger("Attack");
 
-        // play sound fx
-        var clip = _playerWeaponController.fireFX.clip;
-        _playerWeaponController.fireFX.PlayOneShot(clip);
-
         // get projectile in weapon controller
         var projectile = _playerWeaponController.weapon.projectile;
 
@@ -246,6 +254,14 @@ public class RPC_Player : MonoBehaviour
         projectileWorld.SetProjectile(projectile);
         projectileWorld.SetAttackerPV(GetComponent<PhotonView>());
         projectileWorld.PerishInTime();
+    }
+
+    [PunRPC]
+    void RPC_PlayOneShotSFX_Projectile()
+    {
+        // play sound fx
+        var clip = _playerWeaponController.fireFX.clip;
+        _playerWeaponController.fireFX.PlayOneShot(clip);
     }
 
     [PunRPC]

@@ -19,6 +19,7 @@ public class PlayerBuffController : MonoBehaviour
     private PhotonView _PV;
 
     private IEnumerator invincible_Co;
+    private IEnumerator regeneration_Co;
 
     private void Awake()
     {
@@ -142,6 +143,26 @@ public class PlayerBuffController : MonoBehaviour
         yield return new WaitForSecondsRealtime(effectTime);
         _playerStats.isInvincible = false;
         invincible_Co = null;
+    }
+
+    public void Regeneration(int healingAmount)
+    {
+        if (regeneration_Co != null)
+        {
+            StopCoroutine(regeneration_Co);
+        }
+        regeneration_Co = Co_Regeneration(healingAmount);
+        StartCoroutine(regeneration_Co);
+    }
+    IEnumerator Co_Regeneration(int healingAmount)
+    {
+        while (!_playerStats.isDead)
+        {
+            yield return new WaitForSecondsRealtime(5f);
+            _statsController.Regeneration(healingAmount);
+        }
+
+        regeneration_Co = null;
     }
 
     public void Stealth_HalfTransparent()

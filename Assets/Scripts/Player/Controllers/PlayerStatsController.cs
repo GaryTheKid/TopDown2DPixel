@@ -94,6 +94,15 @@ public class PlayerStatsController : MonoBehaviour
         _playerEffectController.ReceiveHealingEffect(playerStats.maxHp, playerStats.hp, playerStats.maxHp);
     }
 
+    // regeneration hp
+    public void Regeneration(int deltaHP)
+    {
+        _playerEffectController.RegenerationEffect(deltaHP, playerStats.hp, playerStats.maxHp);
+
+        playerStats.hp = playerStats.hp + deltaHP <= playerStats.maxHp ?
+            playerStats.hp + deltaHP : playerStats.maxHp;
+    }
+
     // update hp after receive damage or healing
     public void UpdateHP(int deltaHP, out bool isKilled)
     {

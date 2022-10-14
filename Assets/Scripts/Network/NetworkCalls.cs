@@ -277,6 +277,14 @@ namespace NetworkCalls
             }
         }
 
+        public static void PlayOneShotSFX_Projectile(PhotonView PV)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_PlayOneShotSFX_Projectile", RpcTarget.All);
+            }
+        }
+
         public static void FireChargedProjectile(PhotonView PV, Vector2 firePos, float fireDirDeg)
         {
             if (PV.IsMine)
@@ -298,6 +306,25 @@ namespace NetworkCalls
             if (PV.IsMine)
             {
                 PV.RPC("RPC_ShowUnleashAnimation", RpcTarget.All);
+            }
+        }
+    }
+
+    public class Skill_Network
+    {
+        public static void SturdyBody(PhotonView PV, int bonusHP)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_SturdyBody", RpcTarget.AllBuffered, bonusHP);
+            }
+        }
+
+        public static void Regeneration(PhotonView PV, int regenAmount)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_Regeneration", RpcTarget.AllBuffered, regenAmount);
             }
         }
     }

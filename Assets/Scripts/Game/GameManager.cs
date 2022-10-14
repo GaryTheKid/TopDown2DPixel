@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         SpawnPlayerCharacter();
 
         // Debug Items
-        SpawnItem(itemSpawns[1].position, 19, 1, 99);
+        SpawnItem(itemSpawns[1].position, 20, 1, 99);
 
         if (!PhotonNetwork.IsMasterClient)
             return;

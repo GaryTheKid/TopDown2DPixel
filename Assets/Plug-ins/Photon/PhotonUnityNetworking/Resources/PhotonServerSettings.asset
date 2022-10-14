@@ -92,6 +92,10 @@ MonoBehaviour:
   - RPC_TeleportPrepare
   - RPC_TeleportReset
   - RPC_DrinkFromWell
+  - RPC_Regeneration
+  - RPC_SturdyBody
+  - RPC_PlayOneShotSFX_Weapon
+  - RPC_PlayOneShotSFX_Projectile
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -10,6 +10,7 @@ public class ItemAssets : MonoBehaviour
     {
         itemAssets = this;
         InitItemDics();
+        InitSkillIconDic();
     }
 
     // prefab for weapon Equipped
@@ -22,6 +23,8 @@ public class ItemAssets : MonoBehaviour
     public Transform pfGun_M4;
     public Transform pfGun_Pistol;
     public Transform pfGun_Rifle;
+    public Transform pfGun_M3;
+    public Transform pfGun_SMAX;
     public Transform pfSmokeGrenade;
     public Transform pfHEGrenade;
     public Transform pfImpactGrenade;
@@ -32,6 +35,7 @@ public class ItemAssets : MonoBehaviour
     public Transform projArrow;
     public Transform projBullet_SemiAuto;
     public Transform projBullet_Rifle;
+    public Transform projBullet_Shotgun;
     public Transform projSmokeGrenade;
     public Transform projHEGrenade;
     public Transform projImpactGrenade;
@@ -57,6 +61,13 @@ public class ItemAssets : MonoBehaviour
     [Header("AI Spawner Prefab")]
     public Transform pfAISpawner;
 
+    // Sprite for skills 
+    [Header("Skill Sprites")]
+    public Dictionary<PlayerSkillController.Skills, Sprite> skillIconDic;
+    public Sprite skill_Agility;
+    public Sprite skill_Sturdybody;
+    public Sprite skill_Regenaration;
+
     // Sprite for inventory and itemworld
     [Header("Item Sprites")]
     public Sprite handsSprite;
@@ -67,6 +78,8 @@ public class ItemAssets : MonoBehaviour
     public Sprite gunSprite_M4;
     public Sprite gunSprite_Pistol;
     public Sprite gunSprite_Rifle;
+    public Sprite gunSprite_M3;
+    public Sprite gunSprite_SMAX;
     public Sprite smokeGrenadeSprite;
     public Sprite HEGrenadeSprite;
     public Sprite impactGrenadeSprite;
@@ -89,6 +102,7 @@ public class ItemAssets : MonoBehaviour
     public Sprite ui_icon_pistolBullets;
     public Sprite ui_icon_semiAutoBullets;
     public Sprite ui_icon_rifleBullet;
+    public Sprite ui_icon_ShotgunBullets;
     public Sprite ui_icon_arrow;
 
     [Header("Item Dictionary")]
@@ -97,7 +111,8 @@ public class ItemAssets : MonoBehaviour
 
     private void InitItemDics()
     {
-        itemDic = new Dictionary<short, Item>{
+        itemDic = new Dictionary<short, Item>
+        {
             { 0, new Hands() },
             { 1, new Sword() },
             { 2, new Bow() },
@@ -117,17 +132,29 @@ public class ItemAssets : MonoBehaviour
             { 16, new Scroll_Blink() },
             { 17, new Scroll_Tornado() },
             { 18, new Scroll_MeteorStrike() },
-            { 19, new Gun_Shotgun() },
-
+            { 19, new Gun_M3() },
+            { 20, new Gun_SMAX() },
         };
 
-        projectileDic = new Dictionary<short, Projectile>{
+        projectileDic = new Dictionary<short, Projectile>
+        {
             { 0, new Arrow() },
             { 1, new Bullet_SemiAuto() },
             { 2, new Bullet_Rifle() },
             { 3, new SmokeGrenade_Proj() },
             { 4, new HEGrenade_proj() },
-            { 5, new ImpactGrenade_Proj() }
+            { 5, new ImpactGrenade_Proj() },
+            { 6, new Bullet_Shotgun() },
+        };
+    }
+
+    private void InitSkillIconDic()
+    {
+        skillIconDic = new Dictionary<PlayerSkillController.Skills, Sprite>
+        {
+            { PlayerSkillController.Skills.Agility, skill_Agility },
+            { PlayerSkillController.Skills.Sturdybody, skill_Sturdybody },
+            { PlayerSkillController.Skills.Regenaration, skill_Regenaration },
         };
     }
 }

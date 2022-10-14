@@ -27,6 +27,9 @@ public abstract class Gun : Weapon
     {
         // shoot projectiles
         NetworkCalls.Weapon_Network.FireProjectile(attackerPV, firePos, fireDirDeg);
+
+        // play sfx
+        NetworkCalls.Weapon_Network.PlayOneShotSFX_Projectile(attackerPV);
     }
 
     public override abstract Transform GetEquipmentPrefab();

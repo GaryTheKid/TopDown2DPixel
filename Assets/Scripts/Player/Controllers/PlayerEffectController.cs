@@ -38,6 +38,7 @@ public class PlayerEffectController : MonoBehaviour
     [SerializeField] private GameObject _popTextTemplate;
     [SerializeField] private MMF_Player mmf_receiveDamage;
     [SerializeField] private MMF_Player mmf_receiveHealing;
+    [SerializeField] private MMF_Player mmf_regeneration;
     [SerializeField] private MMF_Player mmf_updateExp;
     [SerializeField] private MMF_Player mmf_levelUp;
 
@@ -153,6 +154,32 @@ public class PlayerEffectController : MonoBehaviour
             feedBack.DestinationFill = end;
         }
         mmf_receiveHealing.PlayFeedbacks();
+
+        // adjust hp bar
+        _hp.fillAmount = end;
+        _ui_hpBar.fillAmount = end;
+    }
+
+    public void RegenerationEffect(int healingAmount, int currHP, int maxHp)
+    {
+        // pop up text
+        GameObject popText = Instantiate(_popTextTemplate, _popTextTemplate.transform.position, Quaternion.identity, _popTextTemplate.transform.parent);
+        UI_PopText ui_popText = popText.GetComponent<UI_PopText>();
+        ui_popText.textAmount = healingAmount;
+        ui_popText.textType = UI_PopText.TextType.Heal;
+        popText.SetActive(true);
+
+        // feedback effect
+        var updatedHp = currHP + healingAmount;
+        if (updatedHp > maxHp)
+            updatedHp = maxHp;
+        mmf_regeneration.GetFeedbackOfType<MMF_TMPText>().NewText = updatedHp.ToString();
+        var end = (float)updatedHp / (float)maxHp;
+        foreach (var feedBack in mmf_regeneration.GetFeedbacksOfType<MMF_ImageFill>())
+        {
+            feedBack.DestinationFill = end;
+        }
+        mmf_regeneration.PlayFeedbacks();
 
         // adjust hp bar
         _hp.fillAmount = end;
