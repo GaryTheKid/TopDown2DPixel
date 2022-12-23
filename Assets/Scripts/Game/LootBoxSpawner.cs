@@ -36,20 +36,20 @@ public class LootBoxSpawner : MonoBehaviour
             timer += Time.fixedDeltaTime;
             if (hasObstacle)
             {
-                GameManager.gameManager.SpawnLootBoxRandomlyInArea(whichArea);
+                GameManager.singleton.SpawnLootBoxRandomlyInArea(whichArea);
                 Destroy(gameObject);
             }
         }
 
         // spawn Loot box
-        GameManager.gameManager.SpawnLootBox(transform.position, whichArea, out bool isSpawnSucceed);
+        GameManager.singleton.SpawnLootBox(transform.position, whichArea, out bool isSpawnSucceed);
 
         // spawn area available count + 1
         if (isSpawnSucceed)
         {
-            var area = GameManager.gameManager.lootBoxSpawnAreas[whichArea];
+            var area = GameManager.singleton.lootBoxSpawnAreas[whichArea];
             var updatedArea = (area.Item1, area.Item2, area.Item3 + 1);
-            GameManager.gameManager.lootBoxSpawnAreas[whichArea] = updatedArea;
+            GameManager.singleton.lootBoxSpawnAreas[whichArea] = updatedArea;
         }
 
         // destroy

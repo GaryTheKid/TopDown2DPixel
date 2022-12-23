@@ -25,7 +25,7 @@ public class ExplosionFX : MonoBehaviour
     public void SetWorldRotation()
     {
         _grenadeSprite.sprite = null;
-        transform.parent = GameManager.gameManager.FXParent;
+        transform.parent = GameManager.singleton.FXParent;
         transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
     }
 

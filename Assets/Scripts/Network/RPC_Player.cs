@@ -41,13 +41,13 @@ public class RPC_Player : MonoBehaviour
     [PunRPC]
     void RPC_SpawnScoreboardTag(string playerID)
     {
-        GameManager.gameManager.SpawnScoreboardTag(playerID);
+        GameManager.singleton.SpawnScoreboardTag(playerID);
     }
 
     [PunRPC]
     void RPC_RemoveScoreboardTag(string playerID)
     {
-        GameManager.gameManager.DestroyScoreBoardTag(playerID);
+        GameManager.singleton.DestroyScoreBoardTag(playerID);
     }
 
     [PunRPC]
@@ -92,7 +92,7 @@ public class RPC_Player : MonoBehaviour
     [PunRPC]
     void RPC_DropItem(Vector2 pos, short itemID, short amount, short durability)
     {
-        GameManager.gameManager.DropItem(pos, itemID, amount, durability);
+        GameManager.singleton.DropItem(pos, itemID, amount, durability);
     }
 
     [PunRPC]
@@ -130,7 +130,7 @@ public class RPC_Player : MonoBehaviour
 
             // add score
             _playerStatsController.UpdateScore((int)info.damageAmount);
-            GameManager.gameManager.AddScoreUI(_playerNetworkController.playerID, (int)info.damageAmount);
+            GameManager.singleton.AddScoreUI(_playerNetworkController.playerID, (int)info.damageAmount);
         }
     }
 
@@ -156,7 +156,7 @@ public class RPC_Player : MonoBehaviour
 
         // add score
         _playerStatsController.UpdateScore((int)info.damageAmount);
-        GameManager.gameManager.AddScoreUI(_playerNetworkController.playerID, (int)info.damageAmount);
+        GameManager.singleton.AddScoreUI(_playerNetworkController.playerID, (int)info.damageAmount);
     }
 
     [PunRPC]
@@ -181,7 +181,7 @@ public class RPC_Player : MonoBehaviour
 
         // add score
         _playerStatsController.UpdateScore((int)info.damageAmount);
-        GameManager.gameManager.AddScoreUI(_playerNetworkController.playerID, (int)info.damageAmount);
+        GameManager.singleton.AddScoreUI(_playerNetworkController.playerID, (int)info.damageAmount);
     }
 
     [PunRPC]
@@ -246,7 +246,7 @@ public class RPC_Player : MonoBehaviour
         if (!_PV.IsMine && projectilePf.gameObject.layer == LayerMask.NameToLayer("Projectile")) projectilePf.gameObject.layer = LayerMask.NameToLayer("EnemyProjectile"); 
         projectilePf.eulerAngles = new Vector3(0f, 0f, fireDirDeg);
 
-        projectilePf.parent = GameManager.gameManager.spawnedProjectileParent;
+        projectilePf.parent = GameManager.singleton.spawnedProjectileParent;
         projectilePf.GetComponent<Rigidbody2D>().AddForce(dir * projectile.speed, ForceMode2D.Impulse);
 
         // set projectile world script
@@ -287,7 +287,7 @@ public class RPC_Player : MonoBehaviour
             if (!_PV.IsMine && projectilePf.gameObject.layer == LayerMask.NameToLayer("Projectile")) projectilePf.gameObject.layer = LayerMask.NameToLayer("EnemyProjectile");
             projectilePf.eulerAngles = new Vector3(0f, 0f, fireDirDeg);
 
-            projectilePf.parent = GameManager.gameManager.spawnedProjectileParent;
+            projectilePf.parent = GameManager.singleton.spawnedProjectileParent;
             projectilePf.GetComponent<Rigidbody2D>().AddForce(dir * projectile.speed * chargeTier, ForceMode2D.Impulse);
 
             // set projectile world script
@@ -332,7 +332,7 @@ public class RPC_Player : MonoBehaviour
     {
         // instantiate
         Vector2 initPos = transform.position;
-        var pfTornado = Instantiate(ItemAssets.itemAssets.pfSpell_Tornado, initPos + (targetPos - initPos) * 0.15f, Quaternion.identity, GameManager.gameManager.FXParent);
+        var pfTornado = Instantiate(ItemAssets.itemAssets.pfSpell_Tornado, initPos + (targetPos - initPos) * 0.15f, Quaternion.identity, GameManager.singleton.FXParent);
 
         // set fx controller
         var tornadoFX = pfTornado.GetComponent<TornadoFX>();
@@ -344,7 +344,7 @@ public class RPC_Player : MonoBehaviour
     void RPC_MeteorSpell(Vector2 targetPos)
     {
         // instantiate
-        var pfMeteor = Instantiate(ItemAssets.itemAssets.pfSpell_Meteor, targetPos, Quaternion.identity, GameManager.gameManager.FXParent);
+        var pfMeteor = Instantiate(ItemAssets.itemAssets.pfSpell_Meteor, targetPos, Quaternion.identity, GameManager.singleton.FXParent);
 
         // set fx controller
         var spellMeteor = pfMeteor.GetComponent<SpellMeteor>();

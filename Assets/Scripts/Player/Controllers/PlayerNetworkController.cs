@@ -61,7 +61,7 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
             _ui_CastText.SetActive(false);
             _castIndicators.SetActive(false);
             _CharacterCollider.layer = LayerMask.NameToLayer("Enemy");
-            transform.parent = GameManager.gameManager.spawnedPlayerParent;
+            transform.parent = GameManager.singleton.spawnedPlayerParent;
             _ringSprite.color = Color.red;
             _hpBar.color = Color.red;
             _mmf_ReceiveDamage.GetFeedbackOfType<MMF_Image>().ColorOverTime = _enemyHpBarGradient;

@@ -167,8 +167,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 507f12535cc49ef4bb29d18e4d6efa74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPlayer: 4
   selectedRoomID: 
+  maxPlayer: 4
   _lobbyCanvas: {fileID: 442075697}
   _roomCanvas: {fileID: 351737022}
   _roomTitle: {fileID: 416912677}
@@ -3021,7 +3021,7 @@ MonoBehaviour:
   gameSceneIndex: 1
   sendRate: 20
   serializationRate: 50
-  nameTextUI: {fileID: 1067685355}
+  inputNameTextUI: {fileID: 1067685355}
 --- !u!1 &1384389781
 GameObject:
   m_ObjectHideFlags: 0

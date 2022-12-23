@@ -98,7 +98,7 @@ public class LootBoxWorld : MonoBehaviour
                     durability += (short)UnityEngine.Random.Range(1, 2);
                     break;
             }
-            GameManager.gameManager.SpawnItem(transform.position, randItemID, amount, durability);
+            GameManager.singleton.SpawnItem(transform.position, randItemID, amount, durability);
         }
     }
 
@@ -112,7 +112,7 @@ public class LootBoxWorld : MonoBehaviour
     }
     IEnumerator Co_WaitForExpire()
     {
-        yield return new WaitForSecondsRealtime(GameManager.gameManager.lootBoxWorldLifeTime);
+        yield return new WaitForSecondsRealtime(GameManager.singleton.lootBoxWorldLifeTime);
 
         // disable colliders
         foreach (Collider2D collider in GetComponents<Collider2D>()) collider.enabled = false;

@@ -19,7 +19,7 @@ using System;
 public class GameManager : MonoBehaviourPunCallbacks
 {
     // singleton
-    public static GameManager gameManager;
+    public static GameManager singleton;
 
     // Network
     [Header("Network")]
@@ -130,7 +130,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        gameManager = this;
+        singleton = this;
         UpdateRoomPlayerList();
         InitializeSpawnAreas();
     }
@@ -150,12 +150,12 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
+        // show pin
+        ping.text = PhotonNetwork.GetPing().ToString() + "ms";
+
         // must be master client
         if (!PhotonNetwork.IsMasterClient)
             return;
-
-        // show pin
-        ping.text = PhotonNetwork.GetPing().ToString() + "ms";
 
         // timer
         timer += Time.deltaTime;

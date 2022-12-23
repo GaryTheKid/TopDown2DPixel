@@ -36,13 +36,13 @@ public class AISpawner : MonoBehaviour
             timer += Time.fixedDeltaTime;
             if (hasObstacle)
             {
-                GameManager.gameManager.SpawnAIRandomlyInArea(whichArea);
+                GameManager.singleton.SpawnAIRandomlyInArea(whichArea);
                 Destroy(gameObject);
             }
         }
 
         // spawn AI
-        GameManager.gameManager.SpawnAI(transform.position);
+        GameManager.singleton.SpawnAI(transform.position);
 
         // destroy
         Destroy(gameObject);

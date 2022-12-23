@@ -1,15 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine.UI;
-using UnityEngine.Events;
 
-public class RoomManager : MonoBehaviourPunCallbacks
+public class Networking_RoomManager : MonoBehaviourPunCallbacks
 {
     // singleton
-    public static RoomManager roomManager;
+    public static Networking_RoomManager singleton;
 
     // lobby/room setting
     public int maxPlayer = 4;
@@ -19,12 +16,12 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _roomCanvas;
     [SerializeField] private GameObject _startGameButton;
     [SerializeField] private Transform _playerListAnchor;
-    [SerializeField] private PlayerInstance _playerInstance;
-    [SerializeField] private List<PlayerInstance> _playerList = new List<PlayerInstance>();
+    [SerializeField] private UI_PlayerInstance _playerInstance;
+    [SerializeField] private List<UI_PlayerInstance> _playerList = new List<UI_PlayerInstance>();
 
     private void Awake()
     {
-        roomManager = this;
+        singleton = this;
     }
 
     public void StartGame()
@@ -35,7 +32,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient)
             return;
 
-        PhotonNetwork.LoadLevel(GameSettings.gameSettings.gameSceneIndex);
+        PhotonNetwork.LoadLevel(Networking_GameSettings.singleton.gameSceneIndex);
     }
 
     public void BackToLobby()
@@ -86,7 +83,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         if (!_playerList.Exists(x => x.playerNickName == newPlayer.NickName))
         {
             Debug.Log(newPlayer.NickName + " has joined room!");
-            PlayerInstance instance = Instantiate(_playerInstance, _playerListAnchor);
+            UI_PlayerInstance instance = Instantiate(_playerInstance, _playerListAnchor);
             //instance.GetComponent<Button>().onClick.AddListener(delegate { SelectRoom(instance.roomID); });
             if (instance != null)
             {
@@ -111,7 +108,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     private void UpdateRoomPlayerList()
     {
         // clear list 
-        foreach (PlayerInstance instance in _playerList)
+        foreach (UI_PlayerInstance instance in _playerList)
         {
             Destroy(instance.gameObject);
         }

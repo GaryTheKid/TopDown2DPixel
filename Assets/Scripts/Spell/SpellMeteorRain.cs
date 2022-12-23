@@ -92,7 +92,7 @@ public class SpellMeteorRain : MonoBehaviour
         // TODO: make this networkd
         Vector2 myPos = transform.position;
         Vector2 randMeteorSpawnPos = myPos + Random.insideUnitCircle * _strikeRange;
-        Transform meteor = Instantiate(_pfMeteor, randMeteorSpawnPos, Quaternion.identity, GameManager.gameManager.FXParent);
+        Transform meteor = Instantiate(_pfMeteor, randMeteorSpawnPos, Quaternion.identity, GameManager.singleton.FXParent);
     }
 
     public void DestroySelf()

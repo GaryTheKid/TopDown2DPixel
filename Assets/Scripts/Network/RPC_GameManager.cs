@@ -21,9 +21,9 @@ public class RPC_GameManager : MonoBehaviour
     {
         Transform player = PhotonView.Find(viewID).transform;
         player.name = name;
-        player.transform.parent = GameManager.gameManager.spawnedPlayerParent;
+        player.transform.parent = GameManager.singleton.spawnedPlayerParent;
         player.GetComponent<PlayerNetworkController>().playerID = name;
-        player.GetComponent<PlayerNetworkController>().scoreboardTag = GameManager.gameManager.SpawnScoreboardTag(name);
+        player.GetComponent<PlayerNetworkController>().scoreboardTag = GameManager.singleton.SpawnScoreboardTag(name);
     }
 
     [PunRPC]
@@ -123,30 +123,30 @@ public class RPC_GameManager : MonoBehaviour
 
     IEnumerator Co_IncreaseGlobalLight()
     {
-        while (GameManager.gameManager.globalLight.intensity < 1f)
+        while (GameManager.singleton.globalLight.intensity < 1f)
         {
-            GameManager.gameManager.globalLight.intensity += Time.deltaTime * LIGHT_UPDATE_SPEED;
+            GameManager.singleton.globalLight.intensity += Time.deltaTime * LIGHT_UPDATE_SPEED;
             yield return new WaitForEndOfFrame();
         }
-        GameManager.gameManager.globalLight.intensity = 1f;
+        GameManager.singleton.globalLight.intensity = 1f;
     }
 
     IEnumerator Co_DecreaseGlobalLight()
     {
-        while (GameManager.gameManager.globalLight.intensity > 0f)
+        while (GameManager.singleton.globalLight.intensity > 0f)
         {
-            GameManager.gameManager.globalLight.intensity -= Time.deltaTime * LIGHT_UPDATE_SPEED;
+            GameManager.singleton.globalLight.intensity -= Time.deltaTime * LIGHT_UPDATE_SPEED;
             yield return new WaitForEndOfFrame();
         }
-        GameManager.gameManager.globalLight.intensity = 0f;
+        GameManager.singleton.globalLight.intensity = 0f;
     }
 
     [PunRPC]
     void RPC_ChangeWeather(byte weatherCode)
     {
         // init weather buff for each player
-        byte prevWeatherCode = (byte)GameManager.gameManager.weather;
-        foreach (Transform player in GameManager.gameManager.spawnedPlayerParent)
+        byte prevWeatherCode = (byte)GameManager.singleton.weather;
+        foreach (Transform player in GameManager.singleton.spawnedPlayerParent)
         {
             if (player.GetComponent<PhotonView>().IsMine)
             {
@@ -155,6 +155,6 @@ public class RPC_GameManager : MonoBehaviour
         }
 
         // update weather code
-        GameManager.gameManager.weather = (GameManager.Weather)weatherCode;
+        GameManager.singleton.weather = (GameManager.Weather)weatherCode;
     }
 }

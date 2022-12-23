@@ -9,6 +9,6 @@ public class ShellEjector : MonoBehaviour
 
     public void Eject()
     {
-        Instantiate(_shellPref, _ejectionTrans.position, _ejectionTrans.rotation, GameManager.gameManager.spawnedProjectileParent);
+        Instantiate(_shellPref, _ejectionTrans.position, _ejectionTrans.rotation, GameManager.singleton.spawnedProjectileParent);
     }
 }

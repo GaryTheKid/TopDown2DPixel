@@ -16,7 +16,7 @@ public class UI_Menu : MonoBehaviour
 
     public void QuitGame()
     {
-        GameManager.gameManager.LeaveRoom();
+        GameManager.singleton.LeaveRoom();
         Application.Quit();
     }
 }

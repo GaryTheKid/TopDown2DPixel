@@ -20,9 +20,9 @@ public class RPC_LootBoxWorld : MonoBehaviour
         LootBoxWorld lootBoxWorld = GetComponent<LootBoxWorld>();
 
         // release area available count
-        var area = GameManager.gameManager.lootBoxSpawnAreas[lootBoxWorld.areaIndex];
+        var area = GameManager.singleton.lootBoxSpawnAreas[lootBoxWorld.areaIndex];
         var updatedArea = (area.Item1, area.Item2, area.Item3 - 1);
-        GameManager.gameManager.lootBoxSpawnAreas[lootBoxWorld.areaIndex] = updatedArea;
+        GameManager.singleton.lootBoxSpawnAreas[lootBoxWorld.areaIndex] = updatedArea;
 
         // play animation
         lootBoxWorld.animator.SetTrigger("Open");
@@ -34,9 +34,9 @@ public class RPC_LootBoxWorld : MonoBehaviour
         LootBoxWorld lootBoxWorld = GetComponent<LootBoxWorld>();
 
         // release area available count
-        var area = GameManager.gameManager.lootBoxSpawnAreas[lootBoxWorld.areaIndex];
+        var area = GameManager.singleton.lootBoxSpawnAreas[lootBoxWorld.areaIndex];
         var updatedArea = (area.Item1, area.Item2, area.Item3 - 1);
-        GameManager.gameManager.lootBoxSpawnAreas[lootBoxWorld.areaIndex] = updatedArea;
+        GameManager.singleton.lootBoxSpawnAreas[lootBoxWorld.areaIndex] = updatedArea;
 
         // play animation
         lootBoxWorld.animator.SetTrigger("Expire");

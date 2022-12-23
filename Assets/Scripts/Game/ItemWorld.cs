@@ -88,7 +88,7 @@ public class ItemWorld : MonoBehaviour
     }
     IEnumerator Co_WaitForExpire()
     {
-        yield return new WaitForSecondsRealtime(GameManager.gameManager.itemWorldLifeTime);
+        yield return new WaitForSecondsRealtime(GameManager.singleton.itemWorldLifeTime);
 
         // disable colliders
         foreach (Collider2D collider in GetComponents<Collider2D>()) collider.enabled = false;

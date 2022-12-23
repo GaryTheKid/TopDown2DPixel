@@ -1,8 +1,18 @@
+/* Last Edition: 12/20/2022
+ * Editor: Chongyang Wang
+ * Collaborators: 
+ * References:
+ * Description: 
+ *     The scripts controls the info of a player UI tag instance.
+ * Lastest Update:
+ *     Updated Comments.
+ */
+
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Realtime;
 
-public class PlayerInstance : MonoBehaviour
+public class UI_PlayerInstance : MonoBehaviour
 {
     [SerializeField] private Text displayedPlayerName;
     public string playerNickName;

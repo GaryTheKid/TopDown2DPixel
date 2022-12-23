@@ -26,19 +26,19 @@ public class ObjectPool : MonoBehaviour
         objectPool = this;
 
         // add disabled loot box
-        foreach (Transform lootBox in GameManager.gameManager.spawnedLootBoxParent)
+        foreach (Transform lootBox in GameManager.singleton.spawnedLootBoxParent)
         {
             pooledLootBoxes.Add(lootBox.gameObject);
         }
 
         // add disabled AI
-        foreach (Transform AI in GameManager.gameManager.spawnedAIParent)
+        foreach (Transform AI in GameManager.singleton.spawnedAIParent)
         {
             pooledAI.Add(AI.gameObject);
         }
 
         // add disabled ItemWorld
-        foreach (Transform itemWorld in GameManager.gameManager.spawnedItemParent)
+        foreach (Transform itemWorld in GameManager.singleton.spawnedItemParent)
         {
             pooledItemWorld.Add(itemWorld.gameObject);
         }
