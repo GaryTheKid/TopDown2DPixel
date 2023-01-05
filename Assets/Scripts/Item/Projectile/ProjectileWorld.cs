@@ -29,6 +29,13 @@ public class ProjectileWorld : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // interact with bush
+        Bush bush = collision.GetComponent<Bush>();
+        if (bush != null)
+        {
+            bush.RevealBush();
+        }
+
         // proceed effects
         GameObject target = collision.gameObject;
 
@@ -58,6 +65,16 @@ public class ProjectileWorld : MonoBehaviour
         }
 
         // TODO: Explosion coroutine: wait for explosiveTime -> check explosiveRadius -> deal dmg
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        // interact with bush
+        Bush bush = collision.GetComponent<Bush>();
+        if (bush != null)
+        {
+            bush.HideBush();
+        }
     }
 
     public void PerishInTime()
