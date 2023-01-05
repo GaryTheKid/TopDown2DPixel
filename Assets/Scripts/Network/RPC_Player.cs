@@ -350,7 +350,7 @@ public class RPC_Player : MonoBehaviour
         var spellMeteor = pfMeteor.GetComponent<SpellMeteor>();
         spellMeteor.attackerPV = _PV;
         spellMeteor.spellID = 18;
-        spellMeteor.explosiveRadius = 4.5f;
+        spellMeteor.explosiveRadius = 4f;
     }
     #endregion
 

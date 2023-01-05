@@ -58,6 +58,23 @@ public class PlayerEffectController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
     }
 
+    private void Start()
+    {
+        StartCoroutine(Co_initHpBar());
+    }
+    IEnumerator Co_initHpBar()
+    {
+        _bar.gameObject.SetActive(false);
+        _barGrid.gameObject.SetActive(false);
+        _hp.gameObject.SetActive(false);
+
+        yield return new WaitForSecondsRealtime(0.1f);
+
+        _bar.gameObject.SetActive(true);
+        _barGrid.gameObject.SetActive(true);
+        _hp.gameObject.SetActive(true);
+    }
+
     public void CameraShake(float intensity, float time)
     {
         if (time <= 0 || intensity <= 0)
