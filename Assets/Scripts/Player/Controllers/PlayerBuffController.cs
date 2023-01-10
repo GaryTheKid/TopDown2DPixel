@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Events;
 using Photon.Pun;
 
@@ -15,6 +16,7 @@ public class PlayerBuffController : MonoBehaviour
     private PlayerStatsController _statsController;
     private PlayerEffectController _effectController;
     private PlayerInventoryController _inventoryController;
+    private PCInputActions _inputActions;
     private Rigidbody2D _rb;
     private PhotonView _PV;
 
@@ -28,6 +30,7 @@ public class PlayerBuffController : MonoBehaviour
         _playerStats = _statsController.playerStats;
         _effectController = GetComponent<PlayerEffectController>();
         _inventoryController = GetComponent<PlayerInventoryController>();
+        _inputActions = GetComponent<PlayerInputActions>().inputActions;
         _rb = GetComponent<Rigidbody2D>();
     }
 

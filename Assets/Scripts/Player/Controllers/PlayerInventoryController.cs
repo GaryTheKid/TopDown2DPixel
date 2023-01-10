@@ -46,12 +46,7 @@ public class PlayerInventoryController : MonoBehaviour
         // bind and enable input
         _inputActions = GetComponent<PlayerInputActions>().inputActions;
         _inputActions.Player.InventoryActivation.performed += HandleUIInventory;
-        _inputActions.Player.EquipmentQuickCast_1.performed += HandleUseEquipment_1;
-        _inputActions.Player.EquipmentQuickCast_2.performed += HandleUseEquipment_2;
-        _inputActions.Player.EquipmentQuickCast_3.performed += HandleUseEquipment_3;
-        _inputActions.Player.EquipmentQuickCast_4.performed += HandleUseEquipment_4;
-        _inputActions.Player.EquipmentQuickCast_5.performed += HandleUseEquipment_5;
-        _inputActions.Player.EquipmentQuickCast_6.performed += HandleUseEquipment_6;
+        LoadEquipmentQuickCast();
     }
 
     private void HandleUIInventory(InputAction.CallbackContext context)
@@ -150,6 +145,26 @@ public class PlayerInventoryController : MonoBehaviour
         {
             _inventory.UseItem(_PV, 5);
         }
+    }
+
+    public void LoadEquipmentQuickCast()
+    {
+        _inputActions.Player.EquipmentQuickCast_1.performed += HandleUseEquipment_1;
+        _inputActions.Player.EquipmentQuickCast_2.performed += HandleUseEquipment_2;
+        _inputActions.Player.EquipmentQuickCast_3.performed += HandleUseEquipment_3;
+        _inputActions.Player.EquipmentQuickCast_4.performed += HandleUseEquipment_4;
+        _inputActions.Player.EquipmentQuickCast_5.performed += HandleUseEquipment_5;
+        _inputActions.Player.EquipmentQuickCast_6.performed += HandleUseEquipment_6;
+    }
+
+    public void UnloadEquipmentQuickCast()
+    {
+        _inputActions.Player.EquipmentQuickCast_1.performed -= HandleUseEquipment_1;
+        _inputActions.Player.EquipmentQuickCast_2.performed -= HandleUseEquipment_2;
+        _inputActions.Player.EquipmentQuickCast_3.performed -= HandleUseEquipment_3;
+        _inputActions.Player.EquipmentQuickCast_4.performed -= HandleUseEquipment_4;
+        _inputActions.Player.EquipmentQuickCast_5.performed -= HandleUseEquipment_5;
+        _inputActions.Player.EquipmentQuickCast_6.performed -= HandleUseEquipment_6;
     }
 
     public void OpenUIInventory()

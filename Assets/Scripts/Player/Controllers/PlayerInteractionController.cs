@@ -79,4 +79,14 @@ public class PlayerInteractionController : MonoBehaviour
             NetworkCalls.Consumables_NetWork.UseHealthPotion(_PV, 50);
         }
     }
+
+    private void InteractWithMerchant(InputAction.CallbackContext context)
+    {
+        if (context.performed && _worldInteracter.merchantInRange != null)
+        {
+            // drink
+            _worldInteracter.wellInRange.Drink();
+            NetworkCalls.Consumables_NetWork.UseHealthPotion(_PV, 50);
+        }
+    }
 }

@@ -10,6 +10,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Photon.Pun;
 
 public class WorldInteracter : MonoBehaviour
@@ -21,8 +22,11 @@ public class WorldInteracter : MonoBehaviour
     public List<LootBoxWorld> lootBoxesInRange;
     public List<ItemWorld> itemWorldsInRange;
     public Well wellInRange;
+    public Merchant merchantInRange;
 
     private PhotonView _PV;
+    private PCInputActions _inputActions;
+    private PlayerInventoryController _playerInventoryController;
 
     private bool _isInteractionButtonActivated;
     private IEnumerator _Co_ExitingSmoke;
@@ -30,6 +34,8 @@ public class WorldInteracter : MonoBehaviour
     private void Awake()
     {
         _PV = GetComponentInParent<PhotonView>();
+        _inputActions = GetComponentInParent<PlayerInputActions>().inputActions;
+        _playerInventoryController = GetComponentInParent<PlayerInventoryController>();
     }
 
     private void OnDisable()
@@ -45,7 +51,6 @@ public class WorldInteracter : MonoBehaviour
 
         // interact with loot box
         LootBoxWorld lootBoxWorld = collision.GetComponent<LootBoxWorld>();
-
         if (lootBoxWorld != null)
         {
             // display interaction text
@@ -90,6 +95,22 @@ public class WorldInteracter : MonoBehaviour
         if (bush != null)
         {
             bush.RevealBush();
+        }
+
+        // interact with merchant
+        Merchant merchant = collision.GetComponent<Merchant>();
+        if (merchant != null)
+        {
+            // disable the equipment shortcut for merchant interactions
+            _playerInventoryController.UnloadEquipmentQuickCast();
+
+            // load trade interaction input actions
+            _inputActions.Player.EquipmentQuickCast_1.performed += merchant.PurchaseItem1;
+            _inputActions.Player.EquipmentQuickCast_2.performed += merchant.PurchaseItem2;
+            _inputActions.Player.EquipmentQuickCast_3.performed += merchant.PurchaseItem3;
+
+            // show trade interaction UI
+            merchant.RevealTradeUI();
         }
     }
 
@@ -194,6 +215,22 @@ public class WorldInteracter : MonoBehaviour
                 _Co_ExitingSmoke = Co_ExitingSmoke();
                 StartCoroutine(_Co_ExitingSmoke);
             }
+        }
+
+        // interact with merchant
+        Merchant merchant = collision.GetComponent<Merchant>();
+        if (merchant != null)
+        {
+            // unload trade interaction input actions
+            _inputActions.Player.EquipmentQuickCast_1.performed -= merchant.PurchaseItem1;
+            _inputActions.Player.EquipmentQuickCast_2.performed -= merchant.PurchaseItem2;
+            _inputActions.Player.EquipmentQuickCast_3.performed -= merchant.PurchaseItem3;
+
+            // re-enable the equipment shortcut for merchant interactions
+            _playerInventoryController.LoadEquipmentQuickCast();
+
+            // hide trade interaction UI
+            merchant.HideTradeUI();
         }
     }
 

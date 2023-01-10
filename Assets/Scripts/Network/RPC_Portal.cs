@@ -33,7 +33,7 @@ public class RPC_Portal : MonoBehaviour
             teleport.animator.SetTrigger("Functioning");
             teleport.teleportTarget.position = teleport.destination.position;
             teleport.teleportTarget = null;
-            teleport.collider2D.enabled = false;
+            teleport.cd2D.enabled = false;
             teleport.animator.ResetTrigger("Reset");
             teleport.isRecharging = true;
             teleport.Recharge();

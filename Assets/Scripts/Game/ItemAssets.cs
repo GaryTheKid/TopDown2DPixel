@@ -61,6 +61,11 @@ public class ItemAssets : MonoBehaviour
     [Header("AI Spawner Prefab")]
     public Transform pfAISpawner;
 
+    // weather and day/night cycle sprite
+    [Header("Weather Sprites")]
+    public Sprite rainningWeatherSprite;
+    public Sprite WindWeatherSprite;
+
     // Sprite for skills 
     [Header("Skill Sprites")]
     public Dictionary<PlayerSkillController.Skills, Sprite> skillIconDic;

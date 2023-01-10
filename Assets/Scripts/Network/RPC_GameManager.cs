@@ -8,6 +8,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using Utilities;
 using Pathfinding;
@@ -15,6 +16,10 @@ using Pathfinding;
 public class RPC_GameManager : MonoBehaviour
 {
     private const float LIGHT_UPDATE_SPEED = 0.8f;
+
+    [SerializeField] private Image day;
+    [SerializeField] private Image Night;
+
 
     [PunRPC]
     void RPC_UpdatePlayerInfo(int viewID, string name)
@@ -123,9 +128,13 @@ public class RPC_GameManager : MonoBehaviour
 
     IEnumerator Co_IncreaseGlobalLight()
     {
+        var intensity = 0f;
         while (GameManager.singleton.globalLight.intensity < 1f)
         {
-            GameManager.singleton.globalLight.intensity += Time.deltaTime * LIGHT_UPDATE_SPEED;
+            intensity += Time.deltaTime * LIGHT_UPDATE_SPEED;
+            GameManager.singleton.globalLight.intensity = intensity;
+            day.color = new Color(1f, 1f, 1f, intensity);
+            Night.color = new Color(1f, 1f, 1f, 1f - intensity);
             yield return new WaitForEndOfFrame();
         }
         GameManager.singleton.globalLight.intensity = 1f;
@@ -133,9 +142,13 @@ public class RPC_GameManager : MonoBehaviour
 
     IEnumerator Co_DecreaseGlobalLight()
     {
+        var intensity = 1f;
         while (GameManager.singleton.globalLight.intensity > 0f)
         {
-            GameManager.singleton.globalLight.intensity -= Time.deltaTime * LIGHT_UPDATE_SPEED;
+            intensity -= Time.deltaTime * LIGHT_UPDATE_SPEED;
+            GameManager.singleton.globalLight.intensity = intensity;
+            day.color = new Color(1f, 1f, 1f, intensity);
+            Night.color = new Color(1f, 1f, 1f, 1f - intensity);
             yield return new WaitForEndOfFrame();
         }
         GameManager.singleton.globalLight.intensity = 0f;

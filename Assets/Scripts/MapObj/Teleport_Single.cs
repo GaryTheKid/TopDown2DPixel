@@ -11,7 +11,7 @@ public class Teleport_Single : MonoBehaviour
     public Transform teleportTarget;
     public Animator animator;
     public Transform destination;
-    public Collider2D collider2D;
+    public Collider2D cd2D;
     public bool isRecharging;
 
     private PhotonView _PV;
@@ -20,7 +20,7 @@ public class Teleport_Single : MonoBehaviour
     {
         _PV = GetComponent<PhotonView>();
         animator = GetComponent<Animator>();
-        collider2D = GetComponent<Collider2D>();
+        cd2D = GetComponent<Collider2D>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -56,7 +56,7 @@ public class Teleport_Single : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(RECHARGE_CD);
         animator.SetTrigger("RechargingComplete");
-        collider2D.enabled = true;
+        cd2D.enabled = true;
         isRecharging = false;
     }
 }

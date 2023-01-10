@@ -402,6 +402,14 @@ namespace NetworkCalls
             }
         }
 
+        public static void UpdateVision(PhotonView PV, float newVisionRadius)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_UpdateVision", RpcTarget.AllBuffered, newVisionRadius);
+            }
+        }
+
         public static void Die(PhotonView PV)
         {
             if (PV.IsMine)

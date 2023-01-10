@@ -11,13 +11,17 @@ public class SpellStrikeExplosion : MonoBehaviour
 
     private SpellMeteor _spellMeteor;
     private float _explosionRadius;
+    private float _explosionSize_x;
+    private float _explosionSize_y;
     private List<int> targetCache;
 
     private void Awake()
     {
         _spellMeteor = _parent.GetComponent<SpellMeteor>();
         _explosionRadius = _spellMeteor.explosiveRadius;
-        GetComponent<CircleCollider2D>().radius = _explosionRadius;
+        _explosionSize_x = _spellMeteor.explosiveSize_x;
+        _explosionSize_y = _spellMeteor.explosiveSize_y;
+        GetComponent<CapsuleCollider2D>().size = new Vector2(_explosionSize_x, _explosionSize_y);
         targetCache = new List<int>();
     }
 

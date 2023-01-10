@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         SpawnPlayerCharacter();
 
         // Debug Items
-        SpawnItem(itemSpawns[1].position, 20, 1, 99);
+        SpawnItem(itemSpawns[1].position, 18, 1, 99);
 
         if (!PhotonNetwork.IsMasterClient)
             return;
@@ -232,11 +232,29 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void NightToDay()
     {
         Game_Network.NightToDay(PV);
+
+        // update all players' vision
+        foreach (Transform player in spawnedPlayerParent)
+        {
+            if (player.GetComponent<PhotonView>().IsMine)
+            {
+                Player_NetWork.UpdateVision(player.GetComponent<PhotonView>(), 35f);
+            }
+        }
     }
 
     private void DayToNight()
     {
         Game_Network.DayToNight(PV);
+
+        // update all players' vision
+        foreach (Transform player in spawnedPlayerParent)
+        {
+            if (player.GetComponent<PhotonView>().IsMine)
+            {
+                Player_NetWork.UpdateVision(player.GetComponent<PhotonView>(), 15f);
+            }
+        }
     }
     #endregion
 

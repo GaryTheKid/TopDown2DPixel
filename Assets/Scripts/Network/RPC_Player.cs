@@ -21,6 +21,7 @@ public class RPC_Player : MonoBehaviour
     private PlayerEffectController _playerEffectController;
     private PlayerStatsController _playerStatsController;
     private PlayerNetworkController _playerNetworkController;
+    private PlayerVisionController _playerVisionController;
     private HashSet<int> targets;
 
     private void Awake()
@@ -31,6 +32,7 @@ public class RPC_Player : MonoBehaviour
         _playerEffectController = GetComponent<PlayerEffectController>();
         _playerStatsController = GetComponent<PlayerStatsController>();
         _playerNetworkController = GetComponent<PlayerNetworkController>();
+        _playerVisionController = GetComponent<PlayerVisionController>();
     }
 
     private void Start()
@@ -351,6 +353,16 @@ public class RPC_Player : MonoBehaviour
         spellMeteor.attackerPV = _PV;
         spellMeteor.spellID = 18;
         spellMeteor.explosiveRadius = 4f;
+        spellMeteor.explosiveSize_x = 7.5f;
+        spellMeteor.explosiveSize_y = 5.5f;
+    }
+    #endregion
+
+    #region Vision
+    [PunRPC]
+    void RPC_UpdateVision(float newVisionRadius)
+    {
+        _playerVisionController.UpdateVision(newVisionRadius);
     }
     #endregion
 
