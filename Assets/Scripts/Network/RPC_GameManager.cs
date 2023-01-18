@@ -49,6 +49,14 @@ public class RPC_GameManager : MonoBehaviour
     }
 
     [PunRPC]
+    void RPC_SpawnMerchant(int index, Vector2 pos)
+    {
+        var obj = ObjectPool.objectPool.pooledMerchant[index].gameObject;
+        obj.SetActive(true);
+        obj.transform.position = pos;
+    }
+
+    [PunRPC]
     void RPC_SpawnItemWorld(int index, Vector2 pos, short itemID, short amount, short durability)
     {
         var obj = ObjectPool.objectPool.pooledItemWorld[index].gameObject;

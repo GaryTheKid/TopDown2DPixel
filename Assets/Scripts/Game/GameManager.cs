@@ -71,6 +71,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public List<Transform> itemSpawns;
     [Tooltip("(Area, current count, max count)")]
     public List<(SpawnArea, int, int)> lootBoxSpawnAreas;
+    [Tooltip("(Area, current count, max count)")]
+    public List<(SpawnArea, int, int)> merchantSpawnAreas;
     [Tooltip("(Area, max count)")]
     public List<(SpawnArea, int)> aiSpawnAreas;
     [Tooltip("This value determines how many objects can be instantiated within 1 spawn area. The larger the more.")]
@@ -79,6 +81,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     public float lootBoxSpawnWaveTimeStep;
     [Tooltip("This value determines how many objs will be spawned per wave.")]
     public float lootBoxSpawnQuantity;
+    [Tooltip("This value determines how many objects can be instantiated within 1 spawn area. The larger the more.")]
+    public int merchantSpawnDensity;
+    [Tooltip("This value determines how fast objects can be spawned.")]
+    public float merchantSpawnWaveTimeStep;
+    [Tooltip("This value determines how many objs will be spawned per wave.")]
+    public float merchantSpawnQuantity;
     [Tooltip("This value determines how many objects can be instantiated within 1 spawn area. The larger the more.")]
     public int aiSpawnDensity;
     [Tooltip("This value determines how fast objects can be spawned.")]
@@ -96,7 +104,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Header("Loot Box")]
     [Tooltip("How many loot boxes can exist in the world at the same time.")]
     public short maxLootBoxSpawnInWorld;
-    [Tooltip("How long can loot boxes exist.")]
+    [Tooltip("How long loot boxes exist.")]
     public float lootBoxWorldLifeTime;
 
     // items
@@ -105,14 +113,23 @@ public class GameManager : MonoBehaviourPunCallbacks
     public short maxItemSpawnInWorld;
     public float itemWorldLifeTime;
 
+    // merchant
+    [Header("Merchant")]
+    [Tooltip("How many merchants can exist in the world at the same time.")]
+    public short maxMerchantSpawnInWorld;
+    [Tooltip("How long merchants exist.")]
+    public float merchantLifeTime;
+
     // parents
     [Header("Parents")]
     public Transform lootBoxSpawnAreaParent;
     public Transform aiSpawnAreaParent;
+    public Transform merchantSpawnAreaParent;
     public Transform spawnedPlayerParent;
     public Transform spawnedAIParent;
     public Transform spawnedLootBoxParent;
     public Transform spawnedItemParent;
+    public Transform spawnedMerchantParent;
     public Transform spawnedProjectileParent;
     public Transform FXParent;
     public Transform scoreboardParent;
@@ -126,7 +143,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public float nextWeatherStopTime;
     public float nextAISpawnTime;
     public float nextLootBoxSpawnTime;
-
+    public float nextMerchantSpawnTime;
 
     private void Awake()
     {
@@ -185,7 +202,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         // reset weather
-        if(timer >= nextWeatherStopTime)
+        if (timer >= nextWeatherStopTime)
         {
             ChangeWeather(0);
             nextWeatherLastingTime = weatherLastingTime + UnityEngine.Random.Range(0f, weatherLastingVariation);
@@ -193,7 +210,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         // spawn ai randomly
-        if (timer >= nextAISpawnTime)
+        if (!ObjectPool.objectPool.isAllAIActive && timer >= nextAISpawnTime)
         {
             // spawn loot boxes randomly
             for (int i = 0; i < aiSpawnQuantity; i++)
@@ -408,6 +425,57 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     #endregion
 
+    #region Merchant
+    public void SpawnMerchant(Vector2 pos, byte type, int areaIndex, out bool succeed)
+    {
+        int requestedMerchantIndex = ObjectPool.objectPool.RequestMerchantIndexFromPool();
+        if (requestedMerchantIndex != -1)
+        {
+            Game_Network.SpawnMerchant(PV, requestedMerchantIndex, pos);
+            Merchant merchantWorld = ObjectPool.objectPool.pooledMerchant[requestedMerchantIndex].GetComponent<Merchant>();
+            merchantWorld.SetMerchant(areaIndex, type);
+            merchantWorld.Expire();
+            succeed = true;
+        }
+        else
+        {
+            succeed = false;
+        }
+    }
+
+    public void SpawnMerchantRandomly()
+    {
+        var randAreaIndex = GetRandomSpawnArea_Merchant();
+
+        // if run out of spawn space
+        if (randAreaIndex == -1)
+        {
+            return;
+        }
+
+        var randSpawnArea = merchantSpawnAreas[randAreaIndex].Item1;
+        var spawnPoint = randSpawnArea.GetRandomPointFromArea();
+
+        // try spawn a merchant spawner
+        Transform spawner = Instantiate(ItemAssets.itemAssets.pfMerchantSpawner, spawnPoint, Quaternion.identity, spawnedMerchantParent);
+        spawner.GetComponent<MerchantSpawner>().SpawnMerchant(randAreaIndex);
+    }
+
+    public void SpawnMerchantRandomlyInArea(int whichArea)
+    {
+        // check if the selected area is full
+        if (merchantSpawnAreas[whichArea].Item2 <= merchantSpawnAreas[whichArea].Item3)
+            return;
+
+        var randSpawnPoint = merchantSpawnAreas[whichArea].Item1;
+        var spawnPoint = randSpawnPoint.GetRandomPointFromArea();
+
+        // try spawn a loot box spawner
+        Transform spawner = Instantiate(ItemAssets.itemAssets.pfMerchantSpawner, spawnPoint, Quaternion.identity, spawnedMerchantParent);
+        spawner.GetComponent<MerchantSpawner>().SpawnMerchant(whichArea);
+    }
+    #endregion
+
     #region AI
     public void SpawnAI(Vector2 pos)
     {
@@ -522,6 +590,22 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             aiSpawnAreas.Add((area, maxCapacity));
         }
+
+        // merchant
+        merchantSpawnAreas = new List<(SpawnArea, int, int)>();
+        foreach (Transform child in merchantSpawnAreaParent)
+        {
+            var area = child.GetComponent<SpawnArea>();
+
+            // calculate max capacity based on density
+            int maxCapacity = Mathf.RoundToInt(((area.GetAreaSize()) / 11.25f) * merchantSpawnDensity);
+
+            // check override value
+            if (area.overrideSpawnDensity != 0)
+                maxCapacity = Mathf.RoundToInt(((area.GetAreaSize()) / 11.25f) * area.overrideSpawnDensity);
+
+            merchantSpawnAreas.Add((area, maxCapacity, 0));
+        }
     }
 
     private int GetRandomSpawnArea_LootBox()
@@ -569,6 +653,34 @@ public class GameManager : MonoBehaviourPunCallbacks
             var area = aiSpawnAreas[randIndex].Item1;
             Collider2D[] hitCollider = Physics2D.OverlapAreaAll(area.GetV1(), area.GetV2(), LayerMask.NameToLayer("EnemyAI"));
             if (hitCollider != null && hitCollider.Length <= aiSpawnAreas[randIndex].Item2)
+            {
+                return randIndex;
+            }
+            else
+            {
+                indices.Remove(randIndex);
+            }
+        }
+
+        // if can't find available, return -1
+        return -1;
+    }
+
+    private int GetRandomSpawnArea_Merchant()
+    {
+        List<int> indices = new List<int>();
+        for (int i = 0; i < merchantSpawnAreas.Count; i++)
+        {
+            indices.Add(i);
+        }
+
+        // randomly select an available area
+        for (int i = 0; i < merchantSpawnAreas.Count; i++)
+        {
+            int randIndex = UnityEngine.Random.Range(0, indices.Count);
+
+            // check if the area is full
+            if (merchantSpawnAreas[randIndex].Item3 < merchantSpawnAreas[randIndex].Item2)
             {
                 return randIndex;
             }

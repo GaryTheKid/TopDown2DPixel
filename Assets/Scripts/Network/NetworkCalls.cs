@@ -30,6 +30,11 @@ namespace NetworkCalls
             PV.RPC("RPC_SpawnAI", RpcTarget.AllBuffered, requestedAIIndex, pos);
         }
 
+        public static void SpawnMerchant(PhotonView PV, int requestedMerchantIndex, Vector2 pos)
+        {
+            PV.RPC("RPC_SpawnMerchant", RpcTarget.AllBuffered, requestedMerchantIndex, pos);
+        }
+
         public static void SpawnItemWorld(PhotonView PV, int requestedAIIndex, Vector2 pos, short itemID, short amount, short durability)
         {
             PV.RPC("RPC_SpawnItemWorld", RpcTarget.AllBuffered, requestedAIIndex, pos, itemID, amount, durability);
@@ -113,6 +118,24 @@ namespace NetworkCalls
         public static void DestroyLootBox(PhotonView PV)
         {
             PV.RPC("RPC_DestroyLootBox", RpcTarget.AllBuffered);
+        }
+    }
+
+    public class Merchant_NetWork 
+    {
+        public static void SetVenderItems(PhotonView PV, byte itemIndex, short randItemID, short amount, short durability, short price)
+        {
+            PV.RPC("RPC_SetVenderItems", RpcTarget.AllBuffered, itemIndex, randItemID, amount, durability, price);
+        }
+
+        public static void Expire(PhotonView PV)
+        {
+            PV.RPC("RPC_MerchantExpire", RpcTarget.AllBuffered);
+        }
+
+        public static void DestroyMerchant(PhotonView PV)
+        {
+            PV.RPC("RPC_DestroyMerchant", RpcTarget.AllBuffered);
         }
     }
 

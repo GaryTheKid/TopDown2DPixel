@@ -1,11 +1,11 @@
-/* Last Edition: 06/28/2022
+/* Last Edition: 01/18/2023
  * Author: Chongyang Wang
  * Collaborators: 
  * 
  * Description: 
  *   The spawn area that constraints where the loot boxes can be spawned.
  * Last Edition:
- *   Just Created.
+ *   Add merchant spawn area.
  */
 using System.Collections;
 using System.Collections.Generic;
@@ -22,7 +22,8 @@ public class SpawnArea : MonoBehaviour
     {
         LootBox,
         Item,
-        AI
+        AI,
+        Merchant
     }
 
     [SerializeField] private AreaType _areaType;
@@ -64,6 +65,21 @@ public class SpawnArea : MonoBehaviour
                     // draw text
                     Vector3 textCenter = new Vector3(center.x - 1.5f, center.y + 0.5f);
                     Handles.Label(textCenter, "AI Spawn");
+                }
+                break;
+
+            case AreaType.Merchant:
+                {
+                    // draw area
+                    (Vector3 center, Vector3 size) = ConvertTwoVertsToCenterSize();
+                    Color col = Color.yellow;
+                    col.a = 0.5f;
+                    Gizmos.color = col;
+                    Gizmos.DrawCube(center, size);
+
+                    // draw text
+                    Vector3 textCenter = new Vector3(center.x - 1.5f, center.y + 0.5f);
+                    Handles.Label(textCenter, "Merchant Spawn");
                 }
                 break;
         }

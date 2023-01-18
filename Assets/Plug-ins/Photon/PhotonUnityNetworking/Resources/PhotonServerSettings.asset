@@ -97,6 +97,10 @@ MonoBehaviour:
   - RPC_PlayOneShotSFX_Weapon
   - RPC_PlayOneShotSFX_Projectile
   - RPC_UpdateVision
+  - RPC_SetVenderItems
+  - RPC_SpawnMerchant
+  - RPC_DestroyMerchant
+  - RPC_MerchantExpire
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

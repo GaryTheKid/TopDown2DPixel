@@ -11,6 +11,7 @@ public class Item
     public short itemID;
     public short amount;
     public short durability;
+    public short price;
     public float useCD;
     public bool isEquipped;
     public ItemType itemType;

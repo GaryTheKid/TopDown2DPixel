@@ -53,9 +53,17 @@ public class ItemAssets : MonoBehaviour
     [Header("LootBoxWorld Prefab")]
     public Transform pfLootBoxWorld;
 
+    // prefab for merchant world
+    [Header("Merchant Spawner Prefab")]
+    public Transform pfMerchantWorld;
+
     // prefab for loot box spawner
     [Header("LootBox Spawner Prefab")]
     public Transform pfLootBoxSpawner;
+
+    // prefab for merchant spawner
+    [Header("Merchant Spawner Prefab")]
+    public Transform pfMerchantSpawner;
 
     // prefab for ai spawner
     [Header("AI Spawner Prefab")]
@@ -112,6 +120,7 @@ public class ItemAssets : MonoBehaviour
 
     [Header("Item Dictionary")]
     public Dictionary<short, Item> itemDic;
+    public Dictionary<short, short> itemCostDic;
     public Dictionary<short, Projectile> projectileDic;
 
     private void InitItemDics()
@@ -139,6 +148,31 @@ public class ItemAssets : MonoBehaviour
             { 18, new Scroll_MeteorStrike() },
             { 19, new Gun_M3() },
             { 20, new Gun_SMAX() },
+        };
+
+        itemCostDic = new Dictionary<short, short>
+        {
+            { 0, 0 },
+            { 1, 5 },
+            { 2, 5 },
+            { 3, 4 },
+            { 4, 15 },
+            { 5, 2 },
+            { 6, 2 },
+            { 7, 60 },
+            { 8, 30 },
+            { 9, 80 },
+            { 10, 1 },
+            { 11, 5 },
+            { 12, 60 },
+            { 13, 20 },
+            { 14, 10 },
+            { 15, 10 },
+            { 16, 20 },
+            { 17, 20 },
+            { 18, 15 },
+            { 19, 5 },
+            { 20, 4 },
         };
 
         projectileDic = new Dictionary<short, Projectile>
