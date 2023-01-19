@@ -10923,6 +10923,7 @@ MonoBehaviour:
   _ui_channeling: {fileID: 8461570957728607996}
   _ui_CastText: {fileID: 3860786256841902377}
   _castIndicators: {fileID: 1521732927174262521}
+  _playerVision: {fileID: 3561991461863396566}
   _ringSprite: {fileID: 8003804981849215963}
   _mmf_ReceiveDamage: {fileID: 2204600671626201493}
   _mmf_ReceiveHealing: {fileID: 571615508921802708}
@@ -28995,7 +28996,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.1253197, y: 1}
+    m_SensorSize: {x: 1.6540229, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0

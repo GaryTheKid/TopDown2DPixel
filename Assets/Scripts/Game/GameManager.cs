@@ -443,7 +443,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (requestedMerchantIndex != -1)
         {
             Game_Network.SpawnMerchant(PV, requestedMerchantIndex, pos);
-            Merchant merchantWorld = ObjectPool.objectPool.pooledMerchant[requestedMerchantIndex].GetComponent<Merchant>();
+            MerchantWorld merchantWorld = ObjectPool.objectPool.pooledMerchant[requestedMerchantIndex].GetComponent<MerchantWorld>();
             merchantWorld.SetMerchant(areaIndex, type);
             merchantWorld.Expire();
             succeed = true;

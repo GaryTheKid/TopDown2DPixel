@@ -11,11 +11,11 @@ using Photon.Pun;
 
 public class RPC_Merchant : MonoBehaviour
 {
-    private Merchant merchant;
+    private MerchantWorld merchant;
 
     private void Awake()
     {
-        merchant = GetComponent<Merchant>();
+        merchant = GetComponent<MerchantWorld>();
     }
 
     [PunRPC]
@@ -40,7 +40,7 @@ public class RPC_Merchant : MonoBehaviour
     [PunRPC]
     void RPC_MerchantExpire()
     {
-        Merchant merchantWorld = GetComponent<Merchant>();
+        MerchantWorld merchantWorld = GetComponent<MerchantWorld>();
 
         // release area available count
         var area = GameManager.singleton.merchantSpawnAreas[merchantWorld.areaIndex];

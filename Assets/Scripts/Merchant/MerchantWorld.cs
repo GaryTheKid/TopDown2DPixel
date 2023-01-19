@@ -14,7 +14,7 @@ using UnityEngine.InputSystem;
 using Photon.Pun;
 using NetworkCalls;
 
-public class Merchant : MonoBehaviour
+public class MerchantWorld : MonoBehaviour
 {
     #region Fields
     public enum MerchantType
@@ -33,10 +33,10 @@ public class Merchant : MonoBehaviour
     [SerializeField] private GameObject _TradeUI;
     [SerializeField] private GameObject _InsufficientResourceInfo;
     [SerializeField] private GameObject _SuccessfulPurchaseInfo;
-    [SerializeField] private GameObject shadow;
+    [SerializeField] private GameObject _shadow;
 
     private PhotonView _PV;
-    private IEnumerator Expire_Co;
+    private IEnumerator _Expire_Co;
     #endregion
 
     #region Unity Functions
@@ -193,10 +193,10 @@ public class Merchant : MonoBehaviour
 
     public void Expire()
     {
-        if (Expire_Co == null)
+        if (_Expire_Co == null)
         {
-            Expire_Co = Co_WaitForExpire();
-            StartCoroutine(Expire_Co);
+            _Expire_Co = Co_WaitForExpire();
+            StartCoroutine(_Expire_Co);
         }
     }
     IEnumerator Co_WaitForExpire()
@@ -217,7 +217,7 @@ public class Merchant : MonoBehaviour
         }
 
         // clear corouting
-        Expire_Co = null;
+        _Expire_Co = null;
     }
 
     public void DestroySelf()
@@ -234,7 +234,7 @@ public class Merchant : MonoBehaviour
         foreach (Collider2D collider in GetComponents<Collider2D>()) collider.enabled = true;
 
         // re-enable shadow
-        shadow.SetActive(true);
+        _shadow.SetActive(true);
 
         // inform object pool
         ObjectPool.objectPool.isAllMerchantActive = false;

@@ -22,7 +22,7 @@ public class WorldInteracter : MonoBehaviour
     public List<LootBoxWorld> lootBoxesInRange;
     public List<ItemWorld> itemWorldsInRange;
     public Well wellInRange;
-    public Merchant merchantInRange;
+    public MerchantWorld merchantInRange;
 
     private PhotonView _PV;
     private PCInputActions _inputActions;
@@ -98,7 +98,7 @@ public class WorldInteracter : MonoBehaviour
         }
 
         // interact with merchant
-        Merchant merchant = collision.GetComponent<Merchant>();
+        MerchantWorld merchant = collision.GetComponent<MerchantWorld>();
         if (merchant != null)
         {
             // disable the equipment shortcut for merchant interactions
@@ -218,7 +218,7 @@ public class WorldInteracter : MonoBehaviour
         }
 
         // interact with merchant
-        Merchant merchant = collision.GetComponent<Merchant>();
+        MerchantWorld merchant = collision.GetComponent<MerchantWorld>();
         if (merchant != null)
         {
             // unload trade interaction input actions

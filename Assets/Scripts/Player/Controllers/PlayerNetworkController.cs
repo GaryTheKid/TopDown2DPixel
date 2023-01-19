@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
@@ -27,14 +26,13 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _ui_channeling;
     [SerializeField] private GameObject _ui_CastText;
     [SerializeField] private GameObject _castIndicators;
+    [SerializeField] private GameObject _playerVision;
     [SerializeField] private SpriteRenderer _ringSprite;
     [SerializeField] private MMF_Player _mmf_ReceiveDamage;
     [SerializeField] private MMF_Player _mmf_ReceiveHealing;
     [SerializeField] private Image _hpBar;
     [SerializeField] private Gradient _enemyHpBarGradient;
     [SerializeField] private UnityEngine.Rendering.Universal.Light2D _characterLight;
-    
-
 
     private void Awake()
     {
@@ -60,6 +58,7 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
             _ui_channeling.SetActive(false);
             _ui_CastText.SetActive(false);
             _castIndicators.SetActive(false);
+            _playerVision.SetActive(false);
             _CharacterCollider.layer = LayerMask.NameToLayer("Enemy");
             transform.parent = GameManager.singleton.spawnedPlayerParent;
             _ringSprite.color = Color.red;
