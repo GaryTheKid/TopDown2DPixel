@@ -186,7 +186,7 @@ public class Merchant : MonoBehaviour
     {
         this.areaIndex = areaIndex;
         merchantType = (MerchantType)type;
-        // TODO: set merchant appears based on type;
+        // TODO: RPC set merchant appears based on type;
 
 
         SetVenderItems();

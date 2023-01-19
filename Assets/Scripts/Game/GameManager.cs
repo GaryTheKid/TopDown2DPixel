@@ -230,6 +230,17 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             nextLootBoxSpawnTime += lootBoxSpawnWaveTimeStep;
         }
+
+        // spawn merchant randomly
+        if (!ObjectPool.objectPool.isAllMerchantActive && timer >= nextMerchantSpawnTime)
+        {
+            // spawn loot boxes randomly
+            for (int i = 0; i < merchantSpawnQuantity; i++)
+            {
+                SpawnMerchantRandomly();
+            }
+            nextMerchantSpawnTime += merchantSpawnWaveTimeStep;
+        }
     }
 
     #region Timer
