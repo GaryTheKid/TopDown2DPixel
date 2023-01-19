@@ -1,7 +1,7 @@
 /* Last Edition: 01/10/2023
  * Author: Chongyang Wang
  * Collaborators: 
- * References: CodyMonkey
+ * References:
  * 
  * Description: 
  *   The merchant selling items to players
@@ -33,7 +33,6 @@ public class Merchant : MonoBehaviour
     [SerializeField] private GameObject _TradeUI;
     [SerializeField] private GameObject _InsufficientResourceInfo;
     [SerializeField] private GameObject _SuccessfulPurchaseInfo;
-    [SerializeField] private Sprite defaultSprite;
     [SerializeField] private GameObject shadow;
 
     private PhotonView _PV;
@@ -230,7 +229,6 @@ public class Merchant : MonoBehaviour
         var col = spriteRenderer.color;
         col.a = 1f;
         spriteRenderer.color = col;
-        spriteRenderer.sprite = defaultSprite;
 
         // re-enable colliders
         foreach (Collider2D collider in GetComponents<Collider2D>()) collider.enabled = true;
