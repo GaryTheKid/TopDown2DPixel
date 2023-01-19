@@ -60,7 +60,15 @@ public class AIBuffController : MonoBehaviour
             {
                 attackerEffectController.MultiKillEffect();
                 if (attackerStatsController != null)
+                {
                     attackerStatsController.UpdateExp(_aiStats.expWorth);
+                    attackerStatsController.UpdateGold(_aiStats.goldWorth);
+
+                    // TODO: show gold pop text effect
+
+
+
+                }
             }
         }
 

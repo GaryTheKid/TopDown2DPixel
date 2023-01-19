@@ -14,6 +14,7 @@ public class AIStats
     public int maxHp;
     public int hp;
     public int expWorth;
+    public int goldWorth;
     public float baseSpeed;
     public float speedModifier;
 
@@ -26,6 +27,7 @@ public class AIStats
         maxHp = 50;
         hp = 50;
         expWorth = 10;
+        goldWorth = 10;
         baseSpeed = 27f;
         speedModifier = 1f;
     }

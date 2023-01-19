@@ -5,7 +5,7 @@ using Pathfinding;
 public class RPC_AI : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
- 
+
     private PhotonView _PV;
     private AIMovementController _aiMovementController;
     private AIStatsController _aiStatsController;

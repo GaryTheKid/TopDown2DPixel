@@ -26,6 +26,7 @@ public class PlayerEffectController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _ui_hpMaxText;
     [SerializeField] private TextMeshProUGUI _ui_expMaxText;
     [SerializeField] private Image _ui_expBar;
+    [SerializeField] private Text _goldText;
     [SerializeField] private GameObject _ring;
     [SerializeField] private GameObject _shadow;
     [SerializeField] private CharacterSoundFX _characterSoundFX;
@@ -38,6 +39,8 @@ public class PlayerEffectController : MonoBehaviour
     [SerializeField] private GameObject _popTextTemplate;
     [SerializeField] private MMF_Player mmf_receiveDamage;
     [SerializeField] private MMF_Player mmf_receiveHealing;
+    [SerializeField] private MMF_Player mmf_receiveGold;
+    [SerializeField] private MMF_Player mmf_loseGold;
     [SerializeField] private MMF_Player mmf_regeneration;
     [SerializeField] private MMF_Player mmf_updateExp;
     [SerializeField] private MMF_Player mmf_levelUp;
@@ -238,6 +241,20 @@ public class PlayerEffectController : MonoBehaviour
     {
         _ui_expMaxText.text = newMaxExp.ToString();
         _ui_expBar.fillAmount = (float)currentHp / (float)newMaxExp;
+    }
+
+    public void UpdateGoldEffect(int deltaGold, int newGold)
+    {
+        if (deltaGold > 0)
+        {
+            mmf_receiveGold.PlayFeedbacks();
+        }
+        else if (deltaGold < 0)
+        {
+            mmf_loseGold.PlayFeedbacks();
+        }
+
+        _goldText.text = newGold.ToString();
     }
 
     public void LevelUpEffect(short newLevel)

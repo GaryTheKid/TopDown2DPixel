@@ -29,6 +29,8 @@ public class PlayerStats
     public int exp;
     public short level;
     public int expWorth;
+    public int gold;
+    public int goldWorth;
     public float baseSpeed;
     public float speedModifier;
     public int score;
@@ -46,6 +48,8 @@ public class PlayerStats
         exp = 0;
         level = 1;
         expWorth = 30;
+        gold = 0;
+        goldWorth = 10;
         baseSpeed = 30f;
         speedModifier = 1f;
         score = 0;
@@ -57,6 +61,7 @@ public class PlayerStatsController : MonoBehaviour
     private const int BASE_EXP = 50;
     private const int BASE_WORTH_EXP = 30;
     private const int BASE_HP = 100;
+    private const int BASE_WORTH_GOLD = 10;
 
     public static int GetMaxHpBasedOnLevel(short level)
     {
@@ -71,6 +76,11 @@ public class PlayerStatsController : MonoBehaviour
     public static int GetWorthExpBasedOnLevel(short level)
     {
         return BASE_WORTH_EXP + level * 30 + 2 * level * level;
+    }
+
+    public static int GetWorthGoldBasedOnLevel(short level)
+    {
+        return BASE_WORTH_GOLD + level * 3 + (int)(0.5f * level * level);
     }
 
     public PlayerStats playerStats = new PlayerStats();
@@ -189,6 +199,24 @@ public class PlayerStatsController : MonoBehaviour
             return;
 
         playerStats.expWorth += deltaExpWorth;
+    }
+
+    // update player gold
+    public void UpdateGold(int deltaGold)
+    {
+        playerStats.gold += deltaGold;
+
+        // show visual
+        _playerEffectController.UpdateGoldEffect(deltaGold, playerStats.gold);
+    }
+
+    // update player's worth gold once level up
+    public void UpdateWorthGold(int deltaGoldWorth)
+    {
+        if (deltaGoldWorth < 0)
+            return;
+
+        playerStats.goldWorth += deltaGoldWorth;
     }
 
     // update player score
