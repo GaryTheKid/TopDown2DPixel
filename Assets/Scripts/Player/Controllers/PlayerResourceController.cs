@@ -11,5 +11,25 @@ using UnityEngine;
 
 public class PlayerResourceController : MonoBehaviour
 {
+    private PlayerStatsController _playerStatsController;
 
+    private void Awake()
+    {
+        _playerStatsController = GetComponent<PlayerStatsController>();
+    }
+
+    public int GetCurrentGold()
+    {
+        return _playerStatsController.playerStats.gold;
+    }
+
+    public void GainGold(int amount)
+    {
+        _playerStatsController.UpdateGold(amount);
+    }
+
+    public void LoseGold(int amount)
+    {
+        _playerStatsController.UpdateGold(-amount);
+    }
 }

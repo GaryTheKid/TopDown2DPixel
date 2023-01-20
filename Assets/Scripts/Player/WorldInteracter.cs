@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Pun;
+using Utilities;
 
 public class WorldInteracter : MonoBehaviour
 {
@@ -23,10 +24,14 @@ public class WorldInteracter : MonoBehaviour
     public List<ItemWorld> itemWorldsInRange;
     public Well wellInRange;
     public MerchantWorld merchantInRange;
+    public UI_VenderItem venderItem_1;
+    public UI_VenderItem venderItem_2;
+    public UI_VenderItem venderItem_3;
 
     private PhotonView _PV;
     private PCInputActions _inputActions;
     private PlayerInventoryController _playerInventoryController;
+    private PlayerResourceController _playerResourceController;
 
     private bool _isInteractionButtonActivated;
     private IEnumerator _Co_ExitingSmoke;
@@ -36,6 +41,7 @@ public class WorldInteracter : MonoBehaviour
         _PV = GetComponentInParent<PhotonView>();
         _inputActions = GetComponentInParent<PlayerInputActions>().inputActions;
         _playerInventoryController = GetComponentInParent<PlayerInventoryController>();
+        _playerResourceController = GetComponentInParent<PlayerResourceController>();
     }
 
     private void OnDisable()
@@ -98,19 +104,24 @@ public class WorldInteracter : MonoBehaviour
         }
 
         // interact with merchant
-        MerchantWorld merchant = collision.GetComponent<MerchantWorld>();
-        if (merchant != null)
+        merchantInRange = collision.GetComponent<MerchantWorld>();
+        if (merchantInRange != null)
         {
             // disable the equipment shortcut for merchant interactions
             _playerInventoryController.UnloadEquipmentQuickCast();
 
             // load trade interaction input actions
-            _inputActions.Player.EquipmentQuickCast_1.performed += merchant.PurchaseItem1;
-            _inputActions.Player.EquipmentQuickCast_2.performed += merchant.PurchaseItem2;
-            _inputActions.Player.EquipmentQuickCast_3.performed += merchant.PurchaseItem3;
+            _inputActions.Player.EquipmentQuickCast_1.performed += PurchaseItem1;
+            _inputActions.Player.EquipmentQuickCast_2.performed += PurchaseItem2;
+            _inputActions.Player.EquipmentQuickCast_3.performed += PurchaseItem3;
+
+            // load merchant's vendered items
+            venderItem_1 = merchantInRange.venderItem_1;
+            venderItem_2 = merchantInRange.venderItem_2;
+            venderItem_3 = merchantInRange.venderItem_3;
 
             // show trade interaction UI
-            merchant.RevealTradeUI();
+            merchantInRange.RevealTradeUI();
         }
     }
 
@@ -218,19 +229,129 @@ public class WorldInteracter : MonoBehaviour
         }
 
         // interact with merchant
-        MerchantWorld merchant = collision.GetComponent<MerchantWorld>();
-        if (merchant != null)
+        merchantInRange = collision.GetComponent<MerchantWorld>();
+        if (merchantInRange != null)
         {
             // unload trade interaction input actions
-            _inputActions.Player.EquipmentQuickCast_1.performed -= merchant.PurchaseItem1;
-            _inputActions.Player.EquipmentQuickCast_2.performed -= merchant.PurchaseItem2;
-            _inputActions.Player.EquipmentQuickCast_3.performed -= merchant.PurchaseItem3;
+            _inputActions.Player.EquipmentQuickCast_1.performed -= PurchaseItem1;
+            _inputActions.Player.EquipmentQuickCast_2.performed -= PurchaseItem2;
+            _inputActions.Player.EquipmentQuickCast_3.performed -= PurchaseItem3;
+
+            // unload merchant's vendered items
+            venderItem_1 = null;
+            venderItem_2 = null;
+            venderItem_3 = null;
 
             // re-enable the equipment shortcut for merchant interactions
             _playerInventoryController.LoadEquipmentQuickCast();
 
             // hide trade interaction UI
-            merchant.HideTradeUI();
+            merchantInRange.HideTradeUI();
+        }
+    }
+
+    public void PurchaseItem1(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            // check if has item available
+            if (venderItem_1 == null)
+                return;
+
+            // check if has enough resources
+            if (_playerResourceController.GetCurrentGold() >= venderItem_1.price)
+            {
+                // get item
+                Item item = venderItem_1.venderItem;
+                Item itemCopy = (Item)Common.GetObjectCopyFromInstance(item);
+                itemCopy.amount = venderItem_1.amount;
+                itemCopy.durability = venderItem_1.durability;
+                itemCopy.price = venderItem_1.price;
+
+                // add item to the inventory
+                _playerInventoryController.AddItem(itemCopy);
+
+                // pay the resources
+                _playerResourceController.LoseGold(venderItem_1.price);
+
+                // show purchase info
+                merchantInRange.ShowSuccessfulPurchaseInfo();
+            }
+            else
+            {
+                // show insufficient resource info
+                merchantInRange.ShowInsufficientResourceInfo();
+            }
+        }
+    }
+
+    public void PurchaseItem2(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            // check if has item available
+            if (venderItem_2 == null)
+                return;
+
+            // check if has enough resources
+            if (_playerResourceController.GetCurrentGold() >= venderItem_2.price)
+            {
+                // get item
+                Item item = venderItem_2.venderItem;
+                Item itemCopy = (Item)Common.GetObjectCopyFromInstance(item);
+                itemCopy.amount = venderItem_2.amount;
+                itemCopy.durability = venderItem_2.durability;
+                itemCopy.price = venderItem_2.price;
+
+                // add item to the inventory
+                _playerInventoryController.AddItem(itemCopy);
+
+                // pay the resources
+                _playerResourceController.LoseGold(venderItem_2.price);
+
+                // show purchase info
+                merchantInRange.ShowSuccessfulPurchaseInfo();
+            }
+            else
+            {
+                // show insufficient resource info
+                merchantInRange.ShowInsufficientResourceInfo();
+            }
+        }
+    }
+
+    public void PurchaseItem3(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            // check if has item available
+            if (venderItem_3 == null)
+                return;
+
+            // check if has enough resources
+            if (_playerResourceController.GetCurrentGold() >= venderItem_3.price)
+            {
+                // get item
+                Item item = venderItem_3.venderItem;
+                Item itemCopy = (Item)Common.GetObjectCopyFromInstance(item);
+                itemCopy.amount = venderItem_3.amount;
+                itemCopy.durability = venderItem_3.durability;
+                itemCopy.price = venderItem_3.price;
+
+                // add item to the inventory
+                _playerInventoryController.AddItem(itemCopy);
+
+                // pay the resources
+                _playerResourceController.LoseGold(venderItem_3.price);
+
+                // show purchase info
+                merchantInRange.ShowSuccessfulPurchaseInfo();
+            }
+            else
+            {
+                // show insufficient resource info
+                merchantInRange.ShowInsufficientResourceInfo();
+            }
         }
     }
 

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 using Photon.Pun;
+using NetworkCalls;
 
 public class PlayerBuffController : MonoBehaviour
 {
@@ -62,9 +63,11 @@ public class PlayerBuffController : MonoBehaviour
         _statsController.UpdateHP(-dmg, out bool isKilled);
 
         // giving the attacker hit feedback
-        var attacker = PhotonView.Find(attackerID).transform;
+        var attackerPV = PhotonView.Find(attackerID);
+        var attacker = attackerPV.transform;
         var attackerEffectController = attacker.GetComponent<PlayerEffectController>();
         var attackerStatsController = attacker.GetComponent<PlayerStatsController>();
+        var attackerResourceController = attacker.GetComponent<PlayerResourceController>();
         if (attackerEffectController != null)
         {
             // combo indicator
@@ -75,7 +78,15 @@ public class PlayerBuffController : MonoBehaviour
             {
                 attackerEffectController.MultiKillEffect();
                 if (attackerStatsController != null)
+                {
                     attackerStatsController.UpdateExp(_playerStats.expWorth);
+                    Player_NetWork.GainGold(attackerPV, (short)_playerStats.goldWorth);
+
+                    // TODO: show gold pop text effect
+
+
+
+                }
             }
         }
 

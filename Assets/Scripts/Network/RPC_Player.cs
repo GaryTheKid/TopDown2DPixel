@@ -22,6 +22,7 @@ public class RPC_Player : MonoBehaviour
     private PlayerStatsController _playerStatsController;
     private PlayerNetworkController _playerNetworkController;
     private PlayerVisionController _playerVisionController;
+    private PlayerResourceController _playerResourceController;
     private HashSet<int> targets;
 
     private void Awake()
@@ -33,6 +34,7 @@ public class RPC_Player : MonoBehaviour
         _playerStatsController = GetComponent<PlayerStatsController>();
         _playerNetworkController = GetComponent<PlayerNetworkController>();
         _playerVisionController = GetComponent<PlayerVisionController>();
+        _playerResourceController = GetComponent<PlayerResourceController>();
     }
 
     private void Start()
@@ -61,6 +63,18 @@ public class RPC_Player : MonoBehaviour
         _playerStatsController.UpdateWorthExp(PlayerStatsController.GetWorthExpBasedOnLevel(newLevel) - _playerStatsController.playerStats.expWorth);
         _playerStatsController.UpdateWorthGold(PlayerStatsController.GetWorthGoldBasedOnLevel(newLevel) - _playerStatsController.playerStats.goldWorth);
         // TODO: perk system!!!!
+    }
+
+    [PunRPC]
+    void RPC_GainGold(short amount)
+    {
+        _playerResourceController.GainGold(amount);
+    }
+
+    [PunRPC]
+    void RPC_LoseGold(short amount)
+    {
+        _playerResourceController.LoseGold(amount);
     }
 
     [PunRPC]

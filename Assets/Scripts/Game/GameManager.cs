@@ -264,10 +264,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         // update all players' vision
         foreach (Transform player in spawnedPlayerParent)
         {
-            if (player.GetComponent<PhotonView>().IsMine)
-            {
-                Player_NetWork.UpdateVision(player.GetComponent<PhotonView>(), 35f);
-            }
+            Player_NetWork.UpdateVision(player.GetComponent<PhotonView>(), 35f);
         }
     }
 
@@ -278,10 +275,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         // update all players' vision
         foreach (Transform player in spawnedPlayerParent)
         {
-            if (player.GetComponent<PhotonView>().IsMine)
-            {
-                Player_NetWork.UpdateVision(player.GetComponent<PhotonView>(), 15f);
-            }
+            Player_NetWork.UpdateVision(player.GetComponent<PhotonView>(), 15f);
         }
     }
     #endregion

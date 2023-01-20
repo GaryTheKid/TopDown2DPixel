@@ -425,12 +425,19 @@ namespace NetworkCalls
             }
         }
 
+        public static void GainGold(PhotonView PV, short amount)
+        {
+            PV.RPC("RPC_GainGold", RpcTarget.AllBuffered, amount);
+        }
+
+        public static void LoseGold(PhotonView PV, short amount)
+        {
+            PV.RPC("RPC_LoseGold", RpcTarget.AllBuffered, amount);
+        }
+
         public static void UpdateVision(PhotonView PV, float newVisionRadius)
         {
-            if (PV.IsMine)
-            {
-                PV.RPC("RPC_UpdateVision", RpcTarget.AllBuffered, newVisionRadius);
-            }
+            PV.RPC("RPC_UpdateVision", RpcTarget.AllBuffered, newVisionRadius);
         }
 
         public static void Die(PhotonView PV)

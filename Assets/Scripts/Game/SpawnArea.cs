@@ -48,7 +48,7 @@ public class SpawnArea : MonoBehaviour
                     Gizmos.DrawCube(center, size);
 
                     // draw text
-                    Vector3 textCenter = new Vector3(center.x - 1.5f, center.y + 0.5f);
+                    Vector3 textCenter = new Vector3(center.x - 2.5f, center.y + 0.5f);
                     Handles.Label(textCenter, "Loot Box Spawn");
                 } 
                 break;
@@ -63,7 +63,7 @@ public class SpawnArea : MonoBehaviour
                     Gizmos.DrawCube(center, size);
 
                     // draw text
-                    Vector3 textCenter = new Vector3(center.x - 1.5f, center.y + 0.5f);
+                    Vector3 textCenter = new Vector3(center.x - 2.5f, center.y + 0.5f);
                     Handles.Label(textCenter, "AI Spawn");
                 }
                 break;
@@ -78,7 +78,7 @@ public class SpawnArea : MonoBehaviour
                     Gizmos.DrawCube(center, size);
 
                     // draw text
-                    Vector3 textCenter = new Vector3(center.x - 1.5f, center.y + 0.5f);
+                    Vector3 textCenter = new Vector3(center.x - 2.5f, center.y + 0.5f);
                     Handles.Label(textCenter, "Merchant Spawn");
                 }
                 break;

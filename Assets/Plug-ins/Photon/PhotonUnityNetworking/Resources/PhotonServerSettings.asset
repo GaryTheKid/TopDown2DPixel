@@ -101,6 +101,8 @@ MonoBehaviour:
   - RPC_SpawnMerchant
   - RPC_DestroyMerchant
   - RPC_MerchantExpire
+  - RPC_GainGold
+  - RPC_LoseGold
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

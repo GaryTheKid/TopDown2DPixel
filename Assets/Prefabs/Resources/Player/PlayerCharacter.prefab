@@ -1085,6 +1085,9 @@ MonoBehaviour:
   itemWorldsInRange: []
   wellInRange: {fileID: 0}
   merchantInRange: {fileID: 0}
+  venderItem_1: {fileID: 0}
+  venderItem_2: {fileID: 0}
+  venderItem_3: {fileID: 0}
 --- !u!1 &617582110066594024
 GameObject:
   m_ObjectHideFlags: 0
@@ -10866,6 +10869,7 @@ GameObject:
   - component: {fileID: 6639645480966383125}
   - component: {fileID: 7129710294949714333}
   - component: {fileID: 4677988973057636489}
+  - component: {fileID: 977623475115491521}
   m_Layer: 0
   m_Name: PlayerCharacter
   m_TagString: Untagged
@@ -11299,6 +11303,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vision: {fileID: 2198770851789635790}
+--- !u!114 &977623475115491521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5210151642737692042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12c48da2a8386c7428ac97adc55a2f8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5240005659565694029
 GameObject:
   m_ObjectHideFlags: 0

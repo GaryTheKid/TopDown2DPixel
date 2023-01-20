@@ -151,36 +151,6 @@ public class MerchantWorld : MonoBehaviour
         }
     }
 
-    public void PurchaseItem1(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            // check if enough resources to purchase
-            /*if ()
-            {
-                
-            }*/
-            ShowSuccessfulPurchaseInfo();
-        }
-    }
-
-    public void PurchaseItem2(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-
-            ShowSuccessfulPurchaseInfo();
-        }
-    }
-
-    public void PurchaseItem3(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            ShowSuccessfulPurchaseInfo();
-        }
-    }
-
     public void SetMerchant(int areaIndex, byte type)
     {
         this.areaIndex = areaIndex;

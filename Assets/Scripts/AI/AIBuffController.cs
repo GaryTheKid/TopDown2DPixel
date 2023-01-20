@@ -50,6 +50,7 @@ public class AIBuffController : MonoBehaviour
         var attacker = PhotonView.Find(attackerID).transform;
         var attackerEffectController = attacker.GetComponent<PlayerEffectController>();
         var attackerStatsController = attacker.GetComponent<PlayerStatsController>();
+        var attackerResourceController = attacker.GetComponent<PlayerResourceController>();
         if (attackerEffectController != null)
         {
             // combo indicator
@@ -62,7 +63,7 @@ public class AIBuffController : MonoBehaviour
                 if (attackerStatsController != null)
                 {
                     attackerStatsController.UpdateExp(_aiStats.expWorth);
-                    attackerStatsController.UpdateGold(_aiStats.goldWorth);
+                    attackerResourceController.GainGold(_aiStats.goldWorth);
 
                     // TODO: show gold pop text effect
 
