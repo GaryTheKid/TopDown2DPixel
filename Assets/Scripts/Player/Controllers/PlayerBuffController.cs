@@ -67,7 +67,6 @@ public class PlayerBuffController : MonoBehaviour
         var attacker = attackerPV.transform;
         var attackerEffectController = attacker.GetComponent<PlayerEffectController>();
         var attackerStatsController = attacker.GetComponent<PlayerStatsController>();
-        var attackerResourceController = attacker.GetComponent<PlayerResourceController>();
         if (attackerEffectController != null)
         {
             // combo indicator
