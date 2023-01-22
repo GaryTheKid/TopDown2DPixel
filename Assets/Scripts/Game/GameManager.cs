@@ -570,6 +570,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             var area = child.GetComponent<SpawnArea>();
 
+            // check if the area is a singular spawn area
+            if (area.isSingular)
+            {
+                lootBoxSpawnAreas.Add((area, 1, 0));
+                return;
+            }
+
             // calculate max capacity based on density
             int maxCapacity = Mathf.RoundToInt(((area.GetAreaSize()) / 11.25f) * lootBoxSpawnDensity);
 
@@ -586,6 +593,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             var area = child.GetComponent<SpawnArea>();
 
+            // check if the area is a singular spawn area
+            if (area.isSingular)
+            {
+                aiSpawnAreas.Add((area, 1));
+                return;
+            }
+
             // calculate max capacity based on density
             int maxCapacity = Mathf.RoundToInt(((area.GetAreaSize()) / 11.25f) * aiSpawnDensity);
 
@@ -601,6 +615,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         foreach (Transform child in merchantSpawnAreaParent)
         {
             var area = child.GetComponent<SpawnArea>();
+
+            // check if the area is a singular spawn area
+            if (area.isSingular)
+            {
+                merchantSpawnAreas.Add((area, 1, 0));
+                return;
+            }
 
             // calculate max capacity based on density
             int maxCapacity = Mathf.RoundToInt(((area.GetAreaSize()) / 11.25f) * merchantSpawnDensity);

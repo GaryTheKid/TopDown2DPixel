@@ -31,6 +31,7 @@ public class SpawnArea : MonoBehaviour
     [SerializeField] private Transform _v2;
     [Tooltip("By default, if this value is 0. If not, it will override the game manager spawn density for this spawn area.")]
     public int overrideSpawnDensity;
+    public bool isSingular;
 
 # if UNITY_EDITOR
     // turn this off when build, only works on Editor
@@ -49,7 +50,10 @@ public class SpawnArea : MonoBehaviour
 
                     // draw text
                     Vector3 textCenter = new Vector3(center.x - 2.5f, center.y + 0.5f);
-                    Handles.Label(textCenter, "Loot Box Spawn");
+                    if (isSingular)
+                        Handles.Label(textCenter, "* Loot Box Spawn");
+                    else
+                        Handles.Label(textCenter, "Loot Box Spawn");
                 } 
                 break;
 
@@ -64,7 +68,10 @@ public class SpawnArea : MonoBehaviour
 
                     // draw text
                     Vector3 textCenter = new Vector3(center.x - 2.5f, center.y + 0.5f);
-                    Handles.Label(textCenter, "AI Spawn");
+                    if (isSingular)
+                        Handles.Label(textCenter, "* AI Spawn");
+                    else
+                        Handles.Label(textCenter, "AI Spawn");
                 }
                 break;
 
@@ -79,7 +86,10 @@ public class SpawnArea : MonoBehaviour
 
                     // draw text
                     Vector3 textCenter = new Vector3(center.x - 2.5f, center.y + 0.5f);
-                    Handles.Label(textCenter, "Merchant Spawn");
+                    if (isSingular)
+                        Handles.Label(textCenter, "* Merchant Spawn");
+                    else
+                        Handles.Label(textCenter, "Merchant Spawn");
                 }
                 break;
         }
