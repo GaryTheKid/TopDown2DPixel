@@ -247,6 +247,7 @@ public class WorldInteracter : MonoBehaviour
 
             // hide trade interaction UI
             merchantInRange.HideTradeUI();
+            merchantInRange = null;
         }
     }
 
