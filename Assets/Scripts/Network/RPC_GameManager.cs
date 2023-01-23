@@ -151,7 +151,7 @@ public class RPC_GameManager : MonoBehaviour
     IEnumerator Co_DecreaseGlobalLight()
     {
         var intensity = 1f;
-        while (GameManager.singleton.globalLight.intensity > 0f)
+        while (GameManager.singleton.globalLight.intensity > 0.05f)
         {
             intensity -= Time.deltaTime * LIGHT_UPDATE_SPEED;
             GameManager.singleton.globalLight.intensity = intensity;
@@ -159,7 +159,7 @@ public class RPC_GameManager : MonoBehaviour
             Night.color = new Color(1f, 1f, 1f, 1f - intensity);
             yield return new WaitForEndOfFrame();
         }
-        GameManager.singleton.globalLight.intensity = 0f;
+        GameManager.singleton.globalLight.intensity = 0.05f;
     }
 
     [PunRPC]

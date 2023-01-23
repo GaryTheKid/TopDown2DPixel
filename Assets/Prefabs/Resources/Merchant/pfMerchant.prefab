@@ -265,7 +265,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3245610084582313477}
-  - component: {fileID: 3245610084582313476}
   m_Layer: 0
   m_Name: Slot
   m_TagString: slot
@@ -295,21 +294,6 @@ RectTransform:
   m_AnchoredPosition: {x: -1.506, y: 0.08}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3245610084582313476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3245610084582313478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69e993d54fda9b04e994038effc789f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiIndex: 0
-  keyCode: 49
-  shortCutText: {fileID: 0}
 --- !u!1 &3245610084586418664
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,7 +948,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3245610085066949947}
-  - component: {fileID: 3245610085066949946}
   m_Layer: 0
   m_Name: Slot (2)
   m_TagString: slot
@@ -994,21 +977,6 @@ RectTransform:
   m_AnchoredPosition: {x: 1.489, y: 0.08000058}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3245610085066949946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3245610085066949948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69e993d54fda9b04e994038effc789f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiIndex: 0
-  keyCode: 51
-  shortCutText: {fileID: 0}
 --- !u!1 &3245610085096256926
 GameObject:
   m_ObjectHideFlags: 0
@@ -2988,7 +2956,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3245610086392625268}
-  - component: {fileID: 3245610086392625267}
   m_Layer: 0
   m_Name: Slot (1)
   m_TagString: slot
@@ -3018,21 +2985,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.0099983215, y: 0.08000368}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3245610086392625267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3245610086392625269}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69e993d54fda9b04e994038effc789f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiIndex: 0
-  keyCode: 50
-  shortCutText: {fileID: 0}
 --- !u!1 &3245610086399356570
 GameObject:
   m_ObjectHideFlags: 0

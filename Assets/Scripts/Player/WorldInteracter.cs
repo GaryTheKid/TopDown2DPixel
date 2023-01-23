@@ -369,7 +369,7 @@ public class WorldInteracter : MonoBehaviour
 
     public void ClearAll()
     {
-        GetComponentInParent<PlayerEffectController>().ScreenSmokeOff();
+        GetComponentInParent<PlayerEffectController>()?.ScreenSmokeOff();
         lootBoxesInRange.Clear();
         itemWorldsInRange.Clear();
         wellInRange = null;

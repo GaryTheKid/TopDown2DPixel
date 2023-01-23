@@ -79,7 +79,7 @@ public class SpawnArea : MonoBehaviour
                 {
                     // draw area
                     (Vector3 center, Vector3 size) = ConvertTwoVertsToCenterSize();
-                    Color col = Color.yellow;
+                    Color col = Color.green;
                     col.a = 0.5f;
                     Gizmos.color = col;
                     Gizmos.DrawCube(center, size);
