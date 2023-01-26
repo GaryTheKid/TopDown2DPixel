@@ -15,6 +15,8 @@ using Photon.Realtime;
 public class UI_PlayerInstance : MonoBehaviour
 {
     [SerializeField] private Text displayedPlayerName;
+    [SerializeField] private Text playerCharacterName;
+    [SerializeField] private Image playerCharacterIcon;
     public string playerNickName;
 
     public Player PlayerInfo { get; private set; }
@@ -24,5 +26,7 @@ public class UI_PlayerInstance : MonoBehaviour
         PlayerInfo = playerInfo;
         displayedPlayerName.text = playerInfo.NickName; //.Substring(0, playerInfo.UserId.IndexOf("#"))
         playerNickName = playerInfo.NickName;
+        playerCharacterIcon.sprite = PlayerAssets.singleton.PlayerCharacterIconList[(int)playerInfo.CustomProperties["CharacterIndex"]];
+        playerCharacterName.text = PlayerAssets.singleton.PlayerCharacterNameList[(int)playerInfo.CustomProperties["CharacterIndex"]];
     }
 }

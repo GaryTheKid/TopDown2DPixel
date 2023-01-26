@@ -78,6 +78,13 @@ public class PlayerEffectController : MonoBehaviour
         _hp.gameObject.SetActive(true);
     }
 
+    public void SetAvatarAnimation(Animator animator, GameObject ghostRunFXAnimator, SpriteRenderer bodySprite)
+    {
+        _avatarAnimator = animator;
+        _ghostRunFXAnimator = ghostRunFXAnimator;
+        _bodySprite = bodySprite;
+    }
+
     public void CameraShake(float intensity, float time)
     {
         if (time <= 0 || intensity <= 0)

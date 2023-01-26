@@ -15,7 +15,6 @@ using MoreMountains.Feedbacks;
 public class UI_CharacterSelectionList : MonoBehaviour
 {
     public List<Transform> characterSelectionList;
-    public List<string> characterNameList;
     public int currentCharacterIndex;
 
     [SerializeField] private MMF_Player _mmFeedBack;
@@ -32,6 +31,16 @@ public class UI_CharacterSelectionList : MonoBehaviour
             characterSelectionList.Add(child);
         }
         UpdateCharacterSelectionList();
+    }
+
+    private void OnEnable()
+    {
+        try
+        {
+            UpdateCharacterSelectionList();
+        }
+        catch
+        {}
     }
 
     public void SwitchToCharacter(int newIndex)
@@ -93,7 +102,7 @@ public class UI_CharacterSelectionList : MonoBehaviour
         }
 
         // update selected character
-        _selectedCharacterNameText.text = characterNameList[currentCharacterIndex];
+        _selectedCharacterNameText.text = PlayerAssets.singleton.PlayerCharacterNameList[currentCharacterIndex];
         for (int i = 0; i < characterSelectionList.Count; i++)
         {
             if (i == currentCharacterIndex)

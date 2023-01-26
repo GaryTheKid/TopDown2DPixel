@@ -24,6 +24,8 @@ public class Networking_ServerManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _lobbyCanvas;
     [SerializeField] private GameObject _roomCanvas;
     [SerializeField] private Text _playerNameText;
+    [SerializeField] private Text _playerSelectedCharacterNameText;
+    [SerializeField] private Image _playerSelectedCharacterSprite;
     #endregion
 
 
@@ -105,6 +107,8 @@ public class Networking_ServerManager : MonoBehaviourPunCallbacks
         Debug.Log("Joined lobby");
         _mainMenuCanvas.SetActive(false);
         _lobbyCanvas.SetActive(true);
+        _playerSelectedCharacterSprite.sprite = PlayerAssets.singleton.PlayerCharacterIconList[(int)PhotonNetwork.LocalPlayer.CustomProperties["CharacterIndex"]];
+        _playerSelectedCharacterNameText.text = PlayerAssets.singleton.PlayerCharacterNameList[(int)PhotonNetwork.LocalPlayer.CustomProperties["CharacterIndex"]];
     }
     #endregion
 }

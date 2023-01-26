@@ -13,6 +13,8 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
     public ScoreboardTag scoreboardTag;
     public TextMeshPro TMP_Name;
 
+    private PlayerEffectController _playerEffectController;
+    private PlayerMovementController _playerMovementController;
     private PhotonView _PV;
     [SerializeField] private GameObject _playerCamera;
     [SerializeField] private GameObject _playerVCam;
@@ -36,10 +38,30 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        _PV = GetComponent<PhotonView>(); 
+        _PV = GetComponent<PhotonView>();
+        _playerEffectController = GetComponent<PlayerEffectController>();
+        _playerMovementController = GetComponent<PlayerMovementController>();
     }
 
     private void Start()
+    {
+        // instantiate character avatar
+        StartCoroutine(_co_instantiate_avatar());
+
+        // configure networked objs
+        ConfigureNetworkedObjs();
+
+        // update name
+        UpdatePlayerInfo();
+    }
+
+    public void UpdatePlayerInfo()
+    {
+        string nameAndID = _PV.Owner.ToString().Split('\'')[1];
+        TMP_Name.text = nameAndID.Substring(0, nameAndID.IndexOf("#"));
+    }
+
+    private void ConfigureNetworkedObjs()
     {
         if (!_PV.IsMine)
         {
@@ -67,20 +89,31 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
             _mmf_ReceiveHealing.GetFeedbackOfType<MMF_Image>().ColorOverTime = _enemyHpBarGradient;
             _characterLight.color = Color.red;
         }
-        else 
+        else
         {
             _HitBox.tag = "Untagged";
             _ringSprite.color = Color.green;
             _characterLight.color = Color.white;
         }
-
-        // update name
-        UpdatePlayerInfo();
     }
 
-    public void UpdatePlayerInfo()
+    private IEnumerator _co_instantiate_avatar()
     {
-        string nameAndID = _PV.Owner.ToString().Split('\'')[1];
-        TMP_Name.text = nameAndID.Substring(0, nameAndID.IndexOf("#"));
+        // instantiate the avatar
+        var avatar = Instantiate(PlayerAssets.singleton.PlayerCharacterAvatarList[(int)_PV.Owner.CustomProperties["CharacterIndex"]], transform.position, Quaternion.identity);
+        avatar.transform.parent = transform;
+
+        // wait until avatar has been instantiated
+        yield return new WaitUntil( () => { return avatar != null; });
+
+        // setup avatar references
+        Transform avatarBody = avatar.transform.Find("Body");
+        Transform avatarGhostRunTrailFX = avatar.transform.Find("GhostRunTrailFX");
+        _mmf_ReceiveDamage.GetFeedbackOfType<MMF_SpriteRenderer>().BoundSpriteRenderer = avatarBody.GetComponent<SpriteRenderer>();
+        _mmf_ReceiveDamage.GetFeedbackOfType<MMF_SquashAndStretch>().SquashAndStretchTarget = avatarBody;
+        _mmf_ReceiveDamage.GetFeedbackOfType<MMF_Wiggle>().TargetWiggle = avatar.GetComponent<MMWiggle>();
+        _mmf_ReceiveHealing.GetFeedbackOfType<MMF_SpriteRenderer>().BoundSpriteRenderer = avatarBody.GetComponent<SpriteRenderer>();
+        _playerEffectController.SetAvatarAnimation(avatar.GetComponent<Animator>(), avatarGhostRunTrailFX.gameObject, avatarBody.GetComponent<SpriteRenderer>());
+        _playerMovementController.SetAvatarAnimation(avatar.GetComponent<Animator>(), avatarGhostRunTrailFX.GetComponent<Animator>());
     }
 }

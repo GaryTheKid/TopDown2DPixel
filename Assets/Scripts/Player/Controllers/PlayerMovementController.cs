@@ -92,4 +92,10 @@ public class PlayerMovementController : MonoBehaviour
             isDashing = false;
         }*/
     }
+
+    public void SetAvatarAnimation(Animator animator, Animator ghostRunAnimator)
+    {
+        _animator = animator;
+        _ghostRunAnimator = ghostRunAnimator;
+    }
 }
