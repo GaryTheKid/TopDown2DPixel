@@ -288,5 +288,10 @@ namespace Photon.Voice
         {
             this.voiceClient.Dispose();
         }
+
+        public void ChangeAudioGroups()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

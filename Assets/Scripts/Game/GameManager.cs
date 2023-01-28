@@ -721,6 +721,17 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     #endregion
 
+    #region Chat
+    public void DisplayVoicePlayingStatus(bool isPlaying)
+    {
+        
+    }
+    public void DisplayVoiceVolume(float volume)
+    {
+
+    }
+    #endregion
+
     #region PunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {

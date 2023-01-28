@@ -170,6 +170,15 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PushToTalk"",
+                    ""type"": ""Button"",
+                    ""id"": ""8edd7bb9-51a5-44b6-a8b5-d00a3be2bf8a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -524,6 +533,17 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Respawn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bf571766-8be0-42d8-968e-b272dcb66780"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PushToTalk"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -548,6 +568,7 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
         m_Player_EquipmentQuickCast_5 = m_Player.FindAction("EquipmentQuickCast_5", throwIfNotFound: true);
         m_Player_EquipmentQuickCast_6 = m_Player.FindAction("EquipmentQuickCast_6", throwIfNotFound: true);
         m_Player_Respawn = m_Player.FindAction("Respawn", throwIfNotFound: true);
+        m_Player_PushToTalk = m_Player.FindAction("PushToTalk", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -623,6 +644,7 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_EquipmentQuickCast_5;
     private readonly InputAction m_Player_EquipmentQuickCast_6;
     private readonly InputAction m_Player_Respawn;
+    private readonly InputAction m_Player_PushToTalk;
     public struct PlayerActions
     {
         private @PCInputActions m_Wrapper;
@@ -643,6 +665,7 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
         public InputAction @EquipmentQuickCast_5 => m_Wrapper.m_Player_EquipmentQuickCast_5;
         public InputAction @EquipmentQuickCast_6 => m_Wrapper.m_Player_EquipmentQuickCast_6;
         public InputAction @Respawn => m_Wrapper.m_Player_Respawn;
+        public InputAction @PushToTalk => m_Wrapper.m_Player_PushToTalk;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -700,6 +723,9 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
                 @Respawn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRespawn;
                 @Respawn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRespawn;
                 @Respawn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRespawn;
+                @PushToTalk.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPushToTalk;
+                @PushToTalk.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPushToTalk;
+                @PushToTalk.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPushToTalk;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -752,6 +778,9 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
                 @Respawn.started += instance.OnRespawn;
                 @Respawn.performed += instance.OnRespawn;
                 @Respawn.canceled += instance.OnRespawn;
+                @PushToTalk.started += instance.OnPushToTalk;
+                @PushToTalk.performed += instance.OnPushToTalk;
+                @PushToTalk.canceled += instance.OnPushToTalk;
             }
         }
     }
@@ -774,5 +803,6 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
         void OnEquipmentQuickCast_5(InputAction.CallbackContext context);
         void OnEquipmentQuickCast_6(InputAction.CallbackContext context);
         void OnRespawn(InputAction.CallbackContext context);
+        void OnPushToTalk(InputAction.CallbackContext context);
     }
 }

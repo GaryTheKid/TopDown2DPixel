@@ -38,5 +38,8 @@ public class PlayerInputActions : MonoBehaviour
 
         // respawn
         inputActions.Player.Respawn.Enable();
+
+        // voice chat
+        inputActions.Player.PushToTalk.Enable();
     }
 }

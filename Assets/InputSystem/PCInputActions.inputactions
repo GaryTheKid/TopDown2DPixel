@@ -11,7 +11,8 @@
                     "id": "34a32888-d155-495b-8399-7d7c6cda7eee",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Interact",
@@ -19,7 +20,8 @@
                     "id": "8e31f0dc-ed29-48f9-84ca-2fefce0a3e60",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Aim",
@@ -27,7 +29,8 @@
                     "id": "5ba20108-e010-4195-8db7-c6d0f7579770",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "TouchStart",
@@ -35,7 +38,8 @@
                     "id": "057b188d-227a-4f00-bb59-971548f1423a",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "TouchCanceled",
@@ -43,7 +47,8 @@
                     "id": "437b0d8a-6c58-4872-a89f-de46882e6cc8",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "TouchPos",
@@ -51,7 +56,8 @@
                     "id": "81b41110-5c95-4370-8696-ec00e3b7a033",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "TouchDelta",
@@ -59,7 +65,8 @@
                     "id": "748ef298-fd65-4fd6-9503-7673401e834e",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "FireOrChargeWeapon",
@@ -67,7 +74,8 @@
                     "id": "686a0fc1-4ffa-446d-854b-9960c04e6780",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "InventoryActivation",
@@ -75,7 +83,8 @@
                     "id": "8efca505-6d8e-4f75-bdc1-e54ae1204b66",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "EquipmentQuickCast_1",
@@ -83,7 +92,8 @@
                     "id": "319b693e-2ead-48dc-818d-0883d495a1bb",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "EquipmentQuickCast_2",
@@ -91,7 +101,8 @@
                     "id": "cef70e07-be39-473d-9ebb-9a883d2c284e",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "EquipmentQuickCast_3",
@@ -99,7 +110,8 @@
                     "id": "fbe0e9ee-2986-44a7-8411-5deae60a8d31",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "EquipmentQuickCast_4",
@@ -107,7 +119,8 @@
                     "id": "84b16dca-fc40-47c1-8301-62722adb8084",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "EquipmentQuickCast_5",
@@ -115,7 +128,8 @@
                     "id": "b4581ca5-1aaa-49d6-88be-c60cbb1de48c",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "EquipmentQuickCast_6",
@@ -123,7 +137,8 @@
                     "id": "8d558eec-763d-4e33-a8b6-0756dd2768f1",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Respawn",
@@ -131,7 +146,17 @@
                     "id": "7730b492-fa32-48e3-8123-9b1b8ae5d07a",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PushToTalk",
+                    "type": "Button",
+                    "id": "8edd7bb9-51a5-44b6-a8b5-d00a3be2bf8a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -484,6 +509,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Respawn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bf571766-8be0-42d8-968e-b272dcb66780",
+                    "path": "<Keyboard>/backquote",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PushToTalk",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
