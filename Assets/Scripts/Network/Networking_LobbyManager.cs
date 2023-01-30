@@ -22,7 +22,7 @@ public class Networking_LobbyManager : MonoBehaviourPunCallbacks
 
     // public fields
     public string selectedRoomID;
-    public int maxPlayer = 4;
+    public int maxPlayer = 8;
 
     // private fields
     [SerializeField] private GameObject _lobbyCanvas;

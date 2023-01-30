@@ -1,13 +1,17 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Photon.Pun;
 
 public class PlayerMovementController : MonoBehaviour
 {
+    private const float MIN_MOVE_THRESHOLD = 0.8f;
+
     [SerializeField] private float _dashAmount;
     [SerializeField] private LayerMask _dashLayerMask;
     [SerializeField] private Animator _animator;
     [SerializeField] private Animator _ghostRunAnimator;
 
+    private PhotonView _PV;
     private PlayerStatsController _playerStatsController;
     private PlayerStats _playerStats;
     private Rigidbody2D _rb;
@@ -17,6 +21,7 @@ public class PlayerMovementController : MonoBehaviour
 
     private void Awake()
     {
+        _PV = GetComponent<PhotonView>();
         _rb = GetComponent<Rigidbody2D>();
         _playerStatsController = GetComponent<PlayerStatsController>();
         _playerStats = _playerStatsController.playerStats;
@@ -27,70 +32,88 @@ public class PlayerMovementController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        /// player dead will turn to ghost, and move even faster!
-
-        if (_playerStats.isMovementLocked)
+        // check if self
+        if (_PV.IsMine)
         {
-            // Idle
-            if (_animator.GetBool("isMoving"))
-            {
-                _animator.SetBool("isMoving", false);
-                _animator.SetFloat("moveX", 0f);
-            }
-            return;
-        }
+            /// player dead will turn to ghost, and move even faster!
 
-        _moveDir = _inputActions.Player.Move.ReadValue<Vector2>().normalized;
-
-        bool isIdle = _moveDir == Vector3.zero;
-
-        if (isIdle)
-        {
-            // Idle
-            if (_animator.GetBool("isMoving"))
+            if (_playerStats.isMovementLocked)
             {
-                _animator.SetBool("isMoving", false);
-                _animator.SetFloat("moveX", 0f);
+                // Idle
+                if (_animator.GetBool("isMoving"))
+                {
+                    _animator.SetBool("isMoving", false);
+                    _animator.SetFloat("moveX", 0f);
+                }
+                return;
             }
-            
-            // ghost run
-            if (_ghostRunAnimator.isActiveAndEnabled && _ghostRunAnimator.GetBool("isGhostRunning"))
+
+            _moveDir = _inputActions.Player.Move.ReadValue<Vector2>().normalized;
+
+            bool isIdle = _moveDir == Vector3.zero;
+
+            if (isIdle)
             {
-                _ghostRunAnimator.SetBool("isGhostRunning", false);
-                _ghostRunAnimator.SetFloat("moveX", 0f);
-                _ghostRunAnimator.SetFloat("moveY", 0f);
+                // Idle
+                if (_animator.GetBool("isMoving"))
+                {
+                    _animator.SetBool("isMoving", false);
+                    _animator.SetFloat("moveX", 0f);
+                }
+
+                // ghost run
+                if (_ghostRunAnimator.isActiveAndEnabled && _ghostRunAnimator.GetBool("isGhostRunning"))
+                {
+                    _ghostRunAnimator.SetBool("isGhostRunning", false);
+                    _ghostRunAnimator.SetFloat("moveX", 0f);
+                    _ghostRunAnimator.SetFloat("moveY", 0f);
+                }
             }
+            else
+            {
+                // is moving
+                _rb.AddForce(_moveDir * _playerStatsController.GetCurrentSpeed());
+                if (!_animator.GetBool("isMoving"))
+                    _animator.SetBool("isMoving", true);
+                _animator.SetFloat("moveX", _moveDir.x);
+
+                // ghost run
+                if (_ghostRunAnimator.isActiveAndEnabled)
+                {
+                    if (!_ghostRunAnimator.GetBool("isGhostRunning"))
+                        _ghostRunAnimator.SetBool("isGhostRunning", true);
+                    var velocity = _rb.velocity.normalized;
+                    _ghostRunAnimator.SetFloat("moveX", velocity.x);
+                    _ghostRunAnimator.SetFloat("moveY", velocity.y);
+                }
+            }
+
+            /*if (isDashing)
+            {
+                Vector3 dashPosition = transform.position + moveDir * dashAmount;
+                RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position, moveDir, dashAmount, dashLayerMash);
+                if (raycastHit2D.collider != null)
+                {
+                    dashPosition = raycastHit2D.point;
+                }
+                rigidbody2D.MovePosition(dashPosition);
+                isDashing = false;
+            }*/
         }
         else
         {
-            // is moving
-            _rb.AddForce(_moveDir * _playerStatsController.GetCurrentSpeed());
-            if (!_animator.GetBool("isMoving"))
-                _animator.SetBool("isMoving", true);
-            _animator.SetFloat("moveX", _moveDir.x);
-
-            // ghost run
-            if (_ghostRunAnimator.isActiveAndEnabled)
+            var speed = _rb.velocity.x;
+            if (Mathf.Abs(speed) < MIN_MOVE_THRESHOLD && Mathf.Abs(speed) >= 0)
             {
-                if (!_ghostRunAnimator.GetBool("isGhostRunning"))
-                    _ghostRunAnimator.SetBool("isGhostRunning", true);
-                var velocity = _rb.velocity.normalized;
-                _ghostRunAnimator.SetFloat("moveX", velocity.x);
-                _ghostRunAnimator.SetFloat("moveY", velocity.y);
+                _animator.SetBool("isMoving", false);
+                _animator.SetFloat("moveX", 0f);
+            }
+            else
+            {
+                _animator.SetBool("isMoving", true);
+                _animator.SetFloat("moveX", speed);
             }
         }
-
-        /*if (isDashing)
-        {
-            Vector3 dashPosition = transform.position + moveDir * dashAmount;
-            RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position, moveDir, dashAmount, dashLayerMash);
-            if (raycastHit2D.collider != null)
-            {
-                dashPosition = raycastHit2D.point;
-            }
-            rigidbody2D.MovePosition(dashPosition);
-            isDashing = false;
-        }*/
     }
 
     public void SetAvatarAnimation(Animator animator, Animator ghostRunAnimator)

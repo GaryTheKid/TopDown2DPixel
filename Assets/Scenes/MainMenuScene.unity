@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedRoomID: 
-  maxPlayer: 4
+  maxPlayer: 8
   _lobbyCanvas: {fileID: 442075697}
   _roomCanvas: {fileID: 351737022}
   _roomTitle: {fileID: 416912677}
@@ -3378,7 +3378,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ChickBoi
+  m_Text: Chick Boi
 --- !u!222 &783613376
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4808,7 +4808,7 @@ MonoBehaviour:
   - {fileID: -1328724469, guid: a875833a05a97354988e7e3298fd0602, type: 3}
   PlayerCharacterNameList:
   - Pandadu
-  - Chickboi
+  - Chick Boi
   - Potategg
   PlayerCharacterAvatarList:
   - {fileID: 8098507014357956500, guid: 6bbdad7c97b58244f92378070cde48da, type: 3}

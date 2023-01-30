@@ -69,7 +69,6 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
             var _playerWeaponController = GetComponent<PlayerWeaponController>();
             _playerWeaponController.EquipHands();
             _playerWeaponController.enabled = false;
-            GetComponent<PlayerMovementController>().enabled = false;
             GetComponent<PlayerInteractionController>().enabled = false;
             _audioListener.SetActive(false);
             _ScreenSpaceFX.SetActive(false);

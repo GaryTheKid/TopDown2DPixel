@@ -9,7 +9,7 @@ public class Networking_RoomManager : MonoBehaviourPunCallbacks
     public static Networking_RoomManager singleton;
 
     // lobby/room setting
-    public int maxPlayer = 4;
+    public int maxPlayer = 8;
 
     // fields
     [SerializeField] private GameObject _lobbyCanvas;
