@@ -96,6 +96,7 @@ public class RPC_Player : MonoBehaviour
         _playerWeaponController.UnequipWeapon();
         _playerWeaponController.UnequipHands();
         _playerStatsController.playerStats.isDead = true;
+        _playerStatsController.playerStats.isRespawnable = false;
     }
 
     [PunRPC]
@@ -104,6 +105,7 @@ public class RPC_Player : MonoBehaviour
         _playerStatsController.OnRespawn.Invoke();
         _playerWeaponController.EquipHands();
         _playerStatsController.playerStats.isDead = false;
+        _playerStatsController.playerStats.isRespawnable = false;
     }
 
     [PunRPC]

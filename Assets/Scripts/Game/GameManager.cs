@@ -210,7 +210,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         // spawn ai randomly
-        if (!ObjectPool.objectPool.isAllAIActive && timer >= nextAISpawnTime)
+        if (timer >= nextAISpawnTime)
         {
             // spawn loot boxes randomly
             for (int i = 0; i < aiSpawnQuantity; i++)

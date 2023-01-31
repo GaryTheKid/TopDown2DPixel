@@ -21,6 +21,7 @@ public class UI_CharacterSelectionList : MonoBehaviour
     [SerializeField] private GameObject _selectionButton_Left;
     [SerializeField] private GameObject _selectionButton_Right;
     [SerializeField] private Text _selectedCharacterNameText;
+    [SerializeField] private Transform _moveTarget;
 
     private void Start()
     {
@@ -28,6 +29,8 @@ public class UI_CharacterSelectionList : MonoBehaviour
         characterSelectionList = new List<Transform>();
         foreach (Transform child in transform)
         {
+            if (child.name == "moveTarget")
+                continue;
             characterSelectionList.Add(child);
         }
         UpdateCharacterSelectionList();
@@ -51,7 +54,9 @@ public class UI_CharacterSelectionList : MonoBehaviour
         }
 
         currentCharacterIndex = newIndex;
-        _mmFeedBack.GetFeedbackOfType<MMF_Position>().DestinationPositionTransform = characterSelectionList[characterSelectionList.Count - newIndex - 1];
+
+        _moveTarget.GetComponent<RectTransform>().localPosition = new Vector3(-characterSelectionList[newIndex].localPosition.x, 0f, 0f);
+        _mmFeedBack.GetFeedbackOfType<MMF_Position>().DestinationPositionTransform = _moveTarget;
         _mmFeedBack.PlayFeedbacks();
         UpdateCharacterSelectionList();
     }
@@ -65,7 +70,8 @@ public class UI_CharacterSelectionList : MonoBehaviour
 
         currentCharacterIndex++;
 
-        _mmFeedBack.GetFeedbackOfType<MMF_Position>().DestinationPositionTransform = characterSelectionList[characterSelectionList.Count - currentCharacterIndex - 1];
+        _moveTarget.GetComponent<RectTransform>().localPosition = new Vector3(-characterSelectionList[currentCharacterIndex].localPosition.x, 0f, 0f);
+        _mmFeedBack.GetFeedbackOfType<MMF_Position>().DestinationPositionTransform = _moveTarget;
         _mmFeedBack.PlayFeedbacks();
         UpdateCharacterSelectionList();
     }
@@ -79,7 +85,9 @@ public class UI_CharacterSelectionList : MonoBehaviour
 
         currentCharacterIndex--;
 
-        _mmFeedBack.GetFeedbackOfType<MMF_Position>().DestinationPositionTransform = characterSelectionList[characterSelectionList.Count - currentCharacterIndex - 1];
+        _moveTarget.GetComponent<RectTransform>().localPosition = new Vector3(-characterSelectionList[currentCharacterIndex].localPosition.x, 0f, 0f);
+        _mmFeedBack.GetFeedbackOfType<MMF_Position>().DestinationPositionTransform = _moveTarget;
+        _mmFeedBack.GetFeedbackOfType<MMF_Position>().DestinationPositionTransform = _moveTarget;
         _mmFeedBack.PlayFeedbacks();
         UpdateCharacterSelectionList();
     }

@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 1431287153
   m_SortingLayer: 1
   m_SortingOrder: 5
-  m_Sprite: {fileID: 1030082315, guid: ac5f5e9742321c04493e0ecfa126b5d2, type: 3}
+  m_Sprite: {fileID: -1400184197, guid: d1ab846a4ae90ed4cbfdfb5a7e56bb01, type: 3}
   m_Color: {r: 0.35534585, g: 0.8232509, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
@@ -109,7 +109,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 418403190476347339}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.37, z: 0}
+  m_LocalPosition: {x: -0.036, y: 0.435, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -157,7 +157,7 @@ SpriteRenderer:
   m_SortingLayerID: 1431287153
   m_SortingLayer: 1
   m_SortingOrder: 7
-  m_Sprite: {fileID: 1030082315, guid: ac5f5e9742321c04493e0ecfa126b5d2, type: 3}
+  m_Sprite: {fileID: 580953254, guid: d1ab846a4ae90ed4cbfdfb5a7e56bb01, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -295,7 +295,7 @@ SpriteRenderer:
   m_SortingLayerID: 1431287153
   m_SortingLayer: 1
   m_SortingOrder: 6
-  m_Sprite: {fileID: 1030082315, guid: ac5f5e9742321c04493e0ecfa126b5d2, type: 3}
+  m_Sprite: {fileID: -1400184197, guid: d1ab846a4ae90ed4cbfdfb5a7e56bb01, type: 3}
   m_Color: {r: 0.7209518, g: 0.47798735, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
@@ -318,7 +318,7 @@ GameObject:
   - component: {fileID: 4486663578808110964}
   - component: {fileID: 1631522633875836246}
   m_Layer: 0
-  m_Name: Pandadu_Avatar
+  m_Name: Cece_Avatar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -333,7 +333,7 @@ Transform:
   m_GameObject: {fileID: 8098507014357956500}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.83, y: 1.74, z: 1}
+  m_LocalScale: {x: 1.64, y: 1.54, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 829681908927451514}
@@ -351,7 +351,7 @@ Animator:
   m_GameObject: {fileID: 8098507014357956500}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 43e55a89adad6c647b77d04b87df566a, type: 2}
+  m_Controller: {fileID: 9100000, guid: eb86b668456c45f49bb6535c76b462ea, type: 2}
   m_CullingMode: 2
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

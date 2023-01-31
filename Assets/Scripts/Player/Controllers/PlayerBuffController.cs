@@ -23,6 +23,7 @@ public class PlayerBuffController : MonoBehaviour
 
     private IEnumerator invincible_Co;
     private IEnumerator regeneration_Co;
+    private IEnumerator RespawnCountDown_Co;
 
     private void Awake()
     {
@@ -34,6 +35,26 @@ public class PlayerBuffController : MonoBehaviour
         _inputActions = GetComponent<PlayerInputActions>().inputActions;
         _rb = GetComponent<Rigidbody2D>();
     }
+
+    public void RespawnCountDown()
+    {
+        // check if player is dead
+        if (_playerStats.isDead)
+        {
+            Debug.Log("Player is dead, can't receive speed boost!");
+            return;
+        }
+
+        StartCoroutine(Co_CountDown());
+
+    }
+    IEnumerator Co_CountDown()
+    {
+        _playerStats.isRespawnable = false;
+        yield return new WaitForSecondsRealtime(8f);
+        _playerStats.isRespawnable = true;
+    }
+
 
     public void ReceiveDamage(int attackerID, DamageInfo damageInfo, Vector3 attackerPos)
     {

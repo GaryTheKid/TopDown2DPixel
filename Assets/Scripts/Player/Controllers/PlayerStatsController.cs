@@ -23,6 +23,7 @@ public class PlayerStats
     public bool isInventoryLocked;
     public bool isMovementLocked;
     public bool isWeaponLocked;
+    public bool isRespawnable;
     public int maxHp;
     public int hp;
     public int maxExp;
@@ -42,6 +43,7 @@ public class PlayerStats
         isInventoryLocked = false;
         isMovementLocked = false;
         isWeaponLocked = false;
+        isRespawnable = false;
         maxHp = 100;
         hp = 100;
         maxExp = 50;
@@ -249,7 +251,7 @@ public class PlayerStatsController : MonoBehaviour
     // respawn
     public void Respawn(InputAction.CallbackContext context)
     {
-        if (!playerStats.isDead)
+        if (!playerStats.isDead || !playerStats.isRespawnable)
             return;
 
         NetworkCalls.Player_NetWork.Respawn(_PV);
