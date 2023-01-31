@@ -19,8 +19,9 @@ public class GhostInteracter : MonoBehaviour
 
         // interact with bush
         Bush bush = collision.GetComponent<Bush>();
-        if (bush != null)
+        if (bush != null && !bush.GetComponent<Animator>().GetBool("Reveal"))
         {
+            bush.isCharacterInside = true;
             bush.RevealBush();
         }
     }
@@ -32,8 +33,9 @@ public class GhostInteracter : MonoBehaviour
 
         // interact with bush
         Bush bush = collision.GetComponent<Bush>();
-        if (bush != null)
+        if (bush != null && bush.GetComponent<Animator>().GetBool("Reveal"))
         {
+            bush.isCharacterInside = false;
             bush.HideBush();
         }
     }

@@ -31,7 +31,7 @@ public class ProjectileWorld : MonoBehaviour
     {
         // interact with bush
         Bush bush = collision.GetComponent<Bush>();
-        if (bush != null)
+        if (bush != null && !bush.GetComponent<Animator>().GetBool("Reveal"))
         {
             bush.RevealBush();
         }
@@ -71,7 +71,7 @@ public class ProjectileWorld : MonoBehaviour
     {
         // interact with bush
         Bush bush = collision.GetComponent<Bush>();
-        if (bush != null)
+        if (bush != null && bush.GetComponent<Animator>().GetBool("Reveal"))
         {
             bush.HideBush();
         }

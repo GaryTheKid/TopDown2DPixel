@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Bush : MonoBehaviour
 {
+    public bool isCharacterInside;
+
     private Animator _animator;
 
     private void Awake()
@@ -18,6 +20,9 @@ public class Bush : MonoBehaviour
 
     public void HideBush()
     {
+        if (isCharacterInside)
+            return;
+
         _animator.SetBool("Reveal", false);
     }
 }
