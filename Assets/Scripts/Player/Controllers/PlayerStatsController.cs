@@ -34,6 +34,7 @@ public class PlayerStats
     public int goldWorth;
     public float baseSpeed;
     public float speedModifier;
+    public float respawnCD;
     public int score;
 
     public PlayerStats()
@@ -54,6 +55,7 @@ public class PlayerStats
         goldWorth = 10;
         baseSpeed = 30f;
         speedModifier = 1f;
+        respawnCD = 8f;
         score = 0;
     }
 }

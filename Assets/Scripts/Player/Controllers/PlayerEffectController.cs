@@ -27,6 +27,7 @@ public class PlayerEffectController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _ui_expMaxText;
     [SerializeField] private Image _ui_expBar;
     [SerializeField] private Text _goldText;
+    [SerializeField] private GameObject _WaitForRespawnCDBar;
     [SerializeField] private GameObject _ring;
     [SerializeField] private GameObject _shadow;
     [SerializeField] private CharacterSoundFX _characterSoundFX;
@@ -44,6 +45,7 @@ public class PlayerEffectController : MonoBehaviour
     [SerializeField] private MMF_Player mmf_regeneration;
     [SerializeField] private MMF_Player mmf_updateExp;
     [SerializeField] private MMF_Player mmf_levelUp;
+    [SerializeField] private MMF_Player mmf_waitForRespawnCD;
 
     private PhotonView _PV;
     private Rigidbody2D _rb;
@@ -110,6 +112,17 @@ public class PlayerEffectController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         perlin.m_AmplitudeGain = 0f;
+    }
+
+    public void WaitForRespawnCDEffect(float CD)
+    {
+        mmf_waitForRespawnCD.GetFeedbackOfType<MMF_ImageFill>().Duration = CD;
+        mmf_waitForRespawnCD.PlayFeedbacks();
+    }
+
+    public void TurnOnOffRespawnCDBar(bool onoff)
+    {
+        _WaitForRespawnCDBar.SetActive(onoff);
     }
 
     public void ConsumePotionEffect()

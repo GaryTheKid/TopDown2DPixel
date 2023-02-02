@@ -45,16 +45,25 @@ public class PlayerBuffController : MonoBehaviour
             return;
         }
 
-        StartCoroutine(Co_CountDown());
-
+        if (RespawnCountDown_Co != null)
+        {
+            StopCoroutine(RespawnCountDown_Co);
+            RespawnCountDown_Co = null;
+        }
+        RespawnCountDown_Co = Co_CountDown();
+        StartCoroutine(RespawnCountDown_Co);
     }
     IEnumerator Co_CountDown()
     {
         _playerStats.isRespawnable = false;
-        yield return new WaitForSecondsRealtime(8f);
+        _effectController.TurnOnOffRespawnCDBar(true);
+        _effectController.WaitForRespawnCDEffect(_playerStats.respawnCD);
+        yield return new WaitForSecondsRealtime(_playerStats.respawnCD);
+        _effectController.TurnOnOffRespawnCDBar(false);
         _playerStats.isRespawnable = true;
-    }
 
+        RespawnCountDown_Co = null;
+    }
 
     public void ReceiveDamage(int attackerID, DamageInfo damageInfo, Vector3 attackerPos)
     {
