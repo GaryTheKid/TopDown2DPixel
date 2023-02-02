@@ -90,7 +90,10 @@ public class WorldInteracter : MonoBehaviour
         }
 
         // interact with well
-        wellInRange = collision.GetComponent<Well>();
+        if(wellInRange == null)
+        {
+            wellInRange = collision.GetComponent<Well>();
+        }
         if (wellInRange != null && wellInRange.isUsable)
         {
             wellInRange.DisplayInteractionText();
@@ -205,8 +208,7 @@ public class WorldInteracter : MonoBehaviour
         }
 
         // interact with well
-        wellInRange = collision.GetComponent<Well>();
-        if (wellInRange != null)
+        if (collision.GetComponent<Well>() != null && collision.GetComponent<Well>() == wellInRange)
         {
             wellInRange.HideInteractionText();
             wellInRange = null;
