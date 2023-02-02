@@ -27,6 +27,7 @@ public class UI_VenderItem : MonoBehaviour
     [SerializeField] private Text amountText;
     [SerializeField] private Text durabilityText;
     [SerializeField] private Text priceText;
+    [SerializeField] private GameObject priceIcon;
     #endregion
 
     #region Custom Functions
@@ -39,7 +40,22 @@ public class UI_VenderItem : MonoBehaviour
         this.amount = amount;
         this.durability = durability;
         this.price = price;
+        priceIcon.SetActive(true);
         UpdateUI();
+    }
+
+    /// <summary>
+    /// Clear the current item's UI elements
+    /// </summary>
+    public void ClearItemUI()
+    {
+        venderItem = null;
+        itemIcon.sprite = ItemAssets.itemAssets.ui_icon_none;
+        durabilityIcon.sprite = ItemAssets.itemAssets.ui_icon_none;
+        amountText.text = "";
+        durabilityText.text = "";
+        priceText.text = "";
+        priceIcon.SetActive(false);
     }
 
     /// <summary>

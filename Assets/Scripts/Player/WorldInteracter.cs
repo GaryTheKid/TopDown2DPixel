@@ -13,6 +13,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Pun;
 using Utilities;
+using NetworkCalls;
 
 public class WorldInteracter : MonoBehaviour
 {
@@ -286,6 +287,9 @@ public class WorldInteracter : MonoBehaviour
                 // pay the resources
                 _playerResourceController.LoseGold(venderItem_1.price);
 
+                // remove the purchased item from merchant
+                Merchant_NetWork.RemoveVenderItem(merchantInRange.GetComponent<PhotonView>(), 0);
+
                 // show purchase info
                 merchantInRange.ShowSuccessfulPurchaseInfo();
             }
@@ -321,6 +325,9 @@ public class WorldInteracter : MonoBehaviour
                 // pay the resources
                 _playerResourceController.LoseGold(venderItem_2.price);
 
+                // remove the purchased item from merchant
+                Merchant_NetWork.RemoveVenderItem(merchantInRange.GetComponent<PhotonView>(), 1);
+
                 // show purchase info
                 merchantInRange.ShowSuccessfulPurchaseInfo();
             }
@@ -355,6 +362,9 @@ public class WorldInteracter : MonoBehaviour
 
                 // pay the resources
                 _playerResourceController.LoseGold(venderItem_3.price);
+
+                // remove the purchased item from merchant
+                Merchant_NetWork.RemoveVenderItem(merchantInRange.GetComponent<PhotonView>(), 2);
 
                 // show purchase info
                 merchantInRange.ShowSuccessfulPurchaseInfo();

@@ -38,6 +38,25 @@ public class RPC_Merchant : MonoBehaviour
     }
 
     [PunRPC]
+    void RPC_RemoveVenderItem(byte itemIndex)
+    {
+        switch (itemIndex)
+        {
+            case 0:
+                merchant.venderItem_1.ClearItemUI();
+                break;
+
+            case 1:
+                merchant.venderItem_2.ClearItemUI();
+                break;
+
+            case 2:
+                merchant.venderItem_3.ClearItemUI();
+                break;
+        }
+    }
+
+    [PunRPC]
     void RPC_MerchantExpire()
     {
         MerchantWorld merchantWorld = GetComponent<MerchantWorld>();
