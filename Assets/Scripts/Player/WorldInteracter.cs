@@ -90,13 +90,14 @@ public class WorldInteracter : MonoBehaviour
         }
 
         // interact with well
-        if(wellInRange == null)
+        if (collision.GetComponent<Well>() != null)
         {
             wellInRange = collision.GetComponent<Well>();
-        }
-        if (wellInRange != null && wellInRange.isUsable)
-        {
-            wellInRange.DisplayInteractionText();
+
+            if (wellInRange.isUsable)
+            {
+                wellInRange.DisplayInteractionText();
+            }
         }
 
         // interact with bush
@@ -108,9 +109,16 @@ public class WorldInteracter : MonoBehaviour
         }
 
         // interact with merchant
-        merchantInRange = collision.GetComponent<MerchantWorld>();
-        if (merchantInRange != null)
+        if (collision.GetComponent<MerchantWorld>() != null)
         {
+            if (merchantInRange != null)
+            {
+                // hide trade interaction UI
+                merchantInRange.HideTradeUI();
+            }
+            
+            merchantInRange = collision.GetComponent<MerchantWorld>();
+
             // disable the equipment shortcut for merchant interactions
             _playerInventoryController.UnloadEquipmentQuickCast();
 
@@ -233,8 +241,7 @@ public class WorldInteracter : MonoBehaviour
         }
 
         // interact with merchant
-        merchantInRange = collision.GetComponent<MerchantWorld>();
-        if (merchantInRange != null)
+        if (collision.GetComponent<MerchantWorld>() != null && merchantInRange == collision.GetComponent<MerchantWorld>())
         {
             // unload trade interaction input actions
             _inputActions.Player.EquipmentQuickCast_1.performed -= PurchaseItem1;
@@ -377,6 +384,30 @@ public class WorldInteracter : MonoBehaviour
         GetComponentInParent<PlayerEffectController>()?.ScreenSmokeOff();
         lootBoxesInRange.Clear();
         itemWorldsInRange.Clear();
-        wellInRange = null;
+        if (wellInRange != null)
+        {
+            wellInRange.HideInteractionText();
+            wellInRange = null;
+        }
+        if (merchantInRange != null)
+        {
+            // unload trade interaction input actions
+            _inputActions.Player.EquipmentQuickCast_1.performed -= PurchaseItem1;
+            _inputActions.Player.EquipmentQuickCast_2.performed -= PurchaseItem2;
+            _inputActions.Player.EquipmentQuickCast_3.performed -= PurchaseItem3;
+
+            // unload merchant's vendered items
+            venderItem_1 = null;
+            venderItem_2 = null;
+            venderItem_3 = null;
+
+            // re-enable the equipment shortcut for merchant interactions
+            _playerInventoryController.LoadEquipmentQuickCast();
+
+            // hide trade interaction UI
+            merchantInRange.HideTradeUI();
+            merchantInRange = null;
+        }
+
     }
 }

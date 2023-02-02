@@ -4,7 +4,7 @@ using Photon.Pun;
 
 public class Well : MonoBehaviour
 {
-    private const float WELL_RESTORE_TIME = 5f;
+    private const float WELL_RESTORE_TIME = 10f;
 
     [SerializeField] private GameObject interactionText;
 
