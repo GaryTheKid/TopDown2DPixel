@@ -86,7 +86,22 @@ public class Inventory
         }
         else
         {
-            isInventoryFull = Add(item);
+            bool itemAlreadyInInventory = false;
+            foreach (Item inventoryItem in itemList)
+            {
+                if (inventoryItem == null)
+                    continue;
+
+                if (inventoryItem.itemName == item.itemName)
+                {
+                    inventoryItem.durability += item.durability;
+                    itemAlreadyInInventory = true;
+                }
+            }
+            if (!itemAlreadyInInventory)
+            {
+                isInventoryFull = Add(item);
+            }
         }
 
         // check if inventory is full
