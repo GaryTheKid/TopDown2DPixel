@@ -27181,7 +27181,7 @@ MonoBehaviour:
   - {fileID: 1410851041}
   itemSpawns:
   - {fileID: 1672150010}
-  - {fileID: 258239663}
+  - {fileID: 1663086455}
   - {fileID: 1538235859}
   - {fileID: 1410851041}
   - {fileID: 1102703875}
@@ -34270,6 +34270,7 @@ MonoBehaviour:
   pfGun_Rifle: {fileID: 5279715861106610933, guid: 04facdb24244f39499dd428fbcfc27b0, type: 3}
   pfGun_M3: {fileID: 5279715861106610933, guid: 6a152be3f7021ac4db8da0aafeb27592, type: 3}
   pfGun_SMAX: {fileID: 5279715861106610933, guid: 0da3513ff18428e479f85301095a02f6, type: 3}
+  pfGun_Prototype03: {fileID: 5279715861106610933, guid: 846387ee514e32b4c8aed3c894c30e81, type: 3}
   pfSmokeGrenade: {fileID: 5279715861106610933, guid: bff45e1700a61244fb4b69fd526ecd1b, type: 3}
   pfHEGrenade: {fileID: 5279715861106610933, guid: 608802d3530e1014582c506e16b22489, type: 3}
   pfImpactGrenade: {fileID: 5279715861106610933, guid: 4f2e836638b4e2d44a96f70b11656d8e, type: 3}
@@ -34304,6 +34305,7 @@ MonoBehaviour:
   gunSprite_Rifle: {fileID: 5758646838473462783, guid: e6c38c4fd248fc149acb7553c63332a5, type: 3}
   gunSprite_M3: {fileID: 1490635611, guid: cae244ae2688b064cb14d4f8aa0ff45e, type: 3}
   gunSprite_SMAX: {fileID: -1231481020, guid: 0b4242e2ec54e0f48b86e3f64ab050a3, type: 3}
+  gunSprite_Prototype03: {fileID: 657537711, guid: bf6c20a6bf20d5c46be8267bb2dfbe39, type: 3}
   smokeGrenadeSprite: {fileID: 21300000, guid: 0e03fb2a4b4312744b2fae847eaab0cb, type: 3}
   HEGrenadeSprite: {fileID: 21300000, guid: 34d63691bd849fe4c87531608a20f01f, type: 3}
   impactGrenadeSprite: {fileID: 21300000, guid: 4793d782b3014a144853a0aba1ec245f, type: 3}
@@ -34325,6 +34327,7 @@ MonoBehaviour:
   ui_icon_semiAutoBullets: {fileID: 21300000, guid: a6a07ef719d1bfb4984bf0e2b92bc041, type: 3}
   ui_icon_rifleBullet: {fileID: 21300000, guid: 13c547f3d4fef1347a289fddbc6f569b, type: 3}
   ui_icon_ShotgunBullets: {fileID: 21300000, guid: 94c88ab1d15e187448e577a619186571, type: 3}
+  ui_icon_railGunBullet: {fileID: -2005624594, guid: bf6c20a6bf20d5c46be8267bb2dfbe39, type: 3}
   ui_icon_arrow: {fileID: 21300000, guid: 22194f4f709768a41959b15670795d20, type: 3}
 --- !u!1001 &1497196397
 PrefabInstance:

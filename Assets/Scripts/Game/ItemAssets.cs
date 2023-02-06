@@ -25,6 +25,7 @@ public class ItemAssets : MonoBehaviour
     public Transform pfGun_Rifle;
     public Transform pfGun_M3;
     public Transform pfGun_SMAX;
+    public Transform pfGun_Prototype03;
     public Transform pfSmokeGrenade;
     public Transform pfHEGrenade;
     public Transform pfImpactGrenade;
@@ -93,6 +94,7 @@ public class ItemAssets : MonoBehaviour
     public Sprite gunSprite_Rifle;
     public Sprite gunSprite_M3;
     public Sprite gunSprite_SMAX;
+    public Sprite gunSprite_Prototype03;
     public Sprite smokeGrenadeSprite;
     public Sprite HEGrenadeSprite;
     public Sprite impactGrenadeSprite;
@@ -116,6 +118,7 @@ public class ItemAssets : MonoBehaviour
     public Sprite ui_icon_semiAutoBullets;
     public Sprite ui_icon_rifleBullet;
     public Sprite ui_icon_ShotgunBullets;
+    public Sprite ui_icon_railGunBullet;
     public Sprite ui_icon_arrow;
 
     [Header("Item Dictionary")]
@@ -148,6 +151,7 @@ public class ItemAssets : MonoBehaviour
             { 18, new Scroll_MeteorStrike() },
             { 19, new Gun_M3() },
             { 20, new Gun_SMAX() },
+            { 21, new Gun_Prototype03() }
         };
 
         itemCostDic = new Dictionary<short, short>
@@ -173,6 +177,7 @@ public class ItemAssets : MonoBehaviour
             { 18, 15 },
             { 19, 5 },
             { 20, 4 },
+            { 21, 10 }
         };
 
         projectileDic = new Dictionary<short, Projectile>
