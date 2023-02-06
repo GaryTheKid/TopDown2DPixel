@@ -23,7 +23,7 @@ public abstract class Scroll : Weapon
 
     public override bool IsStackable()
     {
-        return true;
+        return false;
     }
 
     public override abstract Transform GetEquipmentPrefab();
