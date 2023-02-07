@@ -40,12 +40,14 @@ public class PlayerWeaponController : MonoBehaviour
     private IEnumerator _co_Cast;
     private IEnumerator _co_Channel;
     private IEnumerator _co_Unleash;
+    private IEnumerator _co_Deploy;
     private IEnumerator _co_Slow;
     private bool _isFlipped;
     private bool _isHolding;
     private float _aimAngle;
     private Vector2 _castPos;
 
+    public bool isDeployable;
     public int chargeTier;
     public Item.ItemType weaponType;
     public float weaponRecoilModifier;
@@ -175,6 +177,16 @@ public class PlayerWeaponController : MonoBehaviour
             _playerStats.speedModifier = 1f;
         }
 
+        // stop deploy coroutine
+        if(_co_Deploy != null)
+        {
+            StopCoroutine(_co_Deploy);
+            _co_Deploy = null;
+
+            // restore movement speed
+            _playerStats.speedModifier = 1f;
+        }
+
         // equip bare hands
         EquipHands();
     }
@@ -280,6 +292,15 @@ public class PlayerWeaponController : MonoBehaviour
                     // start charge coroutine
                     _co_Cast = Co_Cast();
                     StartCoroutine(_co_Cast);
+                }
+                break;
+
+            case Item.ItemType.DeployableWeapon:
+                // click to deploy
+                if (_co_Deploy == null)
+                {
+                    _co_Deploy = Co_Deploy();
+                    StartCoroutine(_co_Deploy);
                 }
                 break;
         }
@@ -390,12 +411,7 @@ public class PlayerWeaponController : MonoBehaviour
         }
     }
 
-    private void ShowCastIndicator()
-    {
-        
-    }
-
-    // Coroutine: Weapon attack, melee
+    // Coroutine: Weapon attack
     private IEnumerator Co_Attack()
     {
         // lock inventory
@@ -619,6 +635,52 @@ public class PlayerWeaponController : MonoBehaviour
 
         // clear co
         _co_Unleash = null;
+    }
+
+    // Coroutine: Weapon Deploy
+    private IEnumerator Co_Deploy()
+    {
+        if (!isDeployable)
+        {
+            yield return null;
+
+            // clear co
+            _co_Deploy = null;
+        }
+        else
+        {
+            // lock inventory
+            float attackCD = 1f / weapon.attackSpeed;
+            _playerInventoryController.SetInventoryOnCD(attackCD);
+
+            // Deploy time
+            //yield return new WaitForSecondsRealtime(weapon.castChannelTime);
+
+            // Deploy
+            switch (weaponType)
+            {
+                case Item.ItemType.DeployableWeapon:
+                    weapon.Deploy(_PV, fireTransform.position);
+                    break;
+            }
+
+            // slow down movement speed
+            if (_co_Slow == null)
+            {
+                _co_Slow = Co_Slow();
+                StartCoroutine(_co_Slow);
+            }
+
+            // wait cd
+            yield return new WaitForSecondsRealtime(attackCD);
+
+            // update durability
+            if (!_playerStats.isDead)
+                _playerInventoryController.UpdateItemDurability(-1);
+
+            // clear co
+            _co_Deploy = null;
+        }
     }
 
     // Coroutine: Weapon slow movement speed

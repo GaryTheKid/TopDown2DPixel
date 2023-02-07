@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &907307880298377739
 Transform:
@@ -128,7 +128,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &3945708058147405482
 Transform:
@@ -204,9 +204,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 907307880298377739}
     m_Modifications:
+    - target: {fileID: 667256241986077399, guid: e500694ad9bfc5a47a361f19aa575f17, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 980687921834028653, guid: e500694ad9bfc5a47a361f19aa575f17, type: 3}
       propertyPath: m_Name
       value: Flame
+      objectReference: {fileID: 0}
+    - target: {fileID: 980687921834028653, guid: e500694ad9bfc5a47a361f19aa575f17, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 2918572995806467233, guid: e500694ad9bfc5a47a361f19aa575f17, type: 3}
       propertyPath: m_RootOrder

@@ -251,6 +251,31 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
+    void RPC_DeployWeapon(Vector2 deployPos)
+    {
+        _playerWeaponController.weaponAnimator.SetTrigger("Deploy");
+
+        // get deployable object in weapon controller
+        var deployableObj = _playerWeaponController.weapon.deployableObject;
+
+        // instantiate and fire (add force)
+        var deployableObjPf = Instantiate(deployableObj.GetDeployableObjectPrefab(), deployPos, Quaternion.identity);
+        deployableObjPf.parent = GameManager.singleton.spawnedProjectileParent;
+
+        // set deployable object world
+        var deployableWorld = deployableObjPf.GetComponent<DeployableObject_World>();
+        deployableWorld.SetDeployableObject(deployableObj);
+        deployableWorld.SetDeployerPV(GetComponent<PhotonView>());
+        deployableWorld.PerishInTime();
+
+        // set deployable object visual to deployer
+        if (deployableWorld.GetDeployerPV().IsMine)
+        {
+            deployableWorld.ShowDetectionVisual();
+        }
+    }
+
+    [PunRPC]
     void RPC_FireProjectile(Vector2 firePos, float fireDirDeg)
     {
         // reset charge and play attack animation
@@ -277,6 +302,14 @@ public class RPC_Player : MonoBehaviour
 
     [PunRPC]
     void RPC_PlayOneShotSFX_Projectile()
+    {
+        // play sound fx
+        var clip = _playerWeaponController.fireFX.clip;
+        _playerWeaponController.fireFX.PlayOneShot(clip);
+    }
+
+    [PunRPC]
+    void RPC_PlayOneShotSFX_Deploy()
     {
         // play sound fx
         var clip = _playerWeaponController.fireFX.clip;

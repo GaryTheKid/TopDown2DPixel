@@ -297,11 +297,27 @@ namespace NetworkCalls
             }
         }
 
+        public static void DeployWeapon(PhotonView PV, Vector2 deployPos)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_DeployWeapon", RpcTarget.All, deployPos);
+            }
+        }
+
         public static void FireProjectile(PhotonView PV, Vector2 firePos, float fireDirDeg)
         {
             if (PV.IsMine)
             {
                 PV.RPC("RPC_FireProjectile", RpcTarget.All, firePos, fireDirDeg);
+            }
+        }
+
+        public static void PlayOneShotSFX_Deploy(PhotonView PV)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_PlayOneShotSFX_Deploy", RpcTarget.All);
             }
         }
 

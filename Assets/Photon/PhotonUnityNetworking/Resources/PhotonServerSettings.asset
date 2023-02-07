@@ -103,6 +103,9 @@ MonoBehaviour:
   - RPC_UseInvinciblePotion
   - RPC_UseSpeedPotion
   - RPC_RemoveVenderItem
+  - PlayOneShotSFX_Deploy
+  - RPC_DeployWeapon
+  - RPC_PlayOneShotSFX_Deploy
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

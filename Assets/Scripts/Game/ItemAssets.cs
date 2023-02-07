@@ -30,8 +30,9 @@ public class ItemAssets : MonoBehaviour
     public Transform pfHEGrenade;
     public Transform pfImpactGrenade;
     public Transform pfScroll;
+    public Transform pfDeployableMine;
 
-    // prefab for weapon Equipped
+    // prefab for projectile
     [Header("Projectile Prefabs")]
     public Transform projArrow;
     public Transform projBullet_SemiAuto;
@@ -40,6 +41,10 @@ public class ItemAssets : MonoBehaviour
     public Transform projSmokeGrenade;
     public Transform projHEGrenade;
     public Transform projImpactGrenade;
+
+    // prefab for deployable object
+    [Header("Projectile Prefabs")]
+    public Transform deployableObj_Mine;
 
     // prefab for spell
     [Header("Spell Prefabs")]
@@ -110,6 +115,7 @@ public class ItemAssets : MonoBehaviour
     public Sprite meteorRainScrollSprite;
     public Sprite tornadoScrollSprite;
     public Sprite stormScrollSprite;
+    public Sprite deployableMineSprite;
 
     [Header("Durability Icon Sprites")]
     public Sprite ui_icon_none;
@@ -125,7 +131,7 @@ public class ItemAssets : MonoBehaviour
     public Dictionary<short, Item> itemDic;
     public Dictionary<short, short> itemCostDic;
     public Dictionary<short, Projectile> projectileDic;
-
+    public Dictionary<short, DeployableObject> deployableObjDic;
     private void InitItemDics()
     {
         itemDic = new Dictionary<short, Item>
@@ -151,7 +157,8 @@ public class ItemAssets : MonoBehaviour
             { 18, new Scroll_MeteorStrike() },
             { 19, new Gun_M3() },
             { 20, new Gun_SMAX() },
-            { 21, new Gun_Prototype03() }
+            { 21, new Gun_Prototype03() },
+            { 22, new Mines() }
         };
 
         itemCostDic = new Dictionary<short, short>
@@ -177,7 +184,8 @@ public class ItemAssets : MonoBehaviour
             { 18, 15 },
             { 19, 5 },
             { 20, 4 },
-            { 21, 10 }
+            { 21, 10 },
+            { 22, 25 }
         };
 
         projectileDic = new Dictionary<short, Projectile>
@@ -189,6 +197,11 @@ public class ItemAssets : MonoBehaviour
             { 4, new HEGrenade_proj() },
             { 5, new ImpactGrenade_Proj() },
             { 6, new Bullet_Shotgun() },
+        };
+
+        deployableObjDic = new Dictionary<short, DeployableObject> 
+        {
+            { 0, new Mines_dpl() },
         };
     }
 

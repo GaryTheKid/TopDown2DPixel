@@ -53,6 +53,14 @@ public class WorldInteracter : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // interact with deployable
+        ActivationTrigger activationTrigger = collision.GetComponent<ActivationTrigger>();
+        if (activationTrigger != null && !activationTrigger.isActive)
+        {
+            activationTrigger.isActive = true;
+            activationTrigger.ActivateDeployable();
+        }
+
         if (!_PV.IsMine)
             return;
 
@@ -107,6 +115,14 @@ public class WorldInteracter : MonoBehaviour
         {
             bush.isCharacterInside = true;
             bush.RevealBush();
+        }
+
+        // interact with deployable
+        DetectionTrigger detectionTrigger = collision.GetComponent<DetectionTrigger>();
+        if (detectionTrigger != null && !detectionTrigger.isDetected && !detectionTrigger.GetDeployablePV().IsMine)
+        {
+            detectionTrigger.isDetected = true;
+            detectionTrigger.ShowDetectionVisual();
         }
 
         // interact with merchant
@@ -164,6 +180,14 @@ public class WorldInteracter : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        // interact with deployable
+        ActivationTrigger activationTrigger = collision.GetComponent<ActivationTrigger>();
+        if (activationTrigger != null && activationTrigger.isActive)
+        {
+            activationTrigger.isActive = false;
+            activationTrigger.DeactiveDeployable();
+        }
+
         if (!gameObject.activeInHierarchy)
             return;
 
@@ -229,6 +253,14 @@ public class WorldInteracter : MonoBehaviour
         {
             bush.isCharacterInside = false;
             bush.HideBush();
+        }
+
+        // interact with deployable
+        DetectionTrigger detectionTrigger = collision.GetComponent<DetectionTrigger>();
+        if (detectionTrigger != null && detectionTrigger.isDetected && !detectionTrigger.GetDeployablePV().IsMine)
+        {
+            detectionTrigger.isDetected = false;
+            detectionTrigger.HideDetectionVisual();
         }
 
         // screen smoke off

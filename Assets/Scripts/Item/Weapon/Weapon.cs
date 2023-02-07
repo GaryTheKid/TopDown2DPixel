@@ -33,6 +33,7 @@ public abstract class Weapon : Item, IEquipable
 
     // ranged
     public Projectile projectile;
+    public DeployableObject deployableObject;
     public float chargeSpeed;
     public float chargeMoveSlowRate;
     public float accuracy;
@@ -80,6 +81,7 @@ public abstract class Weapon : Item, IEquipable
     public virtual void Charge(PhotonView PV) { }
     public virtual void Channel(PhotonView PV) { }
     public virtual void Unleash(PhotonView PV, Vector2 targetPos) { }
+    public virtual void Deploy(PhotonView PV, Vector2 deployPos) { }
     public override void UseItem(PhotonView PV)
     {
         if (!isEquipped)

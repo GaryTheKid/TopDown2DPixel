@@ -24,6 +24,14 @@ public class GhostInteracter : MonoBehaviour
             bush.isCharacterInside = true;
             bush.RevealBush();
         }
+
+        // interact with deployable
+        DetectionTrigger detectionTrigger = collision.GetComponent<DetectionTrigger>();
+        if (detectionTrigger != null && !detectionTrigger.isDetected)
+        {
+            detectionTrigger.isDetected = true;
+            detectionTrigger.ShowDetectionVisual();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -37,6 +45,14 @@ public class GhostInteracter : MonoBehaviour
         {
             bush.isCharacterInside = false;
             bush.HideBush();
+        }
+
+        // interact with deployable
+        DetectionTrigger detectionTrigger = collision.GetComponent<DetectionTrigger>();
+        if (detectionTrigger != null && detectionTrigger.isDetected)
+        {
+            detectionTrigger.isDetected = false;
+            detectionTrigger.HideDetectionVisual();
         }
     }
 }

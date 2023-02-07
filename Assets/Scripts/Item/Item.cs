@@ -26,6 +26,7 @@ public class Item
         ChargableRangedWeapon,
         ThrowableWeapon,
         TargetWeapon,
+        DeployableWeapon,
         Scroll,
     }
 
