@@ -131,6 +131,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Transform spawnedItemParent;
     public Transform spawnedMerchantParent;
     public Transform spawnedProjectileParent;
+    public Transform spawnedDeployableParent;
     public Transform FXParent;
     public Transform scoreboardParent;
 
@@ -525,20 +526,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     #region Item World
     public void SpawnItem(Vector2 pos, short itemID, short amount=1, short durability=100)
     {
-        /*var newItemWorld = PhotonNetwork.InstantiateRoomObject("Item/pfItemWorld", pos, Quaternion.identity);
-
-        ItemWorld itemWorld = newItemWorld.GetComponent<ItemWorld>();
-        itemWorld.SetItem(itemID, amount, durability);
-        itemWorld.Expire();*/
-
         int requestedItemWorldIndex = ObjectPool.objectPool.RequestItemWorldIndexFromPool();
 
         if (requestedItemWorldIndex != -1)
         {
             Game_Network.SpawnItemWorld(PV, requestedItemWorldIndex, pos, itemID, amount, durability);
         }
-
-        //return ObjectPool.objectPool.pooledItemWorld[requestedItemWorldIndex];
     }
 
     public void DropItem(Vector2 pos, short itemID, short amount, short durability)
@@ -549,15 +542,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Game_Network.DropItemWorld(PV, requestedItemWorldIndex, Utilities.Math.GetRandomDegree(), pos, itemID, amount, durability);
         }
-
-        /*var newItemWorld = PhotonNetwork.InstantiateRoomObject("Item/pfItemWorld", pos, Quaternion.identity);
-
-        ItemWorld itemWorld = newItemWorld.GetComponent<ItemWorld>();
-        itemWorld.SetItem(itemID, amount, durability);
-        itemWorld.Expire();
-        itemWorld.AddForce();
-
-        return itemWorld;*/
     }
     #endregion
 

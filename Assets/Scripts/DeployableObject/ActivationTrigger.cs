@@ -9,6 +9,33 @@ public class ActivationTrigger : MonoBehaviour
 
     [SerializeField] private DeployableObject_World _deployableObject_World;
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (_deployableObject_World.isLocked)
+            return;
+
+        PhotonView targetPV = collision.GetComponentInParent<PhotonView>();
+        if (targetPV != null && !collision.gameObject.CompareTag("DeployIndicator"))
+        {
+            ActivateDeployable();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (_deployableObject_World.isLocked)
+            return;
+
+        if (!_deployableObject_World.IsDeployableDeactivatable())
+            return;
+
+        PhotonView targetPV = collision.GetComponentInParent<PhotonView>();
+        if (targetPV != null && !collision.gameObject.CompareTag("DeployIndicator"))
+        {
+            DeactivateDeployable();
+        }
+    }
+
     public PhotonView GetDeployablePV()
     {
         return _deployableObject_World.GetDeployerPV();
@@ -19,7 +46,7 @@ public class ActivationTrigger : MonoBehaviour
         _deployableObject_World.ShowActivateVisual();
     }
 
-    public void DeactiveDeployable()
+    public void DeactivateDeployable()
     {
         _deployableObject_World.ShowDeactivateVisual();
     }

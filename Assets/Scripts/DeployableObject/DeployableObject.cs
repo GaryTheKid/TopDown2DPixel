@@ -11,6 +11,7 @@ public abstract class DeployableObject : Item
     public float activationRadius;
     public float detectionRadius;
     public DeployableWeapon spawnWeapon;
+    public bool isDeactivatable;
 
     public abstract Transform GetDeployableObjectPrefab();
 }

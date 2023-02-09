@@ -251,31 +251,6 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_DeployWeapon(Vector2 deployPos)
-    {
-        _playerWeaponController.weaponAnimator.SetTrigger("Deploy");
-
-        // get deployable object in weapon controller
-        var deployableObj = _playerWeaponController.weapon.deployableObject;
-
-        // instantiate and fire (add force)
-        var deployableObjPf = Instantiate(deployableObj.GetDeployableObjectPrefab(), deployPos, Quaternion.identity);
-        deployableObjPf.parent = GameManager.singleton.spawnedProjectileParent;
-
-        // set deployable object world
-        var deployableWorld = deployableObjPf.GetComponent<DeployableObject_World>();
-        deployableWorld.SetDeployableObject(deployableObj);
-        deployableWorld.SetDeployerPV(GetComponent<PhotonView>());
-        deployableWorld.PerishInTime();
-
-        // set deployable object visual to deployer
-        if (deployableWorld.GetDeployerPV().IsMine)
-        {
-            deployableWorld.ShowDetectionVisual();
-        }
-    }
-
-    [PunRPC]
     void RPC_FireProjectile(Vector2 firePos, float fireDirDeg)
     {
         // reset charge and play attack animation
@@ -296,8 +271,37 @@ public class RPC_Player : MonoBehaviour
         // set projectile world script
         var projectileWorld = projectilePf.GetComponent<ProjectileWorld>();
         projectileWorld.SetProjectile(projectile);
-        projectileWorld.SetAttackerPV(GetComponent<PhotonView>());
+        projectileWorld.SetAttackerPV(_PV);
         projectileWorld.PerishInTime();
+    }
+
+    [PunRPC]
+    void RPC_DeployWeapon(Vector2 deployPos)
+    {
+        _playerWeaponController.weaponAnimator.SetTrigger("Deploy");
+
+        // get deployable object in weapon controller
+        var deployableObj = _playerWeaponController.weapon.deployableObject;
+
+        // instantiate and fire (add force)
+        int requestedItemWorldIndex = ObjectPool.objectPool.RequestDeployableIndexFromPool();
+
+        if (requestedItemWorldIndex != -1)
+        {
+            var obj = ObjectPool.objectPool.pooledDeployableObjs[requestedItemWorldIndex].gameObject;
+
+            // set deployable object world
+            var deployableWorld = obj.GetComponent<DeployableObject_World>();
+            deployableWorld.SetDeployableObject(deployableObj);
+            deployableWorld.SetDeployerPV(_PV);
+
+            // set deployable active
+            obj.SetActive(true);
+            obj.transform.position = deployPos;
+
+            // set deployable perish
+            deployableWorld.PerishInTime();
+        }
     }
 
     [PunRPC]

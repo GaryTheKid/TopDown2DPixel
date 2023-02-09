@@ -24,7 +24,9 @@ public class PlayerWeaponController : MonoBehaviour
     public Transform aimTransform;
     public Transform fireTransform;
     public Transform spreadTransform;
+    public Transform deployTransform;
     public Transform animationTransform;
+    public GameObject deployIndicator;
     public AudioSource fireFX;
     public CastIndicatorController castIndicatorController;
     public UI_ChannelingBar ui_ChannelingBar;
@@ -122,6 +124,10 @@ public class PlayerWeaponController : MonoBehaviour
         bareHandsPrefab.gameObject.SetActive(false);
         this.weapon = weapon;
         weaponType = weapon.itemType;
+        if (weaponType == Item.ItemType.DeployableWeapon)
+        {
+            deployIndicator.SetActive(true);
+        }
         weaponPrefab = Instantiate(weapon.GetEquipmentPrefab(), spreadTransform);
         weaponAnimator = weaponPrefab.GetComponent<Animator>();
         fireTransform = weaponPrefab.Find("FirePos");
@@ -138,6 +144,7 @@ public class PlayerWeaponController : MonoBehaviour
         weaponAnimator = null;
         fireTransform = null;
         fireFX = null;
+        deployIndicator.SetActive(false);
         castIndicatorController.DeactivateIndicator();
         ui_ChannelingBar.Deactivate();
         if (weaponPrefab != null && weaponPrefab != bareHandsPrefab)
@@ -660,7 +667,7 @@ public class PlayerWeaponController : MonoBehaviour
             switch (weaponType)
             {
                 case Item.ItemType.DeployableWeapon:
-                    weapon.Deploy(_PV, fireTransform.position);
+                    weapon.Deploy(_PV, deployTransform.position);
                     break;
             }
 

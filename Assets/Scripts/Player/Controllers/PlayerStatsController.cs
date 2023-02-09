@@ -32,6 +32,7 @@ public class PlayerStats
     public int expWorth;
     public int gold;
     public int goldWorth;
+    public int maxActiveDeployableObjects;
     public float baseSpeed;
     public float speedModifier;
     public float respawnCD;
@@ -53,6 +54,7 @@ public class PlayerStats
         expWorth = 30;
         gold = 0;
         goldWorth = 10;
+        maxActiveDeployableObjects = 5;
         baseSpeed = 30f;
         speedModifier = 1f;
         respawnCD = 8f;

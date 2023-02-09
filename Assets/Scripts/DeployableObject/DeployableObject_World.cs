@@ -2,38 +2,56 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using NetworkCalls;
 
 public class DeployableObject_World : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer[] _visuals;
+    public bool isLocked;
 
+    [SerializeField] private SpriteRenderer[] _visuals;
+    [SerializeField] private DeployableFX _deplpyableFX;
+    private Color[] _initColors;
+
+    private PhotonView _PV;
     private DeployableObject _deployableObject;
     private PhotonView _deployerPV;
     private Animator _animator;
     private float _dmgRatio = 1f;
 
+    private IEnumerator _co_activate;
+
     private void Awake()
     {
+        _PV = GetComponent<PhotonView>();
         _animator = GetComponent<Animator>();
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        // interact with bush
-        Bush bush = collision.GetComponent<Bush>();
-        if (bush != null && !bush.GetComponent<Animator>().GetBool("Reveal"))
+        _initColors = new Color[_visuals.Length];
+        for (int i = 0; i < _visuals.Length; i++)
         {
-            bush.RevealBush();
+            _initColors[i] = new Color(_visuals[i].color.r, _visuals[i].color.g, _visuals[i].color.b);
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnEnable()
     {
-        // interact with bush
-        Bush bush = collision.GetComponent<Bush>();
-        if (bush != null && bush.GetComponent<Animator>().GetBool("Reveal"))
+        // reset deployable
+        isLocked = false;
+        ShowDeactivateVisual();
+        if (GetDeployerPV().IsMine)
         {
-            bush.HideBush();
+            ShowDetectionVisual();
+        }
+        else
+        {
+            HideDetectionVisual();
+        }
+    }
+
+    private void OnDisable()
+    {
+        // reset visuals
+        for (int i = 0; i < _visuals.Length; i++)
+        {
+            _visuals[i].color = new Color(_initColors[i].r, _initColors[i].g, _initColors[i].b, 0f);
         }
     }
 
@@ -45,7 +63,7 @@ public class DeployableObject_World : MonoBehaviour
     private IEnumerator Co_Perish(float lifeTime)
     {
         yield return new WaitForSecondsRealtime(lifeTime);
-        Destroy(gameObject);
+        DestroySelf();
     }
 
     public DeployableObject GetDeployableObject()
@@ -83,7 +101,7 @@ public class DeployableObject_World : MonoBehaviour
         _animator.SetBool("ShowDetectionVisual", false);
     }
 
-    public void ShowActivateVisual() 
+    public void ShowActivateVisual()
     {
         _animator.SetBool("isActive", true);
     }
@@ -93,17 +111,51 @@ public class DeployableObject_World : MonoBehaviour
         _animator.SetBool("isActive", false);
     }
 
+    public void Activate()
+    {
+        if (_co_activate == null)
+        {
+            _co_activate = Co_Activate();
+            StartCoroutine(_co_activate);
+        }
+    }
+
+    public void Deactivate()
+    {
+        if (_co_activate != null)
+        {
+            StartCoroutine(_co_activate);
+            _co_activate = null;
+        }
+    }
+
+    public void DestroySelf()
+    {
+        isLocked = true;
+        ShowDetectionVisual();
+        ShowDeactivateVisual();
+
+        // inform object pool
+        ObjectPool.objectPool.isAllLootBoxActive = false;
+
+        gameObject.SetActive(false);
+    }
+
     public void DisablePhysics()
     {
         Destroy(GetComponent<Rigidbody2D>());
         Destroy(GetComponent<Collider2D>());
     }
 
-    public void SetObjectVisible()
+    public bool IsDeployableDeactivatable()
     {
-        /*foreach (var visual in _visuals)
-        {
-            visual.color = new Color(visual.color.r, visual.color.g, visual.color.b, 0.5f);
-        }*/
+        return _deployableObject.isDeactivatable;
+    }
+
+    IEnumerator Co_Activate()
+    {
+        yield return new WaitForSecondsRealtime(_deployableObject.activationTime);
+
+        _deplpyableFX.FireFX();
     }
 }

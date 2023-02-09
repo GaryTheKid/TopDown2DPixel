@@ -373,6 +373,11 @@ namespace NetworkCalls
         }
     }
 
+    public class Deployable_Network
+    {
+
+    }
+
     public class Player_NetWork
     {
         public static void SpawnScoreboardTag(PhotonView PV, string playerID)

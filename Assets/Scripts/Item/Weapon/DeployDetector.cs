@@ -7,18 +7,13 @@ public class DeployDetector : MonoBehaviour
     [SerializeField] private PlayerWeaponController _playerWeaponController;
     [SerializeField] private SpriteRenderer _deployIndicator;
 
-    private void Awake()
-    {
-        _playerWeaponController = transform.GetComponentInParent<PlayerWeaponController>();
-    }
-
     private void Start()
     {
         _playerWeaponController.isDeployable = true;
         _deployIndicator.color = Color.white;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         GameObject target = collision.gameObject;
         if (target != null &&

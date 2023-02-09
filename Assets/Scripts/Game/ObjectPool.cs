@@ -18,10 +18,12 @@ public class ObjectPool : MonoBehaviour
     public readonly List<GameObject> pooledAI = new List<GameObject>();
     public readonly List<GameObject> pooledItemWorld = new List<GameObject>();
     public readonly List<GameObject> pooledMerchant = new List<GameObject>();
+    public readonly List<GameObject> pooledDeployableObjs = new List<GameObject>();
     public bool isAllLootBoxActive;
     public bool isAllAIActive;
     public bool isAllItemWorldActive;
     public bool isAllMerchantActive;
+    public bool isAllDeployableObjesActive;
 
     void Awake()
     {
@@ -49,6 +51,12 @@ public class ObjectPool : MonoBehaviour
         foreach (Transform merchant in GameManager.singleton.spawnedMerchantParent)
         {
             pooledMerchant.Add(merchant.gameObject);
+        }
+
+        // add deployable objs
+        foreach (Transform deployable in GameManager.singleton.spawnedDeployableParent)
+        {
+            pooledDeployableObjs.Add(deployable.gameObject);
         }
     }
 
@@ -109,6 +117,21 @@ public class ObjectPool : MonoBehaviour
         }
 
         isAllMerchantActive = true;
+        return -1;
+    }
+
+    public int RequestDeployableIndexFromPool()
+    {
+        for (int i = 0; i < pooledDeployableObjs.Count; i++)
+        {
+            if (!pooledDeployableObjs[i].activeInHierarchy)
+            {
+                isAllDeployableObjesActive = false;
+                return i;
+            }
+        }
+
+        isAllDeployableObjesActive = true;
         return -1;
     }
 }
