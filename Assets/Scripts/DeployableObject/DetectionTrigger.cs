@@ -14,11 +14,14 @@ public class DetectionTrigger : MonoBehaviour
         if (_deployableObject_World.isLocked)
             return;
 
+        if (collision.gameObject.name != "HitBox")
+            return;
+
         if (GetDeployablePV().IsMine)
             return;
 
         PhotonView targetPV = collision.GetComponentInParent<PhotonView>();
-        if (targetPV != null && targetPV.IsMine && GetDeployablePV() != targetPV)
+        if (targetPV != null && !collision.gameObject.CompareTag("DeployIndicator") && GetDeployablePV() != targetPV && !collision.gameObject.CompareTag("Deployable_Detection") && !collision.gameObject.CompareTag("Deployable_Activation"))
         {
             ShowDetectionVisual();
         }
@@ -29,11 +32,14 @@ public class DetectionTrigger : MonoBehaviour
         if (_deployableObject_World.isLocked)
             return;
 
+        if (collision.gameObject.name != "HitBox")
+            return;
+
         if (GetDeployablePV().IsMine)
             return;
 
         PhotonView targetPV = collision.GetComponentInParent<PhotonView>();
-        if (targetPV != null && targetPV.IsMine && GetDeployablePV() != targetPV)
+        if (targetPV != null && !collision.gameObject.CompareTag("DeployIndicator") && GetDeployablePV() != targetPV && !collision.gameObject.CompareTag("Deployable_Detection") && !collision.gameObject.CompareTag("Deployable_Activation"))
         {
             HideDetectionVisual();
         }

@@ -185,7 +185,7 @@ public class ItemAssets : MonoBehaviour
             { 19, 5 },
             { 20, 4 },
             { 21, 10 },
-            { 22, 25 }
+            { 22, 30 }
         };
 
         projectileDic = new Dictionary<short, Projectile>

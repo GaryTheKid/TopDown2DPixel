@@ -110,6 +110,9 @@ MonoBehaviour:
   - RPC_RemoveDeployableObj
   - RPC_DestroyDeployableSelf
   - RPC_DestroyDeployable
+  - RPC_ActivateDeployable
+  - RPC_DeactivateDeployable
+  - RPC_DealDeployableDamage
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

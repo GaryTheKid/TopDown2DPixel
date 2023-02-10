@@ -375,7 +375,15 @@ namespace NetworkCalls
 
     public class Deployable_Network
     {
+        public static void ActivateDeployable(PhotonView PV)
+        {
+            PV.RPC("RPC_ActivateDeployable", RpcTarget.AllBuffered);
+        }
 
+        public static void DeactivateDeployable(PhotonView PV)
+        {
+            PV.RPC("RPC_DeactivateDeployable", RpcTarget.AllBuffered);
+        }
     }
 
     public class Player_NetWork
@@ -432,6 +440,14 @@ namespace NetworkCalls
             if (PV.IsMine)
             {
                 PV.RPC("RPC_DealProjectileDamage", RpcTarget.AllBuffered, targetID, dmgRatio, whichProjectile);
+            }
+        }
+
+        public static void DealDeployableDamage(PhotonView PV, int targetID, float dmgRatio, short whichDeployable)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_DealDeployableDamage", RpcTarget.AllBuffered, targetID, dmgRatio, whichDeployable);
             }
         }
 

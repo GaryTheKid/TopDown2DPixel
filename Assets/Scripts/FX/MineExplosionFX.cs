@@ -3,48 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class ExplosionFX : MonoBehaviour
+public class MineExplosionFX : MonoBehaviour
 {
     private const float MIN_EXPLOSION_DAMAGE_RATIO = 0.2f;
 
-    [SerializeField] private GameObject _parent;
-    [SerializeField] private SpriteRenderer _grenadeSprite;
+    [SerializeField] private DeployableObject_World _deployableWorld;
+    [SerializeField] private SpriteRenderer[] _parentVisuals;
 
-    private ProjectileWorld _projectileWorld;
-    private Projectile _projectile;
+    private DeployableObject _deployableObj;
     private float _explosionRadius;
 
     private void Awake()
     {
-        _projectileWorld = _parent.GetComponent<ProjectileWorld>();
-        _projectile = _projectileWorld.GetProjectile();
-        _explosionRadius = _projectile.explosiveRadius;
+        _deployableObj = _deployableWorld.GetDeployableObject();
+        _explosionRadius = _deployableObj.explosiveRadius;
         GetComponent<CircleCollider2D>().radius = _explosionRadius;
-    }
-
-    public void SetWorldRotation()
-    {
-        _grenadeSprite.sprite = null;
-        transform.parent = GameManager.singleton.FXParent;
-        transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
     }
 
     public void DestroySelf()
     {
-        Destroy(_parent);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        _deployableWorld.DestroySelf();
     }
 
-    public void TurnOffParentBehaviors()
+    public void TurnOffParent()
     {
-        _parent.GetComponent<TrailRenderer>().enabled = false;
-        _parent.GetComponent<Collider2D>().enabled = false;
+        _deployableWorld.isLocked = true;
+        _deployableWorld.HideDetectionVisual();
+        _deployableWorld.ShowDeactivateVisual();
+        _deployableWorld.TurnOffActivationLight();
+        foreach (var visual in _parentVisuals)
+        {
+            visual.color = new Color(visual.color.r, visual.color.g, visual.color.b, 0f);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var target = collision.transform;
-
+        
         if (target.gameObject.name != "HitBox")
             return;
 
@@ -66,7 +63,7 @@ public class ExplosionFX : MonoBehaviour
             dmgRatio = MIN_EXPLOSION_DAMAGE_RATIO;
 
         // deal dmg
-        if (_projectile.damageInfo.damageAmount > 0f)
-            NetworkCalls.Player_NetWork.DealProjectileDamage(_projectileWorld.GetAttackPV(), targetPV.ViewID, dmgRatio, _projectile.projectileID);
+        if (_deployableObj.damageInfo.damageAmount > 0f)
+            NetworkCalls.Player_NetWork.DealDeployableDamage(_deployableWorld.GetDeployerPV(), targetPV.ViewID, dmgRatio, _deployableObj.DeployableID);
     }
 }

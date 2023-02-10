@@ -11,6 +11,7 @@ public class Mines_dpl : DeployableObject
         activationTime = 1f;
         activationRadius = 0.5f;
         detectionRadius = 1f;
+        explosiveRadius = 4f;
         isDeactivatable = false;
         damageInfo = new DamageInfo
         {

@@ -179,6 +179,31 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
+    void RPC_DealDeployableDamage(int targetID, float dmgRatio, short whichDeployable)
+    {
+        DamageInfo info = ItemAssets.itemAssets.deployableObjDic[whichDeployable].damageInfo;
+        info.damageAmount *= dmgRatio;
+
+        var target = PhotonView.Find(targetID).transform;
+        var enemyPlayer = target.GetComponent<PlayerBuffController>();
+        var enemyAI = target.GetComponent<AIBuffController>();
+
+        if (enemyPlayer != null)
+        {
+            enemyPlayer.ReceiveDamage(_PV.ViewID, info, transform.position);
+        }
+
+        if (enemyAI != null)
+        {
+            enemyAI.ReceiveDamage(_PV.ViewID, info, transform.position);
+        }
+
+        // add score
+        _playerStatsController.UpdateScore((int)info.damageAmount);
+        GameManager.singleton.AddScoreUI(_playerNetworkController.playerID, (int)info.damageAmount);
+    }
+
+    [PunRPC]
     void RPC_DealSpellDamage(int targetID, float dmgRatio, short whichSpell)
     {
         DamageInfo info = ((Weapon)ItemAssets.itemAssets.itemDic[whichSpell]).damageInfo;

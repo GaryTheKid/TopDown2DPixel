@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using NetworkCalls;
+using UnityEngine.Rendering.Universal;
 
 public class DeployableObject_World : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class DeployableObject_World : MonoBehaviour
 
     [SerializeField] private SpriteRenderer[] _visuals;
     [SerializeField] private DeployableFX _deplpyableFX;
+    [SerializeField] private Light2D _pointLight;
     private Color[] _initColors;
 
     private PhotonView _PV;
@@ -49,10 +51,12 @@ public class DeployableObject_World : MonoBehaviour
     private void OnDisable()
     {
         // reset visuals
+        TurnOffActivationLight();
         for (int i = 0; i < _visuals.Length; i++)
         {
             _visuals[i].color = new Color(_initColors[i].r, _initColors[i].g, _initColors[i].b, 0f);
         }
+        _co_activate = null;
     }
 
     public void PerishInTime()
@@ -84,6 +88,11 @@ public class DeployableObject_World : MonoBehaviour
     public void SetDeployerPV(PhotonView PV)
     {
         _deployerPV = PV;
+    }
+
+    public PhotonView GetThisPV()
+    {
+        return _PV;
     }
 
     public void SetDamageRatio(float dmgRatio)
@@ -129,12 +138,17 @@ public class DeployableObject_World : MonoBehaviour
         }
     }
 
+    public void TurnOffActivationLight()
+    {
+        _pointLight.intensity = 0f;
+    }
+
     public void DestroySelf()
     {
         isLocked = true;
         ShowDetectionVisual();
         ShowDeactivateVisual();
-
+        TurnOffActivationLight();
         // inform object pool
         ObjectPool.objectPool.isAllLootBoxActive = false;
 

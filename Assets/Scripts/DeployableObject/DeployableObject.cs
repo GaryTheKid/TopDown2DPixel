@@ -10,6 +10,7 @@ public abstract class DeployableObject : Item
     public float activationTime;
     public float activationRadius;
     public float detectionRadius;
+    public float explosiveRadius;
     public DeployableWeapon spawnWeapon;
     public bool isDeactivatable;
 

@@ -13,6 +13,11 @@ public class DeployDetector : MonoBehaviour
         _deployIndicator.color = Color.white;
     }
 
+    private void Update()
+    {
+        transform.eulerAngles = Vector3.zero;
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         GameObject target = collision.gameObject;
