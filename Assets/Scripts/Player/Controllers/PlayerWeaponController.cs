@@ -1,9 +1,11 @@
-/* Last Edition: 05/22/2022
+/* Last Edition Date: 02/11/2023
  * Author: Chongyang Wang
  * Collaborators: 
- * 
+ * Reference: 
  * Description: 
  *   The weapon controller attached to the player character, handling all actions relating to weapon.
+ * Last Edition:
+ *   Add weapon cursor logic.
  */
 
 using System.Collections;
@@ -17,6 +19,7 @@ using ExitGames.Client.Photon;
 
 public class PlayerWeaponController : MonoBehaviour
 {
+    public WeaponCursor[] weaponCursor;
     public Weapon weapon;
     public Animator weaponAnimator;
     public Transform weaponPrefab;
@@ -27,6 +30,7 @@ public class PlayerWeaponController : MonoBehaviour
     public Transform deployTransform;
     public Transform animationTransform;
     public GameObject deployIndicator;
+    public GameObject meleeIndicator;
     public AudioSource fireFX;
     public CastIndicatorController castIndicatorController;
     public UI_ChannelingBar ui_ChannelingBar;
@@ -48,6 +52,7 @@ public class PlayerWeaponController : MonoBehaviour
     private bool _isHolding;
     private float _aimAngle;
     private Vector2 _castPos;
+    private WeaponCursor currentWeaponCursor;
 
     public bool isDeployable;
     public int chargeTier;
@@ -100,34 +105,17 @@ public class PlayerWeaponController : MonoBehaviour
 
     public void EquipWeapon(Weapon weapon)
     {
-        /*// if has equipped weapon, unequip it
-        bool isEquipping = true;
-        if (this.weapon != null)
-        {
-            isEquipping = (weapon.itemName != this.weapon.itemName) && ();
-            UnequipWeapon();
-        }
-        
-        // equip new weapon
-        if (isEquipping)
-        {
-            bareHandsPrefab.gameObject.SetActive(false);
-            this.weapon = weapon;
-            weaponType = weapon.itemType;
-            weaponPrefab = Instantiate(weapon.GetEquipmentPrefab(), spreadTransform);
-            weaponAnimator = weaponPrefab.GetComponent<Animator>();
-            fireTransform = weaponPrefab.Find("FirePos");
-            fireFX = weaponPrefab.Find("FireFX").GetComponent<AudioSource>();
-        }*/
-
         UnequipWeapon();
         bareHandsPrefab.gameObject.SetActive(false);
+
+        // get weapon
         this.weapon = weapon;
         weaponType = weapon.itemType;
-        if (weaponType == Item.ItemType.DeployableWeapon)
-        {
-            deployIndicator.SetActive(true);
-        }
+
+        // set cursor type
+        SetWeaponCursor(weapon.cursorType);
+
+        // set weapon
         weaponPrefab = Instantiate(weapon.GetEquipmentPrefab(), spreadTransform);
         weaponAnimator = weaponPrefab.GetComponent<Animator>();
         fireTransform = weaponPrefab.Find("FirePos");
@@ -204,6 +192,10 @@ public class PlayerWeaponController : MonoBehaviour
         weaponPrefab = bareHandsPrefab;
         weapon = new Hands();
         weaponType = Item.ItemType.MeleeWeapon;
+        currentWeaponCursor = null;
+        DeactivateAllWeaponCursor();
+        deployIndicator.SetActive(false);
+        meleeIndicator.SetActive(true);
         weaponAnimator = bareHandsPrefab.GetComponent<Animator>();
         fireFX = weaponPrefab.Find("FireFX").GetComponent<AudioSource>();
     }
@@ -418,6 +410,102 @@ public class PlayerWeaponController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Set the weapon cursor based on type
+    /// </summary>
+    /// <param name="cursorType"></param>
+    private void SetWeaponCursor(Weapon.CursorType cursorType)
+    {
+        switch (cursorType)
+        {
+            case Weapon.CursorType.SemiAuto:
+                currentWeaponCursor = weaponCursor[0];
+                ActivateWeaponCursor(0);
+                deployIndicator.SetActive(false);
+                meleeIndicator.SetActive(false);
+                break;
+            case Weapon.CursorType.Shotgun:
+                currentWeaponCursor = weaponCursor[1];
+                ActivateWeaponCursor(1);
+                deployIndicator.SetActive(false);
+                meleeIndicator.SetActive(false);
+                break;
+            case Weapon.CursorType.Rifle:
+                currentWeaponCursor = weaponCursor[2];
+                ActivateWeaponCursor(2);
+                deployIndicator.SetActive(false);
+                meleeIndicator.SetActive(false);
+                break;
+            case Weapon.CursorType.Pistol:
+                currentWeaponCursor = weaponCursor[3];
+                ActivateWeaponCursor(3);
+                deployIndicator.SetActive(false);
+                meleeIndicator.SetActive(false);
+                break;
+            case Weapon.CursorType.Bow:
+                currentWeaponCursor = weaponCursor[4];
+                ActivateWeaponCursor(4);
+                deployIndicator.SetActive(false);
+                meleeIndicator.SetActive(false);
+                break;
+            case Weapon.CursorType.Scroll:
+                currentWeaponCursor = weaponCursor[5];
+                ActivateWeaponCursor(5);
+                deployIndicator.SetActive(false);
+                meleeIndicator.SetActive(false);
+                break;
+            case Weapon.CursorType.Throwable:
+                currentWeaponCursor = weaponCursor[6];
+                ActivateWeaponCursor(6);
+                deployIndicator.SetActive(false);
+                meleeIndicator.SetActive(false);
+                break;
+            case Weapon.CursorType.Melee:
+                currentWeaponCursor = null;
+                DeactivateAllWeaponCursor();
+                deployIndicator.SetActive(false);
+                meleeIndicator.SetActive(true);
+                break;
+            case Weapon.CursorType.Deployable:
+                currentWeaponCursor = null;
+                DeactivateAllWeaponCursor();
+                deployIndicator.SetActive(true);
+                meleeIndicator.SetActive(false);
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Activate the selected Weapon Cursor
+    /// </summary>
+    /// <param name="activeCursorIndex"></param>
+    private void ActivateWeaponCursor(int activeCursorIndex)
+    {
+        for (int i = 0; i < weaponCursor.Length; i++)
+        {
+            if (i == activeCursorIndex)
+            {
+                weaponCursor[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                weaponCursor[i].gameObject.SetActive(false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Deactivate all weapon cursors
+    /// </summary>
+    /// <returns></returns>
+    private void DeactivateAllWeaponCursor()
+    {
+        for (int i = 0; i < weaponCursor.Length; i++)
+        {
+            weaponCursor[i].gameObject.SetActive(false);
+        }
+    }
+
     // Coroutine: Weapon attack
     private IEnumerator Co_Attack()
     {
@@ -442,6 +530,12 @@ public class PlayerWeaponController : MonoBehaviour
             case Item.ItemType.ThrowableWeapon:
                 weapon.Attack(_PV, fireTransform.position, spreadTransform.eulerAngles.z);
                 break;
+        }
+
+        // fire cursor feedback
+        if (currentWeaponCursor != null)
+        {
+            currentWeaponCursor.FireAttackFeedbacks();
         }
 
         // slow down movement speed
@@ -518,6 +612,12 @@ public class PlayerWeaponController : MonoBehaviour
 
         // slow down movement during charge
         _playerStats.speedModifier = weapon.chargeMoveSlowRate;
+
+        // fire cursor feedback
+        if (currentWeaponCursor != null)
+        {
+            currentWeaponCursor.FireChargeFeedbacks();
+        }
 
         while (true)
         {

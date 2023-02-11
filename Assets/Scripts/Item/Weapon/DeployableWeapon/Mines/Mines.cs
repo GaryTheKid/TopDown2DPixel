@@ -11,6 +11,7 @@ public class Mines : DeployableWeapon
         itemID = 22;
         amount = 1;
         itemType = ItemType.DeployableWeapon;
+        cursorType = CursorType.Deployable;
         attackRange = 10f;
         attackSpeed = 1f;
         moveSlowDownModifier = 0.05f;

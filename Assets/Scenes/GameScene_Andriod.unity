@@ -13173,7 +13173,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &531699227
 Transform:
   m_ObjectHideFlags: 0
@@ -50379,6 +50379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2db01b6d4d4e7834d920da2d73f7c152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _visual: {fileID: 0}
 --- !u!114 &5108549212940575559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50683,6 +50684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 372dbab91a6634247afba540de1c6ae0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponCursor: []
   weaponAnimator: {fileID: 0}
   weaponPrefab: {fileID: 0}
   bareHandsPrefab: {fileID: 0}
@@ -50692,6 +50694,7 @@ MonoBehaviour:
   deployTransform: {fileID: 0}
   animationTransform: {fileID: 0}
   deployIndicator: {fileID: 0}
+  meleeIndicator: {fileID: 0}
   fireFX: {fileID: 0}
   castIndicatorController: {fileID: 6768912621153276945}
   ui_ChannelingBar: {fileID: 0}
@@ -52512,6 +52515,8 @@ MonoBehaviour:
   _ui_channeling: {fileID: 0}
   _ui_CastText: {fileID: 0}
   _castIndicators: {fileID: 6803330620887375231}
+  _ui_WeaponCursors: {fileID: 0}
+  _WeaponIndicators: {fileID: 0}
   _playerVision: {fileID: 8798553125082150736}
   _ringSprite: {fileID: 2623130273879224413}
   _mmf_ReceiveDamage: {fileID: 0}

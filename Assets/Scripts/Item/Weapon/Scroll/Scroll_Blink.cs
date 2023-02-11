@@ -12,6 +12,7 @@ public class Scroll_Blink : Scroll
         itemID = 16;
         amount = 1;
         itemType = ItemType.Scroll;
+        cursorType = CursorType.Scroll;
         castText = "Blink";
         scollType = ScollType.Light;
         castTargetType = CastTargetType.Self;
@@ -35,6 +36,7 @@ public class Scroll_Blink : Scroll
         itemID = 16;
         this.amount = amount;
         itemType = ItemType.Scroll;
+        cursorType = CursorType.Scroll;
         castText = "Blink";
         scollType = ScollType.Light;
         castTargetType = CastTargetType.Self;

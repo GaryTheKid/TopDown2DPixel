@@ -227,6 +227,7 @@ public class UI_Inventory : MonoBehaviour
                 case Item.ItemType.Consumable:
                 case Item.ItemType.Material:
                 case Item.ItemType.ThrowableWeapon:
+                case Item.ItemType.DeployableWeapon:
                     uiAmountText.text = item.amount.ToString(); 
                     break;
 

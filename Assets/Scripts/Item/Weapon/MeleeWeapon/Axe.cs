@@ -11,6 +11,7 @@ public class Axe : Weapon
         itemID = 3;
         amount = 1;
         itemType = ItemType.MeleeWeapon;
+        cursorType = CursorType.Melee;
         durability = 8;
 
         accuracy = 1f;

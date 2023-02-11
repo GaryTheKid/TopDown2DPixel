@@ -11,6 +11,7 @@ public class Gun_M3 : Gun
         itemID = 19;
         amount = 1;
         itemType = ItemType.RangedWeapon;
+        cursorType = CursorType.Shotgun;
         durability = 25;
 
         attackRange = 10f;

@@ -20,6 +20,7 @@ public class HEGrenade : Weapon
         amount = 1;
         durability = 999;
         itemType = ItemType.ThrowableWeapon;
+        cursorType = CursorType.Throwable;
         attackSpeed = 1.5f;
         moveSlowDownModifier = 0.8f;
         moveSlowDownTime = 0.3f;
@@ -40,6 +41,7 @@ public class HEGrenade : Weapon
         this.amount = amount;
         durability = 999;
         itemType = ItemType.ThrowableWeapon;
+        cursorType = CursorType.Throwable;
         attackSpeed = 1.5f;
         moveSlowDownModifier = 0.8f;
         moveSlowDownTime = 0.3f;

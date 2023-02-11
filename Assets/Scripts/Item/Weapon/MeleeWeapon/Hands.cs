@@ -11,6 +11,7 @@ public class Hands : Weapon
         itemID = 0;
         amount = 1;
         itemType = ItemType.MeleeWeapon;
+        cursorType = CursorType.Melee;
         accuracy = 1f;
         attackRange = 10f;
         attackSpeed = 2f;

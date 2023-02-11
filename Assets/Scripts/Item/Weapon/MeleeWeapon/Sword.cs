@@ -11,6 +11,7 @@ public class Sword : Weapon
         itemID = 1;
         amount = 1;
         itemType = ItemType.MeleeWeapon;
+        cursorType = CursorType.Melee;
         durability = 10;
 
         accuracy = 1f;

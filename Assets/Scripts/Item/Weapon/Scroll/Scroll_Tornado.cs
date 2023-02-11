@@ -12,6 +12,7 @@ public class Scroll_Tornado : Scroll
         itemID = 17;
         amount = 1;
         itemType = ItemType.Scroll;
+        cursorType = CursorType.Scroll;
         castText = "Summon Tornado";
         scollType = ScollType.Air;
         castTargetType = CastTargetType.Other;
@@ -30,6 +31,7 @@ public class Scroll_Tornado : Scroll
         itemID = 17;
         this.amount = amount;
         itemType = ItemType.Scroll;
+        cursorType = CursorType.Scroll;
         castText = "Summon Tornado";
         scollType = ScollType.Air;
         castTargetType = CastTargetType.Other;

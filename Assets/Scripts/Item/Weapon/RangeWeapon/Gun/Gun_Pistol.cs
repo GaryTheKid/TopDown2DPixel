@@ -10,6 +10,7 @@ public class Gun_Pistol : Gun
         itemID = 10;
         amount = 1;
         itemType = ItemType.RangedWeapon;
+        cursorType = CursorType.Pistol;
         durability = 25;
 
         attackRange = 10f;

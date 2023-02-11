@@ -20,6 +20,21 @@ public struct DamageInfo
 [Serializable]
 public abstract class Weapon : Item, IEquipable
 {
+    // cursor
+    public enum CursorType
+    {
+        Deployable,
+        SemiAuto,
+        Shotgun,
+        Rifle,
+        Pistol,
+        Melee,
+        Bow,
+        Throwable,
+        Scroll,
+    }
+    public CursorType cursorType;
+
     // universal
     public DamageInfo damageInfo;
     public float attackRange;

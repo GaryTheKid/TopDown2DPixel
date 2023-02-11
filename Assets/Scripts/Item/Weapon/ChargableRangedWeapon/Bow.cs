@@ -11,6 +11,7 @@ public class Bow : Weapon
         itemID = 2;
         amount = 1;
         itemType = ItemType.ChargableRangedWeapon;
+        cursorType = CursorType.Bow;
         durability = 15;
 
         attackSpeed = 1.5f;

@@ -21,6 +21,7 @@ public class Gun_Prototype03 : Gun
         itemID = 21;
         amount = 1;
         itemType = ItemType.RangedWeapon;
+        cursorType = CursorType.SemiAuto;
         durability = 10;
 
         attackRange = 15f;

@@ -11,6 +11,7 @@ public class Gun_SMAX : Gun
         itemID = 20;
         amount = 1;
         itemType = ItemType.RangedWeapon;
+        cursorType = CursorType.Shotgun;
         durability = 30;
 
         attackRange = 10f;

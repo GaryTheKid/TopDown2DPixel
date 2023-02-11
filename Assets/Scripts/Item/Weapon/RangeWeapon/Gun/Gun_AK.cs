@@ -20,6 +20,7 @@ public class Gun_AK : Gun
         itemID = 5;
         amount = 1;
         itemType = ItemType.RangedWeapon;
+        cursorType = CursorType.SemiAuto;
         durability = 60;
 
         attackRange = 10f;

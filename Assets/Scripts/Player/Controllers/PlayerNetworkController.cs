@@ -29,6 +29,8 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _ui_channeling;
     [SerializeField] private GameObject _ui_CastText;
     [SerializeField] private GameObject _castIndicators;
+    [SerializeField] private GameObject _ui_WeaponCursors;
+    [SerializeField] private GameObject _WeaponIndicators;
     [SerializeField] private GameObject _playerVision;
     [SerializeField] private SpriteRenderer _ringSprite;
     [SerializeField] private MMF_Player _mmf_ReceiveDamage;
@@ -79,6 +81,8 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
             _ui_Canvas.SetActive(false);
             _ui_channeling.SetActive(false);
             _ui_CastText.SetActive(false);
+            _ui_WeaponCursors.SetActive(false);
+            _WeaponIndicators.SetActive(false);
             _castIndicators.SetActive(false);
             _playerVision.SetActive(false);
             _CharacterCollider.layer = LayerMask.NameToLayer("Enemy");

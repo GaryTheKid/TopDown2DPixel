@@ -12,6 +12,7 @@ public class Scroll_MeteorStrike : Scroll
         itemID = 18;
         amount = 1;
         itemType = ItemType.Scroll;
+        cursorType = CursorType.Scroll;
         castText = "Summon Meteor Strike";
         scollType = ScollType.Fire;
         castTargetType = CastTargetType.Other;
@@ -36,6 +37,7 @@ public class Scroll_MeteorStrike : Scroll
         itemID = 18;
         this.amount = amount;
         itemType = ItemType.Scroll;
+        cursorType = CursorType.Scroll;
         castText = "Summon Meteor Strike";
         scollType = ScollType.Fire;
         castTargetType = CastTargetType.Other;

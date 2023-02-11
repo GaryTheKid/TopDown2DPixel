@@ -4,25 +4,28 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using Utilities;
+using MoreMountains.Feedbacks;
 
 public class WeaponCursor : MonoBehaviour
 {
-    [SerializeField] private Image[] _visuals;
-    [SerializeField] private Transform _mouseCollider;
+    [SerializeField] protected Image[] _visuals;
+    [SerializeField] protected Transform _mouseCollider;
+    [SerializeField] protected MMF_Player _cursorAttackFeedBack;
+    [SerializeField] protected MMF_Player _cursorChargeFeedBack;
 
-    private bool hasShownDetectedEnemy;
+    protected bool hasShownDetectedEnemy;
 
-    private void OnEnable()
+    protected void OnEnable()
     {
         Cursor.visible = false;
     }
 
-    private void OnDisable()
+    protected void OnDisable()
     {
         Cursor.visible = true;
     }
 
-    private void Update()
+    protected void Update()
     {
         // update cursor position
         transform.position = Mouse.current.position.ReadValue();
@@ -51,5 +54,20 @@ public class WeaponCursor : MonoBehaviour
             }
             hasShownDetectedEnemy = false;
         }
+    }
+
+    public void FireAttackFeedbacks()
+    {
+        if (_cursorChargeFeedBack != null)
+        {
+            _cursorChargeFeedBack.StopFeedbacks();
+        }
+        
+        _cursorAttackFeedBack.PlayFeedbacks();
+    }
+
+    public void FireChargeFeedbacks()
+    {
+        _cursorChargeFeedBack.PlayFeedbacks();
     }
 }

@@ -14,6 +14,8 @@ using Photon.Pun;
 public class TargetList : MonoBehaviour
 {
     public HashSet<int> targets;
+
+    [SerializeField] private SpriteRenderer _visual;
     private PhotonView _PV;
 
     private void Awake()
@@ -25,10 +27,22 @@ public class TargetList : MonoBehaviour
     public void AddTarget(int targetID)
     {
         NetworkCalls.Player_NetWork.LockTarget(_PV, targetID);
+
+        // show visual
+        if (targets.Count > 0)
+        {
+            _visual.color = Color.red;
+        }
     }
 
     public void RemoveTarget(int targetID)
     {
         NetworkCalls.Player_NetWork.UnlockTarget(_PV, targetID);
+
+        // hide visual
+        if (targets.Count <= 0)
+        {
+            _visual.color = Color.white;
+        }
     }
 }

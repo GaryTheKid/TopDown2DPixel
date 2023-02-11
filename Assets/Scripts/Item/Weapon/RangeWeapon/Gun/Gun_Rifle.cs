@@ -10,6 +10,7 @@ public class Gun_Rifle : Gun
         itemID = 11;
         amount = 1;
         itemType = ItemType.RangedWeapon;
+        cursorType = CursorType.Rifle;
         durability = 15;
 
         attackRange = 10f;
