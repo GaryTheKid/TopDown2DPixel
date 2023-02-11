@@ -97,6 +97,10 @@ public class LootBoxWorld : MonoBehaviour
                 case Item.ItemType.Scroll:
                     durability += (short)UnityEngine.Random.Range(1, 2);
                     break;
+
+                case Item.ItemType.DeployableWeapon:
+                    amount += (short)UnityEngine.Random.Range(1, 2);
+                    break;
             }
             GameManager.singleton.SpawnItem(transform.position, randItemID, amount, durability);
         }

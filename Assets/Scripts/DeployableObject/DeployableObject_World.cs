@@ -35,6 +35,9 @@ public class DeployableObject_World : MonoBehaviour
 
     private void OnEnable()
     {
+        // deactive previous coroutine
+        Deactivate();
+
         // reset deployable
         isLocked = false;
         ShowDeactivateVisual();
@@ -56,7 +59,6 @@ public class DeployableObject_World : MonoBehaviour
         {
             _visuals[i].color = new Color(_initColors[i].r, _initColors[i].g, _initColors[i].b, 0f);
         }
-        _co_activate = null;
     }
 
     public void PerishInTime()

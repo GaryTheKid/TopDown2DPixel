@@ -89,6 +89,16 @@ namespace Utilities
             return worldPos;
         }
 
+        public static Ray GetScreenPointRay()
+        {
+            return Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        }
+
+        public static Vector2 GetScreenWorldPoint2D() 
+        {
+            return Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        }
+
         public static float GetMouseRotationEulerAngle(Vector3 origin)
         {
             Vector3 mousePosition = GetMouseWorldPosition();

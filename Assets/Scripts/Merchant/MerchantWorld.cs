@@ -126,6 +126,10 @@ public class MerchantWorld : MonoBehaviour
                     case Item.ItemType.Scroll:
                         durability += (short)UnityEngine.Random.Range(1, 2);
                         break;
+
+                    case Item.ItemType.DeployableWeapon:
+                        amount += (short)UnityEngine.Random.Range(1, 2);
+                        break;
                 }
 
                 // set item price based on the item attributes
@@ -141,6 +145,7 @@ public class MerchantWorld : MonoBehaviour
 
                     case Item.ItemType.Consumable:
                     case Item.ItemType.ThrowableWeapon:
+                    case Item.ItemType.DeployableWeapon:
                         price = (short)(amount * ItemAssets.itemAssets.itemCostDic[randItemID]);
                         break;
                 }

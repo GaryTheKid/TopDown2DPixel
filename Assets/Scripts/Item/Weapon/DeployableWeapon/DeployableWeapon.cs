@@ -30,4 +30,9 @@ public abstract class DeployableWeapon : Weapon
     }
 
     public override abstract Transform GetEquipmentPrefab();
+
+    public override bool IsStackable()
+    {
+        return true;
+    }
 }
