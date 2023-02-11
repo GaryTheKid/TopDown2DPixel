@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         SpawnItem(itemSpawns[1].position, 2, 1, 99);
         SpawnItem(itemSpawns[1].position, 19, 1, 99);
         SpawnItem(itemSpawns[1].position, 11, 1, 99);
-        SpawnItem(itemSpawns[1].position, 14, 99);
+        SpawnItem(itemSpawns[1].position, 22, 10);
         SpawnItem(itemSpawns[1].position, 16, 1, 99);
 
         if (!PhotonNetwork.IsMasterClient)
@@ -222,7 +222,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             // spawn loot boxes randomly
             for (int i = 0; i < aiSpawnQuantity; i++)
             {
-                SpawnAIRandomly();
+                //SpawnAIRandomly();
             }
             nextAISpawnTime += aiSpawnWaveTimeStep;
         }

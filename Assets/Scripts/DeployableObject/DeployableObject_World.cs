@@ -35,11 +35,9 @@ public class DeployableObject_World : MonoBehaviour
 
     private void OnEnable()
     {
-        // deactive previous coroutine
-        Deactivate();
-
         // reset deployable
         isLocked = false;
+        Deactivate();
         ShowDeactivateVisual();
         if (GetDeployerPV().IsMine)
         {

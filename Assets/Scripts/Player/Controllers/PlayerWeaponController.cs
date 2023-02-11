@@ -778,12 +778,22 @@ public class PlayerWeaponController : MonoBehaviour
                 StartCoroutine(_co_Slow);
             }
 
+            // throwing this weapon reduces its amount
+            _inventory.RemoveOneItem(weapon);
+
+            if (_inventory.GetItemAmountListById(weapon.itemID) <= 0)
+            {
+                weapon.Unequip(_PV);
+
+                // restore movement speed
+                _playerStats.speedModifier = 1f;
+
+                // clear co
+                yield return null;
+            }
+
             // wait cd
             yield return new WaitForSecondsRealtime(attackCD);
-
-            // update durability
-            if (!_playerStats.isDead)
-                _playerInventoryController.UpdateItemDurability(-1);
 
             // clear co
             _co_Deploy = null;

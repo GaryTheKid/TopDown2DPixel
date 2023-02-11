@@ -7,7 +7,7 @@ public class Mines_dpl : DeployableObject
     public Mines_dpl()
     {
         DeployableID = 0;
-        lifeTime = 10f;
+        lifeTime = 30f;
         activationTime = 1f;
         activationRadius = 0.5f;
         detectionRadius = 1f;

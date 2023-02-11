@@ -38,14 +38,14 @@ public class PlayerInventoryController : MonoBehaviour
     {
         _playerStats = GetComponent<PlayerStatsController>().playerStats;
         _PV = GetComponent<PhotonView>();
-        _inventory = new Inventory();
+        _inventory = new Inventory(6);
         _uiInventory.SetInventory(_inventory);
         _uiInventory.SpawnItemSlots();
         _equipmentSlots = _uiInventory.GetEquipmentSlots();
 
         // bind and enable input
         _inputActions = GetComponent<PlayerInputActions>().inputActions;
-        _inputActions.Player.InventoryActivation.performed += HandleUIInventory;
+        //_inputActions.Player.InventoryActivation.performed += HandleUIInventory;
         LoadEquipmentQuickCast();
     }
 
