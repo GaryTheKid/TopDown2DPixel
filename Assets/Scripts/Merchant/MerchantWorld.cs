@@ -20,7 +20,7 @@ public class MerchantWorld : MonoBehaviour
     public enum MerchantType
     {
         Normal,
-
+        Gamble
     }
     public MerchantType merchantType;
 
@@ -90,68 +90,139 @@ public class MerchantWorld : MonoBehaviour
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            // set item attributes for all 3 items
-            for (byte i = 0; i < 3; i++)
+            switch (merchantType)
             {
-                // roll a item id
-                short randItemID = (short)UnityEngine.Random.Range(1, ItemAssets.itemAssets.itemDic.Count);
-                Item item = ItemAssets.itemAssets.itemDic[randItemID];
+                case MerchantType.Normal:
+                    // set item attributes for all 3 items
+                    for (byte i = 0; i < 3; i++)
+                    {
+                        // roll a item id
+                        short randItemID = (short)UnityEngine.Random.Range(1, ItemAssets.itemAssets.itemDic.Count);
+                        Item item = ItemAssets.itemAssets.itemDic[randItemID];
 
-                // set item amount and durability 
-                short amount = 1;
-                short durability = item.durability;
-                switch (item.itemType)
-                {
-                    case Item.ItemType.MeleeWeapon:
-                        durability += (short)UnityEngine.Random.Range(-5, 3);
-                        break;
-
-                    case Item.ItemType.RangedWeapon:
-                    case Item.ItemType.ChargableRangedWeapon:
-                        durability += (short)UnityEngine.Random.Range(-10, 5);
-                        break;
-
-                    case Item.ItemType.Consumable:
-                        // invincible potion, speed potion, super health potion
-                        if (!(item.itemID == 7 || item.itemID == 8 || item.itemID == 9))
+                        // set item amount and durability 
+                        short amount = 1;
+                        short durability = item.durability;
+                        switch (item.itemType)
                         {
-                            amount = (short)UnityEngine.Random.Range(1, 4);
+                            case Item.ItemType.MeleeWeapon:
+                                durability += (short)UnityEngine.Random.Range(-5, 3);
+                                break;
+
+                            case Item.ItemType.RangedWeapon:
+                            case Item.ItemType.ChargableRangedWeapon:
+                                durability += (short)UnityEngine.Random.Range(-10, 5);
+                                break;
+
+                            case Item.ItemType.Consumable:
+                                // invincible potion, speed potion, super health potion
+                                if (!(item.itemID == 7 || item.itemID == 8 || item.itemID == 9))
+                                {
+                                    amount = (short)UnityEngine.Random.Range(1, 4);
+                                }
+                                break;
+
+                            case Item.ItemType.ThrowableWeapon:
+                                amount = (short)UnityEngine.Random.Range(1, 3);
+                                break;
+
+                            case Item.ItemType.Scroll:
+                                durability += (short)UnityEngine.Random.Range(1, 2);
+                                break;
+
+                            case Item.ItemType.DeployableWeapon:
+                                amount += (short)UnityEngine.Random.Range(1, 2);
+                                break;
                         }
-                        break;
 
-                    case Item.ItemType.ThrowableWeapon:
-                        amount = (short)UnityEngine.Random.Range(1, 3);
-                        break;
+                        // set item price based on the item attributes
+                        short price = 0;
+                        switch (item.itemType)
+                        {
+                            case Item.ItemType.MeleeWeapon:
+                            case Item.ItemType.RangedWeapon:
+                            case Item.ItemType.ChargableRangedWeapon:
+                            case Item.ItemType.Scroll:
+                                price = (short)(durability * ItemAssets.itemAssets.itemCostDic[randItemID]);
+                                break;
 
-                    case Item.ItemType.Scroll:
-                        durability += (short)UnityEngine.Random.Range(1, 2);
-                        break;
+                            case Item.ItemType.Consumable:
+                            case Item.ItemType.ThrowableWeapon:
+                            case Item.ItemType.DeployableWeapon:
+                                price = (short)(amount * ItemAssets.itemAssets.itemCostDic[randItemID]);
+                                break;
+                        }
 
-                    case Item.ItemType.DeployableWeapon:
-                        amount += (short)UnityEngine.Random.Range(1, 2);
-                        break;
-                }
+                        // call rpc to set it
+                        Merchant_NetWork.SetVenderItems(_PV, i, randItemID, amount, durability, price);
+                    }
+                    break;
 
-                // set item price based on the item attributes
-                short price = 0;
-                switch (item.itemType)
-                {
-                    case Item.ItemType.MeleeWeapon:
-                    case Item.ItemType.RangedWeapon:
-                    case Item.ItemType.ChargableRangedWeapon:
-                    case Item.ItemType.Scroll:
-                        price = (short)(durability * ItemAssets.itemAssets.itemCostDic[randItemID]);
-                        break;
+                case MerchantType.Gamble:
+                    // set item attributes for all 3 items
+                    for (byte i = 0; i < 3; i++)
+                    {
+                        // roll a item id
+                        short randItemID = (short)UnityEngine.Random.Range(1, ItemAssets.itemAssets.itemDic.Count);
+                        Item item = ItemAssets.itemAssets.itemDic[randItemID];
 
-                    case Item.ItemType.Consumable:
-                    case Item.ItemType.ThrowableWeapon:
-                    case Item.ItemType.DeployableWeapon:
-                        price = (short)(amount * ItemAssets.itemAssets.itemCostDic[randItemID]);
-                        break;
-                }
+                        // set item amount and durability 
+                        short amount = 1;
+                        short durability = item.durability;
+                        switch (item.itemType)
+                        {
+                            case Item.ItemType.MeleeWeapon:
+                                durability += (short)UnityEngine.Random.Range(-5, 3);
+                                break;
 
-                // call rpc to set it
-                Merchant_NetWork.SetVenderItems(_PV, i, randItemID, amount, durability, price);
+                            case Item.ItemType.RangedWeapon:
+                            case Item.ItemType.ChargableRangedWeapon:
+                                durability += (short)UnityEngine.Random.Range(-10, 5);
+                                break;
+
+                            case Item.ItemType.Consumable:
+                                // invincible potion, speed potion, super health potion
+                                if (!(item.itemID == 7 || item.itemID == 8 || item.itemID == 9))
+                                {
+                                    amount = (short)UnityEngine.Random.Range(1, 4);
+                                }
+                                break;
+
+                            case Item.ItemType.ThrowableWeapon:
+                                amount = (short)UnityEngine.Random.Range(1, 3);
+                                break;
+
+                            case Item.ItemType.Scroll:
+                                durability += (short)UnityEngine.Random.Range(1, 2);
+                                break;
+
+                            case Item.ItemType.DeployableWeapon:
+                                amount += (short)UnityEngine.Random.Range(1, 2);
+                                break;
+                        }
+
+                        // set item price based on the item attributes
+                        short price = 0;
+                        switch (item.itemType)
+                        {
+                            case Item.ItemType.MeleeWeapon:
+                            case Item.ItemType.RangedWeapon:
+                            case Item.ItemType.ChargableRangedWeapon:
+                            case Item.ItemType.Scroll:
+                                price = (short)(durability * ItemAssets.itemAssets.itemCostDic[randItemID]);
+                                break;
+
+                            case Item.ItemType.Consumable:
+                            case Item.ItemType.ThrowableWeapon:
+                            case Item.ItemType.DeployableWeapon:
+                                price = (short)(amount * ItemAssets.itemAssets.itemCostDic[randItemID]);
+                                break;
+                        }
+
+                        // call rpc to set it
+                        Merchant_NetWork.SetVenderGambleItems(_PV, i, randItemID, amount, durability, price);
+                    }
+                    break;
             }
         }
     }
@@ -159,7 +230,7 @@ public class MerchantWorld : MonoBehaviour
     public void SetMerchant(int areaIndex, byte type)
     {
         this.areaIndex = areaIndex;
-        merchantType = (MerchantType)type;
+        merchantType = MerchantType.Gamble;
         // TODO: RPC set merchant appears based on type;
 
 

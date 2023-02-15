@@ -41,7 +41,7 @@ public class MerchantSpawner : MonoBehaviour
         }
 
         // get a random merchant type
-        byte merchantType = (byte)UnityEngine.Random.Range(0, 1);
+        byte merchantType = (byte)UnityEngine.Random.Range(0, 2);
 
         // spawn merchant
         GameManager.singleton.SpawnMerchant(transform.position, merchantType, whichArea, out bool isSpawnSucceed);

@@ -45,6 +45,31 @@ public class UI_VenderItem : MonoBehaviour
     }
 
     /// <summary>
+    /// Set the item gamble info
+    /// </summary>
+    public void SetItemGambleAttributes(short randItemID, short amount, short durability, short price)
+    {
+        venderItem = ItemAssets.itemAssets.itemDic[randItemID];
+        this.amount = amount;
+        this.durability = durability;
+        this.price = price;
+        priceIcon.SetActive(true);
+        UpdateGambleUI();
+    }
+
+    /// <summary>
+    /// Update gamble ui
+    /// </summary>
+    public void UpdateGambleUI()
+    {
+        itemIcon.sprite = ItemAssets.itemAssets.Merchant_Icon_Random;
+        durabilityIcon.sprite = ItemAssets.itemAssets.ui_icon_none;
+        amountText.text = "";
+        durabilityText.text = "";
+        priceText.text = price.ToString();
+    }
+
+    /// <summary>
     /// Clear the current item's UI elements
     /// </summary>
     public void ClearItemUI()

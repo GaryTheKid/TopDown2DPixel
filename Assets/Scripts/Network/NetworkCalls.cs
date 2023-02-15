@@ -128,6 +128,11 @@ namespace NetworkCalls
             PV.RPC("RPC_SetVenderItems", RpcTarget.AllBuffered, itemIndex, randItemID, amount, durability, price);
         }
 
+        public static void SetVenderGambleItems(PhotonView PV, byte itemIndex, short randItemID, short amount, short durability, short price)
+        {
+            PV.RPC("RPC_SetVenderGambleItems", RpcTarget.AllBuffered, itemIndex, randItemID, amount, durability, price);
+        }
+
         public static void RemoveVenderItem(PhotonView PV, byte itemIndex)
         {
             PV.RPC("RPC_RemoveVenderItem", RpcTarget.AllBuffered, itemIndex);

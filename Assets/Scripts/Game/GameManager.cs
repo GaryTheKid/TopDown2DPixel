@@ -222,7 +222,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             // spawn loot boxes randomly
             for (int i = 0; i < aiSpawnQuantity; i++)
             {
-                //SpawnAIRandomly();
+                SpawnAIRandomly();
             }
             nextAISpawnTime += aiSpawnWaveTimeStep;
         }

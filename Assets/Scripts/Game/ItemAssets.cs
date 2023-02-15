@@ -87,6 +87,10 @@ public class ItemAssets : MonoBehaviour
     public Sprite skill_Sturdybody;
     public Sprite skill_Regenaration;
 
+    // merchant ui sprite
+    [Header("Merchant Sprites")]
+    public Sprite Merchant_Icon_Random;
+
     // Sprite for inventory and itemworld
     [Header("Item Sprites")]
     public Sprite handsSprite;
