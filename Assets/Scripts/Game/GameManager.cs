@@ -18,6 +18,9 @@ using System;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
+    // const 
+    private const float SPAWN_TIME_STEP = 0.05f;
+
     // singleton
     public static GameManager singleton;
 
@@ -219,7 +222,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         // spawn ai randomly
         if (timer >= nextAISpawnTime)
         {
-            // spawn loot boxes randomly
+            // spawn AIs randomly
             for (int i = 0; i < aiSpawnQuantity; i++)
             {
                 SpawnAIRandomly();
@@ -241,11 +244,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         // spawn merchant randomly
         if (!ObjectPool.objectPool.isAllMerchantActive && timer >= nextMerchantSpawnTime)
         {
-            // spawn loot boxes randomly
-            for (int i = 0; i < merchantSpawnQuantity; i++)
+            // spawn merchants randomly
+            /*for (int i = 0; i < merchantSpawnQuantity; i++)
             {
                 SpawnMerchantRandomly();
-            }
+            }*/
+            StartCoroutine(Co_SpawnMerchantRandomly());
             nextMerchantSpawnTime += merchantSpawnWaveTimeStep;
         }
     }
@@ -698,6 +702,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             // check if the area is full
             if (merchantSpawnAreas[randIndex].Item3 < merchantSpawnAreas[randIndex].Item2)
             {
+                print(randIndex + "asd");
                 return randIndex;
             }
             else
@@ -708,6 +713,15 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         // if can't find available, return -1
         return -1;
+    }
+
+    private IEnumerator Co_SpawnMerchantRandomly() 
+    {
+        for (int i = 0; i < merchantSpawnQuantity; i++)
+        {
+            SpawnMerchantRandomly();
+            yield return new WaitForSecondsRealtime(SPAWN_TIME_STEP);
+        }
     }
     #endregion
 
