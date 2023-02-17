@@ -18,6 +18,7 @@ public class AIEffectController : MonoBehaviour
     [SerializeField] private Animator _avatarAnimator;
     [SerializeField] private GameObject _popTextTemplate;
     [SerializeField] private MMF_Player mmf_hp;
+    [SerializeField] private GameObject _minimapIndicator;
     private Rigidbody2D _rb;
 
     private void Awake()
@@ -65,6 +66,9 @@ public class AIEffectController : MonoBehaviour
         // disable hitbox
         _hitBox.SetActive(false);
 
+        // disable minimap indicator
+        _minimapIndicator.SetActive(false);
+
         // set speed 0
         _rb.velocity = Vector2.zero;
 
@@ -106,6 +110,9 @@ public class AIEffectController : MonoBehaviour
 
         // set hitbox
         _hitBox.SetActive(true);
+
+        // disable minimap indicator
+        _minimapIndicator.SetActive(true);
 
         // Play Death Animation
         _avatarAnimator.SetBool("isDead", false);

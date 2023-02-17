@@ -230,7 +230,7 @@ public class MerchantWorld : MonoBehaviour
     public void SetMerchant(int areaIndex, byte type)
     {
         this.areaIndex = areaIndex;
-        merchantType = MerchantType.Gamble;
+        merchantType = (MerchantType)type;
         // TODO: RPC set merchant appears based on type;
 
 

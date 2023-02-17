@@ -19,7 +19,7 @@ using System;
 public class GameManager : MonoBehaviourPunCallbacks
 {
     // const 
-    private const float SPAWN_TIME_STEP = 0.05f;
+    private const float SPAWN_TIME_STEP = 0.5f;
 
     // singleton
     public static GameManager singleton;
@@ -462,12 +462,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void SpawnMerchantRandomly()
     {
         var randAreaIndex = GetRandomSpawnArea_Merchant();
-
-        // if run out of spawn space
         if (randAreaIndex == -1)
-        {
             return;
-        }
 
         var randSpawnArea = merchantSpawnAreas[randAreaIndex].Item1;
         var spawnPoint = randSpawnArea.GetRandomPointFromArea();
@@ -481,7 +477,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         // check if the selected area is full
         if (merchantSpawnAreas[whichArea].Item2 <= merchantSpawnAreas[whichArea].Item3)
+        {
             return;
+        }
 
         var randSpawnPoint = merchantSpawnAreas[whichArea].Item1;
         var spawnPoint = randSpawnPoint.GetRandomPointFromArea();
@@ -686,6 +684,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         return -1;
     }
 
+
+    // TODO: rework the spawn algorithm!!!!!!!!!!!!!!
+    // this one is buggy
+
     private int GetRandomSpawnArea_Merchant()
     {
         List<int> indices = new List<int>();
@@ -702,7 +704,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             // check if the area is full
             if (merchantSpawnAreas[randIndex].Item3 < merchantSpawnAreas[randIndex].Item2)
             {
-                print(randIndex + "asd");
                 return randIndex;
             }
             else

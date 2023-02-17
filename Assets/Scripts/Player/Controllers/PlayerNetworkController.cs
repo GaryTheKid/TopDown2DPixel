@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
-using Photon.Voice.Unity;
 using TMPro;
 using MoreMountains.Feedbacks;
 
@@ -33,6 +32,7 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _WeaponIndicators;
     [SerializeField] private GameObject _playerVision;
     [SerializeField] private SpriteRenderer _ringSprite;
+    [SerializeField] private SpriteRenderer _minimap_Indicator;
     [SerializeField] private MMF_Player _mmf_ReceiveDamage;
     [SerializeField] private MMF_Player _mmf_ReceiveHealing;
     [SerializeField] private Image _hpBar;
@@ -88,6 +88,7 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
             _CharacterCollider.layer = LayerMask.NameToLayer("Enemy");
             transform.parent = GameManager.singleton.spawnedPlayerParent;
             _ringSprite.color = Color.red;
+            _minimap_Indicator.color = Color.red;
             _hpBar.color = Color.red;
             _mmf_ReceiveDamage.GetFeedbackOfType<MMF_Image>().ColorOverTime = _enemyHpBarGradient;
             _mmf_ReceiveHealing.GetFeedbackOfType<MMF_Image>().ColorOverTime = _enemyHpBarGradient;
@@ -97,6 +98,7 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
         {
             _HitBox.tag = "Untagged";
             _ringSprite.color = Color.green;
+            _minimap_Indicator.color = Color.green;
             _characterLight.color = Color.white;
         }
     }

@@ -1,15 +1,10 @@
 using UnityEngine;
 using Photon.Pun;
-using Photon.Voice.PUN;
-using Photon.Voice.Unity;
-using Photon.Voice;
 
 public class VoiceChatManager : MonoBehaviour
 {
     public static VoiceChatManager singleton;
 
-    [SerializeField] private PunVoiceClient _PVC;
-    [SerializeField] private Recorder _recorder;
 
     private void Awake()
     {
