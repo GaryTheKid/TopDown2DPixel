@@ -28,7 +28,7 @@ public class MerchantSpawner : MonoBehaviour
     IEnumerator Co_SpawnMerchant(int whichArea)
     {
         // occupy the avilable spawn area
-        //AddToSpawnAreaInfo(whichArea);
+        AddToSpawnAreaInfo(whichArea);
 
         // check if there is any obstacle
         var timer = 0f;
@@ -50,12 +50,9 @@ public class MerchantSpawner : MonoBehaviour
         GameManager.singleton.SpawnMerchant(transform.position, merchantType, whichArea, out bool isSpawnSucceed);
 
         // spawn area available count - 1 if not valid
-        if (isSpawnSucceed)
+        if (!isSpawnSucceed)
         {
-            AddToSpawnAreaInfo(whichArea);
-            var area = GameManager.singleton.merchantSpawnAreas[whichArea];
-            var updatedArea = (area.Item1, area.Item2, area.Item3);
-            print(updatedArea.Item2 + " " + updatedArea.Item3);
+            RemoveFromSpawnAreaInfo(whichArea);
         }
 
         // destroy

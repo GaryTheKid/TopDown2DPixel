@@ -566,7 +566,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (area.isSingular)
             {
                 lootBoxSpawnAreas.Add((area, 1, 0));
-                return;
+                continue;
             }
 
             // calculate max capacity based on density
@@ -589,7 +589,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (area.isSingular)
             {
                 aiSpawnAreas.Add((area, 1));
-                return;
+                continue;
             }
 
             // calculate max capacity based on density
@@ -612,7 +612,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (area.isSingular)
             {
                 merchantSpawnAreas.Add((area, 1, 0));
-                return;
+                continue;
             }
 
             // calculate max capacity based on density
@@ -637,7 +637,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         // randomly select an available area
         for (int i = 0; i < lootBoxSpawnAreas.Count; i++)
         {
-            int randIndex = UnityEngine.Random.Range(0, indices.Count);
+            int randIndex = indices[UnityEngine.Random.Range(0, indices.Count)];
 
             // check if the area is full
             if (lootBoxSpawnAreas[randIndex].Item3 < lootBoxSpawnAreas[randIndex].Item2)
@@ -665,7 +665,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         // randomly select an available area
         for (int i = 0; i < aiSpawnAreas.Count; i++)
         {
-            int randIndex = UnityEngine.Random.Range(0, indices.Count);
+            int randIndex = indices[UnityEngine.Random.Range(0, indices.Count)];
 
             // check if the area is full
             var area = aiSpawnAreas[randIndex].Item1;
@@ -684,10 +684,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         return -1;
     }
 
-
-    // TODO: rework the spawn algorithm!!!!!!!!!!!!!!
-    // this one is buggy
-
     private int GetRandomSpawnArea_Merchant()
     {
         List<int> indices = new List<int>();
@@ -699,7 +695,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         // randomly select an available area
         for (int i = 0; i < merchantSpawnAreas.Count; i++)
         {
-            int randIndex = UnityEngine.Random.Range(0, indices.Count);
+            int randIndex = indices[UnityEngine.Random.Range(0, indices.Count)];
 
             // check if the area is full
             if (merchantSpawnAreas[randIndex].Item3 < merchantSpawnAreas[randIndex].Item2)
