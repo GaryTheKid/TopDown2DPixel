@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6343513409605992081}
-  - component: {fileID: 467912291343372741}
   m_Layer: 0
   m_Name: Castle
   m_TagString: Untagged
@@ -33,19 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &467912291343372741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6343513409605992080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ConversionMode: 0
 --- !u!1 &6343513410725905857
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,6 +128,7 @@ Transform:
   - {fileID: 5367479288539772703}
   - {fileID: 5618897283732554068}
   - {fileID: 5722985840788929928}
+  - {fileID: 599214133545081504}
   m_Father: {fileID: 6343513409605992081}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -155,6 +142,10 @@ PrefabInstance:
     - target: {fileID: 1308386661909885478, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_Name
       value: CastleWall_7 (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5503837967812185439, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7790696600054867043, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_SortingOrder
@@ -218,6 +209,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 641926997327449188, guid: b0210d022291242469f8a14a519f013a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1546199862309563460, guid: b0210d022291242469f8a14a519f013a, type: 3}
       propertyPath: m_Name
       value: CastleWall_4 (1)
@@ -328,6 +323,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3207321769292187839, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5183374219835151377, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
       propertyPath: m_SortingOrder
       value: 111
@@ -357,6 +356,10 @@ PrefabInstance:
     - target: {fileID: 1308386661909885478, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_Name
       value: CastleWall_7 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5503837967812185439, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8947919749746596247, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_RootOrder
@@ -464,6 +467,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 99
       objectReference: {fileID: 0}
+    - target: {fileID: 1146406415972289334, guid: 3103f56036061ab4bbf97869707cb80c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7914361519831857841, guid: 3103f56036061ab4bbf97869707cb80c, type: 3}
       propertyPath: m_Name
       value: CastleWall_3 (6)
@@ -489,6 +496,10 @@ PrefabInstance:
     - target: {fileID: 1308386661909885478, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_Name
       value: CastleWall_7 (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5503837967812185439, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7790696600054867043, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_SortingOrder
@@ -596,6 +607,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3207321769292187839, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5183374219835151377, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
       propertyPath: m_SortingOrder
       value: 96
@@ -670,6 +685,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 112
       objectReference: {fileID: 0}
+    - target: {fileID: 1146406415972289334, guid: 3103f56036061ab4bbf97869707cb80c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7914361519831857841, guid: 3103f56036061ab4bbf97869707cb80c, type: 3}
       propertyPath: m_Name
       value: CastleWall_3 (10)
@@ -692,6 +711,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 641926997327449188, guid: b0210d022291242469f8a14a519f013a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1546199862309563460, guid: b0210d022291242469f8a14a519f013a, type: 3}
       propertyPath: m_Name
       value: CastleWall_4 (4)
@@ -761,6 +784,10 @@ PrefabInstance:
     - target: {fileID: 1308386661909885478, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_Name
       value: CastleWall_7 (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5503837967812185439, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8947919749746596247, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_RootOrder
@@ -868,6 +895,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 99
       objectReference: {fileID: 0}
+    - target: {fileID: 1146406415972289334, guid: 3103f56036061ab4bbf97869707cb80c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7914361519831857841, guid: 3103f56036061ab4bbf97869707cb80c, type: 3}
       propertyPath: m_Name
       value: CastleWall_3 (7)
@@ -893,6 +924,10 @@ PrefabInstance:
     - target: {fileID: 1308386661909885478, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_Name
       value: CastleWall_7 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5503837967812185439, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8947919749746596247, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_RootOrder
@@ -952,6 +987,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 3782987647108959307, guid: 92d0462129c04d74a930105629725a46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4175942363876120541, guid: 92d0462129c04d74a930105629725a46, type: 3}
       propertyPath: m_RootOrder
       value: 64
@@ -1022,6 +1061,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 641926997327449188, guid: b0210d022291242469f8a14a519f013a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1546199862309563460, guid: b0210d022291242469f8a14a519f013a, type: 3}
       propertyPath: m_Name
       value: CastleWall_4 (5)
@@ -1088,6 +1131,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 3782987647108959307, guid: 92d0462129c04d74a930105629725a46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4175942363876120541, guid: 92d0462129c04d74a930105629725a46, type: 3}
       propertyPath: m_RootOrder
       value: 31
@@ -1158,6 +1205,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 3782987647108959307, guid: 92d0462129c04d74a930105629725a46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4175942363876120541, guid: 92d0462129c04d74a930105629725a46, type: 3}
       propertyPath: m_RootOrder
       value: 47
@@ -1228,9 +1279,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 442291544439867551, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 649600631924731400, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
       propertyPath: m_Name
       value: CastleTower
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015119269595559652, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1584392936002941333, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2337395045825663831, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5592417272855755352, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7576137406634938345, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
       propertyPath: m_RootOrder
@@ -1238,11 +1309,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7576137406634938345, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -26.27
+      value: -26.25
       objectReference: {fileID: 0}
     - target: {fileID: 7576137406634938345, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 18.83
+      value: 19.04
       objectReference: {fileID: 0}
     - target: {fileID: 7576137406634938345, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1274,6 +1345,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7576137406634938345, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860184291316839272, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1337,6 +1412,10 @@ PrefabInstance:
     - target: {fileID: 1111572035582949134, guid: 3103f56036061ab4bbf97869707cb80c, type: 3}
       propertyPath: m_SortingOrder
       value: 106
+      objectReference: {fileID: 0}
+    - target: {fileID: 1146406415972289334, guid: 3103f56036061ab4bbf97869707cb80c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7914361519831857841, guid: 3103f56036061ab4bbf97869707cb80c, type: 3}
       propertyPath: m_Name
@@ -1404,6 +1483,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3207321769292187839, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5183374219835151377, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
       propertyPath: m_SortingOrder
       value: 96
@@ -1430,6 +1513,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 3782987647108959307, guid: 92d0462129c04d74a930105629725a46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4175942363876120541, guid: 92d0462129c04d74a930105629725a46, type: 3}
       propertyPath: m_RootOrder
       value: 29
@@ -1500,6 +1587,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 179468297989638393, guid: 161b71013e471be48ae686aeb0fcf8a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1348636415287142203, guid: 161b71013e471be48ae686aeb0fcf8a2, type: 3}
       propertyPath: m_Name
       value: CastleWall_6 (4)
@@ -1565,6 +1656,10 @@ PrefabInstance:
     - target: {fileID: 1308386661909885478, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_Name
       value: CastleWall_7 (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5503837967812185439, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7790696600054867043, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_SortingOrder
@@ -1632,6 +1727,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CastleWall_7 (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 5503837967812185439, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7790696600054867043, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_SortingOrder
       value: 96
@@ -1694,9 +1793,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 608123570545977134, guid: c74df35832636da45a149adf62b175f7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 704652665072401451, guid: c74df35832636da45a149adf62b175f7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2352778119589170274, guid: c74df35832636da45a149adf62b175f7, type: 3}
       propertyPath: m_Name
       value: CastleTower_D
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647392968122761426, guid: c74df35832636da45a149adf62b175f7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6928935673568548589, guid: c74df35832636da45a149adf62b175f7, type: 3}
       propertyPath: m_RootOrder
@@ -1704,11 +1815,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6928935673568548589, guid: c74df35832636da45a149adf62b175f7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 50.9
+      value: 51.05
       objectReference: {fileID: 0}
     - target: {fileID: 6928935673568548589, guid: c74df35832636da45a149adf62b175f7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -19.17
+      value: -19.38
       objectReference: {fileID: 0}
     - target: {fileID: 6928935673568548589, guid: c74df35832636da45a149adf62b175f7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1742,6 +1853,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7134064559504496824, guid: c74df35832636da45a149adf62b175f7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8480341339167555157, guid: c74df35832636da45a149adf62b175f7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8949106959618847029, guid: c74df35832636da45a149adf62b175f7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c74df35832636da45a149adf62b175f7, type: 3}
 --- !u!4 &5618897283732554068 stripped
@@ -1756,6 +1879,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 3782987647108959307, guid: 92d0462129c04d74a930105629725a46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4175942363876120541, guid: 92d0462129c04d74a930105629725a46, type: 3}
       propertyPath: m_RootOrder
       value: 28
@@ -1826,6 +1953,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 5899250236188965126, guid: 9bb79a375954ed14c83b2811425d0d04, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5984168003456037144, guid: 9bb79a375954ed14c83b2811425d0d04, type: 3}
       propertyPath: m_Name
       value: CastleWall_2 (3)
@@ -1936,6 +2067,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 96
       objectReference: {fileID: 0}
+    - target: {fileID: 1146406415972289334, guid: 3103f56036061ab4bbf97869707cb80c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7914361519831857841, guid: 3103f56036061ab4bbf97869707cb80c, type: 3}
       propertyPath: m_Name
       value: CastleWall_3 (3)
@@ -1961,6 +2096,10 @@ PrefabInstance:
     - target: {fileID: 1308386661909885478, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_Name
       value: CastleWall_7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5503837967812185439, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8947919749746596247, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_RootOrder
@@ -2024,6 +2163,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CastleWall_7 (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 5503837967812185439, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8947919749746596247, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -2082,6 +2225,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 3782987647108959307, guid: 92d0462129c04d74a930105629725a46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4175942363876120541, guid: 92d0462129c04d74a930105629725a46, type: 3}
       propertyPath: m_RootOrder
       value: 45
@@ -2152,6 +2299,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 179468297989638393, guid: 161b71013e471be48ae686aeb0fcf8a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1348636415287142203, guid: 161b71013e471be48ae686aeb0fcf8a2, type: 3}
       propertyPath: m_Name
       value: CastleWall_6 (3)
@@ -2222,6 +2373,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CastleWall_7 (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 5503837967812185439, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8947919749746596247, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_RootOrder
       value: 62
@@ -2283,6 +2438,10 @@ PrefabInstance:
     - target: {fileID: 1308386661909885478, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_Name
       value: CastleWall_7 (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5503837967812185439, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7790696600054867043, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_SortingOrder
@@ -2346,6 +2505,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 5899250236188965126, guid: 9bb79a375954ed14c83b2811425d0d04, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5984168003456037144, guid: 9bb79a375954ed14c83b2811425d0d04, type: 3}
       propertyPath: m_Name
       value: CastleWall_2 (1)
@@ -2416,6 +2579,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CastleWall_8
       objectReference: {fileID: 0}
+    - target: {fileID: 6389942257329970631, guid: 39262b5638f6b9645b51526b09144fbc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6948446705321860654, guid: 39262b5638f6b9645b51526b09144fbc, type: 3}
       propertyPath: m_SortingOrder
       value: 95
@@ -2478,6 +2645,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 641926997327449188, guid: b0210d022291242469f8a14a519f013a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1546199862309563460, guid: b0210d022291242469f8a14a519f013a, type: 3}
       propertyPath: m_Name
       value: CastleWall_4
@@ -2540,6 +2711,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 3782987647108959307, guid: 92d0462129c04d74a930105629725a46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4175942363876120541, guid: 92d0462129c04d74a930105629725a46, type: 3}
       propertyPath: m_RootOrder
       value: 26
@@ -2610,6 +2785,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 179468297989638393, guid: 161b71013e471be48ae686aeb0fcf8a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1348636415287142203, guid: 161b71013e471be48ae686aeb0fcf8a2, type: 3}
       propertyPath: m_Name
       value: CastleWall_6 (1)
@@ -2676,6 +2855,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 3782987647108959307, guid: 92d0462129c04d74a930105629725a46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4175942363876120541, guid: 92d0462129c04d74a930105629725a46, type: 3}
       propertyPath: m_RootOrder
       value: 54
@@ -2738,6 +2921,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 3782987647108959307, guid: 92d0462129c04d74a930105629725a46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4175942363876120541, guid: 92d0462129c04d74a930105629725a46, type: 3}
       propertyPath: m_RootOrder
       value: 51
@@ -2808,6 +2995,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 5899250236188965126, guid: 9bb79a375954ed14c83b2811425d0d04, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5984168003456037144, guid: 9bb79a375954ed14c83b2811425d0d04, type: 3}
       propertyPath: m_Name
       value: CastleWall_2 (2)
@@ -2918,6 +3109,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3207321769292187839, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5183374219835151377, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
       propertyPath: m_SortingOrder
       value: 109
@@ -2992,6 +3187,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 108
       objectReference: {fileID: 0}
+    - target: {fileID: 1146406415972289334, guid: 3103f56036061ab4bbf97869707cb80c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7914361519831857841, guid: 3103f56036061ab4bbf97869707cb80c, type: 3}
       propertyPath: m_Name
       value: CastleWall_3 (5)
@@ -3056,6 +3255,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 455798047546343313, guid: 3103f56036061ab4bbf97869707cb80c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1146406415972289334, guid: 3103f56036061ab4bbf97869707cb80c, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7914361519831857841, guid: 3103f56036061ab4bbf97869707cb80c, type: 3}
@@ -3132,6 +3335,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 7009752691160352514, guid: 956ee83f78b13474b9d10de4292922fe, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7809557303718822092, guid: 956ee83f78b13474b9d10de4292922fe, type: 3}
       propertyPath: m_SortingOrder
       value: 99
@@ -3206,6 +3413,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4804829488854473394, guid: 1d500c9fb4bca3a4396a4c4bf7ad61e5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9123605968171078094, guid: 1d500c9fb4bca3a4396a4c4bf7ad61e5, type: 3}
       propertyPath: m_Name
       value: CastleWall_0 (1)
@@ -3272,6 +3483,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3207321769292187839, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5183374219835151377, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
       propertyPath: m_SortingOrder
       value: 101
@@ -3298,6 +3513,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 3782987647108959307, guid: 92d0462129c04d74a930105629725a46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4175942363876120541, guid: 92d0462129c04d74a930105629725a46, type: 3}
       propertyPath: m_RootOrder
       value: 16
@@ -3412,6 +3631,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3207321769292187839, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5183374219835151377, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
       propertyPath: m_SortingOrder
       value: 107
@@ -3494,6 +3717,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7110932818247991145, guid: 4c969f734607d12468baf117e579773b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c969f734607d12468baf117e579773b, type: 3}
 --- !u!4 &749157876255183931 stripped
@@ -3563,6 +3790,10 @@ PrefabInstance:
     - target: {fileID: 6058329035284947197, guid: 956ee83f78b13474b9d10de4292922fe, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7009752691160352514, guid: 956ee83f78b13474b9d10de4292922fe, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7809557303718822092, guid: 956ee83f78b13474b9d10de4292922fe, type: 3}
       propertyPath: m_SortingOrder
@@ -3634,6 +3865,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3207321769292187839, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7887193295191099766, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
       propertyPath: m_Name
       value: CastleTower_1 (2)
@@ -3700,6 +3935,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7110932818247991145, guid: 4c969f734607d12468baf117e579773b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c969f734607d12468baf117e579773b, type: 3}
 --- !u!4 &749157877132533421 stripped
@@ -3758,6 +3997,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3207321769292187839, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5183374219835151377, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
       propertyPath: m_SortingOrder
       value: 96
@@ -3784,6 +4027,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 3782987647108959307, guid: 92d0462129c04d74a930105629725a46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4175942363876120541, guid: 92d0462129c04d74a930105629725a46, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -3894,6 +4141,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3207321769292187839, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5183374219835151377, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
       propertyPath: m_SortingOrder
       value: 99
@@ -3920,6 +4171,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 3782987647108959307, guid: 92d0462129c04d74a930105629725a46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4175942363876120541, guid: 92d0462129c04d74a930105629725a46, type: 3}
       propertyPath: m_RootOrder
       value: 37
@@ -3979,6 +4234,100 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4175942363876120541, guid: 92d0462129c04d74a930105629725a46, type: 3}
   m_PrefabInstance: {fileID: 6420311022243003299}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7021972464655619401
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 6343513410725905858}
+    m_Modifications:
+    - target: {fileID: 442291544439867551, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 649600631924731400, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_Name
+      value: CastleTower (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015119269595559652, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1584392936002941333, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2337395045825663831, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5592417272855755352, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7576137406634938345, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_RootOrder
+      value: 68
+      objectReference: {fileID: 0}
+    - target: {fileID: 7576137406634938345, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7576137406634938345, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7576137406634938345, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 56.43
+      objectReference: {fileID: 0}
+    - target: {fileID: 7576137406634938345, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 7576137406634938345, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7576137406634938345, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7576137406634938345, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7576137406634938345, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7576137406634938345, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7576137406634938345, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7576137406634938345, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7576137406634938345, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860184291316839272, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+--- !u!4 &599214133545081504 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7576137406634938345, guid: af82b128d8ab50e4798cb472808a110b, type: 3}
+  m_PrefabInstance: {fileID: 7021972464655619401}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7196429446312965245
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3986,6 +4335,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 641926997327449188, guid: b0210d022291242469f8a14a519f013a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1546199862309563460, guid: b0210d022291242469f8a14a519f013a, type: 3}
       propertyPath: m_Name
       value: CastleWall_4 (2)
@@ -4096,6 +4449,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3207321769292187839, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5183374219835151377, guid: 56cc910f422a77448b33d3042dcf79b1, type: 3}
       propertyPath: m_SortingOrder
       value: 105
@@ -4122,6 +4479,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 641926997327449188, guid: b0210d022291242469f8a14a519f013a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1546199862309563460, guid: b0210d022291242469f8a14a519f013a, type: 3}
       propertyPath: m_Name
       value: CastleWall_4 (3)
@@ -4192,6 +4553,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CastleWall_7 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5503837967812185439, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8947919749746596247, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -4250,6 +4615,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 3782987647108959307, guid: 92d0462129c04d74a930105629725a46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4175942363876120541, guid: 92d0462129c04d74a930105629725a46, type: 3}
       propertyPath: m_RootOrder
       value: 41
@@ -4320,6 +4689,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 179468297989638393, guid: 161b71013e471be48ae686aeb0fcf8a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1348636415287142203, guid: 161b71013e471be48ae686aeb0fcf8a2, type: 3}
       propertyPath: m_Name
       value: CastleWall_6
@@ -4450,6 +4823,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 7009752691160352514, guid: 956ee83f78b13474b9d10de4292922fe, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7809557303718822092, guid: 956ee83f78b13474b9d10de4292922fe, type: 3}
       propertyPath: m_SortingOrder
       value: 117
@@ -4479,6 +4856,10 @@ PrefabInstance:
     - target: {fileID: 1308386661909885478, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_Name
       value: CastleWall_7 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5503837967812185439, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8947919749746596247, guid: 6484371f32b74f34aacf3acbcaea16cf, type: 3}
       propertyPath: m_RootOrder
@@ -4538,6 +4919,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 3782987647108959307, guid: 92d0462129c04d74a930105629725a46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4175942363876120541, guid: 92d0462129c04d74a930105629725a46, type: 3}
       propertyPath: m_RootOrder
       value: 25
@@ -4604,6 +4989,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 3782987647108959307, guid: 92d0462129c04d74a930105629725a46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4175942363876120541, guid: 92d0462129c04d74a930105629725a46, type: 3}
       propertyPath: m_RootOrder
       value: 35
@@ -4674,6 +5063,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6343513410725905858}
     m_Modifications:
+    - target: {fileID: 179468297989638393, guid: 161b71013e471be48ae686aeb0fcf8a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1348636415287142203, guid: 161b71013e471be48ae686aeb0fcf8a2, type: 3}
       propertyPath: m_Name
       value: CastleWall_6 (2)
