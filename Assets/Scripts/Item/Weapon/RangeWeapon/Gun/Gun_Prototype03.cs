@@ -4,7 +4,7 @@
  * Reference: 
  * 
  * Description: 
- *   Weapon - Gun - Prototype03
+ *   Item - Weapon - Gun - Prototype03
  * Last Edition:
  *   Change KnockBackDist 3 -> 1.5
  */
@@ -25,7 +25,7 @@ public class Gun_Prototype03 : Gun
         durability = 10;
 
         attackRange = 15f;
-        attackSpeed = 5f;
+        attackSpeed = 2.5f;
         moveSlowDownModifier = 0.3f;
         moveSlowDownTime = 0.20f;
         accuracy = 1f;
@@ -34,10 +34,10 @@ public class Gun_Prototype03 : Gun
         recoilRecoverTime = 0.01f;
 
         // projectile info
-        projectile = new Bullet_SemiAuto();
+        projectile = new Bullet_Railgun();
         projectile.spawnWeapon = this;
         projectile.speed = 30f;
-        projectile.damageInfo.damageAmount = 15f;
+        projectile.damageInfo.damageAmount = 30f;
         projectile.damageInfo.KnockBackDist = 1.5f;
     }
 

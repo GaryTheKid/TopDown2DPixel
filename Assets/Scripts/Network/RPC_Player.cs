@@ -290,14 +290,95 @@ public class RPC_Player : MonoBehaviour
         if (!_PV.IsMine && projectilePf.gameObject.layer == LayerMask.NameToLayer("Projectile")) projectilePf.gameObject.layer = LayerMask.NameToLayer("EnemyProjectile"); 
         projectilePf.eulerAngles = new Vector3(0f, 0f, fireDirDeg);
 
+        // set parent
         projectilePf.parent = GameManager.singleton.spawnedProjectileParent;
-        projectilePf.GetComponent<Rigidbody2D>().AddForce(dir * projectile.speed, ForceMode2D.Impulse);
+
+        // add force based on if windy weather
+        switch (GameManager.singleton.weather)
+        {
+            case GameManager.Weather.Windy_East:
+                projectilePf.GetComponent<Rigidbody2D>().AddForce(dir * projectile.speed + Vector2.left * PlayerBuffController.WIND_FORCE_PROJECTILE, ForceMode2D.Impulse);
+                break;
+            case GameManager.Weather.Windy_West:
+                projectilePf.GetComponent<Rigidbody2D>().AddForce(dir * projectile.speed + Vector2.right * PlayerBuffController.WIND_FORCE_PROJECTILE, ForceMode2D.Impulse);
+                break;
+            case GameManager.Weather.Windy_North:
+                projectilePf.GetComponent<Rigidbody2D>().AddForce(dir * projectile.speed + Vector2.down * PlayerBuffController.WIND_FORCE_PROJECTILE, ForceMode2D.Impulse);
+                break;
+            case GameManager.Weather.Windy_South:
+                projectilePf.GetComponent<Rigidbody2D>().AddForce(dir * projectile.speed + Vector2.up * PlayerBuffController.WIND_FORCE_PROJECTILE, ForceMode2D.Impulse);
+                break;
+            default:
+                projectilePf.GetComponent<Rigidbody2D>().AddForce(dir * projectile.speed, ForceMode2D.Impulse);
+                break;
+        }
 
         // set projectile world script
         var projectileWorld = projectilePf.GetComponent<ProjectileWorld>();
         projectileWorld.SetProjectile(projectile);
         projectileWorld.SetAttackerPV(_PV);
         projectileWorld.PerishInTime();
+    }
+
+    [PunRPC]
+    void RPC_FireChargedProjectile(Vector2 firePos, float fireDirDeg)
+    {
+        // reset charge and play attack animation
+        _playerWeaponController.weaponAnimator.SetTrigger("Attack");
+        _playerWeaponController.weaponAnimator.SetFloat("ChargeTier", 0);
+
+        // play sound fx
+        _playerWeaponController.fireFX.Play();
+
+        // get projectile in weapon controller
+        var projectile = _playerWeaponController.weapon.projectile;
+
+        // check charge tier
+        var chargeTier = _playerWeaponController.chargeTier;
+        if (chargeTier > 0)
+        {
+            // instantiate and fire (add force)
+            var dir = Utilities.Math.DegreeToVector2(fireDirDeg);
+            var projectilePf = Instantiate(projectile.GetProjectilePrefab(), firePos, Quaternion.identity);
+            if (!_PV.IsMine && projectilePf.gameObject.layer == LayerMask.NameToLayer("Projectile")) projectilePf.gameObject.layer = LayerMask.NameToLayer("EnemyProjectile");
+            projectilePf.eulerAngles = new Vector3(0f, 0f, fireDirDeg);
+
+            // set parent
+            projectilePf.parent = GameManager.singleton.spawnedProjectileParent;
+
+            // add force based on if windy weather
+            switch (GameManager.singleton.weather)
+            {
+                case GameManager.Weather.Windy_East:
+                    projectilePf.GetComponent<Rigidbody2D>().AddForce(dir * projectile.speed * chargeTier + Vector2.left * PlayerBuffController.WIND_FORCE_PROJECTILE, ForceMode2D.Impulse);
+                    break;
+                case GameManager.Weather.Windy_West:
+                    projectilePf.GetComponent<Rigidbody2D>().AddForce(dir * projectile.speed * chargeTier + Vector2.right * PlayerBuffController.WIND_FORCE_PROJECTILE, ForceMode2D.Impulse);
+                    break;
+                case GameManager.Weather.Windy_North:
+                    projectilePf.GetComponent<Rigidbody2D>().AddForce(dir * projectile.speed * chargeTier + Vector2.down * PlayerBuffController.WIND_FORCE_PROJECTILE, ForceMode2D.Impulse);
+                    break;
+                case GameManager.Weather.Windy_South:
+                    projectilePf.GetComponent<Rigidbody2D>().AddForce(dir * projectile.speed * chargeTier + Vector2.up * PlayerBuffController.WIND_FORCE_PROJECTILE, ForceMode2D.Impulse);
+                    break;
+                default:
+                    projectilePf.GetComponent<Rigidbody2D>().AddForce(dir * projectile.speed * chargeTier, ForceMode2D.Impulse);
+                    break;
+            }
+
+            // set projectile world script
+            var projectileWorld = projectilePf.GetComponent<ProjectileWorld>();
+            projectileWorld.SetProjectile(projectile);
+            if (!projectile.isExplosive)
+                projectileWorld.SetDamageRatio((float)chargeTier / (float)_playerWeaponController.weapon.maxChargeTier);
+            else
+                projectileWorld.SetDamageRatio(1f);
+            projectileWorld.SetAttackerPV(GetComponent<PhotonView>());
+            projectileWorld.PerishInTime();
+
+            // reset chargeTier
+            _playerWeaponController.chargeTier = 0;
+        }
     }
 
     [PunRPC]
@@ -343,47 +424,6 @@ public class RPC_Player : MonoBehaviour
         // play sound fx
         var clip = _playerWeaponController.fireFX.clip;
         _playerWeaponController.fireFX.PlayOneShot(clip);
-    }
-
-    [PunRPC]
-    void RPC_FireChargedProjectile(Vector2 firePos, float fireDirDeg)
-    {
-        // reset charge and play attack animation
-        _playerWeaponController.weaponAnimator.SetTrigger("Attack");
-        _playerWeaponController.weaponAnimator.SetFloat("ChargeTier", 0);
-
-        // play sound fx
-        _playerWeaponController.fireFX.Play();
-
-        // get projectile in weapon controller
-        var projectile = _playerWeaponController.weapon.projectile;
-
-        // check charge tier
-        var chargeTier = _playerWeaponController.chargeTier;
-        if (chargeTier > 0)
-        {
-            // instantiate and fire (add force)
-            var dir = Utilities.Math.DegreeToVector2(fireDirDeg);
-            var projectilePf = Instantiate(projectile.GetProjectilePrefab(), firePos, Quaternion.identity);
-            if (!_PV.IsMine && projectilePf.gameObject.layer == LayerMask.NameToLayer("Projectile")) projectilePf.gameObject.layer = LayerMask.NameToLayer("EnemyProjectile");
-            projectilePf.eulerAngles = new Vector3(0f, 0f, fireDirDeg);
-
-            projectilePf.parent = GameManager.singleton.spawnedProjectileParent;
-            projectilePf.GetComponent<Rigidbody2D>().AddForce(dir * projectile.speed * chargeTier, ForceMode2D.Impulse);
-
-            // set projectile world script
-            var projectileWorld = projectilePf.GetComponent<ProjectileWorld>();
-            projectileWorld.SetProjectile(projectile);
-            if (!projectile.isExplosive)
-                projectileWorld.SetDamageRatio((float)chargeTier / (float)_playerWeaponController.weapon.maxChargeTier);
-            else
-                projectileWorld.SetDamageRatio(1f);
-            projectileWorld.SetAttackerPV(GetComponent<PhotonView>());
-            projectileWorld.PerishInTime();
-
-            // reset chargeTier
-            _playerWeaponController.chargeTier = 0;
-        }
     }
 
     #region Spell

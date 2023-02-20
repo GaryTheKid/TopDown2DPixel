@@ -52,8 +52,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         Sunny,
         Rainning,
+        Windy_East,
+        Windy_West,
+        Windy_North,
+        Windy_South,
         Snowing,
-        Windy,
         Storming,
     }
     [Header("Weather")]
@@ -161,13 +164,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         SpawnPlayerCharacter();
 
         // Debug Items
-        SpawnItem(itemSpawns[1].position, 10, 1, 99);
-        SpawnItem(itemSpawns[1].position, 6, 1, 99);
-        SpawnItem(itemSpawns[1].position, 2, 1, 99);
-        SpawnItem(itemSpawns[1].position, 19, 1, 99);
-        SpawnItem(itemSpawns[1].position, 11, 1, 99);
-        SpawnItem(itemSpawns[1].position, 21, 10);
-        SpawnItem(itemSpawns[1].position, 16, 1, 99);
+        //SpawnItem(itemSpawns[1].position, 10, 1, 99);
+        //SpawnItem(itemSpawns[1].position, 6, 1, 99);
+        //SpawnItem(itemSpawns[1].position, 2, 1, 99);
+        //SpawnItem(itemSpawns[1].position, 19, 1, 99);
+        //SpawnItem(itemSpawns[1].position, 11, 1, 99);
+        //SpawnItem(itemSpawns[1].position, 21, 10);
+        //SpawnItem(itemSpawns[1].position, 16, 1, 99);
 
         if (!PhotonNetwork.IsMasterClient)
             return;
@@ -294,8 +297,31 @@ public class GameManager : MonoBehaviourPunCallbacks
     #region Weather
     public void StartRandomWeather()
     {
-        var randWeatherCode = (byte)UnityEngine.Random.Range(0, 1 + 1);
-        ChangeWeather(randWeatherCode);
+        var randVal = UnityEngine.Random.Range(0, 2 + 2 + 1 + 1 + 1 + 1);
+        if (randVal < 2)
+        {
+            ChangeWeather(0);
+        }
+        else if (randVal < 4)
+        {
+            ChangeWeather(1);
+        }
+        else if (randVal < 5)
+        {
+            ChangeWeather(2);
+        }
+        else if (randVal < 6)
+        {
+            ChangeWeather(3);
+        }
+        else if (randVal < 7)
+        {
+            ChangeWeather(4);
+        }
+        else if (randVal < 8)
+        {
+            ChangeWeather(5);
+        }
     }
 
     public void ChangeWeather(byte weatherCode)

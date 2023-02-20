@@ -1,25 +1,38 @@
-/* Last Edition: 01/18/2023
- * Author: Chongyang Wang
- * Collaborators: 
- * References:
+/* Last Edition Date: 01/23/2023
+ * Author: Chongyang Wang			
+ * Collaborators: 				
+ * Reference: 	
  * 
  * Description: 
- *   Network spawner for merchant
+ *   The Spawner class for spawning merchant in the map.
+ * Last Edition: 
+ *   Just Created.
  */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MerchantSpawner : MonoBehaviour
 {
+    #region Fields
+    // public field 
     public float spawnDelay;
-    private bool hasObstacle;
 
+    // private field
+    private bool hasObstacle;
+    #endregion
+
+
+    #region Unity Functions
     private void OnTriggerEnter2D(Collider2D collision)
     {
         hasObstacle = true;
     }
+    #endregion
 
+
+    #region Custom Functions
     public void SpawnMerchant(int whichArea)
     {
         StartCoroutine(Co_SpawnMerchant(whichArea));
@@ -72,4 +85,5 @@ public class MerchantSpawner : MonoBehaviour
         var updatedArea = (area.Item1, area.Item2, area.Item3 - 1);
         GameManager.singleton.merchantSpawnAreas[whichArea] = updatedArea;
     }
+    #endregion
 }

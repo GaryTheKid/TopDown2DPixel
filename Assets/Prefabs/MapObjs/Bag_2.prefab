@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3595878015987626805}
   - component: {fileID: 3595878015987626806}
-  - component: {fileID: 3595878015987626807}
+  - component: {fileID: 1866014849883254649}
   m_Layer: 0
   m_Name: Bag_2
   m_TagString: Untagged
@@ -86,19 +86,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!65 &3595878015987626807
-BoxCollider:
+--- !u!61 &1866014849883254649
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3595878015987626800}
+  m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.65625, y: 0.3125}
+    newSize: {x: 0.65625, y: 0.3125}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.65625, y: 0.3125, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.65625, y: 0.3125}
+  m_EdgeRadius: 0
 --- !u!1 &6862731167369964025
 GameObject:
   m_ObjectHideFlags: 0

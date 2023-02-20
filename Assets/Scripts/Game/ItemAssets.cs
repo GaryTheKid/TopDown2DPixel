@@ -38,6 +38,7 @@ public class ItemAssets : MonoBehaviour
     public Transform projBullet_SemiAuto;
     public Transform projBullet_Rifle;
     public Transform projBullet_Shotgun;
+    public Transform projBullet_Railgun;
     public Transform projSmokeGrenade;
     public Transform projHEGrenade;
     public Transform projImpactGrenade;
@@ -201,6 +202,7 @@ public class ItemAssets : MonoBehaviour
             { 4, new HEGrenade_proj() },
             { 5, new ImpactGrenade_Proj() },
             { 6, new Bullet_Shotgun() },
+            { 7, new Bullet_Railgun() }
         };
 
         deployableObjDic = new Dictionary<short, DeployableObject> 

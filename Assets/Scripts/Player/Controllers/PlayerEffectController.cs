@@ -35,6 +35,7 @@ public class PlayerEffectController : MonoBehaviour
     [SerializeField] private GameObject _BlinkFX;
     [SerializeField] private ScreenFogMask _screenFogFX;
     [SerializeField] private RainningFX _rainningFX;
+    [SerializeField] private WindyFX _windyFX;
     [SerializeField] private Animator _avatarAnimator;
     [SerializeField] private CinemachineVirtualCamera _vCam;
     [SerializeField] private GameObject _popTextTemplate;
@@ -321,6 +322,16 @@ public class PlayerEffectController : MonoBehaviour
     public void StopRainningEffect()
     {
         _rainningFX.StopRainning();
+    }
+
+    public void StartWindyEffect(WindyFX.WindDir windDir)
+    {
+        _windyFX.StartWinding(windDir);
+    }
+
+    public void StopWindyEffect()
+    {
+        _windyFX.StopWinding();
     }
 
     public void BlinkEffect()

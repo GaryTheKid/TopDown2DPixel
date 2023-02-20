@@ -19,7 +19,12 @@ public class RPC_GameManager : MonoBehaviour
 
     [SerializeField] private Image day;
     [SerializeField] private Image Night;
-
+    [SerializeField] private Image Weather_Sunny;
+    [SerializeField] private Image Weather_Rainning;
+    [SerializeField] private Image Weather_Windy_East;
+    [SerializeField] private Image Weather_Windy_West;
+    [SerializeField] private Image Weather_Windy_North;
+    [SerializeField] private Image Weather_Windy_South;
 
     [PunRPC]
     void RPC_UpdatePlayerInfo(int viewID, string name)
@@ -177,5 +182,71 @@ public class RPC_GameManager : MonoBehaviour
 
         // update weather code
         GameManager.singleton.weather = (GameManager.Weather)weatherCode;
+
+        // update weather ui icon
+        StartCoroutine(Co_TransitWeatherIcon(prevWeatherCode, weatherCode));
+    }
+
+    IEnumerator Co_TransitWeatherIcon(byte prevWeatherCode, byte newWeatherCode)
+    {
+        Image newWeatherIcon = null;
+        Image prevWeatherIcon = null;
+
+        // get icons
+        switch ((GameManager.Weather)newWeatherCode)
+        {
+            case GameManager.Weather.Sunny:
+                newWeatherIcon = Weather_Sunny;
+                break;
+            case GameManager.Weather.Rainning:
+                newWeatherIcon = Weather_Rainning;
+                break;
+            case GameManager.Weather.Windy_East:
+                newWeatherIcon = Weather_Windy_East;
+                break;
+            case GameManager.Weather.Windy_West:
+                newWeatherIcon = Weather_Windy_West;
+                break;
+            case GameManager.Weather.Windy_North:
+                newWeatherIcon = Weather_Windy_North;
+                break;
+            case GameManager.Weather.Windy_South:
+                newWeatherIcon = Weather_Windy_South;
+                break;
+        }
+
+        switch ((GameManager.Weather)prevWeatherCode)
+        {
+            case GameManager.Weather.Sunny:
+                prevWeatherIcon = Weather_Sunny;
+                break;
+            case GameManager.Weather.Rainning:
+                prevWeatherIcon = Weather_Rainning;
+                break;
+            case GameManager.Weather.Windy_East:
+                prevWeatherIcon = Weather_Windy_East;
+                break;
+            case GameManager.Weather.Windy_West:
+                prevWeatherIcon = Weather_Windy_West;
+                break;
+            case GameManager.Weather.Windy_North:
+                prevWeatherIcon = Weather_Windy_North;
+                break;
+            case GameManager.Weather.Windy_South:
+                prevWeatherIcon = Weather_Windy_South;
+                break;
+        }
+
+        var alpha = 0f;
+        while (alpha < 1f)
+        {
+            alpha += Time.deltaTime * LIGHT_UPDATE_SPEED;
+            newWeatherIcon.color = new Color(1f, 1f, 1f, alpha);
+            prevWeatherIcon.color = new Color(1f, 1f, 1f, 1f - alpha);
+            yield return new WaitForEndOfFrame();
+        }
+
+        newWeatherIcon.color = new Color(1f, 1f, 1f, 1f);
+        prevWeatherIcon.color = new Color(1f, 1f, 1f, 0f);
     }
 }

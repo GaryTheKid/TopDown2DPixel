@@ -9,6 +9,9 @@ using NetworkCalls;
 
 public class PlayerBuffController : MonoBehaviour
 {
+    public static float WIND_FORCE = 15f;
+    public static float WIND_FORCE_PROJECTILE = 5f;
+
     [SerializeField] private GameObject _ghostCollider;
     [SerializeField] private GameObject _characterCollider;
     [SerializeField] private GameObject _hitBox;
@@ -17,6 +20,7 @@ public class PlayerBuffController : MonoBehaviour
     private PlayerStatsController _statsController;
     private PlayerEffectController _effectController;
     private PlayerInventoryController _inventoryController;
+    private ConstantForce2D _constantForce2D;
     private PCInputActions _inputActions;
     private Rigidbody2D _rb;
     private PhotonView _PV;
@@ -33,6 +37,7 @@ public class PlayerBuffController : MonoBehaviour
         _effectController = GetComponent<PlayerEffectController>();
         _inventoryController = GetComponent<PlayerInventoryController>();
         _inputActions = GetComponent<PlayerInputActions>().inputActions;
+        _constantForce2D = GetComponent<ConstantForce2D>();
         _rb = GetComponent<Rigidbody2D>();
     }
 
@@ -239,6 +244,17 @@ public class PlayerBuffController : MonoBehaviour
 
                 _effectController.StopRainningEffect();
                 break;
+
+            case GameManager.Weather.Windy_East:
+            case GameManager.Weather.Windy_West:
+            case GameManager.Weather.Windy_North:
+            case GameManager.Weather.Windy_South:
+                // weather buff
+                _constantForce2D.force = Vector2.zero;
+
+                // visuals
+                _effectController.StopWindyEffect();
+                break;
         }
 
         // start new weather
@@ -251,6 +267,38 @@ public class PlayerBuffController : MonoBehaviour
                 // TODO: add weather buff
 
                 _effectController.StartRainningEffect();
+                break;
+
+            case GameManager.Weather.Windy_East:
+                // weather buff
+                _constantForce2D.force = Vector2.left * WIND_FORCE;
+
+                // visuals
+                _effectController.StartWindyEffect(WindyFX.WindDir.East);
+                break;
+
+            case GameManager.Weather.Windy_West:
+                // weather buff
+                _constantForce2D.force = Vector2.right * WIND_FORCE;
+
+                // visuals
+                _effectController.StartWindyEffect(WindyFX.WindDir.West);
+                break;
+
+            case GameManager.Weather.Windy_North:
+                // weather buff
+                _constantForce2D.force = Vector2.down * WIND_FORCE;
+
+                // visuals
+                _effectController.StartWindyEffect(WindyFX.WindDir.North);
+                break;
+
+            case GameManager.Weather.Windy_South:
+                // weather buff
+                _constantForce2D.force = Vector2.up * WIND_FORCE;
+
+                // visuals
+                _effectController.StartWindyEffect(WindyFX.WindDir.South);
                 break;
         }
     }
