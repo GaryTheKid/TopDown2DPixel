@@ -1,3 +1,11 @@
+/* Last Edition Date: 02/10/2023
+ * Author: Chongyang Wang
+ * Collaborators: 
+ * References:
+ * 
+ * Description: 
+ *   The windy weather fx.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
