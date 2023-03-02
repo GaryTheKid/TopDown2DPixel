@@ -19126,6 +19126,91 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5634917673876299892, guid: 374def61e1f64df48a1c8215c15f1648, type: 3}
   m_PrefabInstance: {fileID: 726772323}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &732813746
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 105099210036435169, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
+      propertyPath: sceneViewId
+      value: 307
+      objectReference: {fileID: 0}
+    - target: {fileID: 409813789279606832, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
+      propertyPath: m_Lens.m_SensorSize.x
+      value: 1.7947454
+      objectReference: {fileID: 0}
+    - target: {fileID: 413179958708691475, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
+      propertyPath: m_RootOrder
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 413179958708691475, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 413179958708691475, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 413179958708691475, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 413179958708691475, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 71.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 413179958708691475, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.04852415
+      objectReference: {fileID: 0}
+    - target: {fileID: 413179958708691475, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 413179958708691475, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 413179958708691475, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 413179958708691475, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 413179958708691475, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 413179958708691475, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 413179958708691475, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5273420920035261336, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
+      propertyPath: m_Name
+      value: Objective
+      objectReference: {fileID: 0}
+    - target: {fileID: 7725623968359294885, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.069999695
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213314911542914230, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.069999695
+      objectReference: {fileID: 0}
+    - target: {fileID: 9175036718577906083, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
+      propertyPath: sceneViewId
+      value: 307
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6f433e40219a6964a87c7fa910d04160, type: 3}
 --- !u!1001 &733199353
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29864,7 +29949,7 @@ MonoBehaviour:
   merchantSpawnQuantity: 6
   aiSpawnDensity: 1
   aiSpawnWaveTimeStep: 8
-  aiSpawnQuantity: 16
+  aiSpawnQuantity: 0
   maxLootBoxSpawnInWorld: 25
   lootBoxWorldLifeTime: 30
   maxItemSpawnInWorld: 150
