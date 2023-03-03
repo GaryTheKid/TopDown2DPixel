@@ -14,6 +14,10 @@ public class Objective : MonoBehaviour
     public int capturingPlayer;
 
     [SerializeField] private Image _progressUI;
+    [SerializeField] private Image _progressUI_Minimap;
+    [SerializeField] private GameObject _contestingUI;
+    [SerializeField] private GameObject _meCapturingUI;
+    [SerializeField] private GameObject _enemyCapturingUI;
     [SerializeField] private Text _capturePlayerNameUI;
 
     [SerializeField] private float captureRate;
@@ -226,11 +230,16 @@ public class Objective : MonoBehaviour
             if (capturingPlayer == _myCapturingList[0])
             {
                 _progressUI.color = Color.green;
+                _progressUI_Minimap.color = Color.green;
             }
             else
             {
                 _progressUI.color = Color.white;
+                _progressUI_Minimap.color = Color.white;
             }
+            _contestingUI.SetActive(false);
+            _meCapturingUI.SetActive(true);
+            _enemyCapturingUI.SetActive(false);
         }
         else if (_myCapturingList.Count <= 0 && _enemyCapturingList.Count == 1)
         {
@@ -238,25 +247,39 @@ public class Objective : MonoBehaviour
             if (capturingPlayer == _enemyCapturingList[0])
             {
                 _progressUI.color = Color.red;
+                _progressUI_Minimap.color = Color.red;
             }
             else
             {
                 _progressUI.color = Color.white;
+                _progressUI_Minimap.color = Color.white;
             }
+            _contestingUI.SetActive(false);
+            _meCapturingUI.SetActive(false);
+            _enemyCapturingUI.SetActive(true);
         }
         else if (_myCapturingList.Count <= 0 && _enemyCapturingList.Count <= 0)
         {
             // if no one
             _progressUI.color = Color.white;
+            _progressUI_Minimap.color = Color.white;
+            _contestingUI.SetActive(false);
+            _meCapturingUI.SetActive(false);
+            _enemyCapturingUI.SetActive(false);
         }
         else if (_myCapturingList.Count + _enemyCapturingList.Count >= 2)
         {
             // if contesting
             _progressUI.color = Color.yellow;
+            _progressUI_Minimap.color = Color.yellow;
+            _contestingUI.SetActive(true);
+            _meCapturingUI.SetActive(false);
+            _enemyCapturingUI.SetActive(false);
         }
 
         // update capture progress UI
         _progressUI.fillAmount = captureProgress;
+        _progressUI_Minimap.fillAmount = captureProgress;
 
         // update capture name UI
         if (capturingPlayer == -1)

@@ -9,7 +9,7 @@ using NetworkCalls;
 
 public class PlayerBuffController : MonoBehaviour
 {
-    public static float WIND_FORCE = 15f;
+    public static float WIND_FORCE = 10f;
     public static float WIND_FORCE_PROJECTILE = 5f;
 
     [SerializeField] private GameObject _ghostCollider;
