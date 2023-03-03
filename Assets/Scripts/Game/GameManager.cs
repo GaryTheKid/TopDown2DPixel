@@ -126,6 +126,17 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Tooltip("How long merchants exist.")]
     public float merchantLifeTime;
 
+    // objective list
+    [Header("Objective")]
+    [Tooltip("The objectives for players to gain scores.")]
+    public Objective[] objectiveList;
+    [Tooltip("Variation of the weather lasting time.")]
+    public float objectiveAnnouncementTimeBeforeActivation;
+    [Tooltip("This value determines the time between two waves of objectives are spawned.")]
+    public float objectiveActivationTimeStep;
+    [Tooltip("If objectives still active flag.")]
+    public bool isObjectiveActive;
+
     // parents
     [Header("Parents")]
     public Transform lootBoxSpawnAreaParent;
@@ -138,6 +149,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Transform spawnedMerchantParent;
     public Transform spawnedProjectileParent;
     public Transform spawnedDeployableParent;
+    public Transform objectiveParent;
     public Transform FXParent;
     public Transform scoreboardParent;
 
@@ -151,12 +163,14 @@ public class GameManager : MonoBehaviourPunCallbacks
     public float nextAISpawnTime;
     public float nextLootBoxSpawnTime;
     public float nextMerchantSpawnTime;
+    public float nextObjectiveActivationTime;
 
     private void Awake()
     {
         singleton = this;
         UpdateRoomPlayerList();
         InitializeSpawnAreas();
+        InitializeObjectiveList();
     }
 
     public void Start()
@@ -744,6 +758,17 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             SpawnMerchantRandomly();
             yield return new WaitForSecondsRealtime(SPAWN_TIME_STEP);
+        }
+    }
+    #endregion
+
+    #region Objectives
+    private void InitializeObjectiveList()
+    {
+        objectiveList = new Objective[objectiveParent.childCount];
+        for (int i = 0; i < objectiveParent.childCount; i++)
+        {
+            objectiveList[i] = objectiveParent.GetChild(i).GetComponent<Objective>();
         }
     }
     #endregion

@@ -18,4 +18,13 @@ public class RPC_Objective : MonoBehaviour
         print("Point captured by: " + playerActorNumber);
         _objective.isActive = false;
     }
+
+    [PunRPC]
+    void RPC_ResetAndActivateObjective()
+    {
+        _objective.isActive = true;
+        _objective.captureProgress = 0f;
+        _objective.capturingPlayer = -1;
+        _objective.UpdateVisual();
+    }
 }

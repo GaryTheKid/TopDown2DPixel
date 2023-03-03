@@ -61,6 +61,19 @@ namespace NetworkCalls
         }
     }
 
+    public class Objective_Network
+    {
+        public static void SendObjectiveCaptureMessage(PhotonView PV, byte playerActorNumber)
+        {
+            PV.RPC("RPC_SendObjectiveCaptureMessage", RpcTarget.AllBufferedViaServer, playerActorNumber);
+        }
+
+        public static void ResetAndActivateObjective(PhotonView PV)
+        {
+            PV.RPC("RPC_ResetAndActivateObjective", RpcTarget.AllBufferedViaServer);
+        }
+    }
+
     public class AI_NetWork
     {
         public static void SetAI(PhotonView PV)

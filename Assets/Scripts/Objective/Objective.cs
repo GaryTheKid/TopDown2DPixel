@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using NetworkCalls;
 
 public class Objective : MonoBehaviour
 {
     public List<int> _myCapturingList;
     public List<int> _enemyCapturingList;
     public bool isActive;
+    public float captureProgress;
+    public int capturingPlayer;
 
     [SerializeField] private Image _progressUI;
     [SerializeField] private Text _capturePlayerNameUI;
-
-    [SerializeField] private float captureProgress;
-    [SerializeField] private int capturingPlayer;
 
     [SerializeField] private float captureRate;
     [SerializeField] private float captureResetRate;
@@ -209,17 +209,15 @@ public class Objective : MonoBehaviour
             return;
         }
 
-        _PV.RPC("RPC_SendObjectiveCaptureMessage", RpcTarget.AllBufferedViaServer, (byte)playerActorNumber);
+        Objective_Network.SendObjectiveCaptureMessage(_PV, (byte)playerActorNumber);
     }
 
-    private void ResetObjective()
+    public void ResetAndActivateObjective()
     {
-        isActive = true;
-        captureProgress = 0f;
-        capturingPlayer = -1;
+        Objective_Network.ResetAndActivateObjective(_PV);
     }
 
-    private void UpdateVisual()
+    public void UpdateVisual()
     {
         // update visual color
         if (_myCapturingList.Count >= 1 && _enemyCapturingList.Count <= 0)
