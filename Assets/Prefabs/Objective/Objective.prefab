@@ -622,15 +622,19 @@ MonoBehaviour:
   isActive: 0
   captureProgress: 0
   capturingPlayer: 0
+  _objectiveActiveColor: {r: 1, g: 1, b: 1, a: 0.8627451}
+  _objectiveInactiveColor: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 0.8627451}
+  _objectiveSprite: {fileID: 402813747343618985}
+  _objectiveSprite_Minimap: {fileID: 49646332583537147}
   _progressUI: {fileID: 8160372452135011416}
   _progressUI_Minimap: {fileID: 5173168933453107365}
   _contestingUI: {fileID: 4393546188611497898}
   _meCapturingUI: {fileID: 8140323001008668101}
   _enemyCapturingUI: {fileID: 3105392973032493454}
   _capturePlayerNameUI: {fileID: 4179045063087101905}
-  captureRate: 0.05
-  captureResetRate: 0
-  captureErasionRate: 0
+  captureRate: 0.25
+  captureResetRate: 0.15
+  captureErasionRate: 0.4
 --- !u!1 &5839399316958317814
 GameObject:
   m_ObjectHideFlags: 0

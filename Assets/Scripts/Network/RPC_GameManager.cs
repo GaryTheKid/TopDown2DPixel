@@ -249,4 +249,16 @@ public class RPC_GameManager : MonoBehaviour
         newWeatherIcon.color = new Color(1f, 1f, 1f, 1f);
         prevWeatherIcon.color = new Color(1f, 1f, 1f, 0f);
     }
+
+    [PunRPC]
+    void RPC_GlobalAnnouncement_ObjectiveActivation()
+    {
+        GlobalAnnouncementManager.singleton.PlayAnnouncement("Objectives Unlocked!");
+    }
+
+    [PunRPC]
+    void RPC_GlobalAnnouncement_ObjectiveActivationNotification()
+    {
+        GlobalAnnouncementManager.singleton.PlayAnnouncement("Objectives active in " + GameManager.singleton.objectiveAnnouncementTimeBeforeActivation + " s");
+    }
 }

@@ -29,6 +29,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     public PhotonView PV;
     public Text ping;
 
+    // Level
+    [Header("Level")]
+    public string levelName;
+
     // scoreboard
     [Header("Scoreboard")]
     public RectTransform scoreboardTemplate;
@@ -134,8 +138,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     public float objectiveAnnouncementTimeBeforeActivation;
     [Tooltip("This value determines the time between two waves of objectives are spawned.")]
     public float objectiveActivationTimeStep;
-    [Tooltip("If objectives still active flag.")]
-    public bool isObjectiveActive;
 
     // parents
     [Header("Parents")]
@@ -164,6 +166,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public float nextLootBoxSpawnTime;
     public float nextMerchantSpawnTime;
     public float nextObjectiveActivationTime;
+    public float nextObjectiveActivationAnnouncementTime;
 
     private void Awake()
     {
@@ -176,6 +179,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void Start()
     {
         SpawnPlayerCharacter();
+
+        // show level name
+        GlobalAnnouncementManager.singleton.PlayAnnouncement(levelName);
 
         // Debug Items
         //SpawnItem(itemSpawns[1].position, 10, 1, 99);
@@ -204,7 +210,46 @@ public class GameManager : MonoBehaviourPunCallbacks
         // timer
         timer += Time.deltaTime;
 
+        // objective
+        HandleObjectiveActivation();
+
         // day-night cycle
+        HandleDayNightCircle();
+
+        // weather
+        HandleWeatherChange();
+
+        // AI
+        AISpawning();
+
+        // lootbox
+        LootboxSpawning();
+
+        // merchant
+        MerchantSpawning();
+    }
+
+    #region Game Event Handling
+    private void HandleObjectiveActivation()
+    {
+        // make an announcement in advance
+        if (timer >= nextObjectiveActivationAnnouncementTime)
+        {
+            AnnounceIncommingObjectiveActivationEvent();
+            nextObjectiveActivationAnnouncementTime += objectiveActivationTimeStep;
+        }
+
+        // activate objectives
+        if (timer >= nextObjectiveActivationTime)
+        {
+            AnnounceObjectivesHaveBeenActivated();
+            ActivateObjectivesRandomly();
+            nextObjectiveActivationTime += objectiveActivationTimeStep;
+        }
+    }
+
+    private void HandleDayNightCircle()
+    {
         if (timer >= nextDayNightSwapTime)
         {
             switch (dayNight)
@@ -220,8 +265,11 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             nextDayNightSwapTime += dayLength;
         }
+    }
 
-        // weather
+    private void HandleWeatherChange()
+    {
+        // start new weather
         if (timer >= nextWeatherStartTime)
         {
             StartRandomWeather();
@@ -235,7 +283,10 @@ public class GameManager : MonoBehaviourPunCallbacks
             nextWeatherLastingTime = weatherLastingTime + UnityEngine.Random.Range(0f, weatherLastingVariation);
             nextWeatherStopTime = nextWeatherStartTime + nextWeatherLastingTime;
         }
+    }
 
+    private void AISpawning()
+    {
         // spawn ai randomly
         if (timer >= nextAISpawnTime)
         {
@@ -246,7 +297,10 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             nextAISpawnTime += aiSpawnWaveTimeStep;
         }
+    }
 
+    private void LootboxSpawning()
+    {
         // spawn loot box randomly
         if (!ObjectPool.objectPool.isAllLootBoxActive && timer >= nextLootBoxSpawnTime)
         {
@@ -257,7 +311,10 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             nextLootBoxSpawnTime += lootBoxSpawnWaveTimeStep;
         }
+    }
 
+    private void MerchantSpawning()
+    {
         // spawn merchant randomly
         if (!ObjectPool.objectPool.isAllMerchantActive && timer >= nextMerchantSpawnTime)
         {
@@ -270,6 +327,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             nextMerchantSpawnTime += merchantSpawnWaveTimeStep;
         }
     }
+    #endregion
 
     #region Timer
     private void InitializeTimer()
@@ -281,6 +339,84 @@ public class GameManager : MonoBehaviourPunCallbacks
         nextWeatherStopTime = nextWeatherStartTime + nextWeatherLastingTime;
         nextAISpawnTime = aiSpawnWaveTimeStep;
         nextLootBoxSpawnTime = lootBoxSpawnWaveTimeStep;
+        nextObjectiveActivationTime = objectiveActivationTimeStep;
+        nextObjectiveActivationAnnouncementTime = nextObjectiveActivationTime - objectiveAnnouncementTimeBeforeActivation;
+    }
+    #endregion
+
+    #region Objectives
+    private void InitializeObjectiveList()
+    {
+        objectiveList = new Objective[objectiveParent.childCount];
+        for (int i = 0; i < objectiveParent.childCount; i++)
+        {
+            objectiveList[i] = objectiveParent.GetChild(i).GetComponent<Objective>();
+        }
+    }
+
+    private void AnnounceIncommingObjectiveActivationEvent()
+    {
+        // announce the global event
+        Game_Network.GlobalEventAnnouncementObjectiveActivationNotification(PV);
+    }
+
+    private void AnnounceIncommingActiveObjective(int activationIndex)
+    {
+        // announce each individual objectives 
+
+    }
+
+    private void AnnounceObjectivesHaveBeenActivated()
+    {
+        // announce the global event
+        Game_Network.GlobalEventAnnouncementObjectiveActivation(PV);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="activateQuantity"> How many objectives will be activated. </param>
+    private void ActivateObjectivesRandomly()
+    {
+        // if there is some objective active, skip it
+
+        // get the indices for all non-active objectives in the list
+        List<int> nonActiveIndices = new List<int>();
+        for (int i = 0; i < objectiveList.Length; i++)
+        {
+            if (objectiveList[i].isActive)
+            {
+                continue;
+            }
+            nonActiveIndices.Add(i);
+        }
+
+        if (nonActiveIndices.Count <= 0)
+        {
+            Debug.Log("All objectives are active!");
+            return;
+        }
+
+        // quantity
+        var calculatedQuantityBasedOnTime = CalulateActivateQuantityBasedOnGameTime();
+        for (int i = 0; i < ((calculatedQuantityBasedOnTime <= nonActiveIndices.Count) ? calculatedQuantityBasedOnTime : nonActiveIndices.Count); i++)
+        {
+            int randIndex = nonActiveIndices[UnityEngine.Random.Range(0, nonActiveIndices.Count)];
+            objectiveList[randIndex].ResetAndActivateObjective();
+            nonActiveIndices.Remove(randIndex);
+        }
+    }
+
+    private int CalulateActivateQuantityBasedOnGameTime()
+    {
+        if (timer < 400f)
+        {
+            return 2;
+        }
+        else
+        {
+            return 1;
+        }
     }
     #endregion
 
@@ -758,17 +894,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             SpawnMerchantRandomly();
             yield return new WaitForSecondsRealtime(SPAWN_TIME_STEP);
-        }
-    }
-    #endregion
-
-    #region Objectives
-    private void InitializeObjectiveList()
-    {
-        objectiveList = new Objective[objectiveParent.childCount];
-        for (int i = 0; i < objectiveParent.childCount; i++)
-        {
-            objectiveList[i] = objectiveParent.GetChild(i).GetComponent<Objective>();
         }
     }
     #endregion

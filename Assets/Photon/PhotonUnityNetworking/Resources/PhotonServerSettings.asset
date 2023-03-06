@@ -116,6 +116,10 @@ MonoBehaviour:
   - RPC_SetVenderGambleItems
   - RPC_SendObjectiveCaptureMessage
   - RPC_ResetAndActivateObjective
+  - RPC_GlobalAnnouncement
+  - RPC_GlobalAnnouncement_ObjectiveActivation
+  - RPC_GlobalAnnouncement_ShowLevelName
+  - RPC_GlobalAnnouncement_ObjectiveActivationNotification
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

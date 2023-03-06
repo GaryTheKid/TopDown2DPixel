@@ -91,7 +91,6 @@ public class Networking_ServerManager : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         Debug.Log("Disconnected from the server, cause: " + cause);
-        _mainMenuCanvas.SetActive(true);
         _lobbyCanvas.SetActive(false);
         _roomCanvas.SetActive(false);
 
@@ -105,7 +104,6 @@ public class Networking_ServerManager : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         Debug.Log("Joined lobby");
-        _mainMenuCanvas.SetActive(false);
         _lobbyCanvas.SetActive(true);
         _playerSelectedCharacterSprite.sprite = PlayerAssets.singleton.PlayerCharacterIconList[(int)PhotonNetwork.LocalPlayer.CustomProperties["CharacterIndex"]];
         _playerSelectedCharacterNameText.text = PlayerAssets.singleton.PlayerCharacterNameList[(int)PhotonNetwork.LocalPlayer.CustomProperties["CharacterIndex"]];

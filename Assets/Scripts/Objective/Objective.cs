@@ -13,6 +13,10 @@ public class Objective : MonoBehaviour
     public float captureProgress;
     public int capturingPlayer;
 
+    [SerializeField] private Color _objectiveActiveColor;
+    [SerializeField] private Color _objectiveInactiveColor;
+    [SerializeField] private SpriteRenderer _objectiveSprite;
+    [SerializeField] private SpriteRenderer _objectiveSprite_Minimap;
     [SerializeField] private Image _progressUI;
     [SerializeField] private Image _progressUI_Minimap;
     [SerializeField] private GameObject _contestingUI;
@@ -36,15 +40,14 @@ public class Objective : MonoBehaviour
     {
         captureProgress = 0f;
         capturingPlayer = -1;
-        captureResetRate = 0.15f;
-        captureRate = 0.25f;
-        captureErasionRate = 0.4f;
-        isActive = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // update Visual
+        UpdateVisual();
+
         // check if active
         if (!isActive)
         {
@@ -120,9 +123,6 @@ public class Objective : MonoBehaviour
             capturingPlayer = -1;
             captureProgress = 0f;
         }
-
-        // update visual
-        UpdateVisual();
     }
 
     private void OnMeCapturing()
@@ -147,9 +147,6 @@ public class Objective : MonoBehaviour
                 OnObjectiveCaptured(capturingPlayer);
             }
         }
-
-        // update visual
-        UpdateVisual();
 
         print("me capturing");
     }
@@ -177,9 +174,6 @@ public class Objective : MonoBehaviour
             }
         }
 
-        // update visual
-        UpdateVisual();
-
         print("enemy capturing");
     }
 
@@ -196,9 +190,6 @@ public class Objective : MonoBehaviour
             capturingPlayer = -1;
             captureProgress = 0f;
         }
-
-        // update visual
-        UpdateVisual();
 
         print("contesting");
     }
@@ -223,6 +214,29 @@ public class Objective : MonoBehaviour
 
     public void UpdateVisual()
     {
+        // update obj active/inactive color
+        if (isActive)
+        {
+            _objectiveSprite.color = _objectiveActiveColor;
+            _objectiveSprite_Minimap.color = _objectiveActiveColor;
+        }
+        else
+        {
+            capturingPlayer = -1;
+            captureProgress = 0f;
+            _capturePlayerNameUI.text = "";
+            _progressUI.fillAmount = captureProgress;
+            _progressUI_Minimap.fillAmount = captureProgress;
+            _progressUI.color = Color.white;
+            _progressUI_Minimap.color = Color.white;
+            _contestingUI.SetActive(false);
+            _meCapturingUI.SetActive(false);
+            _enemyCapturingUI.SetActive(false);
+            _objectiveSprite.color = _objectiveInactiveColor;
+            _objectiveSprite_Minimap.color = _objectiveInactiveColor;
+            return;
+        }
+
         // update visual color
         if (_myCapturingList.Count >= 1 && _enemyCapturingList.Count <= 0)
         {

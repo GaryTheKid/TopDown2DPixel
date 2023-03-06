@@ -59,6 +59,21 @@ namespace NetworkCalls
         {
             PV.RPC("RPC_ChangeWeather", RpcTarget.AllBuffered, weatherCode);
         }
+
+        public static void GlobalEventAnnouncementObjectiveActivationNotification(PhotonView PV)
+        {
+            PV.RPC("RPC_GlobalAnnouncement_ObjectiveActivationNotification", RpcTarget.All);
+        }
+
+        public static void GlobalEventAnnouncementObjectiveActivation(PhotonView PV)
+        {
+            PV.RPC("RPC_GlobalAnnouncement_ObjectiveActivation", RpcTarget.All);
+        }
+
+        public static void GlobalEventAnnouncementShowLevelName(PhotonView PV)
+        {
+            PV.RPC("RPC_GlobalAnnouncement_ShowLevelName", RpcTarget.All);
+        }
     }
 
     public class Objective_Network
@@ -71,6 +86,11 @@ namespace NetworkCalls
         public static void ResetAndActivateObjective(PhotonView PV)
         {
             PV.RPC("RPC_ResetAndActivateObjective", RpcTarget.AllBufferedViaServer);
+        }
+
+        public static void ObjectiveActivationGlobalAnnouncement(PhotonView PV)
+        {
+            PV.RPC("RPC_GlobalAnnouncement_ObjectiveActivation", RpcTarget.All);
         }
     }
 

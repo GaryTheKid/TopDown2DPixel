@@ -25,6 +25,5 @@ public class RPC_Objective : MonoBehaviour
         _objective.isActive = true;
         _objective.captureProgress = 0f;
         _objective.capturingPlayer = -1;
-        _objective.UpdateVisual();
     }
 }
