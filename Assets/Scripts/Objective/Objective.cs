@@ -248,8 +248,8 @@ public class Objective : MonoBehaviour
             }
             else
             {
-                _progressUI.color = Color.white;
-                _progressUI_Minimap.color = Color.white;
+                _progressUI.color = Color.grey;
+                _progressUI_Minimap.color = Color.grey;
             }
             _contestingUI.SetActive(false);
             _meCapturingUI.SetActive(true);
@@ -265,8 +265,8 @@ public class Objective : MonoBehaviour
             }
             else
             {
-                _progressUI.color = Color.white;
-                _progressUI_Minimap.color = Color.white;
+                _progressUI.color = Color.grey;
+                _progressUI_Minimap.color = Color.grey;
             }
             _contestingUI.SetActive(false);
             _meCapturingUI.SetActive(false);
@@ -275,8 +275,8 @@ public class Objective : MonoBehaviour
         else if (_myCapturingList.Count <= 0 && _enemyCapturingList.Count <= 0)
         {
             // if no one
-            _progressUI.color = Color.white;
-            _progressUI_Minimap.color = Color.white;
+            _progressUI.color = Color.grey;
+            _progressUI_Minimap.color = Color.grey;
             _contestingUI.SetActive(false);
             _meCapturingUI.SetActive(false);
             _enemyCapturingUI.SetActive(false);

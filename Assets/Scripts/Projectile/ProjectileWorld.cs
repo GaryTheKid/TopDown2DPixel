@@ -50,7 +50,8 @@ public class ProjectileWorld : MonoBehaviour
             target.CompareTag("Deployable_Detection") ||
             target.CompareTag("DeployIndicator") ||
             target.CompareTag("Mine") ||
-            target.CompareTag("MouseCollider"))
+            target.CompareTag("MouseCollider") ||
+            target.GetComponent<Objective>() != null)
             return; 
 
         if (target.transform != _attackerPV.transform.Find("HitBox") && _projectile.canDirectHit)
