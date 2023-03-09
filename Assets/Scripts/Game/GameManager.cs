@@ -37,6 +37,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Header("Scoreboard")]
     public RectTransform scoreboardTemplate;
 
+    // game states
+    public enum GameState
+    {
+        Starting,
+        Playing,
+        Ending
+    }
+    public GameState gameState;
+
     // day-night cycle
     public enum DayNight
     {
@@ -138,6 +147,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public float objectiveAnnouncementTimeBeforeActivation;
     [Tooltip("This value determines the time between two waves of objectives are spawned.")]
     public float objectiveActivationTimeStep;
+    [Tooltip("Is any objective active")]
+    public bool isAnyObjectiveActive;
 
     // parents
     [Header("Parents")]
@@ -174,6 +185,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         UpdateRoomPlayerList();
         InitializeSpawnAreas();
         InitializeObjectiveList();
+        gameState = GameState.Starting;
     }
 
     public void Start()
@@ -210,23 +222,41 @@ public class GameManager : MonoBehaviourPunCallbacks
         // timer
         timer += Time.deltaTime;
 
-        // objective
-        HandleObjectiveActivation();
+        switch (gameState)
+        {
+            case GameState.Starting:
+                {
+                    break;
+                }
 
-        // day-night cycle
-        HandleDayNightCircle();
+            case GameState.Playing:
+                {
+                    // objective
+                    HandleObjectiveActivation();
 
-        // weather
-        HandleWeatherChange();
+                    // day-night cycle
+                    HandleDayNightCircle();
 
-        // AI
-        AISpawning();
+                    // weather
+                    HandleWeatherChange();
 
-        // lootbox
-        LootboxSpawning();
+                    // AI
+                    AISpawning();
 
-        // merchant
-        MerchantSpawning();
+                    // lootbox
+                    LootboxSpawning();
+
+                    // merchant
+                    MerchantSpawning();
+
+                    break;
+                }
+
+            case GameState.Ending:
+                {
+                    break;
+                }
+        }
     }
 
     #region Game Event Handling
@@ -245,6 +275,23 @@ public class GameManager : MonoBehaviourPunCallbacks
             AnnounceObjectivesHaveBeenActivated();
             ActivateObjectivesRandomly();
             nextObjectiveActivationTime += objectiveActivationTimeStep;
+        }
+    }
+    private IEnumerator Co_ObjectiveActivationHandling()
+    {
+        while (gameState == GameState.Playing)
+        {
+            // wait if there is any objective currently active
+            yield return new WaitWhile(() => { return isAnyObjectiveActive; });
+
+            // wait for the announcement
+            yield return new WaitForSecondsRealtime(objectiveAnnouncementTimeBeforeActivation);
+            AnnounceIncommingObjectiveActivationEvent();
+
+            // wait for the time step for activation
+            yield return new WaitForSecondsRealtime(objectiveActivationTimeStep);
+            AnnounceObjectivesHaveBeenActivated();
+            ActivateObjectivesRandomly();
         }
     }
 
