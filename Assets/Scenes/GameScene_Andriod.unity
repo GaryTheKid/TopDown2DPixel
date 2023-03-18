@@ -30775,6 +30775,7 @@ MonoBehaviour:
   PV: {fileID: 1205553596}
   ping: {fileID: 1278593698}
   levelName: Hula Plain
+  preparationTime: 2
   scoreboardTemplate: {fileID: 1627242143}
   gameState: 0
   dayNight: 0
@@ -30817,8 +30818,8 @@ MonoBehaviour:
   maxMerchantSpawnInWorld: 6
   merchantLifeTime: 40
   objectiveList: []
-  objectiveAnnouncementTimeBeforeActivation: 20
-  objectiveActivationTimeStep: 40
+  objectiveAnnouncementTimeBeforeActivation: 10
+  objectiveActivationTimeStep: 20
   isAnyObjectiveActive: 0
   lootBoxSpawnAreaParent: {fileID: 1164697040}
   aiSpawnAreaParent: {fileID: 123687686}

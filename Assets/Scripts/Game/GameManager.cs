@@ -181,6 +181,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public float nextObjectiveActivationTime;
     public float nextObjectiveActivationAnnouncementTime;
 
+    private IEnumerator ObjectiveActivationHandling_Co;
+
     private void Awake()
     {
         singleton = this;
@@ -284,27 +286,18 @@ public class GameManager : MonoBehaviourPunCallbacks
     #region Game Event Handling
     private void HandleObjectiveActivation()
     {
-        // make an announcement in advance
-        if (timer >= nextObjectiveActivationAnnouncementTime)
+        if (ObjectiveActivationHandling_Co == null)
         {
-            AnnounceIncommingObjectiveActivationEvent();
-            nextObjectiveActivationAnnouncementTime += objectiveActivationTimeStep;
-        }
-
-        // activate objectives
-        if (timer >= nextObjectiveActivationTime)
-        {
-            AnnounceObjectivesHaveBeenActivated();
-            ActivateObjectivesRandomly();
-            nextObjectiveActivationTime += objectiveActivationTimeStep;
+            ObjectiveActivationHandling_Co = Co_ObjectiveActivationHandling();
+            StartCoroutine(ObjectiveActivationHandling_Co);
         }
     }
     private IEnumerator Co_ObjectiveActivationHandling()
     {
-        while (gameState == GameState.Playing)
+        while (gameState == GameState.Playing )
         {
             // wait if there is any objective currently active
-            yield return new WaitWhile(() => { return isAnyObjectiveActive; });
+            yield return new WaitUntil(() => { return !isAnyObjectiveActive; });
 
             // wait for the announcement
             yield return new WaitForSecondsRealtime(objectiveAnnouncementTimeBeforeActivation);
@@ -314,6 +307,9 @@ public class GameManager : MonoBehaviourPunCallbacks
             yield return new WaitForSecondsRealtime(objectiveActivationTimeStep);
             AnnounceObjectivesHaveBeenActivated();
             ActivateObjectivesRandomly();
+
+            // wait cd
+            yield return new WaitForSecondsRealtime(1f);
         }
     }
 
@@ -426,7 +422,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void AnnounceIncommingObjectiveActivationEvent()
     {
         // announce the global event
-        Game_Network.GlobalEventAnnouncementObjectiveActivationNotification(PV);
+        Game_Network.ObjectiveActivationNotification(PV);
     }
 
     private void AnnounceIncommingActiveObjective(int activationIndex)
@@ -438,7 +434,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void AnnounceObjectivesHaveBeenActivated()
     {
         // announce the global event
-        Game_Network.GlobalEventAnnouncementObjectiveActivation(PV);
+        Game_Network.ObjectiveHasBeenActivatedNotification(PV);
     }
 
     /// <summary>
