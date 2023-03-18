@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     // Level
     [Header("Level")]
     public string levelName;
+    [Range(0f, 5f), Header("Preparation Time")]
+    public float preparationTime;
 
     // scoreboard
     [Header("Scoreboard")]
@@ -195,6 +197,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         // show level name
         GlobalAnnouncementManager.singleton.PlayAnnouncement(levelName);
 
+        // suspend till the announcement finished, then switch to game state Playing
+        SwitchGameStateAfterSuspension(preparationTime, (byte)GameState.Playing);
+
         // Debug Items
         //SpawnItem(itemSpawns[1].position, 10, 1, 99);
         //SpawnItem(itemSpawns[1].position, 6, 1, 99);
@@ -258,6 +263,23 @@ public class GameManager : MonoBehaviourPunCallbacks
                 }
         }
     }
+
+    #region Game State
+    public void SwitchGameStateAfterSuspension(float time, byte newState)
+    {
+        StartCoroutine(Co_SwitchGameStateAfterSuspension(time, newState));
+    }
+    IEnumerator Co_SwitchGameStateAfterSuspension(float time, byte newState)
+    {
+        yield return new WaitForSecondsRealtime(time);
+        SwitchGameState(newState);
+    }
+
+    public void SwitchGameState(byte newState)
+    {
+        Game_Network.SwitchGameState(PV, newState);
+    }
+    #endregion
 
     #region Game Event Handling
     private void HandleObjectiveActivation()

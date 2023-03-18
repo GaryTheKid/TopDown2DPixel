@@ -11,6 +11,7 @@ public class GlobalAnnouncementManager : MonoBehaviour
 
     // private fields
     [SerializeField] private Transform _announcementTemplate;
+    [SerializeField] private Transform _centerTextTemplate;
     #endregion
 
     private void Awake()

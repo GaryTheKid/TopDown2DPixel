@@ -27,6 +27,12 @@ public class RPC_GameManager : MonoBehaviour
     [SerializeField] private Image Weather_Windy_South;
 
     [PunRPC]
+    void RPC_SwitchGameState(byte newState)
+    {
+        GameManager.singleton.gameState = (GameManager.GameState)newState;
+    }
+
+    [PunRPC]
     void RPC_UpdatePlayerInfo(int viewID, string name)
     {
         Transform player = PhotonView.Find(viewID).transform;

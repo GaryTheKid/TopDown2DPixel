@@ -15,6 +15,11 @@ namespace NetworkCalls
 {
     public class Game_Network
     {
+        public static void SwitchGameState(PhotonView PV, byte newState)
+        {
+            PV.RPC("RPC_SwitchGameState", RpcTarget.AllBuffered, newState);
+        }
+
         public static void UpdatePlayerInfo(PhotonView PV, int viewID, string name)
         {
             PV.RPC("RPC_UpdatePlayerInfo", RpcTarget.AllBuffered, viewID, name);
