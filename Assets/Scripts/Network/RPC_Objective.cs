@@ -16,6 +16,11 @@ public class RPC_Objective : MonoBehaviour
     void RPC_SendObjectiveCaptureMessage(byte playerActorNumber)
     {
         print("Point captured by: " + playerActorNumber);
+
+        // add score
+        //_playerStatsController.UpdateScore((int)info.damageAmount);
+        //GameManager.singleton.AddScoreUI(_playerNetworkController.playerID, (int)info.damageAmount);
+
         _objective.isActive = false;
         foreach (var obj in GameManager.singleton.objectiveList)
         {

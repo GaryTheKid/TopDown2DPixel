@@ -146,10 +146,6 @@ public class RPC_Player : MonoBehaviour
             {
                 enemyAI.ReceiveDamage(_PV.ViewID, info, transform.position);
             }
-
-            // add score
-            _playerStatsController.UpdateScore((int)info.damageAmount);
-            GameManager.singleton.AddScoreUI(_playerNetworkController.playerID, (int)info.damageAmount);
         }
     }
 
@@ -172,10 +168,6 @@ public class RPC_Player : MonoBehaviour
         {
             enemyAI.ReceiveDamage(_PV.ViewID, info, transform.position);
         }
-
-        // add score
-        _playerStatsController.UpdateScore((int)info.damageAmount);
-        GameManager.singleton.AddScoreUI(_playerNetworkController.playerID, (int)info.damageAmount);
     }
 
     [PunRPC]
@@ -197,10 +189,6 @@ public class RPC_Player : MonoBehaviour
         {
             enemyAI.ReceiveDamage(_PV.ViewID, info, transform.position);
         }
-
-        // add score
-        _playerStatsController.UpdateScore((int)info.damageAmount);
-        GameManager.singleton.AddScoreUI(_playerNetworkController.playerID, (int)info.damageAmount);
     }
 
     [PunRPC]
@@ -222,10 +210,6 @@ public class RPC_Player : MonoBehaviour
         {
             enemyAI.ReceiveDamage(_PV.ViewID, info, transform.position);
         }
-
-        // add score
-        _playerStatsController.UpdateScore((int)info.damageAmount);
-        GameManager.singleton.AddScoreUI(_playerNetworkController.playerID, (int)info.damageAmount);
     }
 
     [PunRPC]
