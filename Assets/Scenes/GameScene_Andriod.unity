@@ -4604,13 +4604,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 803428433}
     m_Modifications:
-    - target: {fileID: 2701542162598689789, guid: 87ff2176c086bcb4b8761dd870822000, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2738091752435356678, guid: 87ff2176c086bcb4b8761dd870822000, type: 3}
       propertyPath: sceneViewId
-      value: 2
+      value: 149
       objectReference: {fileID: 0}
     - target: {fileID: 5917098666106380704, guid: 87ff2176c086bcb4b8761dd870822000, type: 3}
       propertyPath: m_RootOrder
@@ -13248,7 +13244,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &531699227
 Transform:
   m_ObjectHideFlags: 0
@@ -20662,7 +20658,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &765012179
 Transform:
   m_ObjectHideFlags: 0
@@ -24311,10 +24307,6 @@ PrefabInstance:
     - target: {fileID: 5634917673876299892, guid: 374def61e1f64df48a1c8215c15f1648, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6347043606528503122, guid: 374def61e1f64df48a1c8215c15f1648, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 374def61e1f64df48a1c8215c15f1648, type: 3}
@@ -35962,13 +35954,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 707265310}
     m_Modifications:
-    - target: {fileID: 863171484391300812, guid: 6323d57cb7625b94da0654b936b7d398, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3245610086226527657, guid: 6323d57cb7625b94da0654b936b7d398, type: 3}
       propertyPath: sceneViewId
-      value: 149
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3245610086226527660, guid: 6323d57cb7625b94da0654b936b7d398, type: 3}
       propertyPath: m_RootOrder
@@ -36017,6 +36005,10 @@ PrefabInstance:
     - target: {fileID: 3245610086226527662, guid: 6323d57cb7625b94da0654b936b7d398, type: 3}
       propertyPath: m_Name
       value: pfMerchant
+      objectReference: {fileID: 0}
+    - target: {fileID: 3245610086226527662, guid: 6323d57cb7625b94da0654b936b7d398, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6323d57cb7625b94da0654b936b7d398, type: 3}
