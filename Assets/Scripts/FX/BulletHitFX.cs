@@ -6,6 +6,7 @@ public class BulletHitFX : FXPlayer_Projectile
 {
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject sprite;
+    [SerializeField] private GameObject hitMark;
 
     public override void PlayInitializationFX()
     {
@@ -46,6 +47,10 @@ public class BulletHitFX : FXPlayer_Projectile
         sprite.SetActive(false);
         animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
         animator.SetTrigger("Hit");
+
+        // show hit mark
+        var hitPos = transform.position + transform.forward.normalized * 0.25f;
+        Instantiate(hitMark, hitPos, Quaternion.identity, GameManager.singleton.FXParent);
 
         // play soundFX
         var soundFX = GetComponentInChildren<AudioSource>();
