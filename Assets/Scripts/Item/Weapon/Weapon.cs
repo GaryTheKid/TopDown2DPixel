@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+[Serializable]
 public struct DamageInfo
 {
     public enum DamageType 

@@ -11,6 +11,7 @@ public class ItemAssets : MonoBehaviour
         itemAssets = this;
         InitItemDics();
         InitSkillIconDic();
+        InitEnemyAvatarDic();
     }
 
     // prefab for weapon Equipped
@@ -137,6 +138,8 @@ public class ItemAssets : MonoBehaviour
     public Dictionary<short, short> itemCostDic;
     public Dictionary<short, Projectile> projectileDic;
     public Dictionary<short, DeployableObject> deployableObjDic;
+    public Dictionary<string, byte> enemyAvatarDic;
+
     private void InitItemDics()
     {
         itemDic = new Dictionary<short, Item>
@@ -218,6 +221,15 @@ public class ItemAssets : MonoBehaviour
             { PlayerSkillController.Skills.Agility, skill_Agility },
             { PlayerSkillController.Skills.Sturdybody, skill_Sturdybody },
             { PlayerSkillController.Skills.Regenaration, skill_Regenaration },
+        };
+    }
+
+    private void InitEnemyAvatarDic()
+    {
+        enemyAvatarDic = new Dictionary<string, byte>
+        {
+            { "Skeleton", 0 },
+            { "Bat", 1 }
         };
     }
 }

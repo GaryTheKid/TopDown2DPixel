@@ -737,9 +737,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         int requestedAIIndex = ObjectPool.objectPool.RequestAIIndexFromPool();
         if (requestedAIIndex != -1)
         {
-            Game_Network.SpawnAI(PV, requestedAIIndex, pos);
-            AIWorld aiWorld = ObjectPool.objectPool.pooledAI[requestedAIIndex].GetComponent<AIWorld>();
-            aiWorld.SetAI();
+            Game_Network.SpawnAI(PV, requestedAIIndex, pos, (byte)UnityEngine.Random.Range(0, 2));
+            //Bat Skeleton ItemAssets.itemAssets.enemyAvatarDic["Bat"] (byte)UnityEngine.Random.Range(0, 2)
         }
     }
 

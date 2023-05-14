@@ -30,9 +30,9 @@ namespace NetworkCalls
             PV.RPC("RPC_SpawnLootBox", RpcTarget.AllBuffered, requestedLootBoxIndex, pos);
         }
 
-        public static void SpawnAI(PhotonView PV, int requestedAIIndex, Vector2 pos)
+        public static void SpawnAI(PhotonView PV, int requestedAIIndex, Vector2 pos, byte enemyID)
         {
-            PV.RPC("RPC_SpawnAI", RpcTarget.AllBuffered, requestedAIIndex, pos);
+            PV.RPC("RPC_SpawnAI", RpcTarget.AllBuffered, requestedAIIndex, pos, enemyID);
         }
 
         public static void SpawnMerchant(PhotonView PV, int requestedMerchantIndex, Vector2 pos)
@@ -101,11 +101,6 @@ namespace NetworkCalls
 
     public class AI_NetWork
     {
-        public static void SetAI(PhotonView PV)
-        {
-            PV.RPC("RPC_SetAI", RpcTarget.AllBuffered);
-        }
-
         public static void Halt(PhotonView PV)
         {
             PV.RPC("RPC_Halt", RpcTarget.MasterClient);
@@ -130,9 +125,9 @@ namespace NetworkCalls
             PV.RPC("RPC_AIDie", RpcTarget.AllViaServer);
         }
 
-        public static void Respawn(PhotonView PV)
+        public static void Respawn(PhotonView PV, byte enemyID)
         {
-            PV.RPC("RPC_AIRespawn", RpcTarget.AllViaServer);
+            PV.RPC("RPC_AIRespawn", RpcTarget.AllViaServer, enemyID);
         }
     }
 

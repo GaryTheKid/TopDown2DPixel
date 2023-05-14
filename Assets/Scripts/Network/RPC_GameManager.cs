@@ -51,11 +51,11 @@ public class RPC_GameManager : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_SpawnAI(int index, Vector2 pos)
+    void RPC_SpawnAI(int index, Vector2 pos, byte enemyID)
     {
         var obj = ObjectPool.objectPool.pooledAI[index].gameObject;
         obj.SetActive(true);
-        obj.GetComponent<AIStatsController>().Respawn();
+        obj.GetComponent<AIStatsController>().Respawn(enemyID);
         obj.transform.position = pos;
     }
 

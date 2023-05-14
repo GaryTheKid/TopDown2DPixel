@@ -1,16 +1,19 @@
 using UnityEngine;
 using Photon.Pun;
 using Pathfinding;
+using System;
+using System.Collections.Generic;
 
 public class RPC_AI : MonoBehaviour
 {
-    [SerializeField] private Animator _animator;
+    public Animator animator;
 
     private PhotonView _PV;
     private AIMovementController _aiMovementController;
     private AIStatsController _aiStatsController;
     private AIWeaponController _aiWeaponController;
     private AIDestinationSetter _aiDestinationSetter;
+    private AIAvatarController _aiAvatarController;
     private AIBrain _aiBrain;
 
     private void Awake()
@@ -20,14 +23,31 @@ public class RPC_AI : MonoBehaviour
         _aiStatsController = GetComponent<AIStatsController>();
         _aiWeaponController = GetComponent<AIWeaponController>();
         _aiDestinationSetter = GetComponent<AIDestinationSetter>();
+        _aiAvatarController = GetComponent<AIAvatarController>();
         _aiBrain = GetComponent<AIBrain>();
     }
 
-    [PunRPC]
-    void RPC_SetAI()
+    /*[PunRPC]
+    void RPC_SetAI(byte enemyID)
     {
-        gameObject.name = "EnemyAI_Dummy" + GetComponent<PhotonView>().ViewID.ToString();
-    }
+        // set ai name
+        List<string> avatarNames = new List<string>(ItemAssets.itemAssets.enemyAvatarDic.Keys);
+        gameObject.name = avatarNames[enemyID] + GetComponent<PhotonView>().ViewID.ToString();
+
+        // set avatar
+        for (byte i = 0; i < _aiAvatarController.avatars.Length; i++)
+        {
+            bool isActive = (i == enemyID);
+            var avatar = _aiAvatarController.avatars[i];
+            avatar.SetActive(isActive);
+            if (isActive)
+            {
+                _animator = avatar.GetComponent<Animator>();
+                _aiMovementController.animator = avatar.GetComponent<Animator>();
+                _aiEffectController.SetAIEffectFields(avatar);
+            }
+        }
+    }*/
 
     [PunRPC]
     void RPC_SetState(byte state)
@@ -47,7 +67,7 @@ public class RPC_AI : MonoBehaviour
         //_aiMovementController.entityManager.SetComponentData(_aiMovementController.entity, new PathFollow { pathIndex = -1 });
         _aiMovementController._moveTarget.position = transform.position;
         _aiDestinationSetter.target = _aiMovementController._moveTarget;
-        _animator.SetBool("isMoving", false);
+        animator.SetBool("isMoving", false);
     }
 
     [PunRPC]
@@ -59,8 +79,9 @@ public class RPC_AI : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_AIRespawn()
+    void RPC_AIRespawn(byte enemyID)
     {
+        _aiAvatarController.SetAI(enemyID);
         _aiStatsController.OnRespawn.Invoke();
         _aiStatsController.aiStats.isDead = false;
         _aiMovementController.Respawn();
@@ -77,16 +98,16 @@ public class RPC_AI : MonoBehaviour
         if (enemyPlayer != null)
         {
             enemyPlayer.ReceiveDamage(_PV.ViewID, _aiWeaponController.damageInfo, transform.position);
-            _animator.SetTrigger("isAttacking");
+            animator.SetTrigger("isAttacking");
 
             // attack towards the enemy
             if (target.transform.position.x >= transform.position.x)
             {
-                _animator.SetFloat("moveX", 1f);
+                animator.SetFloat("moveX", 1f);
             }
             else
             {
-                _animator.SetFloat("moveX", -1f);
+                animator.SetFloat("moveX", -1f);
             }
         }
 
@@ -94,16 +115,16 @@ public class RPC_AI : MonoBehaviour
         if (enemyAI != null)
         {
             enemyAI.ReceiveDamage(_PV.ViewID, _aiWeaponController.damageInfo, transform.position);
-            _animator.SetTrigger("isAttacking");
+            animator.SetTrigger("isAttacking");
 
             // attack towards the enemy
             if (target.transform.position.x >= transform.position.x)
             {
-                _animator.SetFloat("moveX", 1f);
+                animator.SetFloat("moveX", 1f);
             }
             else
             {
-                _animator.SetFloat("moveX", -1f);
+                animator.SetFloat("moveX", -1f);
             }
         }
     }

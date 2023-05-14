@@ -13,11 +13,6 @@ public class AIWorld : MonoBehaviour
         PV = GetComponent<PhotonView>();
     }
 
-    public void SetAI()
-    {
-        AI_NetWork.SetAI(PV);
-    }
-
     public void DestroySelf()
     {
         gameObject.SetActive(false);

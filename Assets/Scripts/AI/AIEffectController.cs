@@ -8,17 +8,17 @@ public class AIEffectController : MonoBehaviour
 {
     private const float CORPSE_EXPIRE_TIME = 3f;
 
-    [SerializeField] private GameObject _ring;
-    [SerializeField] private GameObject _shadow;
     [SerializeField] private GameObject _hitBox;
     [SerializeField] private Transform _hpBarParent;
     [SerializeField] private Image _hpBar;
     [SerializeField] private SpriteRenderer _body;
     [SerializeField] private AISoundFX _aiSoundFX;
-    [SerializeField] private Animator _avatarAnimator;
     [SerializeField] private GameObject _popTextTemplate;
     [SerializeField] private MMF_Player mmf_hp;
     [SerializeField] private GameObject _minimapIndicator;
+    private Animator _avatarAnimator;
+    private GameObject _ring;
+    private GameObject _shadow;
     private Rigidbody2D _rb;
 
     private void Awake()
@@ -132,5 +132,15 @@ public class AIEffectController : MonoBehaviour
 
         // adjust hp bar
         _hpBar.fillAmount = 1f;
+    }
+
+    public void SetAIEffectFields(GameObject avatar)
+    {
+        _ring = avatar.transform.Find("Ring").gameObject;
+        _shadow = avatar.transform.Find("Shadow").gameObject;
+        _avatarAnimator = avatar.GetComponent<Animator>();
+        mmf_hp.GetFeedbackOfType<MMF_SpriteRenderer>().BoundSpriteRenderer = avatar.transform.Find("Body").GetComponent<SpriteRenderer>();
+        mmf_hp.GetFeedbackOfType<MMF_SquashAndStretch>().SquashAndStretchTarget = avatar.transform.Find("Body");
+        mmf_hp.GetFeedbackOfType<MMF_Wiggle>().TargetWiggle = avatar.GetComponent<MMWiggle>();
     }
 }

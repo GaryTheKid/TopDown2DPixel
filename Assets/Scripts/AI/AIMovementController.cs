@@ -15,7 +15,7 @@ public class AIMovementController : MonoBehaviour
 {
     private const float CONSIDER_IDLE_SPEED_THRESHOLD = 0.01f;
 
-    [SerializeField] private Animator _animator;
+    public Animator animator;
     public Transform _moveTarget;
 
     private PhotonView _PV;
@@ -68,7 +68,8 @@ public class AIMovementController : MonoBehaviour
     {
         _moveTarget.position = transform.position;
         _aiDestinationSetter.target = _moveTarget;
-        _animator.SetBool("isMoving", false);
+        if(animator)
+            animator.SetBool("isMoving", false);
         //AI_NetWork.Halt(_PV);
     }
 
@@ -76,7 +77,8 @@ public class AIMovementController : MonoBehaviour
     {
         _moveTarget.position = transform.position;
         _aiDestinationSetter.target = _moveTarget;
-        _animator.SetBool("isMoving", false);
+        if (animator)
+            animator.SetBool("isMoving", false);
         //AI_NetWork.Halt(_PV);
     }
         
@@ -98,29 +100,34 @@ public class AIMovementController : MonoBehaviour
 
     private void HandleMoveAnimation()
     {
+        if (!animator)
+        {
+            return;
+        }
+
         var velocity = transform.position - _prevPos;
 
-        if (velocity.magnitude <= CONSIDER_IDLE_SPEED_THRESHOLD && _animator.GetBool("isMoving"))
+        if (velocity.magnitude <= CONSIDER_IDLE_SPEED_THRESHOLD && animator.GetBool("isMoving"))
         {
-            _animator.SetBool("isMoving", false);
-            _animator.SetFloat("moveX", 0f);
+            animator.SetBool("isMoving", false);
+            animator.SetFloat("moveX", 0f);
         }
 
         if (velocity.magnitude > CONSIDER_IDLE_SPEED_THRESHOLD)
         {
-            if (!_animator.GetBool("isMoving"))
+            if (!animator.GetBool("isMoving"))
             {
-                _animator.SetBool("isMoving", true);
+                animator.SetBool("isMoving", true);
             }
 
             // check move direction
-            if (velocity.x >= 0 && _animator.GetFloat("moveX") != 1f)
+            if (velocity.x >= 0 && animator.GetFloat("moveX") != 1f)
             {
-                _animator.SetFloat("moveX", 1f);
+                animator.SetFloat("moveX", 1f);
             }
-            else if(velocity.x < 0 && _animator.GetFloat("moveX") != -1f)
+            else if(velocity.x < 0 && animator.GetFloat("moveX") != -1f)
             {
-                _animator.SetFloat("moveX", -1f);
+                animator.SetFloat("moveX", -1f);
             }
         }
 

@@ -18,6 +18,9 @@ public class AIStats
     public float baseSpeed;
     public float speedModifier;
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
     public AIStats()
     {
         isDead = false;
@@ -29,6 +32,27 @@ public class AIStats
         expWorth = 10;
         goldWorth = 10;
         baseSpeed = 27f;
+        speedModifier = 1f;
+    }
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="maxHp">maxHp</param>
+    /// <param name="expWorth">expWorth</param>
+    /// <param name="goldWorth">goldWorth</param>
+    /// <param name="baseSpeed">baseSpeed</param>
+    public AIStats(int maxHp, int expWorth, int goldWorth, float baseSpeed)
+    {
+        isDead = false;
+        isInvincible = false;
+        isMovementLocked = false;
+        isWeaponLocked = false;
+        this.maxHp = maxHp;
+        this.hp = maxHp;
+        this.expWorth = expWorth;
+        this.goldWorth = goldWorth;
+        this.baseSpeed = baseSpeed;
         speedModifier = 1f;
     }
 }
@@ -90,11 +114,8 @@ public class AIStatsController : MonoBehaviour
     }
 
     // respawn
-    public void Respawn()
+    public void Respawn(byte enemyID)
     {
-        if (!aiStats.isDead)
-            return;
-
-        NetworkCalls.AI_NetWork.Respawn(_PV);
+        NetworkCalls.AI_NetWork.Respawn(_PV, enemyID);
     }
 }
