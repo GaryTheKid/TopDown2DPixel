@@ -7,6 +7,7 @@ using NetworkCalls;
 
 public class Objective : MonoBehaviour
 {
+    public int captureValue;
     public List<int> _myCapturingList;
     public List<int> _enemyCapturingList;
     public bool isActive;

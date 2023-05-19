@@ -49,7 +49,7 @@ public class BulletHitFX : FXPlayer_Projectile
         animator.SetTrigger("Hit");
 
         // show hit mark
-        var hitPos = transform.position + transform.forward.normalized * 0.25f;
+        var hitPos = transform.position + transform.forward.normalized * 1.35f;
         Instantiate(hitMark, hitPos, Quaternion.identity, GameManager.singleton.FXParent);
 
         // play soundFX

@@ -18,9 +18,16 @@ public class RPC_Objective : MonoBehaviour
         print("Point captured by: " + playerActorNumber);
 
         // add score
-        //_playerStatsController.UpdateScore((int)info.damageAmount);
-        //GameManager.singleton.AddScoreUI(_playerNetworkController.playerID, (int)info.damageAmount);
+        foreach (Transform player in GameManager.singleton.spawnedPlayerParent)
+        {
+            if (player.GetComponent<PhotonView>().OwnerActorNr == playerActorNumber)
+            {
+                player.GetComponent<PlayerStatsController>().UpdateScore(_objective.captureValue);
+                GameManager.singleton.AddScoreUI(player.GetComponent<PlayerNetworkController>().playerID, _objective.captureValue);
+            }
+        }
 
+        // deactivate
         _objective.isActive = false;
         foreach (var obj in GameManager.singleton.objectiveList)
         {
