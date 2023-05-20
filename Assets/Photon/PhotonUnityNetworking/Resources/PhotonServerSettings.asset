@@ -121,6 +121,8 @@ MonoBehaviour:
   - RPC_GlobalAnnouncement_ShowLevelName
   - RPC_GlobalAnnouncement_ObjectiveActivationNotification
   - RPC_SwitchGameState
+  - RPC_GlobalAnnouncement_ObjectiveBeforeActivationNotification
+  - RPC_GlobalAnnouncement_IndividualObjectiveBeforeActivationNotification
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

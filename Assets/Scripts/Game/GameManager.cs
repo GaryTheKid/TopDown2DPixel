@@ -294,7 +294,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     private IEnumerator Co_ObjectiveActivationHandling()
     {
-        while (gameState == GameState.Playing )
+        List<int> nextActivateObjectiveIndices = new List<int>();
+        while (gameState == GameState.Playing)
         {
             // wait if there is any objective currently active
             yield return new WaitUntil(() => { return !isAnyObjectiveActive; });
@@ -302,11 +303,17 @@ public class GameManager : MonoBehaviourPunCallbacks
             // wait for the announcement
             yield return new WaitForSecondsRealtime(objectiveAnnouncementTimeBeforeActivation);
             AnnounceIncommingObjectiveActivationEvent();
+            nextActivateObjectiveIndices = GetNextActivateObjectivesRandomly();
+            foreach (int i in nextActivateObjectiveIndices)
+            {
+                print(i);
+                AnnounceIncommingActiveObjective(i);
+            }
 
             // wait for the time step for activation
             yield return new WaitForSecondsRealtime(objectiveActivationTimeStep);
             AnnounceObjectivesHaveBeenActivated();
-            ActivateObjectivesRandomly();
+            ActivateObjectives(nextActivateObjectiveIndices);
 
             // wait cd
             yield return new WaitForSecondsRealtime(1f);
@@ -422,13 +429,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void AnnounceIncommingObjectiveActivationEvent()
     {
         // announce the global event
-        Game_Network.ObjectiveActivationNotification(PV);
+        Game_Network.ObjectiveBeforeActivationNotification(PV);
     }
 
     private void AnnounceIncommingActiveObjective(int activationIndex)
     {
         // announce each individual objectives 
-
+        Game_Network.IndividualObjectiveBeforeActivationNotification(PV, (byte)activationIndex);
     }
 
     private void AnnounceObjectivesHaveBeenActivated()
@@ -441,8 +448,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// 
     /// </summary>
     /// <param name="activateQuantity"> How many objectives will be activated. </param>
-    private void ActivateObjectivesRandomly()
+    private List<int> GetNextActivateObjectivesRandomly()
     {
+        List<int> ret = new List<int>();
+
         // if there is some objective active, skip it
 
         // get the indices for all non-active objectives in the list
@@ -459,7 +468,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (nonActiveIndices.Count <= 0)
         {
             Debug.Log("All objectives are active!");
-            return;
+            return ret;
         }
 
         // quantity
@@ -467,8 +476,22 @@ public class GameManager : MonoBehaviourPunCallbacks
         for (int i = 0; i < ((calculatedQuantityBasedOnTime <= nonActiveIndices.Count) ? calculatedQuantityBasedOnTime : nonActiveIndices.Count); i++)
         {
             int randIndex = nonActiveIndices[UnityEngine.Random.Range(0, nonActiveIndices.Count)];
-            objectiveList[randIndex].ResetAndActivateObjective();
+            ret.Add(randIndex);
             nonActiveIndices.Remove(randIndex);
+        }
+
+        return ret;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="activateQuantity"> Activated objectives. </param>
+    private void ActivateObjectives(List<int> activationIndices)
+    {
+        for (int i = 0; i < activationIndices.Count; i++)
+        {
+            objectiveList[activationIndices[i]].ResetAndActivateObjective();
         }
     }
 

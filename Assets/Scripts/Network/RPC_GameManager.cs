@@ -263,8 +263,14 @@ public class RPC_GameManager : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_GlobalAnnouncement_ObjectiveActivationNotification()
+    void RPC_GlobalAnnouncement_ObjectiveBeforeActivationNotification()
     {
         GlobalAnnouncementManager.singleton.PlayAnnouncement("Objectives active in " + GameManager.singleton.objectiveAnnouncementTimeBeforeActivation + " s");
+    }
+
+    [PunRPC]
+    void RPC_GlobalAnnouncement_IndividualObjectiveBeforeActivationNotification(byte index)
+    {
+        GameManager.singleton.objectiveList[index].ShowIndicationBeforeActivation();
     }
 }

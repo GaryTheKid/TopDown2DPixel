@@ -65,9 +65,14 @@ namespace NetworkCalls
             PV.RPC("RPC_ChangeWeather", RpcTarget.AllBuffered, weatherCode);
         }
 
-        public static void ObjectiveActivationNotification(PhotonView PV)
+        public static void IndividualObjectiveBeforeActivationNotification(PhotonView PV, byte index)
         {
-            PV.RPC("RPC_GlobalAnnouncement_ObjectiveActivationNotification", RpcTarget.All);
+            PV.RPC("RPC_GlobalAnnouncement_IndividualObjectiveBeforeActivationNotification", RpcTarget.All, index);
+        }
+
+        public static void ObjectiveBeforeActivationNotification(PhotonView PV)
+        {
+            PV.RPC("RPC_GlobalAnnouncement_ObjectiveBeforeActivationNotification", RpcTarget.All);
         }
 
         public static void ObjectiveHasBeenActivatedNotification(PhotonView PV)

@@ -11,11 +11,13 @@ public class Objective : MonoBehaviour
     public List<int> _myCapturingList;
     public List<int> _enemyCapturingList;
     public bool isActive;
+    public bool isNextActive;
     public float captureProgress;
     public int capturingPlayer;
 
     [SerializeField] private Color _objectiveActiveColor;
     [SerializeField] private Color _objectiveInactiveColor;
+    [SerializeField] private Gradient _objectiveBeforeActivationNotificationGradient;
     [SerializeField] private SpriteRenderer _objectiveSprite;
     [SerializeField] private SpriteRenderer _objectiveSprite_Minimap;
     [SerializeField] private Image _progressUI;
@@ -208,6 +210,30 @@ public class Objective : MonoBehaviour
         Objective_Network.SendObjectiveCaptureMessage(_PV, (byte)playerActorNumber);
     }
 
+    public void ShowIndicationBeforeActivation()
+    {
+        isNextActive = true;
+        StartCoroutine(Co_showIndicationBeforeActivation());
+    }
+
+    private IEnumerator Co_showIndicationBeforeActivation()
+    {
+        var time = 0f;
+        while (!isActive)
+        {
+            var evaluatedColor = _objectiveBeforeActivationNotificationGradient.Evaluate(time / 0.8f);
+            _objectiveSprite.color = evaluatedColor;
+            _objectiveSprite_Minimap.color = evaluatedColor;
+            yield return new WaitForEndOfFrame();
+            time += Time.deltaTime;
+            if (time >= 0.8f)
+            {
+                time -= 0.8f;
+            }
+        }
+        isNextActive = false;
+    }
+
     public void ResetAndActivateObjective()
     {
         Objective_Network.ResetAndActivateObjective(_PV);
@@ -233,8 +259,11 @@ public class Objective : MonoBehaviour
             _contestingUI.SetActive(false);
             _meCapturingUI.SetActive(false);
             _enemyCapturingUI.SetActive(false);
-            _objectiveSprite.color = _objectiveInactiveColor;
-            _objectiveSprite_Minimap.color = _objectiveInactiveColor;
+            if (!isNextActive)
+            {
+                _objectiveSprite.color = _objectiveInactiveColor;
+                _objectiveSprite_Minimap.color = _objectiveInactiveColor;
+            }
             return;
         }
 

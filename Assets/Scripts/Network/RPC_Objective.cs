@@ -15,7 +15,8 @@ public class RPC_Objective : MonoBehaviour
     [PunRPC]
     void RPC_SendObjectiveCaptureMessage(byte playerActorNumber)
     {
-        print("Point captured by: " + playerActorNumber);
+        // announce who captures this objective 
+        GlobalAnnouncementManager.singleton.PlayAnnouncement("Objective has been captured by " + PhotonNetwork.CurrentRoom.GetPlayer(playerActorNumber).NickName);
 
         // add score
         foreach (Transform player in GameManager.singleton.spawnedPlayerParent)
