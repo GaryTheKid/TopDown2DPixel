@@ -48,6 +48,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     public GameState gameState;
 
+    // win condition
+    [Header("Win Condition")]
+    public int winConditionScore;
+    public float leaderboardDisplayTime;
+    public float endGameWaitTime;
+
     // day-night cycle
     public enum DayNight
     {
@@ -182,6 +188,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public float nextObjectiveActivationAnnouncementTime;
 
     private IEnumerator ObjectiveActivationHandling_Co;
+    private IEnumerator EndGameHandling_Co;
 
     private void Awake()
     {
@@ -255,12 +262,13 @@ public class GameManager : MonoBehaviourPunCallbacks
 
                     // merchant
                     MerchantSpawning();
-
                     break;
                 }
 
             case GameState.Ending:
                 {
+                    // end game
+                    HandleEndGame();
                     break;
                 }
         }
@@ -306,7 +314,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             nextActivateObjectiveIndices = GetNextActivateObjectivesRandomly();
             foreach (int i in nextActivateObjectiveIndices)
             {
-                print(i);
                 AnnounceIncommingActiveObjective(i);
             }
 
@@ -398,6 +405,53 @@ public class GameManager : MonoBehaviourPunCallbacks
             StartCoroutine(Co_SpawnMerchantRandomly());
             nextMerchantSpawnTime += merchantSpawnWaveTimeStep;
         }
+    }
+
+    private void WinConditionDetection()
+    {
+        foreach (Transform player in spawnedPlayerParent)
+        {
+            if (player.GetComponent<PlayerStatsController>().playerStats.score >= winConditionScore)
+            {
+                gameState = GameState.Ending;
+                return;
+            }
+        }
+    }
+
+    private void HandleEndGame()
+    {
+        if (EndGameHandling_Co == null)
+        {
+            EndGameHandling_Co = Co_EndGameHandling();
+            StartCoroutine(EndGameHandling_Co);
+        }
+    }
+    private IEnumerator Co_EndGameHandling()
+    {
+        // stop obj handling coroutine
+        if (ObjectiveActivationHandling_Co != null)
+        {
+            StopCoroutine(ObjectiveActivationHandling_Co);
+        }
+
+        // announce game end
+        Game_Network.AnnounceGameEnd(PV);
+
+        // lock all players
+        Game_Network.LockAllPlayersActions(PV);
+
+        // wait some time for the leaderboard display
+        yield return new WaitForSecondsRealtime(leaderboardDisplayTime);
+
+        // display leaderboard
+        print("Display Leaderboard");
+
+        // wait some time for the scene transition
+        yield return new WaitForSecondsRealtime(endGameWaitTime);
+
+        // scene transition
+        print("Go to the evaluation scene");
     }
     #endregion
 
@@ -612,17 +666,26 @@ public class GameManager : MonoBehaviourPunCallbacks
         Game_Network.UpdatePlayerInfo(PV, viewID, name);
     }
 
-    public void AddScoreUI(string playerID, int score)
+    public void AddScore(byte actorNumber, int score)
     {
-        GetPlayerScoreboardTag(playerID).AddScore(score);
+        // update ui
+        AddScoreUI(actorNumber, score);
+
+        // check win-condition
+        WinConditionDetection();
     }
 
-    public ScoreboardTag GetPlayerScoreboardTag(string playerID)
+    public void AddScoreUI(byte actorNumber, int score)
+    {
+        GetPlayerScoreboardTag(actorNumber).AddScore(score);
+    }
+
+    public ScoreboardTag GetPlayerScoreboardTag(byte actorNumber)
     {
         foreach (Transform tag in scoreboardParent)
         {
             var sTag = tag.GetComponent<ScoreboardTag>();
-            if (sTag.GetID() == playerID)
+            if (sTag.GetID() == PhotonNetwork.CurrentRoom.GetPlayer(actorNumber).NickName)
             {
                 return sTag;
             }

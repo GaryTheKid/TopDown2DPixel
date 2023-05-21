@@ -15,8 +15,14 @@ public class RPC_Objective : MonoBehaviour
     [PunRPC]
     void RPC_SendObjectiveCaptureMessage(byte playerActorNumber)
     {
+        // check if game end
+        if (GameManager.singleton.gameState == GameManager.GameState.Ending)
+            return;
+
         // announce who captures this objective 
-        GlobalAnnouncementManager.singleton.PlayAnnouncement("Objective has been captured by " + PhotonNetwork.CurrentRoom.GetPlayer(playerActorNumber).NickName);
+        string nickName = PhotonNetwork.CurrentRoom.GetPlayer(playerActorNumber).NickName;
+        nickName = nickName.Substring(0, nickName.IndexOf("#"));
+        GlobalAnnouncementManager.singleton.PlayAnnouncement("Objective has been captured by " + nickName);
 
         // add score
         foreach (Transform player in GameManager.singleton.spawnedPlayerParent)
@@ -24,7 +30,7 @@ public class RPC_Objective : MonoBehaviour
             if (player.GetComponent<PhotonView>().OwnerActorNr == playerActorNumber)
             {
                 player.GetComponent<PlayerStatsController>().UpdateScore(_objective.captureValue);
-                GameManager.singleton.AddScoreUI(player.GetComponent<PlayerNetworkController>().playerID, _objective.captureValue);
+                GameManager.singleton.AddScore(playerActorNumber, _objective.captureValue);
             }
         }
 

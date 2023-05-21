@@ -260,4 +260,14 @@ public class PlayerStatsController : MonoBehaviour
 
         NetworkCalls.Player_NetWork.Respawn(_PV);
     }
+
+    // lock all actions
+    public void LockAllActions()
+    {
+        playerStats.isInvincible = true;
+        playerStats.isInventoryLocked = true;
+        playerStats.isMovementLocked = true;
+        playerStats.isWeaponLocked = true;
+        playerStats.isRespawnable = false;
+    }
 }

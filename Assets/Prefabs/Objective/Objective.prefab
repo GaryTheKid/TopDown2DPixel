@@ -495,7 +495,7 @@ Transform:
   m_GameObject: {fileID: 5273420920035261336}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 54.25075, y: 126.6277, z: -0.04852415}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7104747212826540031}
@@ -625,7 +625,7 @@ MonoBehaviour:
   captureProgress: 0
   capturingPlayer: 0
   _objectiveActiveColor: {r: 1, g: 1, b: 1, a: 0.8627451}
-  _objectiveInactiveColor: {r: 0.18039216, g: 0.10980393, b: 0, a: 1}
+  _objectiveInactiveColor: {r: 0.3764706, g: 0.18504383, b: 0, a: 1}
   _objectiveBeforeActivationNotificationGradient:
     serializedVersion: 2
     key0: {r: 1, g: 0.9680259, b: 0.7798742, a: 1}

@@ -65,6 +65,11 @@ namespace NetworkCalls
             PV.RPC("RPC_ChangeWeather", RpcTarget.AllBuffered, weatherCode);
         }
 
+        public static void LockAllPlayersActions(PhotonView PV)
+        {
+            PV.RPC("RPC_LockAllPlayersActions", RpcTarget.All);
+        }
+
         public static void IndividualObjectiveBeforeActivationNotification(PhotonView PV, byte index)
         {
             PV.RPC("RPC_GlobalAnnouncement_IndividualObjectiveBeforeActivationNotification", RpcTarget.All, index);
@@ -83,6 +88,11 @@ namespace NetworkCalls
         public static void ShowLevelNameNotification(PhotonView PV)
         {
             PV.RPC("RPC_GlobalAnnouncement_ShowLevelName", RpcTarget.All);
+        }
+
+        public static void AnnounceGameEnd(PhotonView PV)
+        {
+            PV.RPC("RPC_GlobalAnnouncement_AnnounceGameEnd", RpcTarget.All);
         }
     }
 

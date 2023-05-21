@@ -28,4 +28,14 @@ public class GlobalAnnouncementManager : MonoBehaviour
         // set text
         announcementText.GetComponent<TextMeshProUGUI>().text = announcement;
     }
+
+    public void PlayCenterAnnouncement(string announcement)
+    {
+        // instantiate announcement text
+        var announcementText = Instantiate(_centerTextTemplate, transform);
+        announcementText.gameObject.SetActive(true);
+
+        // set text
+        announcementText.GetComponent<TextMeshProUGUI>().text = announcement;
+    }
 }

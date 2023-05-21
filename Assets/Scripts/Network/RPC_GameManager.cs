@@ -257,6 +257,15 @@ public class RPC_GameManager : MonoBehaviour
     }
 
     [PunRPC]
+    void RPC_LockAllPlayersActions()
+    {
+        foreach (Transform player in GameManager.singleton.spawnedPlayerParent)
+        {
+            player.GetComponent<PlayerStatsController>().LockAllActions();
+        }
+    }
+
+    [PunRPC]
     void RPC_GlobalAnnouncement_ObjectiveActivation()
     {
         GlobalAnnouncementManager.singleton.PlayAnnouncement("Objectives Unlocked!");
@@ -272,5 +281,11 @@ public class RPC_GameManager : MonoBehaviour
     void RPC_GlobalAnnouncement_IndividualObjectiveBeforeActivationNotification(byte index)
     {
         GameManager.singleton.objectiveList[index].ShowIndicationBeforeActivation();
+    }
+
+    [PunRPC]
+    void RPC_GlobalAnnouncement_AnnounceGameEnd()
+    {
+        GlobalAnnouncementManager.singleton.PlayCenterAnnouncement("Game Finish!");
     }
 }
