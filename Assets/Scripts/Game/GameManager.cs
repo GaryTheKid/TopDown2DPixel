@@ -32,12 +32,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     // Level
     [Header("Level")]
     public string levelName;
-    [Range(0f, 5f), Header("Preparation Time")]
+    [Range(0f, 5f)]
     public float preparationTime;
+    public GameObject fadeOut;
+    public GameObject transitionCurtain;
 
     // scoreboard
     [Header("Scoreboard")]
     public RectTransform scoreboardTemplate;
+    public ScoreResults scoreResults;
 
     // game states
     public enum GameState
@@ -452,6 +455,19 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         // scene transition
         print("Go to the evaluation scene");
+        Game_Network.GoToResultScene(PV);
+    }
+
+    public void GoToResultScene()
+    {
+        StartCoroutine(LoadGameSceneSmoothly(Networking_GameSettings.singleton.resultSceneIndex));
+    }
+    private IEnumerator LoadGameSceneSmoothly(int sceneIndex)
+    {
+        fadeOut.SetActive(true);
+        yield return new WaitUntil(() => { return !fadeOut.activeInHierarchy; });
+        transitionCurtain.SetActive(true);
+        PhotonNetwork.LoadLevel(sceneIndex);
     }
     #endregion
 
@@ -677,6 +693,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void AddScoreUI(byte actorNumber, int score)
     {
+        scoreResults.AddScoreToPlayer(actorNumber, score);
         GetPlayerScoreboardTag(actorNumber).AddScore(score);
     }
 

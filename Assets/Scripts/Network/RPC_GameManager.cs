@@ -33,6 +33,12 @@ public class RPC_GameManager : MonoBehaviour
     }
 
     [PunRPC]
+    void RPC_GoToResultScene()
+    {
+        GameManager.singleton.GoToResultScene();
+    }
+
+    [PunRPC]
     void RPC_UpdatePlayerInfo(int viewID, string name)
     {
         Transform player = PhotonView.Find(viewID).transform;
@@ -40,6 +46,7 @@ public class RPC_GameManager : MonoBehaviour
         player.transform.parent = GameManager.singleton.spawnedPlayerParent;
         player.GetComponent<PlayerNetworkController>().playerID = name;
         player.GetComponent<PlayerNetworkController>().scoreboardTag = GameManager.singleton.SpawnScoreboardTag(name);
+        GameManager.singleton.scoreResults.AddNewPlayer(PhotonView.Find(viewID).OwnerActorNr);
     }
 
     [PunRPC]

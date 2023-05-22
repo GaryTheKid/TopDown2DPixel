@@ -70,6 +70,11 @@ namespace NetworkCalls
             PV.RPC("RPC_LockAllPlayersActions", RpcTarget.All);
         }
 
+        public static void GoToResultScene(PhotonView PV)
+        {
+            PV.RPC("RPC_GoToResultScene", RpcTarget.AllBuffered);
+        }
+
         public static void IndividualObjectiveBeforeActivationNotification(PhotonView PV, byte index)
         {
             PV.RPC("RPC_GlobalAnnouncement_IndividualObjectiveBeforeActivationNotification", RpcTarget.All, index);

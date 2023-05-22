@@ -20,7 +20,9 @@ public class Networking_GameSettings : MonoBehaviour
     // public fields
     public string gameVersion;
     public string playerName;
+    public int menuSceneIndex;
     public int gameSceneIndex;
+    public int resultSceneIndex;
     public int sendRate;
     public int serializationRate;
 

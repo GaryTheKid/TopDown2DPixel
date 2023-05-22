@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
 
 public class Networking_RoomManager : MonoBehaviourPunCallbacks
 {
@@ -15,6 +16,8 @@ public class Networking_RoomManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject _lobbyCanvas;
     [SerializeField] private GameObject _roomCanvas;
     [SerializeField] private GameObject _startGameButton;
+    [SerializeField] private GameObject _fadeOut;
+    [SerializeField] private GameObject _transitionCurtain;
     [SerializeField] private Transform _playerListAnchor;
     [SerializeField] private UI_PlayerInstance _playerInstance;
     [SerializeField] private List<UI_PlayerInstance> _playerList = new List<UI_PlayerInstance>();
@@ -32,7 +35,14 @@ public class Networking_RoomManager : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient)
             return;
 
-        PhotonNetwork.LoadLevel(Networking_GameSettings.singleton.gameSceneIndex);
+        StartCoroutine(LoadGameSceneSmoothly(Networking_GameSettings.singleton.gameSceneIndex));
+    }
+    private IEnumerator LoadGameSceneSmoothly(int sceneIndex)
+    {
+        _fadeOut.SetActive(true);
+        yield return new WaitUntil( () => { return !_fadeOut.activeInHierarchy; } );
+        _transitionCurtain.SetActive(true);
+        PhotonNetwork.LoadLevel(sceneIndex);
     }
 
     public void BackToLobby()
