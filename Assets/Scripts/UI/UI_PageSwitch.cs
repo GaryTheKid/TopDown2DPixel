@@ -1,15 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UI_PageSwitch : MonoBehaviour
 {
-    public Animator pageAnimator;
-    public float pagePos;
+    [SerializeField] private GameObject fadeInOutTransition;
+    [SerializeField] private Canvas[] pageCanvases;
 
-    // Update is called once per frame
-    void Update()
+    public void SwitchToStartPage(int whichPage) 
     {
-        pageAnimator.SetFloat("PagePos", pagePos);
+        fadeInOutTransition.SetActive(true);
+        for (int i = 0; i < pageCanvases.Length; i++)
+        {
+            if (i == whichPage)
+            {
+                pageCanvases[i].sortingOrder = 0;
+            }
+            else
+            {
+                pageCanvases[i].sortingOrder = -1;
+            }
+        }
     }
 }
