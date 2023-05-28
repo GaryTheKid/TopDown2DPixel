@@ -179,6 +179,24 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HoldSocialWheelMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""6ebe1f94-ab4e-4151-8b4e-221dc822fa27"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ReleaseEmojiWheelMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""889c4317-a67a-45b3-a99a-d4428449ee4a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -544,6 +562,28 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""PushToTalk"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""acf4bd54-7960-4553-ac49-b8c46bdf01b6"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HoldSocialWheelMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0270020b-b240-47d5-9e73-7f56c63eaaf7"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ReleaseEmojiWheelMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -569,6 +609,8 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
         m_Player_EquipmentQuickCast_6 = m_Player.FindAction("EquipmentQuickCast_6", throwIfNotFound: true);
         m_Player_Respawn = m_Player.FindAction("Respawn", throwIfNotFound: true);
         m_Player_PushToTalk = m_Player.FindAction("PushToTalk", throwIfNotFound: true);
+        m_Player_HoldSocialWheelMenu = m_Player.FindAction("HoldSocialWheelMenu", throwIfNotFound: true);
+        m_Player_ReleaseEmojiWheelMenu = m_Player.FindAction("ReleaseEmojiWheelMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -645,6 +687,8 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_EquipmentQuickCast_6;
     private readonly InputAction m_Player_Respawn;
     private readonly InputAction m_Player_PushToTalk;
+    private readonly InputAction m_Player_HoldSocialWheelMenu;
+    private readonly InputAction m_Player_ReleaseEmojiWheelMenu;
     public struct PlayerActions
     {
         private @PCInputActions m_Wrapper;
@@ -666,6 +710,8 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
         public InputAction @EquipmentQuickCast_6 => m_Wrapper.m_Player_EquipmentQuickCast_6;
         public InputAction @Respawn => m_Wrapper.m_Player_Respawn;
         public InputAction @PushToTalk => m_Wrapper.m_Player_PushToTalk;
+        public InputAction @HoldSocialWheelMenu => m_Wrapper.m_Player_HoldSocialWheelMenu;
+        public InputAction @ReleaseEmojiWheelMenu => m_Wrapper.m_Player_ReleaseEmojiWheelMenu;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -726,6 +772,12 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
                 @PushToTalk.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPushToTalk;
                 @PushToTalk.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPushToTalk;
                 @PushToTalk.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPushToTalk;
+                @HoldSocialWheelMenu.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHoldSocialWheelMenu;
+                @HoldSocialWheelMenu.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHoldSocialWheelMenu;
+                @HoldSocialWheelMenu.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHoldSocialWheelMenu;
+                @ReleaseEmojiWheelMenu.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReleaseEmojiWheelMenu;
+                @ReleaseEmojiWheelMenu.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReleaseEmojiWheelMenu;
+                @ReleaseEmojiWheelMenu.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReleaseEmojiWheelMenu;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -781,6 +833,12 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
                 @PushToTalk.started += instance.OnPushToTalk;
                 @PushToTalk.performed += instance.OnPushToTalk;
                 @PushToTalk.canceled += instance.OnPushToTalk;
+                @HoldSocialWheelMenu.started += instance.OnHoldSocialWheelMenu;
+                @HoldSocialWheelMenu.performed += instance.OnHoldSocialWheelMenu;
+                @HoldSocialWheelMenu.canceled += instance.OnHoldSocialWheelMenu;
+                @ReleaseEmojiWheelMenu.started += instance.OnReleaseEmojiWheelMenu;
+                @ReleaseEmojiWheelMenu.performed += instance.OnReleaseEmojiWheelMenu;
+                @ReleaseEmojiWheelMenu.canceled += instance.OnReleaseEmojiWheelMenu;
             }
         }
     }
@@ -804,5 +862,7 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
         void OnEquipmentQuickCast_6(InputAction.CallbackContext context);
         void OnRespawn(InputAction.CallbackContext context);
         void OnPushToTalk(InputAction.CallbackContext context);
+        void OnHoldSocialWheelMenu(InputAction.CallbackContext context);
+        void OnReleaseEmojiWheelMenu(InputAction.CallbackContext context);
     }
 }

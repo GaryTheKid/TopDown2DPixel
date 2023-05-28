@@ -28,7 +28,7 @@ public class WeaponCursor : MonoBehaviour
     protected void Update()
     {
         // update cursor position
-        transform.position = Mouse.current.position.ReadValue();
+        transform.position = Common.GetMouseScreenPosition();
         _mouseCollider.position = Common.GetMouseWorldPosition();
     }
 

@@ -17,9 +17,13 @@ public class PlayerAssets : MonoBehaviour
     public static PlayerAssets singleton;
 
     // public fields
+    [Header("Character")]
     public List<Sprite> PlayerCharacterIconList;
     public List<string> PlayerCharacterNameList;
     public List<GameObject> PlayerCharacterAvatarList;
+
+    [Header("Social")]
+    public List<GameObject> SocialInteractionList;
     #endregion
 
 

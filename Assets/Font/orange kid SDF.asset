@@ -104,7 +104,7 @@ Material:
     - _ReflectFaceColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectOutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
-    - _UnderlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+    - _UnderlayColor: {r: 0, g: 0, b: 0, a: 0.6666667}
   m_BuildTextureStacks: []
 --- !u!114 &11400000
 MonoBehaviour:
@@ -232,6 +232,20 @@ MonoBehaviour:
       m_Height: 54
     m_Scale: 1
     m_AtlasIndex: 0
+  - m_Index: 50
+    m_Metrics:
+      m_Width: 33.84375
+      m_Height: 53.90625
+      m_HorizontalBearingX: 3.59375
+      m_HorizontalBearingY: 53.90625
+      m_HorizontalAdvance: 41.046875
+    m_GlyphRect:
+      m_X: 98
+      m_Y: 150
+      m_Width: 35
+      m_Height: 54
+    m_Scale: 1
+    m_AtlasIndex: 0
   - m_Index: 54
     m_Metrics:
       m_Width: 33.9375
@@ -344,6 +358,20 @@ MonoBehaviour:
       m_Height: 54
     m_Scale: 1
     m_AtlasIndex: 0
+  - m_Index: 78
+    m_Metrics:
+      m_Width: 7.203125
+      m_Height: 53.90625
+      m_HorizontalBearingX: 3.59375
+      m_HorizontalBearingY: 53.90625
+      m_HorizontalAdvance: 14.40625
+    m_GlyphRect:
+      m_X: 152
+      m_Y: 143
+      m_Width: 8
+      m_Height: 54
+    m_Scale: 1
+    m_AtlasIndex: 0
   - m_Index: 84
     m_Metrics:
       m_Width: 20.53125
@@ -400,34 +428,6 @@ MonoBehaviour:
       m_Height: 8
     m_Scale: 1
     m_AtlasIndex: 0
-  - m_Index: 50
-    m_Metrics:
-      m_Width: 33.84375
-      m_Height: 53.90625
-      m_HorizontalBearingX: 3.59375
-      m_HorizontalBearingY: 53.90625
-      m_HorizontalAdvance: 41.046875
-    m_GlyphRect:
-      m_X: 98
-      m_Y: 150
-      m_Width: 35
-      m_Height: 54
-    m_Scale: 1
-    m_AtlasIndex: 0
-  - m_Index: 78
-    m_Metrics:
-      m_Width: 7.203125
-      m_Height: 53.90625
-      m_HorizontalBearingX: 3.59375
-      m_HorizontalBearingY: 53.90625
-      m_HorizontalAdvance: 14.40625
-    m_GlyphRect:
-      m_X: 152
-      m_Y: 143
-      m_Width: 8
-      m_Height: 54
-    m_Scale: 1
-    m_AtlasIndex: 0
   m_CharacterTable:
   - m_ElementType: 1
     m_Unicode: 35
@@ -452,6 +452,10 @@ MonoBehaviour:
   - m_ElementType: 1
     m_Unicode: 75
     m_GlyphIndex: 45
+    m_Scale: 1
+  - m_ElementType: 1
+    m_Unicode: 80
+    m_GlyphIndex: 50
     m_Scale: 1
   - m_ElementType: 1
     m_Unicode: 84
@@ -486,6 +490,10 @@ MonoBehaviour:
     m_GlyphIndex: 75
     m_Scale: 1
   - m_ElementType: 1
+    m_Unicode: 108
+    m_GlyphIndex: 78
+    m_Scale: 1
+  - m_ElementType: 1
     m_Unicode: 114
     m_GlyphIndex: 84
     m_Scale: 1
@@ -500,14 +508,6 @@ MonoBehaviour:
   - m_ElementType: 1
     m_Unicode: 8230
     m_GlyphIndex: 501
-    m_Scale: 1
-  - m_ElementType: 1
-    m_Unicode: 80
-    m_GlyphIndex: 50
-    m_Scale: 1
-  - m_ElementType: 1
-    m_Unicode: 108
-    m_GlyphIndex: 78
     m_Scale: 1
   m_AtlasTextures:
   - {fileID: 2514941107137733697}
@@ -705,6 +705,21 @@ MonoBehaviour:
   m_FontFeatureTable:
     m_GlyphPairAdjustmentRecords:
     - m_FirstAdjustmentRecord:
+        m_GlyphIndex: 50
+        m_GlyphValueRecord:
+          m_XPlacement: 0
+          m_YPlacement: 0
+          m_XAdvance: -8.453125
+          m_YAdvance: 0
+      m_SecondAdjustmentRecord:
+        m_GlyphIndex: 501
+        m_GlyphValueRecord:
+          m_XPlacement: 0
+          m_YPlacement: 0
+          m_XAdvance: 0
+          m_YAdvance: 0
+      m_FeatureLookupFlags: 0
+    - m_FirstAdjustmentRecord:
         m_GlyphIndex: 54
         m_GlyphValueRecord:
           m_XPlacement: 0
@@ -743,21 +758,6 @@ MonoBehaviour:
           m_YAdvance: 0
       m_SecondAdjustmentRecord:
         m_GlyphIndex: 54
-        m_GlyphValueRecord:
-          m_XPlacement: 0
-          m_YPlacement: 0
-          m_XAdvance: 0
-          m_YAdvance: 0
-      m_FeatureLookupFlags: 0
-    - m_FirstAdjustmentRecord:
-        m_GlyphIndex: 50
-        m_GlyphValueRecord:
-          m_XPlacement: 0
-          m_YPlacement: 0
-          m_XAdvance: -8.453125
-          m_YAdvance: 0
-      m_SecondAdjustmentRecord:
-        m_GlyphIndex: 501
         m_GlyphValueRecord:
           m_XPlacement: 0
           m_YPlacement: 0

@@ -61,6 +61,24 @@ public class PlayerSettings : MonoBehaviour
             UpdateCustomProperty();
         }
     }
+
+    [SerializeField] private int[] _playerSocialIndexList;
+    public int[] PlayerSocialIndexList
+    {
+        get
+        {
+            return _playerSocialIndexList;
+        }
+        set
+        {
+            _playerSocialIndexList = new int[value.Length];
+            for (int i = 0; i < value.Length; i++)
+            {
+                _playerSocialIndexList[i] = value[i];
+            }
+            UpdateCustomProperty();
+        }
+    }
     #endregion
 
 
@@ -86,6 +104,7 @@ public class PlayerSettings : MonoBehaviour
         _playerCustomProperties["CharacterIndex"] = _playerCharacterIndex;
         _playerCustomProperties["SkinIndex"] = _playerCharacterSkinIndex;
         _playerCustomProperties["IconIndex"] = _playerIconIndex;
+        _playerCustomProperties["SocialIndexList"] = _playerSocialIndexList;
         PhotonNetwork.LocalPlayer.CustomProperties = _playerCustomProperties;
     }
     #endregion

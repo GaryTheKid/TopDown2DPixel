@@ -157,6 +157,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "HoldSocialWheelMenu",
+                    "type": "Button",
+                    "id": "6ebe1f94-ab4e-4151-8b4e-221dc822fa27",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ReleaseEmojiWheelMenu",
+                    "type": "Button",
+                    "id": "889c4317-a67a-45b3-a99a-d4428449ee4a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -520,6 +538,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "PushToTalk",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "acf4bd54-7960-4553-ac49-b8c46bdf01b6",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HoldSocialWheelMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0270020b-b240-47d5-9e73-7f56c63eaaf7",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReleaseEmojiWheelMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

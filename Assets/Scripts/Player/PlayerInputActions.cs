@@ -41,5 +41,9 @@ public class PlayerInputActions : MonoBehaviour
 
         // voice chat
         inputActions.Player.PushToTalk.Enable();
+
+        // social 
+        inputActions.Player.HoldSocialWheelMenu.Enable();
+        inputActions.Player.ReleaseEmojiWheelMenu.Enable();
     }
 }

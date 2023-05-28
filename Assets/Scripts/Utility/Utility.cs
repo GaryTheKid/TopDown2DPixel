@@ -65,21 +65,25 @@ namespace Utilities
 
     public class Common
     {
+        public static Vector3 GetMouseScreenPosition()
+        {
+            return Mouse.current.position.ReadValue();
+        }
         public static Vector3 GetMouseWorldPosition()
         {
-            var currMousePos = Mouse.current.position.ReadValue();
+            var currMousePos = GetMouseScreenPosition();
             Vector3 v3 = GetMousePostionWorldWithZ(new Vector3(currMousePos.x, currMousePos.y), Camera.main);
             v3.z = 0f;
             return v3;
         }
         public static Vector3 GetMousePostionWorldWithZ()
         {
-            var currMousePos = Mouse.current.position.ReadValue();
+            var currMousePos = GetMouseScreenPosition();
             return GetMousePostionWorldWithZ(new Vector3(currMousePos.x, currMousePos.y), Camera.main);
         }
         public static Vector3 GetMousePostionWorldWithZ(Camera worldCamera)
         {
-            var currMousePos = Mouse.current.position.ReadValue();
+            var currMousePos = GetMouseScreenPosition();
             return GetMousePostionWorldWithZ(new Vector3(currMousePos.x, currMousePos.y), worldCamera);
         }
         public static Vector3 GetMousePostionWorldWithZ(Vector3 screenPos, Camera worldCamera) 
@@ -91,12 +95,12 @@ namespace Utilities
 
         public static Ray GetScreenPointRay()
         {
-            return Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            return Camera.main.ScreenPointToRay(GetMouseScreenPosition());
         }
 
         public static Vector2 GetScreenWorldPoint2D() 
         {
-            return Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            return Camera.main.ScreenToWorldPoint(GetMouseScreenPosition());
         }
 
         public static float GetMouseRotationEulerAngle(Vector3 origin)
@@ -104,6 +108,40 @@ namespace Utilities
             Vector3 mousePosition = GetMouseWorldPosition();
             Vector3 aimDir = (mousePosition - origin).normalized;
             return Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
+        }
+
+        public static float GetEulerAngleBetweenPoints(Vector3 origin, Vector3 end)
+        {
+            Vector3 dir = (end - origin).normalized;
+            return Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        }
+
+        public static float ConvertAngle(float angle)
+        {
+            if (angle < 0)
+            {
+                angle += 360;
+            }
+            else if (angle >= 360)
+            {
+                angle -= 360;
+            }
+            return angle;
+        }
+
+        public static float ConvertAngleToClockwise(float angle)
+        {
+            float convertedAngle = 90 - angle;
+            if (convertedAngle < 0)
+            {
+                convertedAngle += 360;
+            }
+            return convertedAngle;
+        }
+
+        public static float GetEulerAngleBetweenPointsClockWise(Vector3 origin, Vector3 end)
+        {
+            return ConvertAngleToClockwise(ConvertAngle(GetEulerAngleBetweenPoints(origin, end)));
         }
 
         public static System.Object GetObjectCopyFromInstance(System.Object obj)
