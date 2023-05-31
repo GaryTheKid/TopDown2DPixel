@@ -206,9 +206,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         SpawnPlayerCharacter();
 
-        // show level name
-        GlobalAnnouncementManager.singleton.PlayAnnouncement(levelName);
-
         // suspend till the announcement finished, then switch to game state Playing
         SwitchGameStateAfterSuspension(preparationTime, (byte)GameState.Playing);
 

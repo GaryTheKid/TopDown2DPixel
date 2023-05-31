@@ -88,11 +88,11 @@ public class PlayerSettings : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        if (singleton != this)
+        if (singleton != null && singleton != this)
         {
             Destroy(singleton.gameObject);
-            singleton = this;
         }
+        singleton = this;
         DontDestroyOnLoad(gameObject);
     }
     #endregion
