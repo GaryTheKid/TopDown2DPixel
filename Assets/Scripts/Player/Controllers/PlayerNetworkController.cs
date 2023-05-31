@@ -38,6 +38,8 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
     [SerializeField] private Image _hpBar;
     [SerializeField] private Gradient _enemyHpBarGradient;
     [SerializeField] private UnityEngine.Rendering.Universal.Light2D _characterLight;
+    [SerializeField] private Transform[] _emojiAnchors;
+    [SerializeField] private Transform[] _socialWheelMenuAnchors;
 
     private void Awake()
     {
@@ -49,7 +51,7 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
     private void Start()
     {
         // instantiate character avatar
-        StartCoroutine(_co_instantiate_avatar());
+        StartCoroutine(_co_instantiate_playerCustomProperties());
 
         // configure networked objs
         ConfigureNetworkedObjs();
@@ -103,7 +105,7 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
         }
     }
 
-    private IEnumerator _co_instantiate_avatar()
+    private IEnumerator _co_instantiate_playerCustomProperties()
     {
         // instantiate the avatar
         var avatar = Instantiate(PlayerAssets.singleton.PlayerCharacterAvatarList[(int)_PV.Owner.CustomProperties["CharacterIndex"]], transform.position, Quaternion.identity);
@@ -121,5 +123,16 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
         _mmf_ReceiveHealing.GetFeedbackOfType<MMF_SpriteRenderer>().BoundSpriteRenderer = avatarBody.GetComponent<SpriteRenderer>();
         _playerEffectController.SetAvatarAnimation(avatar.GetComponent<Animator>(), avatarGhostRunTrailFX.gameObject, avatarBody.GetComponent<SpriteRenderer>());
         _playerMovementController.SetAvatarAnimation(avatar.GetComponent<Animator>(), avatarGhostRunTrailFX.GetComponent<Animator>());
+
+        // instantiate emojis
+        for (int i = 0; i < _emojiAnchors.Length; i++)
+        {
+            var list = (int[])_PV.Owner.CustomProperties["SocialIndexList"];
+            if (list[i] != -1)
+            {
+                Instantiate(PlayerAssets.singleton.SocialInteractionList[list[i]].worldObj, _emojiAnchors[i]);
+                Instantiate(PlayerAssets.singleton.SocialInteractionList[list[i]].staticObj, _socialWheelMenuAnchors[i]);
+            }
+        }
     }
 }

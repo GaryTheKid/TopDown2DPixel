@@ -23,7 +23,8 @@ public class PlayerAssets : MonoBehaviour
     public List<GameObject> PlayerCharacterAvatarList;
 
     [Header("Social")]
-    public List<GameObject> SocialInteractionList;
+    public List<SocialInteractionAsset> SocialInteractionList;
+    public int emojiCount;
     #endregion
 
 
