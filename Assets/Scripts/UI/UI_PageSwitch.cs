@@ -13,10 +13,18 @@ public class UI_PageSwitch : MonoBehaviour
             if (i == whichPage)
             {
                 pageCanvases[i].sortingOrder = 0;
+                foreach (Transform child in pageCanvases[i].transform)
+                {
+                    child.gameObject.SetActive(true);
+                }
             }
             else
             {
                 pageCanvases[i].sortingOrder = -1;
+                foreach (Transform child in pageCanvases[i].transform)
+                {
+                    child.gameObject.SetActive(false);
+                }
             }
         }
     }
