@@ -16,6 +16,13 @@ public class UI_SocialInteractionEquipmentSlot : MonoBehaviour
 
     public void Equip(int index)
     {
+        // check if index valid
+        if (index <= 0)
+        {
+            Unequip();
+            return;
+        }
+
         // show visual
         SocialInteractionVisual = Instantiate(PlayerAssets.singleton.SocialInteractionList[index].staticObj, anchorTransform);
 

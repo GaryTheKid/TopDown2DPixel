@@ -23,6 +23,8 @@ public class UI_CharacterSelectionList : MonoBehaviour
     [SerializeField] private Text _selectedCharacterNameText;
     [SerializeField] private Transform _moveTarget;
 
+    private IEnumerator Co_SyncPlayerCustomProperty;
+
     private void Start()
     {
         // initialize character list for selection
@@ -44,6 +46,28 @@ public class UI_CharacterSelectionList : MonoBehaviour
         }
         catch
         {}
+    }
+
+    private void OnDisable()
+    {
+        try
+        {
+            SetPlayerData();
+        }
+        catch
+        { }
+    }
+
+    public void ImmediateSwitchToCharacter(int newIndex)
+    {
+        if (newIndex > characterSelectionList.Count - 1 || newIndex < 0)
+        {
+            return;
+        }
+
+        currentCharacterIndex = newIndex;
+        GetComponent<RectTransform>().localPosition = new Vector3(-characterSelectionList[newIndex].localPosition.x, 0f, 0f);
+        UpdateCharacterSelectionList();
     }
 
     public void SwitchToCharacter(int newIndex)
@@ -122,6 +146,31 @@ public class UI_CharacterSelectionList : MonoBehaviour
                 characterSelectionList[i].GetComponent<Animator>().SetBool("isSelected", false);
             }
         }
+
+        SyncPlayerCustomProperty();
+    }
+
+    private void SyncPlayerCustomProperty()
+    {
+        if (Co_SyncPlayerCustomProperty != null)
+        {
+            StopCoroutine(Co_SyncPlayerCustomProperty);
+            Co_SyncPlayerCustomProperty = null;
+        }
+        Co_SyncPlayerCustomProperty = SyncPlayerCustomProperty_Co();
+        StartCoroutine(Co_SyncPlayerCustomProperty);
+    }
+
+    private IEnumerator SyncPlayerCustomProperty_Co()
+    {
+        yield return new WaitForSeconds(CloudCommunicator.singleton.singleRequestSyncCD);
+
+        SetPlayerData();
+    }
+
+    private void SetPlayerData()
+    {
         PlayerSettings.singleton.PlayerCharacterIndex = currentCharacterIndex;
+        CloudCommunicator.singleton.SyncPlayerCustomDataToCloud("SelectedCharacter", PlayerSettings.singleton.PlayerCharacterIndex);
     }
 }

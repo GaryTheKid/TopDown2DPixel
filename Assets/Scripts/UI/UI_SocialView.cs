@@ -18,13 +18,11 @@ public class UI_SocialView : MonoBehaviour
     [SerializeField] private int _selectedOptionIndex;
     [SerializeField] private bool _isClearingSlot;
 
-    private void Awake()
+    private IEnumerator Co_SyncPlayerCustomProperty;
+
+    private void OnDisable()
     {
-        // TODO: sync the wheel from the back-end
-
-
-        // update the player customized properties
-        PlayerSettings.singleton.PlayerSocialIndexList = _socialInteractionEquipmentWheel.GetSlotOptionList();
+        SetPlayerData();
     }
 
     private void Start()
@@ -168,7 +166,7 @@ public class UI_SocialView : MonoBehaviour
         FreeAllOptionsInteraction();
 
         // update the player customized properties
-        PlayerSettings.singleton.PlayerSocialIndexList = _socialInteractionEquipmentWheel.GetSlotOptionList();
+        SyncPlayerCustomProperty();
 
         // reset
         _selectedSlotIndex = -1;
@@ -183,13 +181,37 @@ public class UI_SocialView : MonoBehaviour
             _socialInteractionEquipmentWheel.FreeAllSlotsInteraction();
             FreeAllOptionsInteraction();
 
-            // update the player customized properties
-            PlayerSettings.singleton.PlayerSocialIndexList = _socialInteractionEquipmentWheel.GetSlotOptionList();
+            // sync the player customized properties
+            SyncPlayerCustomProperty();
 
             // reset
             _selectedSlotIndex = -1;
             _selectedOptionIndex = -1;
         }
+    }
+
+    private void SyncPlayerCustomProperty()
+    {
+        if (Co_SyncPlayerCustomProperty != null)
+        {
+            StopCoroutine(Co_SyncPlayerCustomProperty);
+            Co_SyncPlayerCustomProperty = null;
+        }
+        Co_SyncPlayerCustomProperty = SyncPlayerCustomProperty_Co();
+        StartCoroutine(Co_SyncPlayerCustomProperty);
+    }
+
+    private IEnumerator SyncPlayerCustomProperty_Co()
+    {
+        yield return new WaitForSeconds(CloudCommunicator.singleton.singleRequestSyncCD);
+
+        SetPlayerData();
+    }
+
+    private void SetPlayerData()
+    {
+        PlayerSettings.singleton.PlayerSocialIndexList = _socialInteractionEquipmentWheel.GetSlotOptionList();
+        CloudCommunicator.singleton.SyncPlayerCustomDataToCloud("EquippedEmojis", PlayerSettings.singleton.PlayerSocialIndexList);
     }
 
     private void DisableSelectedOptionInteraction(int index)

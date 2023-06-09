@@ -2,6 +2,7 @@ using Firebase;
 using Firebase.Auth;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
 using System.Text.RegularExpressions;
@@ -17,6 +18,7 @@ public class AuthManager : MonoBehaviour
     public InputField emailInputField_SignUp;
     public InputField passwordInputField_SignUp;
     public InputField passwordDoubleCheckField;
+    public InputField usernameInputField_SignUp;
 
     // alert text
     [Header("Alert Text")]
@@ -25,6 +27,7 @@ public class AuthManager : MonoBehaviour
     public Text emailInputAlertText_SignUp;
     public Text passwordInputAlertText_SignUp;
     public Text passwordDoubleCheckAlertText_SignUp;
+    public Text usernameAlertText_SignUp;
 
     // notification text
     [Header("Notification Text")]
@@ -47,7 +50,10 @@ public class AuthManager : MonoBehaviour
 
     private FirebaseAuth auth;
     private FirebaseUser user;
-    private bool isEmailValid = true;
+    private bool emailValidationPass;
+    private bool userNameValidationPass;
+    private bool passwordValidationPass;
+    private bool passwordDoubleCheckValidationPass;
     private IEnumerator Login_Co;
     private IEnumerator SignUp_Co;
 
@@ -69,6 +75,7 @@ public class AuthManager : MonoBehaviour
     {
         // Check email validation each frame
         ValidateEmail();
+        ValidateUserName();
         ValidateSignUpPassword();
         ValidatePasswordDoubleCheck();
     }
@@ -127,6 +134,9 @@ public class AuthManager : MonoBehaviour
         activeInputField.image.color = color;
 
         activeAlertText.text = isValid ? string.Empty : "Invalid email format";
+
+        // sign up pass
+        emailValidationPass = isValid;
     }
 
     private bool ValidateEmailFormat(string email)
@@ -145,6 +155,68 @@ public class AuthManager : MonoBehaviour
         string extension = email.Substring(dotIndex + 1);
 
         return !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(domain) && !string.IsNullOrEmpty(extension);
+    }
+
+    private void ValidateUserName()
+    {
+        InputField activeInputField;
+        Text activeAlertText;
+
+        // Check the active page and assign the corresponding input field and alert text
+        if (signUpPage.activeSelf)
+        {
+            activeInputField = usernameInputField_SignUp;
+            activeAlertText = usernameAlertText_SignUp;
+        }
+        else
+        {
+            return; // No active page, no need for validation
+        }
+
+        string userName = activeInputField.text;
+
+        // Check if email input is empty
+        if (string.IsNullOrEmpty(userName))
+        {
+            // Reset the input field's image color to its default
+            Color initColor = Color.white;
+            initColor.a = activeInputField.image.color.a; // Preserve input field's transparency
+            activeInputField.image.color = initColor;
+            activeAlertText.text = string.Empty;
+            return;
+        }
+
+        bool isValid = ValidateUserNameFormat(userName);
+
+        // Provide feedback to the user (you can modify this based on your UI requirements)
+        Color color = isValid ? Color.white : Color.red;
+        color.a = activeInputField.image.color.a; // Preserve input field's transparency
+        activeInputField.image.color = color;
+
+        activeAlertText.text = isValid ? string.Empty : "Invalid user name format";
+
+        // sign up pass
+        userNameValidationPass = isValid;
+    }
+
+    
+    private bool ValidateUserNameFormat(string userName)
+    {
+        if (4 > userName.Length && userName.Length > 12)
+            return false;
+
+
+
+
+        //TODO: username format
+
+
+
+
+
+
+
+        return true;
     }
 
     private void ValidateSignUpPassword()
@@ -184,6 +256,9 @@ public class AuthManager : MonoBehaviour
         activeInputField.image.color = color;
 
         activeAlertText.text = isValid ? string.Empty : alert;
+
+        // sign up pass
+        passwordValidationPass = isValid;
     }
 
     private (bool, string) ValidatePassWordFormat(string pw)
@@ -259,12 +334,17 @@ public class AuthManager : MonoBehaviour
             return;
         }
 
+        bool isValid = pw.Equals(pw2);
+
         // Provide feedback to the user (you can modify this based on your UI requirements)
-        Color color = pw.Equals(pw2) ? Color.white : Color.red;
+        Color color = isValid ? Color.white : Color.red;
         color.a = activeInputField2.image.color.a; // Preserve input field's transparency
         activeInputField2.image.color = color;
 
         activeAlertText.text = pw.Equals(pw2) ? string.Empty : "Password not match!";
+
+        // sign up pass
+        passwordDoubleCheckValidationPass = isValid;
     }
 
     private void Login()
@@ -303,32 +383,40 @@ public class AuthManager : MonoBehaviour
         notificationText_Login.text = outText;
         
         Login_Co = null;
+
+        SceneManager.LoadScene(1);
     }
 
     private void Signup()
     {
         if (SignUp_Co == null)
         {
-            SignUp_Co = Register(emailInputField_SignUp.text,
+            SignUp_Co = Register(emailInputField_SignUp.text, usernameInputField_SignUp.text,
                 passwordInputField_SignUp.text, passwordDoubleCheckField.text);
             StartCoroutine(SignUp_Co);
         }
     }
 
-    private IEnumerator Register(string email, string password, string confirmPassword)
+    private IEnumerator Register(string email, string userName, string password, string confirmPassword)
     {
 
-        if (email == "")
+        if (!emailValidationPass)
         {
-            notificationText_SignUp.text = "email field is empty";
-            Debug.LogError("email field is empty");
+            notificationText_SignUp.text = "Email field is empty";
+            Debug.LogError("Email field is empty");
         }
-        else if (password != confirmPassword)
+        else if (!userNameValidationPass)
         {
-            passwordDoubleCheckAlertText_SignUp.text = "Passwords are not equal";
-            Color color = Color.red;
-            color.a = passwordDoubleCheckField.image.color.a; // Preserve input field's transparency
-            passwordDoubleCheckField.image.color = color;
+            notificationText_SignUp.text = "User name format invalid";
+            Debug.LogError("User name format invalid");
+        }
+        else if (!passwordValidationPass)
+        {
+            notificationText_SignUp.text = "Password format invalid";
+            Debug.LogError("Password format invalid");
+        }
+        else if (! passwordDoubleCheckValidationPass)
+        {
             notificationText_SignUp.text = "Password does not match";
             Debug.LogError("Password does not match");
         }
@@ -374,8 +462,7 @@ public class AuthManager : MonoBehaviour
                 // Get The User After Registration Success
                 user = registerTask.Result.User;
 
-                UserProfile userProfile = new UserProfile { DisplayName = email };
-
+                UserProfile userProfile = new UserProfile { DisplayName = userName };
                 var updateProfileTask = user.UpdateUserProfileAsync(userProfile);
 
                 yield return new WaitUntil(() => updateProfileTask.IsCompleted);
@@ -423,6 +510,8 @@ public class AuthManager : MonoBehaviour
         }
 
         SignUp_Co = null;
+
+        SceneManager.LoadScene(1);
     }
 
     private void SignOut()

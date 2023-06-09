@@ -20,14 +20,12 @@ public class Networking_GameSettings : MonoBehaviour
     // public fields
     public string gameVersion;
     public string playerName;
+    public int loginSceneIndex;
     public int menuSceneIndex;
     public int gameSceneIndex;
     public int resultSceneIndex;
     public int sendRate;
     public int serializationRate;
-
-    // private fields
-    [SerializeField] private Text inputNameTextUI;
     #endregion
 
 
@@ -38,17 +36,6 @@ public class Networking_GameSettings : MonoBehaviour
     private void Awake()
     {
         singleton = this;
-    }
-    #endregion
-
-
-    #region Custom Functions
-    /// <summary>
-    /// Function for setting the player name
-    /// </summary>
-    public void SetPlayerName()
-    {
-        playerName = inputNameTextUI.text;
     }
     #endregion
 }
