@@ -10682,7 +10682,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 23.299988}
+  m_AnchoredPosition: {x: 0, y: 23.299927}
   m_SizeDelta: {x: 0, y: 113.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &359156758
@@ -18786,6 +18786,8 @@ MonoBehaviour:
   userId: 
   userName: 
   selectedCharacter: -1
+  gold: 0
+  gem: 0
   equippedEmojis: 
   unlockedEmojis: 
   unlockedCharacters: 
@@ -24411,6 +24413,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a00ae434d46070b48b40551782d005bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gold: 0
+  _gem: 0
   _playerCharacterIndex: 0
   _playerCharacterSkinIndex: 0
   _playerIconIndex: 0
@@ -29660,6 +29664,7 @@ GameObject:
   - component: {fileID: 1065110218}
   - component: {fileID: 1065110220}
   - component: {fileID: 1065110219}
+  - component: {fileID: 1065110221}
   m_Layer: 5
   m_Name: Gold
   m_TagString: Untagged
@@ -29726,6 +29731,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1065110217}
   m_CullTransparentMesh: 1
+--- !u!114 &1065110221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1065110217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ca7b68e9a91d7e44a4d77cf7efeec9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goldText: {fileID: 461849745}
 --- !u!1 &1065345751
 GameObject:
   m_ObjectHideFlags: 0
@@ -36492,7 +36510,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 43.4, y: 29.700073}
+  m_AnchoredPosition: {x: 43.399902, y: 29.700073}
   m_SizeDelta: {x: 55.4, y: 55.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1334079997
@@ -39118,7 +39136,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 43.4, y: 29.700073}
+  m_AnchoredPosition: {x: 43.399902, y: 29.700073}
   m_SizeDelta: {x: 55.4, y: 55.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1419529300
@@ -42797,7 +42815,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -81.1, y: -28.6}
+  m_AnchoredPosition: {x: -81.1001, y: -28.6}
   m_SizeDelta: {x: 55.4, y: 58.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1542265341
@@ -54773,6 +54791,7 @@ GameObject:
   - component: {fileID: 1964566545}
   - component: {fileID: 1964566547}
   - component: {fileID: 1964566546}
+  - component: {fileID: 1964566548}
   m_Layer: 5
   m_Name: Gems
   m_TagString: Untagged
@@ -54839,6 +54858,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1964566544}
   m_CullTransparentMesh: 1
+--- !u!114 &1964566548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1964566544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41b451ead0492ad4d96ce5438cdfd295, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gemText: {fileID: 283125887}
 --- !u!1 &1966614071
 GameObject:
   m_ObjectHideFlags: 0

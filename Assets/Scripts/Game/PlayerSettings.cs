@@ -21,6 +21,34 @@ public class PlayerSettings : MonoBehaviour
     // private fields
     private ExitGames.Client.Photon.Hashtable _playerCustomProperties = new ExitGames.Client.Photon.Hashtable();
 
+    [SerializeField] private long _gold;
+    public long Gold
+    {
+        get
+        {
+            return _gold;
+        }
+        set
+        {
+            _gold = value;
+            UpdateCustomProperty();
+        }
+    }
+
+    [SerializeField] private long _gem;
+    public long Gem
+    {
+        get
+        {
+            return _gem;
+        }
+        set
+        {
+            _gem = value;
+            UpdateCustomProperty();
+        }
+    }
+
     [SerializeField] private int _playerCharacterIndex; 
     public int PlayerCharacterIndex
     { 

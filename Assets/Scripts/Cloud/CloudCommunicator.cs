@@ -15,6 +15,8 @@ public class CloudCommunicator : MonoBehaviour
     public string userId;
     public string userName;
     public int selectedCharacter = -1;
+    public long gold;
+    public long gem;
     public List<int> equippedEmojis;
     public List<bool> unlockedEmojis;
     public List<int> unlockedCharacters;
@@ -95,6 +97,8 @@ public class CloudCommunicator : MonoBehaviour
         // Create a new document
         Dictionary<string, object> data = new Dictionary<string, object>()
             {
+                { "Currency_Gold", 0 },
+                { "Currency_Gem", 0 },
                 { "EquippedEmojis", new List<int>{ -1, -1, -1, -1 } },
                 { "PlayerSettings", new List<string>() },
                 { "SelectedCharacter", 1 },
@@ -116,14 +120,24 @@ public class CloudCommunicator : MonoBehaviour
         Dictionary<string, object> data = snapshot.ToDictionary();
 
         // Access the values from the data dictionary
-        if (data.TryGetValue("SelectedCharacter", out object value1))
+        if (data.TryGetValue("Currency_Gold", out object value_Gold))
         {
-            selectedCharacter = Convert.ToInt32(value1);
+            gold = Convert.ToInt64(value_Gold);
         }
 
-        if (data.TryGetValue("EquippedEmojis", out object value2))
+        if (data.TryGetValue("Currency_Gem", out object value_Gem))
         {
-            List<object> list = (List<object>)value2;
+            gem = Convert.ToInt64(value_Gem);
+        }
+
+        if (data.TryGetValue("SelectedCharacter", out object value_SelectedCharacter))
+        {
+            selectedCharacter = Convert.ToInt32(value_SelectedCharacter);
+        }
+
+        if (data.TryGetValue("EquippedEmojis", out object value_EquippedEmojis))
+        {
+            List<object> list = (List<object>)value_EquippedEmojis;
 
             if (list != null)
             {
@@ -140,9 +154,9 @@ public class CloudCommunicator : MonoBehaviour
             }
         }
 
-        if (data.TryGetValue("UnlockedEmojis", out object value3))
+        if (data.TryGetValue("UnlockedEmojis", out object value_UnlockedEmojis))
         {
-            List<object> list = (List<object>)value3;
+            List<object> list = (List<object>)value_UnlockedEmojis;
 
             if (list != null)
             {
@@ -159,9 +173,9 @@ public class CloudCommunicator : MonoBehaviour
             }
         }
 
-        if (data.TryGetValue("UnlockedEmojis", out object value4))
+        if (data.TryGetValue("UnlockedCharacters", out object value_UnlockedCharacters))
         {
-            List<object> list = (List<object>)value4;
+            List<object> list = (List<object>)value_UnlockedCharacters;
 
             if (list != null)
             {
@@ -200,5 +214,20 @@ public class CloudCommunicator : MonoBehaviour
         await docRef.UpdateAsync(data);
 
         Debug.Log("Data point updated in the document!");
+    }
+
+    public void SyncDataAndSignOut()
+    {
+        // Perform the necessary data synchronization before signing out
+        SyncPlayerCustomDataToCloud("Currency_Gold", PlayerSettings.singleton.Gold);
+        SyncPlayerCustomDataToCloud("Currency_Gem", PlayerSettings.singleton.Gem);
+        SyncPlayerCustomDataToCloud("SelectedCharacter", PlayerSettings.singleton.PlayerCharacterIndex);
+        SyncPlayerCustomDataToCloud("EquippedEmojis", PlayerSettings.singleton.PlayerSocialIndexList);
+
+        // Sign out the user from Firebase
+        FirebaseAuth.DefaultInstance.SignOut();
+
+        // Perform any additional cleanup or tasks
+        // ...
     }
 }
