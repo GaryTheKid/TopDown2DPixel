@@ -580,6 +580,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         Game_Network.NightToDay(PV);
 
+        // play day bgm
+        BGMManager.singleton.PlayDaytimeSoundtrack();
+
         // update all players' vision
         foreach (Transform player in spawnedPlayerParent)
         {
@@ -590,6 +593,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void DayToNight()
     {
         Game_Network.DayToNight(PV);
+
+        // play day bgm
+        BGMManager.singleton.PlayNighttimeSoundtrack();
 
         // update all players' vision
         foreach (Transform player in spawnedPlayerParent)

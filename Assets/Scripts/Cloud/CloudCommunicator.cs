@@ -193,6 +193,8 @@ public class CloudCommunicator : MonoBehaviour
         }
         
         hasDataSynced = true;
+
+        SyncDataToLocal();
     }
 
     public void SyncPlayerCustomDataToCloud(string fieldName, object value)
@@ -216,13 +218,32 @@ public class CloudCommunicator : MonoBehaviour
         Debug.Log("Data point updated in the document!");
     }
 
-    public void SyncDataAndSignOut()
+    private void SyncDataToCloud()
     {
-        // Perform the necessary data synchronization before signing out
         SyncPlayerCustomDataToCloud("Currency_Gold", PlayerSettings.singleton.Gold);
         SyncPlayerCustomDataToCloud("Currency_Gem", PlayerSettings.singleton.Gem);
         SyncPlayerCustomDataToCloud("SelectedCharacter", PlayerSettings.singleton.PlayerCharacterIndex);
         SyncPlayerCustomDataToCloud("EquippedEmojis", PlayerSettings.singleton.PlayerSocialIndexList);
+    }
+
+    private void SyncDataToLocal()
+    {
+        PlayerSettings.singleton.Gold = gold;
+        PlayerSettings.singleton.Gem = gem;
+        PlayerSettings.singleton.PlayerCharacterIndex = selectedCharacter;
+
+        int[] socialList = new int[equippedEmojis.Count];
+        for (int i = 0; i < equippedEmojis.Count; i++)
+        {
+            socialList[i] = equippedEmojis[i];
+        }
+        PlayerSettings.singleton.PlayerSocialIndexList = socialList;
+    }
+
+    public void SyncDataAndSignOut()
+    {
+        // Perform the necessary data synchronization before signing out
+        SyncDataToCloud();
 
         // Sign out the user from Firebase
         FirebaseAuth.DefaultInstance.SignOut();
