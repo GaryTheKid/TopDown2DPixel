@@ -211,7 +211,17 @@ public class UI_SocialView : MonoBehaviour
     private void SetPlayerData()
     {
         PlayerSettings.singleton.PlayerSocialIndexList = _socialInteractionEquipmentWheel.GetSlotOptionList();
-        CloudCommunicator.singleton.SyncPlayerCustomDataToCloud("EquippedEmojis", PlayerSettings.singleton.PlayerSocialIndexList);
+        CloudCommunicator.singleton.SyncPlayerCustomDataToCloud("EquippedEmojis", PlayerSettings.singleton.PlayerSocialIndexList, (bool isSuccessful) =>
+        {
+            if (isSuccessful)
+            {
+                Debug.Log("Emoji list sync to cloud successfully");
+            }
+            else
+            {
+                CloudCommunicator.singleton.PopCloudConnectionFailUI();
+            }
+        });
     }
 
     private void DisableSelectedOptionInteraction(int index)

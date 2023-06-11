@@ -1,15 +1,24 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Firebase.Auth;
 using Firebase.Firestore;
 using System;
+using TMPro;
 
 public class CloudCommunicator : MonoBehaviour
 {
     // singleton
     public static CloudCommunicator singleton;
 
-    // public fields
+    // fields
+    [SerializeField] private GameObject loadingFeedUIScreen;
+    [SerializeField] private GameObject fadeInTransitionUI;
+    [SerializeField] private Text loadingStateText;
+    [SerializeField] private Image loadingProgress;
+    [SerializeField] private TextMeshProUGUI percentageText;
+
     public float singleRequestSyncCD = 0.5f;
     public bool hasDataSynced;
     public string userId;
@@ -21,12 +30,22 @@ public class CloudCommunicator : MonoBehaviour
     public List<bool> unlockedEmojis;
     public List<int> unlockedCharacters;
 
-    // private fields
     private FirebaseAuth auth;
     private FirebaseFirestore db;
+    private Coroutine loadingCoroutine;
 
     private void Awake()
     {
+        if (singleton == null)
+        {
+            loadingFeedUIScreen.SetActive(true);
+        }
+        else
+        {
+            loadingFeedUIScreen.SetActive(false);
+            fadeInTransitionUI.SetActive(true);
+        }
+
         if (singleton != null && singleton != this)
         {
             Destroy(singleton.gameObject);
@@ -44,8 +63,57 @@ public class CloudCommunicator : MonoBehaviour
         CheckLoginStatus();
     }
 
+    private void UpdateLoadingProgress(string loadingState, float targetProgress)
+    {
+        // Stop any previous coroutines if they are running
+        if (loadingCoroutine != null)
+        {
+            StopCoroutine(loadingCoroutine);
+        }
+
+        // Start a new coroutine to smoothly transition the progress
+        loadingCoroutine = StartCoroutine(TransitionProgress(loadingState, targetProgress));
+    }
+
+    private IEnumerator TransitionProgress(string loadingState, float targetProgress)
+    {
+        // Store the initial values
+        float initialProgress = loadingProgress.fillAmount;
+        int initialPercentage = Mathf.FloorToInt(initialProgress * 100f);
+
+        // Set the loading state text immediately
+        loadingStateText.text = loadingState;
+
+        // Gradually update the progress and percentage text
+        float elapsedTime = 0f;
+        float duration = 1f; // The duration for the transition (in seconds)
+
+        while (elapsedTime < duration)
+        {
+            // Calculate the current progress and percentage
+            float currentProgress = Mathf.Lerp(initialProgress, targetProgress, elapsedTime / duration);
+            int currentPercentage = Mathf.FloorToInt(currentProgress * 100f);
+
+            // Update the loading progress and percentage text
+            loadingProgress.fillAmount = currentProgress;
+            percentageText.text = currentPercentage.ToString() + "%";
+
+            // Wait for the next frame
+            yield return null;
+
+            // Update the elapsed time
+            elapsedTime += Time.deltaTime;
+        }
+
+        // Ensure the final values are set
+        loadingProgress.fillAmount = targetProgress;
+        percentageText.text = Mathf.FloorToInt(targetProgress * 100f).ToString() + "%";
+    }
+
     private void CheckLoginStatus()
     {
+        UpdateLoadingProgress("Connecting...", 0);
+
         if (auth.CurrentUser != null)
         {
             // Access Firestore data
@@ -74,20 +142,44 @@ public class CloudCommunicator : MonoBehaviour
         {
             Debug.Log("Document exists!");
 
-            TryGetDataFromCloud(snapshot);
+            TryGetDataFromCloud(snapshot, (bool isSuccessful) =>
+            {
+                if (isSuccessful)
+                {
+                    // TODO: disable the feed UI screen (loading screen => 100%)
+                    loadingFeedUIScreen.SetActive(false);
+                    fadeInTransitionUI.SetActive(true);
+                    Debug.Log("Data sync from cloud successful!");
+
+                    UpdateLoadingProgress("Retrieving Player Data...", 100);
+                }
+                else
+                {
+                    // pop the fail UI
+                    PopCloudConnectionFailUI();
+                    Debug.Log("Data sync from cloud failed!");
+                }
+            });
         }
         else
         {
             Debug.Log("Document does not exist. Creating a new one...");
 
-            CreateNewPlayerDocument(docRef, snapshot);
+            CreateNewPlayerDocument(docRef, snapshot, (bool isSyncSuccessful) => { Debug.Log("Create new player document on cloud:" + isSyncSuccessful); });
 
             Debug.Log("New document created!");
+
+
+            // TODO: enable tutorial
+
+
         }
     }
 
-    private async void CreateNewPlayerDocument(DocumentReference docRef, DocumentSnapshot snapshot)
+    private async void CreateNewPlayerDocument(DocumentReference docRef, DocumentSnapshot snapshot, Action<bool> callback)
     {
+        UpdateLoadingProgress("Creating Profile...", 20);
+
         List<bool> unlockedEmojis = new List<bool>();
         for (int i = 0; i < PlayerAssets.singleton.SocialInteractionList.Count; i++)
         {
@@ -96,27 +188,65 @@ public class CloudCommunicator : MonoBehaviour
 
         // Create a new document
         Dictionary<string, object> data = new Dictionary<string, object>()
-            {
-                { "Currency_Gold", 0 },
-                { "Currency_Gem", 0 },
-                { "EquippedEmojis", new List<int>{ -1, -1, -1, -1 } },
-                { "PlayerSettings", new List<string>() },
-                { "SelectedCharacter", 1 },
-                { "UnlockedCharacters", new List<int>(){ 0, 1 } },
-                { "UnlockedEmojis", unlockedEmojis },
-                // TODO: Add more fields as needed
-            };
+        {
+            { "Currency_Gold", 0 },
+            { "Currency_Gem", 0 },
+            { "EquippedEmojis", new List<int>{ -1, -1, -1, -1 } },
+            { "PlayerSettings", new List<string>() },
+            { "SelectedCharacter", 1 },
+            { "UnlockedCharacters", new List<int>(){ 0, 1 } },
+            { "UnlockedEmojis", unlockedEmojis },
+            // TODO: Add more fields as needed
+        };
+
+        UpdateLoadingProgress("Creating Profile...", 30);
 
         // Set the data for the new document
-        await docRef.SetAsync(data);
+        // Update the specific field in the document
+        try
+        {
+            await docRef.SetAsync(data);
+            Debug.Log("Update operation completed successfully");
+
+            // Invoke the callback with a true value to indicate success
+            callback?.Invoke(true);
+
+            UpdateLoadingProgress("Creating Profile...", 50);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Update operation failed: " + e.Message);
+
+            // Invoke the callback with a false value to indicate failure
+            callback?.Invoke(false);
+        }
 
         // sync data to local
-        TryGetDataFromCloud(snapshot);
+        TryGetDataFromCloud(snapshot, (bool isSuccessful) => 
+        {
+            if (isSuccessful)
+            {
+                // TODO: disable the feed UI screen (loading screen => 100%)
+                loadingFeedUIScreen.SetActive(false);
+                fadeInTransitionUI.SetActive(true);
+                Debug.Log("Data sync from cloud successful!");
+
+                UpdateLoadingProgress("Retrieving Player Data...", 100);
+            }
+            else
+            {
+                // pop the fail UI
+                PopCloudConnectionFailUI();
+                Debug.Log("Data sync from cloud failed!");
+            }
+        });
     }
 
-    public void TryGetDataFromCloud(DocumentSnapshot snapshot)
+    public void TryGetDataFromCloud(DocumentSnapshot snapshot, Action<bool> OnGetDataFromCloudCallback)
     {
-        // TODO: sync player's custom settings from the database
+        UpdateLoadingProgress("Retrieving Player Data...", 70);
+
+        // sync player's custom settings from the database
         Dictionary<string, object> data = snapshot.ToDictionary();
 
         // Access the values from the data dictionary
@@ -124,15 +254,36 @@ public class CloudCommunicator : MonoBehaviour
         {
             gold = Convert.ToInt64(value_Gold);
         }
+        else
+        {
+            Debug.LogError("Try get UnlockedCharacters failed!");
+            PopCloudConnectionFailUI();
+            OnGetDataFromCloudCallback?.Invoke(false);
+            return;
+        }
 
         if (data.TryGetValue("Currency_Gem", out object value_Gem))
         {
             gem = Convert.ToInt64(value_Gem);
         }
+        else
+        {
+            Debug.LogError("Try get UnlockedCharacters failed!");
+            PopCloudConnectionFailUI();
+            OnGetDataFromCloudCallback?.Invoke(false);
+            return;
+        }
 
         if (data.TryGetValue("SelectedCharacter", out object value_SelectedCharacter))
         {
             selectedCharacter = Convert.ToInt32(value_SelectedCharacter);
+        }
+        else
+        {
+            Debug.LogError("Try get UnlockedCharacters failed!");
+            PopCloudConnectionFailUI();
+            OnGetDataFromCloudCallback?.Invoke(false);
+            return;
         }
 
         if (data.TryGetValue("EquippedEmojis", out object value_EquippedEmojis))
@@ -148,10 +299,13 @@ public class CloudCommunicator : MonoBehaviour
                 }
                 equippedEmojis = vals;
             }
-            else
-            {
-                Debug.LogError("Try get EquippedEmojis failed!");
-            }
+        }
+        else
+        {
+            Debug.LogError("Try get UnlockedCharacters failed!");
+            PopCloudConnectionFailUI();
+            OnGetDataFromCloudCallback?.Invoke(false);
+            return;
         }
 
         if (data.TryGetValue("UnlockedEmojis", out object value_UnlockedEmojis))
@@ -167,10 +321,13 @@ public class CloudCommunicator : MonoBehaviour
                 }
                 unlockedEmojis = vals;
             }
-            else
-            {
-                Debug.LogError("Try get UnlockedEmojis failed!");
-            }
+        }
+        else
+        {
+            Debug.LogError("Try get UnlockedEmojis failed!");
+            PopCloudConnectionFailUI();
+            OnGetDataFromCloudCallback?.Invoke(false);
+            return;
         }
 
         if (data.TryGetValue("UnlockedCharacters", out object value_UnlockedCharacters))
@@ -186,23 +343,28 @@ public class CloudCommunicator : MonoBehaviour
                 }
                 unlockedCharacters = vals;
             }
-            else
-            {
-                Debug.LogError("Try get UnlockedCharacters failed!");
-            }
         }
-        
+        else
+        {
+            Debug.LogError("Try get UnlockedCharacters failed!");
+            PopCloudConnectionFailUI();
+            OnGetDataFromCloudCallback?.Invoke(false);
+            return;
+        }
+
         hasDataSynced = true;
 
         SyncDataToLocal();
+
+        OnGetDataFromCloudCallback?.Invoke(true);
     }
 
-    public void SyncPlayerCustomDataToCloud(string fieldName, object value)
+    public void SyncPlayerCustomDataToCloud(string fieldName, object value, Action<bool> callback)
     {
-        SetDataPointInDocument("PlayersCustomData", userId, fieldName, value);
+        SetDataPointInDocument("PlayersCustomData", userId, fieldName, value, callback);
     }
 
-    private async void SetDataPointInDocument(string collectionName, string documentName, string fieldName, object value)
+    private async void SetDataPointInDocument(string collectionName, string documentName, string fieldName, object value, Action<bool> callback)
     {
         DocumentReference docRef = db.Collection(collectionName).Document(documentName);
 
@@ -213,17 +375,31 @@ public class CloudCommunicator : MonoBehaviour
         };
 
         // Update the specific field in the document
-        await docRef.UpdateAsync(data);
+        try
+        {
+            await docRef.UpdateAsync(data);
+            Debug.Log("Update operation completed successfully");
+
+            // Invoke the callback with a true value to indicate success
+            callback?.Invoke(true);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Update operation failed: " + e.Message);
+
+            // Invoke the callback with a false value to indicate failure
+            callback?.Invoke(false);
+        }
 
         Debug.Log("Data point updated in the document!");
     }
 
     private void SyncDataToCloud()
     {
-        SyncPlayerCustomDataToCloud("Currency_Gold", PlayerSettings.singleton.Gold);
-        SyncPlayerCustomDataToCloud("Currency_Gem", PlayerSettings.singleton.Gem);
-        SyncPlayerCustomDataToCloud("SelectedCharacter", PlayerSettings.singleton.PlayerCharacterIndex);
-        SyncPlayerCustomDataToCloud("EquippedEmojis", PlayerSettings.singleton.PlayerSocialIndexList);
+        SyncPlayerCustomDataToCloud("Currency_Gold", PlayerSettings.singleton.Gold, (bool isSyncSuccessful) => { Debug.Log("sync gold to cloud:" + isSyncSuccessful); });
+        SyncPlayerCustomDataToCloud("Currency_Gem", PlayerSettings.singleton.Gem, (bool isSyncSuccessful) => { Debug.Log("Update gem to cloud:" + isSyncSuccessful); });
+        SyncPlayerCustomDataToCloud("SelectedCharacter", PlayerSettings.singleton.PlayerCharacterIndex, (bool isSyncSuccessful) => { Debug.Log("Update character index to cloud:" + isSyncSuccessful); });
+        SyncPlayerCustomDataToCloud("EquippedEmojis", PlayerSettings.singleton.PlayerSocialIndexList, (bool isSyncSuccessful) => { Debug.Log("Update emoji list to cloud:" + isSyncSuccessful); });
     }
 
     private void SyncDataToLocal()
@@ -250,5 +426,12 @@ public class CloudCommunicator : MonoBehaviour
 
         // Perform any additional cleanup or tasks
         // ...
+    }
+
+    public void PopCloudConnectionFailUI()
+    {
+        Debug.LogError("Transaction fails...Check internet!");
+
+        // TODO: prompt re-connection
     }
 }

@@ -171,6 +171,16 @@ public class UI_CharacterSelectionList : MonoBehaviour
     private void SetPlayerData()
     {
         PlayerSettings.singleton.PlayerCharacterIndex = currentCharacterIndex;
-        CloudCommunicator.singleton.SyncPlayerCustomDataToCloud("SelectedCharacter", PlayerSettings.singleton.PlayerCharacterIndex);
+        CloudCommunicator.singleton.SyncPlayerCustomDataToCloud("SelectedCharacter", PlayerSettings.singleton.PlayerCharacterIndex, (bool isSuccessful) => 
+        {
+            if (isSuccessful)
+            {
+                Debug.Log("Cheracter sync to cloud successfully");
+            }
+            else
+            {
+                CloudCommunicator.singleton.PopCloudConnectionFailUI();
+            }
+        });
     }
 }
