@@ -44,6 +44,10 @@ public class PurchaseManager : MonoBehaviour
     //    |_________________________________________________Enable interaction UI___________|                                                                |
     //    |                                                                                                                                                  |
     //    |_________________________________________________________________________________________________Enable interaction UI____________________________|
+    //
+    //
+    //   POTENTIAL RISKS:
+    //   Pa
 
 
     public void GainGold(int newGold)

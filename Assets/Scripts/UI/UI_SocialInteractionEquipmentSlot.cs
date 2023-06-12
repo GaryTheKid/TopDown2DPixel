@@ -15,7 +15,7 @@ public class UI_SocialInteractionEquipmentSlot : MonoBehaviour
     public void Equip(int index)
     {
         // check if index valid
-        if (index <= 0)
+        if (index < 0)
         {
             Unequip();
             return;

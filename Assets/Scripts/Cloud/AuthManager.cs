@@ -63,7 +63,7 @@ public class AuthManager : MonoBehaviour
         auth = FirebaseAuth.DefaultInstance;
 
         // Add event listeners to buttons
-        loginButton.onClick.AddListener(Login);
+        loginButton.onClick.AddListener(LoginWithEmailAndPassword);
         createNewAccountButton.onClick.AddListener(GotoSignUpPage);
         signupButton.onClick.AddListener(Signup);
         backToLoginButton.onClick.AddListener(GotoLoginPage);
@@ -347,21 +347,22 @@ public class AuthManager : MonoBehaviour
         passwordDoubleCheckValidationPass = isValid;
     }
 
-    private void Login()
+    private void LoginWithEmailAndPassword()
     {
         if (Login_Co == null)
         {
-            Login_Co = LoggingIn();
+            Login_Co = LoggingIn_WithEmailAndPassword();
             StartCoroutine(Login_Co);
         }
     }
 
-    private IEnumerator LoggingIn()
+    private IEnumerator LoggingIn_WithEmailAndPassword()
     {
         string email = emailInputField_Login.text;
         string password = passwordInputField_Login.text;
 
         string outText = string.Empty;
+        bool isLoginSuccessful = false;
         var loginTask = auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(taskResult =>
         {
             if (taskResult.IsCanceled || taskResult.IsFaulted)
@@ -369,9 +370,11 @@ public class AuthManager : MonoBehaviour
                 FirebaseException firebaseException = taskResult.Exception.GetBaseException() as FirebaseException;
                 outText = "Failed to sign in with email and password: " + firebaseException;
                 Debug.LogError(outText);
+                isLoginSuccessful = false;
                 return;
             }
 
+            isLoginSuccessful = true;
             outText = "Login successfully.";
             Debug.Log(outText);
         });
@@ -381,10 +384,39 @@ public class AuthManager : MonoBehaviour
         yield return new WaitUntil(() => loginTask.IsCompleted);
 
         notificationText_Login.text = outText;
-        
-        Login_Co = null;
 
-        SceneManager.LoadScene(1);
+        if (isLoginSuccessful)
+        {
+            SceneManager.LoadScene(1);
+        }
+        else
+        {
+            Login_Co = null;
+            yield break;
+        }
+
+        Login_Co = null;
+    }
+
+    private void LoginWithGoogle()
+    {
+        if (Login_Co == null)
+        {
+            Login_Co = LoggingIn_WithGoogle();
+            StartCoroutine(Login_Co);
+        }
+    }
+
+    private IEnumerator LoggingIn_WithGoogle()
+    {
+        // TODO:
+        // 3，Import Google Unity SDK，并掌握SDK的API基本接口的用法.
+        // 4，成功在外部Google弹窗登录后， Get the Google ID token and access token,
+        // 并将其用于Firebase的Credential认证SignInWithCredentialAsync(googleAuthProvider)，其余步骤和正常Login的后续步骤完全一致.
+
+
+
+        yield return null;
     }
 
     private void Signup()
