@@ -49,10 +49,7 @@ public class PlayerMovementController : MonoBehaviour
             }
 
             _moveDir = _inputActions.Player.Move.ReadValue<Vector2>().normalized;
-
-            bool isIdle = _moveDir == Vector3.zero;
-
-            if (isIdle)
+            if (_moveDir == Vector3.zero)
             {
                 // Idle
                 if (_animator.GetBool("isMoving"))
