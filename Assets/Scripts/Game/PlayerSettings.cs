@@ -21,6 +21,9 @@ public class PlayerSettings : MonoBehaviour
     // private fields
     private ExitGames.Client.Photon.Hashtable _playerCustomProperties = new ExitGames.Client.Photon.Hashtable();
 
+
+
+    [Header("Player Data")]
     [SerializeField] private long _gold;
     public long Gold
     {
@@ -122,6 +125,14 @@ public class PlayerSettings : MonoBehaviour
         }
         singleton = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    /// <summary>
+    /// Init local settings
+    /// </summary>
+    private void Start()
+    {
+
     }
     #endregion
 
