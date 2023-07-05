@@ -49033,7 +49033,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 104.25, y: -250.5463}
+  m_AnchoredPosition: {x: 104.25, y: -268.28864}
   m_SizeDelta: {x: 208.5, y: 53.399994}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1579188488
@@ -50997,6 +50997,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ui_playerID: {fileID: 1234744088}
   _ui_score: {fileID: 924797088}
+  _ui_KDA: {fileID: 0}
   _ui_tagColor: {fileID: 122519100}
   _ui_pingTier: {fileID: 855829161}
   _actorNumber: 0
