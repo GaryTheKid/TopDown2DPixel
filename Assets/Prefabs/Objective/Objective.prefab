@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1224680776235439438}
   - component: {fileID: 3298803685377389278}
   - component: {fileID: 4411234872851595635}
+  - component: {fileID: 5897042952666510452}
   m_Layer: 26
   m_Name: MiniMapIndicator_Canvas
   m_TagString: Untagged
@@ -83,6 +84,23 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 1
+--- !u!114 &5897042952666510452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115205510509867031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &2395283630094609841
 GameObject:
   m_ObjectHideFlags: 0
@@ -831,6 +849,7 @@ GameObject:
   - component: {fileID: 7104747212826540031}
   - component: {fileID: 2267627170696143746}
   - component: {fileID: 3815551237341850141}
+  - component: {fileID: 392099041880973006}
   m_Layer: 0
   m_Name: World_Canvas
   m_TagString: Untagged
@@ -907,6 +926,23 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 1
+--- !u!114 &392099041880973006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8257552205352776901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &8258578327907487838
 GameObject:
   m_ObjectHideFlags: 0

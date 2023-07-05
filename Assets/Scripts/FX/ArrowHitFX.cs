@@ -27,12 +27,6 @@ public class ArrowHitFX : FXPlayer_Projectile
         SpriteAnchor.GetComponent<Animator>().enabled = true;
         GetComponentInParent<TrailRenderer>().enabled = false;
         var soundFX = GetComponentInChildren<AudioSource>();
-        SFXManager.singleton.Add(soundFX);
         soundFX.PlayOneShot(soundFX.clip);
-    }
-
-    private void OnDestroy()
-    {
-        SFXManager.singleton.Remove(GetComponentInChildren<AudioSource>());
     }
 }

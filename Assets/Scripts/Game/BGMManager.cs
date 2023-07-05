@@ -9,13 +9,12 @@ public class BGMManager : MonoBehaviour
 
     public List<AudioClip> daySoundtracks;
     public List<AudioClip> nightSoundtracks;
-    public float volumeModifier;
 
     private AudioSource audioPlayer;
 
     private void Awake()
     {
-        // Ensure only one instance of BGMManager exists
+        // Ensure only one instance of AudioManager exists
         if (singleton == null)
         {
             singleton = this;
@@ -81,13 +80,6 @@ public class BGMManager : MonoBehaviour
         PlaySoundtrack(soundtrack);
     }
 
-    // Set the volume modifier
-    public void SetVolumeModifier(float modifier)
-    {
-        volumeModifier = modifier;
-        audioPlayer.volume = 1f * volumeModifier;
-    }
-
     // Play a specific soundtrack
     private void PlaySoundtrack(AudioClip soundtrack)
     {
@@ -107,7 +99,7 @@ public class BGMManager : MonoBehaviour
             float elapsed = Time.time - startTime;
             float t = elapsed / transitionDuration;
 
-            audioPlayer.volume = Mathf.Lerp(startVolume, 0f, t) * volumeModifier;
+            audioPlayer.volume = Mathf.Lerp(startVolume, 0f, t);
 
             yield return null;
         }
@@ -125,12 +117,12 @@ public class BGMManager : MonoBehaviour
             float elapsed = Time.time - startTime;
             float t = elapsed / transitionDuration;
 
-            audioPlayer.volume = Mathf.Lerp(0f, 1f, t) * volumeModifier;
+            audioPlayer.volume = Mathf.Lerp(0f, 1f, t);
 
             yield return null;
         }
 
         // Ensure the volume is set to 1 at the end of the transition
-        audioPlayer.volume = 1f * volumeModifier;
+        audioPlayer.volume = 1f;
     }
 }

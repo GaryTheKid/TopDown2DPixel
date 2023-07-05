@@ -21,7 +21,6 @@ public class RainningFX : MonoBehaviour
     // private field
     private float timer;
     private ColorAdjustments colorAdjustments;
-    private float volumeModifier;
 
     // cache coroutine
     private IEnumerator _co_rainning;
@@ -59,12 +58,6 @@ public class RainningFX : MonoBehaviour
         StartCoroutine(_co_rainning);
     }
 
-    public void SetVolumeModifier(float modifier)
-    {
-        volumeModifier = modifier;
-        rainningSFX.volume = 1f * volumeModifier;
-    }
-
     private IEnumerator Co_StartRainning() 
     {
         // ref emission
@@ -83,7 +76,7 @@ public class RainningFX : MonoBehaviour
             var dt = Time.deltaTime;
             rainningEmission.rateOverTime = ratio * PARTICLE_RAINNING_RATE;
             rippleEmission.rateOverTime = ratio * PARTICLE_RIPPLE_RATE;
-            rainningSFX.volume = ratio * 1f * volumeModifier;
+            rainningSFX.volume = ratio * 1f;
             colorAdjustments.colorFilter.value = Color.Lerp(colorAdjustments.colorFilter.value, grey, dt);
             timer += dt;
             yield return new WaitForEndOfFrame();
@@ -103,7 +96,7 @@ public class RainningFX : MonoBehaviour
             var dt = Time.deltaTime;
             rainningEmission.rateOverTime = ratio * PARTICLE_RAINNING_RATE;
             rippleEmission.rateOverTime = ratio * PARTICLE_RIPPLE_RATE;
-            rainningSFX.volume = ratio * 1f * volumeModifier;
+            rainningSFX.volume = ratio * 1f;
             colorAdjustments.colorFilter.value = Color.Lerp(colorAdjustments.colorFilter.value, Color.white, dt);
             timer -= dt;
             yield return new WaitForEndOfFrame();

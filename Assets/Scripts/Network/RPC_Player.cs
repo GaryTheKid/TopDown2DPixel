@@ -43,15 +43,15 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_SpawnScoreboardTag(byte actorNumber)
+    void RPC_SpawnScoreboardTag(string playerID)
     {
-        GameManager.singleton.SpawnScoreboardTag(actorNumber);
+        GameManager.singleton.SpawnScoreboardTag(playerID);
     }
 
     [PunRPC]
-    void RPC_RemoveScoreboardTag(byte actorNumber)
+    void RPC_RemoveScoreboardTag(string playerID)
     {
-        GameManager.singleton.DestroyScoreBoardTag(actorNumber);
+        GameManager.singleton.DestroyScoreBoardTag(playerID);
     }
 
     [PunRPC]

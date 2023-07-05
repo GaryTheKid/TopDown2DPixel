@@ -564,34 +564,6 @@
                     "isPartOfComposite": false
                 }
             ]
-        },
-        {
-            "name": "Global",
-            "id": "34d30e34-65b9-4a1d-b206-24c2f0692300",
-            "actions": [
-                {
-                    "name": "SnapshotTabActivation",
-                    "type": "Button",
-                    "id": "66db9565-29f4-43de-b30e-9e788a9c5717",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "f3ab8da4-abd3-4c9d-b07b-7fd6b695cdbf",
-                    "path": "<Keyboard>/tab",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SnapshotTabActivation",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
         }
     ],
     "controlSchemes": []

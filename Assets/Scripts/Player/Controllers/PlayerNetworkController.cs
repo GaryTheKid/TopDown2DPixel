@@ -18,8 +18,6 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
     private PhotonView _PV;
     [SerializeField] private GameObject _playerCamera;
     [SerializeField] private GameObject _playerVCam;
-    [SerializeField] private GameObject _minimapCam;
-    [SerializeField] private GameObject _minimap;
     [SerializeField] private GameObject _audioListener;
     [SerializeField] private GameObject _ui_Canvas;
     [SerializeField] private GameObject _HitBox;
@@ -42,9 +40,6 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
     [SerializeField] private UnityEngine.Rendering.Universal.Light2D _characterLight;
     [SerializeField] private Transform[] _emojiAnchors;
     [SerializeField] private Transform[] _socialWheelMenuAnchors;
-    [SerializeField] private WindyFX _windyFX;
-    [SerializeField] private RainningFX _RainningFX;
-    [SerializeField] private AudioSource _sfx;
 
     private void Awake()
     {
@@ -63,25 +58,6 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
 
         // update name
         UpdatePlayerInfo();
-    }
-
-    private new void OnEnable()
-    {
-        SFXManager.singleton.Add(_sfx);
-        if (_PV.IsMine)
-        {
-            SFXManager.singleton.SetWeatherSFXs(_windyFX, _RainningFX);
-        }
-    }
-
-    private new void OnDisable()
-    {
-        SFXManager.singleton.Remove(_sfx);
-    }
-
-    private void OnDestroy()
-    {
-        SFXManager.singleton.Remove(_sfx);
     }
 
     public void UpdatePlayerInfo()
@@ -104,8 +80,6 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
             _rainingFX.SetActive(false);
             _playerCamera.SetActive(false);
             _playerVCam.SetActive(false);
-            _minimapCam.SetActive(false);
-            _minimap.SetActive(false);
             _ui_Canvas.SetActive(false);
             _ui_channeling.SetActive(false);
             _ui_CastText.SetActive(false);

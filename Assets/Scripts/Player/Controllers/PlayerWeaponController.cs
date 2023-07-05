@@ -120,7 +120,6 @@ public class PlayerWeaponController : MonoBehaviour
         weaponAnimator = weaponPrefab.GetComponent<Animator>();
         fireTransform = weaponPrefab.Find("FirePos");
         fireFX = weaponPrefab.Find("FireFX").GetComponent<AudioSource>();
-        SFXManager.singleton.Add(fireFX);
 
         // flip if rotate over 90 deg
         FilpWeapon(_aimAngle);
@@ -128,7 +127,6 @@ public class PlayerWeaponController : MonoBehaviour
 
     public void UnequipWeapon()
     {
-        if (fireFX != null) { SFXManager.singleton.Remove(fireFX); }
         weapon = null;
         weaponType = Item.ItemType.Null;
         weaponAnimator = null;
@@ -200,7 +198,6 @@ public class PlayerWeaponController : MonoBehaviour
         meleeIndicator.SetActive(true);
         weaponAnimator = bareHandsPrefab.GetComponent<Animator>();
         fireFX = weaponPrefab.Find("FireFX").GetComponent<AudioSource>();
-        SFXManager.singleton.Add(fireFX);
     }
 
     public void UnequipHands()
@@ -210,7 +207,6 @@ public class PlayerWeaponController : MonoBehaviour
         weapon = null;
         weaponType = Item.ItemType.Null;
         weaponAnimator = null;
-        SFXManager.singleton.Remove(fireFX);
         fireFX = null;
     }
 
@@ -252,8 +248,8 @@ public class PlayerWeaponController : MonoBehaviour
             return;
 
 #if UNITY_EDITOR_WIN
-        if (EventSystem.current.IsPointerOverGameObject())
-            return;
+        /*if (EventSystem.current.IsPointerOverGameObject())
+            return;*/
 #endif
 
         if (_playerInventoryController.IsUsingUI)

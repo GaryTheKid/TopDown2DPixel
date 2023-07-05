@@ -175,7 +175,7 @@ public class UI_CharacterSelectionList : MonoBehaviour
         {
             if (isSuccessful)
             {
-                Debug.Log("Character sync to cloud successfully");
+                Debug.Log("Cheracter sync to cloud successfully");
             }
             else
             {

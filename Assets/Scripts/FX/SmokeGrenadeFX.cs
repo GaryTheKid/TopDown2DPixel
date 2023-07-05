@@ -34,7 +34,6 @@ public class SmokeGrenadeFX : FXPlayer_Projectile
 
         // play sound fx
         var soundFX = GetComponentInChildren<AudioSource>();
-        SFXManager.singleton.Add(soundFX);
         soundFX.PlayOneShot(soundFX.clip);
 
         // activate smoke particle
@@ -44,7 +43,6 @@ public class SmokeGrenadeFX : FXPlayer_Projectile
         yield return new WaitForSecondsRealtime(smoke.main.duration + smoke.main.startLifetimeMultiplier);
 
         // clear
-        SFXManager.singleton.Remove(soundFX);
         Destroy(parent.gameObject);        
     }
 

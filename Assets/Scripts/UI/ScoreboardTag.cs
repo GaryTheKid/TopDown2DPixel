@@ -5,29 +5,10 @@ using UnityEngine.UI;
 
 public class ScoreboardTag : MonoBehaviour
 {
-    // UI
     [SerializeField] private Text _ui_playerID;
     [SerializeField] private Text _ui_score;
-    [SerializeField] private Text _ui_KDA;
-    [SerializeField] private Image _ui_tagColor;
-    [SerializeField] private UI_PingTier _ui_pingTier;
 
-    [SerializeField] private int _actorNumber;
-    [SerializeField] private Color myColor;
-    [SerializeField] private Color allyColor;
-    [SerializeField] private Color EnemyColor;
-    
     private int score;
-
-    public int GetActorNumber()
-    {
-        return _actorNumber;
-    }
-
-    public void SetActorNumber(int actorNumber)
-    {
-        _actorNumber = actorNumber;
-    }
 
     public string GetID()
     {
@@ -37,32 +18,6 @@ public class ScoreboardTag : MonoBehaviour
     public void SetID(string ID)
     {
         _ui_playerID.text = ID;
-    }
-
-    public void SetTagColor(byte index) // 0: me, 1: ally, 2: enemy
-    {
-        switch (index)
-        {
-            case 0:
-                _ui_tagColor.color = myColor;
-                break;
-            case 1:
-                _ui_tagColor.color = allyColor;
-                break;
-            case 2:
-                _ui_tagColor.color = EnemyColor;
-                break;
-        }
-    }
-
-    public void SetPingTier(byte tier)
-    {
-        _ui_pingTier.SetPingTier(tier);
-    }
-
-    public void SetKDA(byte kill, byte death)
-    {
-        _ui_KDA.text = string.Format("{0}/{1}", kill, death);
     }
 
     public void AddScore(int score)

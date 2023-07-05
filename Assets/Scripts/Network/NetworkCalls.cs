@@ -25,11 +25,6 @@ namespace NetworkCalls
             PV.RPC("RPC_UpdatePlayerInfo", RpcTarget.AllBuffered, viewID, name);
         }
 
-        public static void UpdatePlayerPingTier(PhotonView PV, byte playerActorNumber, byte pingTier)
-        {
-            PV.RPC("RPC_UpdatePlayerPingTier", RpcTarget.AllBuffered, playerActorNumber, pingTier);
-        }
-
         public static void SpawnLootBox(PhotonView PV, int requestedLootBoxIndex, Vector2 pos)
         {
             PV.RPC("RPC_SpawnLootBox", RpcTarget.AllBuffered, requestedLootBoxIndex, pos);
@@ -451,19 +446,19 @@ namespace NetworkCalls
 
     public class Player_NetWork
     {
-        public static void SpawnScoreboardTag(PhotonView PV, byte playerActorNumber)
+        public static void SpawnScoreboardTag(PhotonView PV, string playerID)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_SpawnScoreboardTag", RpcTarget.AllBuffered, playerActorNumber);
+                PV.RPC("RPC_SpawnScoreboardTag", RpcTarget.AllBuffered, playerID);
             }
         }
 
-        public static void RemoveScoreboardTag(PhotonView PV, byte playerActorNumber)
+        public static void RemoveScoreboardTag(PhotonView PV, string playerID)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_RemoveScoreboardTag", RpcTarget.AllBuffered, playerActorNumber);
+                PV.RPC("RPC_RemoveScoreboardTag", RpcTarget.AllBuffered, playerID);
             }
         }
         public static void DropItem(PhotonView PV, Vector2 dropPos, short itemID, short amount, short durability)

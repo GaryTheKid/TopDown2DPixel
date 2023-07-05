@@ -16,9 +16,6 @@ public class AIEffectController : MonoBehaviour
     [SerializeField] private GameObject _popTextTemplate;
     [SerializeField] private MMF_Player mmf_hp;
     [SerializeField] private GameObject _minimapIndicator;
-
-    public AudioSource sfx;
-
     private Animator _avatarAnimator;
     private GameObject _ring;
     private GameObject _shadow;

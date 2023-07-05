@@ -77,8 +77,6 @@ MonoBehaviour:
   explosiveSize_x: 0
   explosiveSize_y: 0
   attackerPV: {fileID: 0}
-  flyingSFX: {fileID: 9090516470036164262}
-  explosionSFX: {fileID: 3217656209107898422}
 --- !u!1 &1016184630161772923
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,7 +198,7 @@ GameObject:
   - component: {fileID: 6244173135394433306}
   - component: {fileID: 3217656209107898422}
   m_Layer: 24
-  m_Name: ExplosionSoundFX
+  m_Name: explosionSoundFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

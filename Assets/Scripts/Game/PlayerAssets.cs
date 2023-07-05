@@ -41,10 +41,5 @@ public class PlayerAssets : MonoBehaviour
         singleton = this;
         DontDestroyOnLoad(gameObject);
     }
-
-    private void Start()
-    {
-        
-    }
     #endregion
 }

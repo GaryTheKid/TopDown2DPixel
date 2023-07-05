@@ -12,7 +12,6 @@ public class DeployableObject_World : MonoBehaviour
     [SerializeField] private SpriteRenderer[] _visuals;
     [SerializeField] private DeployableFX _deplpyableFX;
     [SerializeField] private Light2D _pointLight;
-    [SerializeField] private AudioSource _sfx;
     private Color[] _initColors;
 
     private PhotonView _PV;
@@ -151,8 +150,8 @@ public class DeployableObject_World : MonoBehaviour
         ShowDeactivateVisual();
         TurnOffActivationLight();
         // inform object pool
-        ObjectPool.objectPool.isAllDeployableObjesActive = false;
-        SFXManager.singleton.Remove(_sfx);
+        ObjectPool.objectPool.isAllLootBoxActive = false;
+
         gameObject.SetActive(false);
     }
 
@@ -170,7 +169,7 @@ public class DeployableObject_World : MonoBehaviour
     IEnumerator Co_Activate()
     {
         yield return new WaitForSecondsRealtime(_deployableObject.activationTime);
-        SFXManager.singleton.Add(_sfx);
+
         _deplpyableFX.FireFX();
     }
 }

@@ -42,26 +42,11 @@ public class RPC_GameManager : MonoBehaviour
     void RPC_UpdatePlayerInfo(int viewID, string name)
     {
         Transform player = PhotonView.Find(viewID).transform;
-        byte playerActorNumber = (byte)PhotonView.Find(viewID).OwnerActorNr;
         player.name = name;
         player.transform.parent = GameManager.singleton.spawnedPlayerParent;
         player.GetComponent<PlayerNetworkController>().playerID = name;
-        player.GetComponent<PlayerNetworkController>().scoreboardTag = GameManager.singleton.SpawnScoreboardTag(playerActorNumber);
+        player.GetComponent<PlayerNetworkController>().scoreboardTag = GameManager.singleton.SpawnScoreboardTag(name);
         GameManager.singleton.scoreResults.AddNewPlayer(PhotonView.Find(viewID).OwnerActorNr);
-    }
-
-    [PunRPC]
-    void RPC_UpdatePlayerPingTier(byte playerActorNumber, byte pingTier)
-    {
-        // add score
-        foreach (Transform scoreboardTag in GameManager.singleton.scoreboardParent)
-        {
-            var sTag = scoreboardTag.GetComponent<ScoreboardTag>();
-            if (sTag.GetActorNumber() == playerActorNumber)
-            {
-                sTag.SetPingTier(pingTier);
-            }
-        }
     }
 
     [PunRPC]
