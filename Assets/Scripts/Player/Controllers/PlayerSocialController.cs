@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utilities;
+using Photon.Pun;
 
 public class PlayerSocialController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PlayerSocialController : MonoBehaviour
     [SerializeField] private List<GameObject> _emojis;
     [SerializeField] private Animator _emojiBubble;
 
+    private PhotonView _PV;
     private PCInputActions _inputActions;
     private int _choiceIndex;
     private Vector3 initPos;
@@ -17,6 +19,7 @@ public class PlayerSocialController : MonoBehaviour
     private void Start()
     {
         // initialization
+        _PV = GetComponent<PhotonView>();
         _inputActions = GetComponent<PlayerInputActions>().inputActions;
         LoadSocialInputActions();
         _choiceIndex = -1;
@@ -38,20 +41,24 @@ public class PlayerSocialController : MonoBehaviour
         _inputActions.Player.HoldSocialWheelMenu.performed += Hold;
         _inputActions.Player.ReleaseEmojiWheelMenu.performed += Release;
     }
+    public void ShowEmojiByIndex(byte index)
+    {
+        for (int i = 0; i < _emojis.Count; i++)
+        {
+            if (i == index)
+                _emojis[i].SetActive(true);
+            else
+                _emojis[i].SetActive(false);
+        }
+        _emojiBubble.SetTrigger("ShowEmoji");
+    }
 
     private void EnableEmoji()
     {
         if (_emojiBubble.GetCurrentAnimatorStateInfo(0).IsName("ShowEmoji") || _choiceIndex == -1)
             return;
 
-        for (int i = 0; i < _emojis.Count; i++)
-        {
-            if (i == _choiceIndex)
-                _emojis[i].SetActive(true);
-            else
-                _emojis[i].SetActive(false);
-        }
-        _emojiBubble.SetTrigger("ShowEmoji");
+        NetworkCalls.Player_NetWork.Emote(_PV, (byte)_choiceIndex);
     }
 
     private void Hold(InputAction.CallbackContext context)

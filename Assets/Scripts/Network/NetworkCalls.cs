@@ -466,6 +466,15 @@ namespace NetworkCalls
                 PV.RPC("RPC_RemoveScoreboardTag", RpcTarget.AllBuffered, playerActorNumber);
             }
         }
+
+        public static void Emote(PhotonView PV, byte index)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_Emote", RpcTarget.All, index);
+            }
+        }
+
         public static void DropItem(PhotonView PV, Vector2 dropPos, short itemID, short amount, short durability)
         {
             if (PV.IsMine)

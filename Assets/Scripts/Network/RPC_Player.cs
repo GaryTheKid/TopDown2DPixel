@@ -23,6 +23,7 @@ public class RPC_Player : MonoBehaviour
     private PlayerNetworkController _playerNetworkController;
     private PlayerVisionController _playerVisionController;
     private PlayerResourceController _playerResourceController;
+    private PlayerSocialController _playerSocialController;
     private HashSet<int> targets;
 
     private void Awake()
@@ -35,6 +36,7 @@ public class RPC_Player : MonoBehaviour
         _playerNetworkController = GetComponent<PlayerNetworkController>();
         _playerVisionController = GetComponent<PlayerVisionController>();
         _playerResourceController = GetComponent<PlayerResourceController>();
+        _playerSocialController = GetComponent<PlayerSocialController>();
     }
 
     private void Start()
@@ -52,6 +54,12 @@ public class RPC_Player : MonoBehaviour
     void RPC_RemoveScoreboardTag(byte actorNumber)
     {
         GameManager.singleton.DestroyScoreBoardTag(actorNumber);
+    }
+
+    [PunRPC]
+    void RPC_Emote(byte emoteIndex)
+    {
+        _playerSocialController.ShowEmojiByIndex(emoteIndex);
     }
 
     [PunRPC]
