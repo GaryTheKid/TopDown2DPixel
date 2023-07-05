@@ -35,6 +35,7 @@ public class WindyFX : MonoBehaviour
     [SerializeField] private Transform _windPos_North;
     [SerializeField] private Transform _windPos_South;
     private float timer;
+    private float volumeModifier;
 
     // cache coroutine
     private IEnumerator _co_windy;
@@ -88,6 +89,12 @@ public class WindyFX : MonoBehaviour
         StartCoroutine(_co_windy);
     }
 
+    public void SetVolumeModifier(float modifier)
+    {
+        volumeModifier = modifier;
+        windySFX.volume = 1f * volumeModifier;
+    }
+
     private IEnumerator Co_StartWinding()
     {
         // ref emission
@@ -106,7 +113,7 @@ public class WindyFX : MonoBehaviour
             var dt = Time.deltaTime;
             windyEmission.rateOverTime = ratio * PARTICLE_WINDING_RATE;
             leavesEmission.rateOverTime = ratio * PARTICLE_LEAVES_RATE;
-            windySFX.volume = ratio * 1f;
+            windySFX.volume = ratio * 1f * volumeModifier;
             timer += dt;
             yield return new WaitForEndOfFrame();
         }
@@ -125,7 +132,7 @@ public class WindyFX : MonoBehaviour
             var dt = Time.deltaTime;
             windyEmission.rateOverTime = ratio * PARTICLE_WINDING_RATE;
             leavesEmission.rateOverTime = ratio * PARTICLE_LEAVES_RATE;
-            windySFX.volume = ratio * 1f;
+            windySFX.volume = ratio * 1f * volumeModifier;
             timer -= dt;
             yield return new WaitForEndOfFrame();
         }

@@ -12,6 +12,7 @@ public class PlayerSocialController : MonoBehaviour
     private PCInputActions _inputActions;
     private int _choiceIndex;
     private Vector3 initPos;
+    private Vector3 currentPos;
 
     private void Start()
     {
@@ -28,9 +29,8 @@ public class PlayerSocialController : MonoBehaviour
             return;
 
         // select choice by angle (two-points)
-        Vector3 currentPos = Common.GetMouseScreenPosition();
-        float angle = Common.GetEulerAngleBetweenPointsClockWise(initPos, currentPos);
-        _choiceIndex = _wheelMenu.SelectChoiceByAngle(currentPos, angle);
+        currentPos = Common.GetMouseScreenPosition();
+        _choiceIndex = _wheelMenu.SelectChoiceByAngle(currentPos, Common.GetEulerAngleBetweenPointsClockWise(initPos, Common.GetMouseScreenPosition()));
     }
 
     private void LoadSocialInputActions()
@@ -64,7 +64,6 @@ public class PlayerSocialController : MonoBehaviour
 
             // enable wheel menu
             _wheelMenu.gameObject.SetActive(true);
-            print("hold");
         }
     }
 
@@ -81,7 +80,6 @@ public class PlayerSocialController : MonoBehaviour
             // disable wheel menu
             _wheelMenu.HideAllChoices();
             _wheelMenu.gameObject.SetActive(false);
-            print("release");
         }
     }
 }

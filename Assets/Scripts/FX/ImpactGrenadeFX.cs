@@ -25,6 +25,7 @@ public class ImpactGrenadeFX : FXPlayer_Projectile
 
         // play sound fx
         var soundFX = GetComponentInChildren<AudioSource>();
+        SFXManager.singleton.Add(soundFX);
         soundFX.PlayOneShot(soundFX.clip);
 
         // explode, calculate damage
@@ -34,6 +35,11 @@ public class ImpactGrenadeFX : FXPlayer_Projectile
     private void Start()
     {
         PlayInitializationFX();
+    }
+
+    private void OnDestroy()
+    {
+        SFXManager.singleton.Remove(GetComponentInChildren<AudioSource>());
     }
 
     public override void PlayInitializationFX()

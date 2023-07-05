@@ -8,6 +8,8 @@ public class Teleport_Single : MonoBehaviour
 {
     private const float RECHARGE_CD = 5f;
 
+    public AudioSource sfx_Portal;
+    public AudioSource sfx_Exit;
     public Transform teleportTarget;
     public Animator animator;
     public Transform destination;
