@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Firebase.Auth;
 using Firebase.Firestore;
 using System;
@@ -19,8 +20,18 @@ public class CloudCommunicator : MonoBehaviour
     [SerializeField] private Image loadingProgress;
     [SerializeField] private TextMeshProUGUI percentageText;
 
+    
     public float singleRequestSyncCD = 0.5f;
     public bool hasDataSynced;
+
+    [Header("Player Settings")]
+    public float BGMVolume;
+    public float FXVolume;
+    public bool isFullScreen;
+    public int resolutionOption;
+    public int frameRate;
+
+    [Header("Player Data")]
     public string userId;
     public string userName;
     public int selectedCharacter = -1;
@@ -189,6 +200,14 @@ public class CloudCommunicator : MonoBehaviour
         // Create a new document
         Dictionary<string, object> data = new Dictionary<string, object>()
         {
+            // player settings
+            { "BGMVolume", 1f },
+            { "FXVolume", 1f },
+            { "isFullScreen", true },
+            { "resolutionOption", 0 }, // mobile device differ 
+            { "frameRate", 144 }, // mobile device differ
+
+            // player data
             { "Currency_Gold", 0 },
             { "Currency_Gem", 0 },
             { "EquippedEmojis", new List<int>{ -1, -1, -1, -1 } },
@@ -249,7 +268,68 @@ public class CloudCommunicator : MonoBehaviour
         // sync player's custom settings from the database
         Dictionary<string, object> data = snapshot.ToDictionary();
 
-        // Access the values from the data dictionary
+        // Access the player setting values from the data dictionary
+        if (data.TryGetValue("BGMVolume", out object value_BGMVolume))
+        {
+            BGMVolume = Convert.ToSingle(value_BGMVolume);
+        }
+        else
+        {
+            Debug.LogError("Try get BGMVolume failed!");
+            PopCloudConnectionFailUI();
+            OnGetDataFromCloudCallback?.Invoke(false);
+            return;
+        }
+
+        if (data.TryGetValue("FXVolume", out object value_FXVolume))
+        {
+            FXVolume = Convert.ToInt64(value_FXVolume);
+        }
+        else
+        {
+            Debug.LogError("Try get FXVolume failed!");
+            PopCloudConnectionFailUI();
+            OnGetDataFromCloudCallback?.Invoke(false);
+            return;
+        }
+
+        if (data.TryGetValue("isFullScreen", out object value_IsFullScreen))
+        {
+            isFullScreen = Convert.ToBoolean(value_IsFullScreen);
+        }
+        else
+        {
+            Debug.LogError("Try get IsFullScreen failed!");
+            PopCloudConnectionFailUI();
+            OnGetDataFromCloudCallback?.Invoke(false);
+            return;
+        }
+
+        if (data.TryGetValue("resolutionOption", out object value_ResolutionOption))
+        {
+            resolutionOption = Convert.ToInt32(value_ResolutionOption);
+        }
+        else
+        {
+            Debug.LogError("Try get resolutionOption failed!");
+            PopCloudConnectionFailUI();
+            OnGetDataFromCloudCallback?.Invoke(false);
+            return;
+        }
+
+        if (data.TryGetValue("frameRate", out object value_FrameRate))
+        {
+            frameRate = Convert.ToInt32(value_FrameRate);
+        }
+        else
+        {
+            Debug.LogError("Try get frameRate failed!");
+            PopCloudConnectionFailUI();
+            OnGetDataFromCloudCallback?.Invoke(false);
+            return;
+        }
+
+        // Access the player data values from the data dictionary
         if (data.TryGetValue("Currency_Gold", out object value_Gold))
         {
             gold = Convert.ToInt64(value_Gold);
@@ -396,18 +476,34 @@ public class CloudCommunicator : MonoBehaviour
 
     private void SyncDataToCloud()
     {
+        // player settings
+        SyncPlayerCustomDataToCloud("BGMVolume", PlayerSettings.singleton.BGMVolume, (bool isSyncSuccessful) => { Debug.Log("sync BGMVolume to cloud:" + isSyncSuccessful); });
+        SyncPlayerCustomDataToCloud("FXVolume", PlayerSettings.singleton.FXVolume, (bool isSyncSuccessful) => { Debug.Log("sync FXVolume to cloud:" + isSyncSuccessful); });
+        SyncPlayerCustomDataToCloud("isFullScreen", PlayerSettings.singleton.FullScreen, (bool isSyncSuccessful) => { Debug.Log("sync FullScreen to cloud:" + isSyncSuccessful); });
+        SyncPlayerCustomDataToCloud("resolutionOption", PlayerSettings.singleton.ResolutionOption, (bool isSyncSuccessful) => { Debug.Log("sync resolutionOption to cloud:" + isSyncSuccessful); });
+        SyncPlayerCustomDataToCloud("frameRate", PlayerSettings.singleton.FrameRate, (bool isSyncSuccessful) => { Debug.Log("sync frameRate to cloud:" + isSyncSuccessful); });
+
+        // player data
         SyncPlayerCustomDataToCloud("Currency_Gold", PlayerSettings.singleton.Gold, (bool isSyncSuccessful) => { Debug.Log("sync gold to cloud:" + isSyncSuccessful); });
-        SyncPlayerCustomDataToCloud("Currency_Gem", PlayerSettings.singleton.Gem, (bool isSyncSuccessful) => { Debug.Log("Update gem to cloud:" + isSyncSuccessful); });
-        SyncPlayerCustomDataToCloud("SelectedCharacter", PlayerSettings.singleton.PlayerCharacterIndex, (bool isSyncSuccessful) => { Debug.Log("Update character index to cloud:" + isSyncSuccessful); });
-        SyncPlayerCustomDataToCloud("EquippedEmojis", PlayerSettings.singleton.PlayerSocialIndexList, (bool isSyncSuccessful) => { Debug.Log("Update emoji list to cloud:" + isSyncSuccessful); });
+        SyncPlayerCustomDataToCloud("Currency_Gem", PlayerSettings.singleton.Gem, (bool isSyncSuccessful) => { Debug.Log("sync gem to cloud:" + isSyncSuccessful); });
+        SyncPlayerCustomDataToCloud("SelectedCharacter", PlayerSettings.singleton.PlayerCharacterIndex, (bool isSyncSuccessful) => { Debug.Log("sync character index to cloud:" + isSyncSuccessful); });
+        SyncPlayerCustomDataToCloud("EquippedEmojis", PlayerSettings.singleton.PlayerSocialIndexList, (bool isSyncSuccessful) => { Debug.Log("sync emoji list to cloud:" + isSyncSuccessful); });
     }
 
     private void SyncDataToLocal()
     {
+        // player settings
+        PlayerSettings.singleton.BGMVolume = BGMVolume;
+        PlayerSettings.singleton.FXVolume = FXVolume;
+        PlayerSettings.singleton.FullScreen = isFullScreen;
+        PlayerSettings.singleton.ResolutionOption = resolutionOption;
+        PlayerSettings.singleton.FrameRate = frameRate;
+        PlayerSettings.singleton.UpdateAudioVolumes();
+
+        // player data
         PlayerSettings.singleton.Gold = gold;
         PlayerSettings.singleton.Gem = gem;
         PlayerSettings.singleton.PlayerCharacterIndex = selectedCharacter;
-
         int[] socialList = new int[equippedEmojis.Count];
         for (int i = 0; i < equippedEmojis.Count; i++)
         {
@@ -426,6 +522,18 @@ public class CloudCommunicator : MonoBehaviour
 
         // Perform any additional cleanup or tasks
         // ...
+    }
+
+    public void SignOutAndBackToLoginScene()
+    {
+        // Perform the necessary data synchronization before signing out
+        SyncDataToCloud();
+
+        // Sign out the user from Firebase
+        FirebaseAuth.DefaultInstance.SignOut();
+
+        // back to login scene
+        SceneManager.LoadScene(Networking_GameSettings.singleton.loginSceneIndex);
     }
 
     public void PopCloudConnectionFailUI()

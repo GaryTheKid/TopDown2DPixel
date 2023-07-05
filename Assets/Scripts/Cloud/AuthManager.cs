@@ -61,14 +61,6 @@ public class AuthManager : MonoBehaviour
     {
         // Initialize Firebase Auth
         auth = FirebaseAuth.DefaultInstance;
-
-        // Add event listeners to buttons
-        loginButton.onClick.AddListener(LoginWithEmailAndPassword);
-        createNewAccountButton.onClick.AddListener(GotoSignUpPage);
-        signupButton.onClick.AddListener(Signup);
-        backToLoginButton.onClick.AddListener(GotoLoginPage);
-        signoutButton.onClick.AddListener(SignOut);
-        resetPassword.onClick.AddListener(ResetPassword);
     }
 
     private void Update()
@@ -80,13 +72,13 @@ public class AuthManager : MonoBehaviour
         ValidatePasswordDoubleCheck();
     }
 
-    private void GotoSignUpPage()
+    public void GotoSignUpPage()
     {
         loginPage.SetActive(false);
         signUpPage.SetActive(true);
     }
 
-    private void GotoLoginPage()
+    public void GotoLoginPage()
     {
         signUpPage.SetActive(false);
         loginPage.SetActive(true);
@@ -347,7 +339,7 @@ public class AuthManager : MonoBehaviour
         passwordDoubleCheckValidationPass = isValid;
     }
 
-    private void LoginWithEmailAndPassword()
+    public void LoginWithEmailAndPassword()
     {
         if (Login_Co == null)
         {
@@ -419,7 +411,7 @@ public class AuthManager : MonoBehaviour
         yield return null;
     }
 
-    private void Signup()
+    public void Signup()
     {
         if (SignUp_Co == null)
         {
@@ -546,7 +538,7 @@ public class AuthManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
-    private void SignOut()
+    public void SignOut()
     {
         auth.SignOut();
         Debug.Log("User signed out.");
@@ -554,7 +546,7 @@ public class AuthManager : MonoBehaviour
         Application.Quit();
     }
 
-    private void ResetPassword()
+    public void ResetPassword()
     {
         InputField activeInputField;
 

@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Header("Network")]
     public PhotonView PV;
     public Text ping;
+    public byte pingTier;
+    public float pingTierUpdateTimeGap;
 
     // Level
     [Header("Level")]
@@ -218,6 +220,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         //SpawnItem(itemSpawns[1].position, 21, 10);
         //SpawnItem(itemSpawns[1].position, 16, 1, 99);
 
+        // initialize ping
+        HandlePingUpdate();
+
         if (!PhotonNetwork.IsMasterClient)
             return;
 
@@ -226,9 +231,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        // show pin
-        ping.text = PhotonNetwork.GetPing().ToString() + "ms";
-
         // must be master client
         if (!PhotonNetwork.IsMasterClient)
             return;
@@ -292,6 +294,19 @@ public class GameManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region Game Event Handling
+    private void HandlePingUpdate()
+    {
+        StartCoroutine(Co_PingUpdate());
+    }
+
+    private IEnumerator Co_PingUpdate()
+    {
+        yield return new WaitForSeconds(pingTierUpdateTimeGap);
+
+        ping.text = PhotonNetwork.GetPing().ToString() + "ms";
+        CheckForChangeUpdatePingTier();
+    }
+
     private void HandleObjectiveActivation()
     {
         if (ObjectiveActivationHandling_Co == null)
@@ -685,6 +700,39 @@ public class GameManager : MonoBehaviourPunCallbacks
         Game_Network.UpdatePlayerInfo(PV, viewID, name);
     }
 
+    public void CheckForChangeUpdatePingTier()
+    {
+        int currentPingVal = PhotonNetwork.GetPing();
+        byte currentPingTier = 1;
+        if (currentPingVal <= 50)
+        {
+            currentPingTier = 4;
+        }
+        else if (currentPingVal <= 100)
+        {
+            currentPingTier = 3;
+        }
+        else if (currentPingVal <= 150)
+        {
+            currentPingTier = 2;
+        }
+        else
+        {
+            currentPingTier = 1;
+        }
+
+        // check for update
+        if (currentPingTier != pingTier)
+        {
+            UpdatePlayerPingTier((byte)PhotonNetwork.LocalPlayer.ActorNumber, currentPingTier);
+        }
+    }
+
+    public void UpdatePlayerPingTier(byte actorNumber, byte pingTier)
+    {
+        Game_Network.UpdatePlayerPingTier(PV, actorNumber, pingTier);
+    }
+
     public void AddScore(byte actorNumber, int score)
     {
         // update ui
@@ -705,7 +753,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         foreach (Transform tag in scoreboardParent)
         {
             var sTag = tag.GetComponent<ScoreboardTag>();
-            if (sTag.GetID() == PhotonNetwork.CurrentRoom.GetPlayer(actorNumber).NickName)
+            if (sTag.GetActorNumber() == actorNumber)
             {
                 return sTag;
             }
@@ -714,21 +762,31 @@ public class GameManager : MonoBehaviourPunCallbacks
         return null;
     }
 
-    public ScoreboardTag SpawnScoreboardTag(string playerID)
+    public ScoreboardTag SpawnScoreboardTag(byte actorNumber)
     {
-        RectTransform tag = Instantiate(scoreboardTemplate, scoreboardParent);
-        tag.name = playerID;
-        tag.gameObject.SetActive(true);
-        ScoreboardTag scoreboardTag = tag.GetComponent<ScoreboardTag>();
-        scoreboardTag.SetID(playerID);
+        string playerID = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber).NickName;
+        RectTransform tagObj = Instantiate(scoreboardTemplate, scoreboardParent);
+        tagObj.name = playerID;
+        tagObj.gameObject.SetActive(true);
+        ScoreboardTag scoreboardTag = tagObj.GetComponent<ScoreboardTag>();
+        scoreboardTag.SetID(playerID.Split("#")[0]);
+        scoreboardTag.SetActorNumber(actorNumber);
+        if (actorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
+        {
+            scoreboardTag.SetTagColor(0);
+        }
+        else
+        {
+            scoreboardTag.SetTagColor(2);
+        }
         return scoreboardTag;
     }
 
-    public void DestroyScoreBoardTag(string playerID)
+    public void DestroyScoreBoardTag(byte actorNumber)
     {
         foreach (Transform tag in scoreboardParent)
         {
-            if (tag.GetComponent<ScoreboardTag>().GetID() == playerID)
+            if (tag.GetComponent<ScoreboardTag>().GetActorNumber() == actorNumber)
             {
                 Destroy(tag.gameObject);
                 break;
@@ -1088,7 +1146,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         UpdateRoomPlayerList();
-        DestroyScoreBoardTag(otherPlayer.NickName);
+        DestroyScoreBoardTag((byte)otherPlayer.ActorNumber);
     }
     #endregion
 }

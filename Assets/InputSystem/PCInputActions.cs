@@ -586,6 +586,34 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Global"",
+            ""id"": ""34d30e34-65b9-4a1d-b206-24c2f0692300"",
+            ""actions"": [
+                {
+                    ""name"": ""SnapshotTabActivation"",
+                    ""type"": ""Button"",
+                    ""id"": ""66db9565-29f4-43de-b30e-9e788a9c5717"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f3ab8da4-abd3-4c9d-b07b-7fd6b695cdbf"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SnapshotTabActivation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -611,6 +639,9 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
         m_Player_PushToTalk = m_Player.FindAction("PushToTalk", throwIfNotFound: true);
         m_Player_HoldSocialWheelMenu = m_Player.FindAction("HoldSocialWheelMenu", throwIfNotFound: true);
         m_Player_ReleaseEmojiWheelMenu = m_Player.FindAction("ReleaseEmojiWheelMenu", throwIfNotFound: true);
+        // Global
+        m_Global = asset.FindActionMap("Global", throwIfNotFound: true);
+        m_Global_SnapshotTabActivation = m_Global.FindAction("SnapshotTabActivation", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -843,6 +874,39 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // Global
+    private readonly InputActionMap m_Global;
+    private IGlobalActions m_GlobalActionsCallbackInterface;
+    private readonly InputAction m_Global_SnapshotTabActivation;
+    public struct GlobalActions
+    {
+        private @PCInputActions m_Wrapper;
+        public GlobalActions(@PCInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @SnapshotTabActivation => m_Wrapper.m_Global_SnapshotTabActivation;
+        public InputActionMap Get() { return m_Wrapper.m_Global; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(GlobalActions set) { return set.Get(); }
+        public void SetCallbacks(IGlobalActions instance)
+        {
+            if (m_Wrapper.m_GlobalActionsCallbackInterface != null)
+            {
+                @SnapshotTabActivation.started -= m_Wrapper.m_GlobalActionsCallbackInterface.OnSnapshotTabActivation;
+                @SnapshotTabActivation.performed -= m_Wrapper.m_GlobalActionsCallbackInterface.OnSnapshotTabActivation;
+                @SnapshotTabActivation.canceled -= m_Wrapper.m_GlobalActionsCallbackInterface.OnSnapshotTabActivation;
+            }
+            m_Wrapper.m_GlobalActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @SnapshotTabActivation.started += instance.OnSnapshotTabActivation;
+                @SnapshotTabActivation.performed += instance.OnSnapshotTabActivation;
+                @SnapshotTabActivation.canceled += instance.OnSnapshotTabActivation;
+            }
+        }
+    }
+    public GlobalActions @Global => new GlobalActions(this);
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -864,5 +928,9 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
         void OnPushToTalk(InputAction.CallbackContext context);
         void OnHoldSocialWheelMenu(InputAction.CallbackContext context);
         void OnReleaseEmojiWheelMenu(InputAction.CallbackContext context);
+    }
+    public interface IGlobalActions
+    {
+        void OnSnapshotTabActivation(InputAction.CallbackContext context);
     }
 }
