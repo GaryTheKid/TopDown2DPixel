@@ -35,7 +35,12 @@ public class Networking_GameSettings : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        if (singleton != null && singleton != this)
+        {
+            Destroy(singleton.gameObject);
+        }
         singleton = this;
+        DontDestroyOnLoad(gameObject);
     }
     #endregion
 }

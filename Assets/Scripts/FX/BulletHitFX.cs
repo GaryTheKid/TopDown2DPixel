@@ -33,6 +33,7 @@ public class BulletHitFX : FXPlayer_Projectile
         // play soundFX
         var soundFX = GetComponentInChildren<AudioSource>();
         soundFX.pitch = Random.Range(1f, 2f);
+        SFXManager.singleton.Add(soundFX);
         soundFX.PlayOneShot(soundFX.clip);
     }
 
@@ -55,11 +56,13 @@ public class BulletHitFX : FXPlayer_Projectile
         // play soundFX
         var soundFX = GetComponentInChildren<AudioSource>();
         soundFX.pitch = Random.Range(1f, 2f);
+        SFXManager.singleton.Add(soundFX);
         soundFX.PlayOneShot(soundFX.clip);
     }
 
     public void DestroySelf()
     {
+        SFXManager.singleton.Remove(GetComponentInChildren<AudioSource>());
         Destroy(transform.parent.gameObject);
     }
 }

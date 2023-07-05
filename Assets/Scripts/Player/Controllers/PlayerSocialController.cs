@@ -64,7 +64,6 @@ public class PlayerSocialController : MonoBehaviour
 
             // enable wheel menu
             _wheelMenu.gameObject.SetActive(true);
-            print("hold");
         }
     }
 
@@ -81,7 +80,6 @@ public class PlayerSocialController : MonoBehaviour
             // disable wheel menu
             _wheelMenu.HideAllChoices();
             _wheelMenu.gameObject.SetActive(false);
-            print("release");
         }
     }
 }

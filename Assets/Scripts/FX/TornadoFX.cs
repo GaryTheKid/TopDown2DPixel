@@ -12,6 +12,7 @@ public class TornadoFX : MonoBehaviour
     private void Start()
     {
         transform.localScale = new Vector3(0.3f, 0.3f, 1f);
+        SFXManager.singleton.Add(_soundFX);
         _soundFX.Play();
     }
 
@@ -42,6 +43,7 @@ public class TornadoFX : MonoBehaviour
 
     public void DestroySelf()
     {
+        SFXManager.singleton.Remove(_soundFX);
         Destroy(gameObject);
     }
 }

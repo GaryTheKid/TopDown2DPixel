@@ -39,6 +39,7 @@ public class ObjectPool : MonoBehaviour
         foreach (Transform AI in GameManager.singleton.spawnedAIParent)
         {
             pooledAI.Add(AI.gameObject);
+            SFXManager.singleton.Add(AI.GetComponent<AIEffectController>().sfx);
         }
 
         // add disabled itemWorld
