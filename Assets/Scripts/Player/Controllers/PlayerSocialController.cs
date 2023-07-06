@@ -1,11 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using Utilities;
 using Photon.Pun;
+using TMPro;
+using Photon.Realtime;
+using ExitGames.Client.Photon;
 
-public class PlayerSocialController : MonoBehaviour
+public class PlayerSocialController : MonoBehaviour, IOnEventCallback
 {
+    [Header("Emoji")]
     [SerializeField] private UI_SocialWheelMenu _wheelMenu;
     [SerializeField] private List<GameObject> _emojis;
     [SerializeField] private Animator _emojiBubble;
@@ -16,6 +21,11 @@ public class PlayerSocialController : MonoBehaviour
     private Vector3 initPos;
     private Vector3 currentPos;
 
+    [Header("Chat")]
+    [SerializeField] private TMP_InputField chatInput;
+    [SerializeField] private TextMeshProUGUI chatTextTemplate;
+    [SerializeField] private Transform chatContent;
+
     private void Start()
     {
         // initialization
@@ -23,6 +33,17 @@ public class PlayerSocialController : MonoBehaviour
         _inputActions = GetComponent<PlayerInputActions>().inputActions;
         LoadSocialInputActions();
         _choiceIndex = -1;
+        chatInput.onSubmit.AddListener(SendChatMessage);
+    }
+
+    private void OnEnable()
+    {
+        PhotonNetwork.AddCallbackTarget(this);
+    }
+
+    private void OnDisable()
+    {
+        PhotonNetwork.RemoveCallbackTarget(this);
     }
 
     private void Update()
@@ -88,5 +109,38 @@ public class PlayerSocialController : MonoBehaviour
             _wheelMenu.HideAllChoices();
             _wheelMenu.gameObject.SetActive(false);
         }
+    }
+
+    private void SendChatMessage(string message)
+    {
+        if (string.IsNullOrWhiteSpace(message))
+            return;
+
+        // Create a custom event to send the chat message
+        byte eventCode = 1; // You can choose any value for the event code
+        object[] eventData = new object[] { message };
+        RaiseEventOptions eventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        PhotonNetwork.RaiseEvent(eventCode, eventData, eventOptions, SendOptions.SendReliable);
+
+        chatInput.text = ""; // Clear the chat input field
+    }
+
+    // Called when a custom event is received
+    public void OnEvent(EventData photonEvent)
+    {
+        if (photonEvent.Code == 1) // Match the event code used for chat messages
+        {
+            object[] data = (object[])photonEvent.CustomData;
+            string message = (string)data[0];
+
+            DisplayChatMessage(message);
+        }
+    }
+
+    private void DisplayChatMessage(string message)
+    {
+        // Instantiate a new chat text template and set its content
+        TextMeshProUGUI newChatText = Instantiate(chatTextTemplate, chatContent);
+        newChatText.text = message;
     }
 }

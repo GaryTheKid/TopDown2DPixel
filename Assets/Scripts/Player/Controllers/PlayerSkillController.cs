@@ -42,11 +42,6 @@ public class PlayerSkillController : MonoBehaviour
         TotalAvailablePerks = skillSet.Count * 3;
     }
 
-    private void Update()
-    {
-        
-    }
-
     public void AddSkillPerk()
     {
         if (currPerks < TotalAvailablePerks)

@@ -146,7 +146,7 @@ public class PlayerEffectController : MonoBehaviour
         _characterSoundFX.BeingDamaged();
 
         // camera shake
-        CameraShake(dmgAmount / 20f, 0.15f);
+        CameraShake(dmgAmount / 10f, 0.2f);
 
         // pop up text
         GameObject popText = Instantiate(_popTextTemplate, _popTextTemplate.transform.position, Quaternion.identity, _popTextTemplate.transform.parent);
