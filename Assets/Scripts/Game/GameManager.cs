@@ -24,14 +24,14 @@ public class GameManager : MonoBehaviourPunCallbacks
     // singleton
     public static GameManager singleton;
 
-    // Network
+    // network
     [Header("Network")]
     public PhotonView PV;
     public Text ping;
     public byte pingTier;
     public float pingTierUpdateTimeGap;
 
-    // Level
+    // level
     [Header("Level")]
     public string levelName;
     [Range(0f, 5f)]
@@ -43,6 +43,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Header("Scoreboard")]
     public RectTransform scoreboardTemplate;
     public ScoreResults scoreResults;
+
+    // team
+    [Header("Team")]
+    public Color myColor;
+    public Color allyColor;
+    public Color enemyColor;
 
     // game states
     public enum GameState

@@ -13,9 +13,6 @@ public class ScoreboardTag : MonoBehaviour
     [SerializeField] private UI_PingTier _ui_pingTier;
 
     [SerializeField] private int _actorNumber;
-    [SerializeField] private Color myColor;
-    [SerializeField] private Color allyColor;
-    [SerializeField] private Color EnemyColor;
     
     private int score;
 
@@ -44,13 +41,13 @@ public class ScoreboardTag : MonoBehaviour
         switch (index)
         {
             case 0:
-                _ui_tagColor.color = myColor;
+                _ui_tagColor.color = GameManager.singleton.myColor;
                 break;
             case 1:
-                _ui_tagColor.color = allyColor;
+                _ui_tagColor.color = GameManager.singleton.allyColor;
                 break;
             case 2:
-                _ui_tagColor.color = EnemyColor;
+                _ui_tagColor.color = GameManager.singleton.enemyColor;
                 break;
         }
     }

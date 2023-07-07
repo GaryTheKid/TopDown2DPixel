@@ -36802,6 +36802,9 @@ MonoBehaviour:
   transitionCurtain: {fileID: 169711697}
   scoreboardTemplate: {fileID: 1627242143}
   scoreResults: {fileID: 1914888794}
+  myColor: {r: 0.11372549, g: 0.54509807, b: 0.02745098, a: 0.65882355}
+  allyColor: {r: 0.54509807, g: 0.8784314, b: 0, a: 0.65882355}
+  enemyColor: {r: 0.65882355, g: 0.05490196, b: 0, a: 0.65882355}
   gameState: 0
   winConditionScore: 1
   leaderboardDisplayTime: 0
@@ -51001,9 +51004,6 @@ MonoBehaviour:
   _ui_tagColor: {fileID: 122519100}
   _ui_pingTier: {fileID: 855829161}
   _actorNumber: 0
-  myColor: {r: 0.1137255, g: 0.54509807, b: 0.027450982, a: 0.65882355}
-  allyColor: {r: 0.54509807, g: 0.8784314, b: 0, a: 0.65882355}
-  EnemyColor: {r: 0.65882355, g: 0.05490196, b: 0, a: 0.65882355}
 --- !u!1001 &1627317461
 PrefabInstance:
   m_ObjectHideFlags: 0

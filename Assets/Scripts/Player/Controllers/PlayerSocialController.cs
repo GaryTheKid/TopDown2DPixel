@@ -5,10 +5,8 @@ using UnityEngine.InputSystem;
 using Utilities;
 using Photon.Pun;
 using TMPro;
-using Photon.Realtime;
-using ExitGames.Client.Photon;
 
-public class PlayerSocialController : MonoBehaviour, IOnEventCallback
+public class PlayerSocialController : MonoBehaviour//, IOnEventCallback
 {
     [Header("Emoji")]
     [SerializeField] private UI_SocialWheelMenu _wheelMenu;
@@ -26,6 +24,10 @@ public class PlayerSocialController : MonoBehaviour, IOnEventCallback
     [SerializeField] private TextMeshProUGUI chatTextTemplate;
     [SerializeField] private Transform chatContent;
 
+    private Color myColor;
+    private Color allyColor;
+    private Color enemyColor;
+
     private void Start()
     {
         // initialization
@@ -34,16 +36,11 @@ public class PlayerSocialController : MonoBehaviour, IOnEventCallback
         LoadSocialInputActions();
         _choiceIndex = -1;
         chatInput.onSubmit.AddListener(SendChatMessage);
-    }
 
-    private void OnEnable()
-    {
-        PhotonNetwork.AddCallbackTarget(this);
-    }
-
-    private void OnDisable()
-    {
-        PhotonNetwork.RemoveCallbackTarget(this);
+        // Get the color values from GameManager.singleton
+        myColor = GameManager.singleton.myColor;
+        allyColor = GameManager.singleton.allyColor;
+        enemyColor = GameManager.singleton.enemyColor;
     }
 
     private void Update()
@@ -116,31 +113,49 @@ public class PlayerSocialController : MonoBehaviour, IOnEventCallback
         if (string.IsNullOrWhiteSpace(message))
             return;
 
-        // Create a custom event to send the chat message
-        byte eventCode = 1; // You can choose any value for the event code
-        object[] eventData = new object[] { message };
-        RaiseEventOptions eventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(eventCode, eventData, eventOptions, SendOptions.SendReliable);
+        byte senderActorNumber = (byte)_PV.OwnerActorNr;
+
+        _PV.RPC("ReceiveChatMessage", RpcTarget.All, message, senderActorNumber);
 
         chatInput.text = ""; // Clear the chat input field
     }
 
-    // Called when a custom event is received
-    public void OnEvent(EventData photonEvent)
+    [PunRPC]
+    private void ReceiveChatMessage(string message, byte senderActorNumber)
     {
-        if (photonEvent.Code == 1) // Match the event code used for chat messages
-        {
-            object[] data = (object[])photonEvent.CustomData;
-            string message = (string)data[0];
-
-            DisplayChatMessage(message);
-        }
+        DisplayChatMessage(message, senderActorNumber);
     }
 
-    private void DisplayChatMessage(string message)
+    private void DisplayChatMessage(string message, byte senderActorNumber)
     {
-        // Instantiate a new chat text template and set its content
+        // get player name
+        string playerName = "";
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            if (player.ActorNumber == senderActorNumber)
+            {
+                playerName = player.NickName.Split("#")[0];
+            }
+        }
+
+        // determine sender group
+
+        // TODO: add ally for future mode
+
+        Color senderColor = Color.white;
+        if (senderActorNumber == _PV.OwnerActorNr)
+        {
+            // me 
+            senderColor = myColor;
+        }
+        else 
+        {
+            // enemy
+            senderColor = enemyColor;
+        }
+
         TextMeshProUGUI newChatText = Instantiate(chatTextTemplate, chatContent);
-        newChatText.text = message;
+        newChatText.richText = true;
+        newChatText.text = string.Format("<color=#{0}>{1}:</color> {2}", ColorUtility.ToHtmlStringRGB(senderColor), playerName, message);
     }
 }
