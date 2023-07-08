@@ -577,6 +577,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TypeChatActivation",
+                    "type": "Button",
+                    "id": "74708b5c-1892-4ca4-a9f6-9ff3a9b3bb8e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "InGameMenuActivation",
+                    "type": "Button",
+                    "id": "1d262470-b055-4d5e-bd3e-9d2c8f093d76",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -588,6 +606,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "SnapshotTabActivation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1eff7592-2cd1-4ac0-a537-9251765d690d",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TypeChatActivation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "75c688af-d311-43b9-a79e-598a12207325",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InGameMenuActivation",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

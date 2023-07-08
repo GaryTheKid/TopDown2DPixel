@@ -8,25 +8,16 @@ using TMPro;
 
 public class PlayerSocialController : MonoBehaviour//, IOnEventCallback
 {
-    [Header("Emoji")]
-    [SerializeField] private UI_SocialWheelMenu _wheelMenu;
-    [SerializeField] private List<GameObject> _emojis;
-    [SerializeField] private Animator _emojiBubble;
-
     private PhotonView _PV;
     private PCInputActions _inputActions;
     private int _choiceIndex;
     private Vector3 initPos;
     private Vector3 currentPos;
 
-    [Header("Chat")]
-    [SerializeField] private TMP_InputField chatInput;
-    [SerializeField] private TextMeshProUGUI chatTextTemplate;
-    [SerializeField] private Transform chatContent;
-
-    private Color myColor;
-    private Color allyColor;
-    private Color enemyColor;
+    [Header("Emoji")]
+    [SerializeField] private UI_SocialWheelMenu _wheelMenu;
+    [SerializeField] private List<GameObject> _emojis;
+    [SerializeField] private Animator _emojiBubble;
 
     private void Start()
     {
@@ -35,12 +26,6 @@ public class PlayerSocialController : MonoBehaviour//, IOnEventCallback
         _inputActions = GetComponent<PlayerInputActions>().inputActions;
         LoadSocialInputActions();
         _choiceIndex = -1;
-        chatInput.onSubmit.AddListener(SendChatMessage);
-
-        // Get the color values from GameManager.singleton
-        myColor = GameManager.singleton.myColor;
-        allyColor = GameManager.singleton.allyColor;
-        enemyColor = GameManager.singleton.enemyColor;
     }
 
     private void Update()
@@ -54,6 +39,7 @@ public class PlayerSocialController : MonoBehaviour//, IOnEventCallback
         _choiceIndex = _wheelMenu.SelectChoiceByAngle(currentPos, Common.GetEulerAngleBetweenPointsClockWise(initPos, Common.GetMouseScreenPosition()));
     }
 
+    #region Emoji
     private void LoadSocialInputActions()
     {
         _inputActions.Player.HoldSocialWheelMenu.performed += Hold;
@@ -107,55 +93,5 @@ public class PlayerSocialController : MonoBehaviour//, IOnEventCallback
             _wheelMenu.gameObject.SetActive(false);
         }
     }
-
-    private void SendChatMessage(string message)
-    {
-        if (string.IsNullOrWhiteSpace(message))
-            return;
-
-        byte senderActorNumber = (byte)_PV.OwnerActorNr;
-
-        _PV.RPC("ReceiveChatMessage", RpcTarget.All, message, senderActorNumber);
-
-        chatInput.text = ""; // Clear the chat input field
-    }
-
-    [PunRPC]
-    private void ReceiveChatMessage(string message, byte senderActorNumber)
-    {
-        DisplayChatMessage(message, senderActorNumber);
-    }
-
-    private void DisplayChatMessage(string message, byte senderActorNumber)
-    {
-        // get player name
-        string playerName = "";
-        foreach (var player in PhotonNetwork.PlayerList)
-        {
-            if (player.ActorNumber == senderActorNumber)
-            {
-                playerName = player.NickName.Split("#")[0];
-            }
-        }
-
-        // determine sender group
-
-        // TODO: add ally for future mode
-
-        Color senderColor = Color.white;
-        if (senderActorNumber == _PV.OwnerActorNr)
-        {
-            // me 
-            senderColor = myColor;
-        }
-        else 
-        {
-            // enemy
-            senderColor = enemyColor;
-        }
-
-        TextMeshProUGUI newChatText = Instantiate(chatTextTemplate, chatContent);
-        newChatText.richText = true;
-        newChatText.text = string.Format("<color=#{0}>{1}:</color> {2}", ColorUtility.ToHtmlStringRGB(senderColor), playerName, message);
-    }
+    #endregion
 }

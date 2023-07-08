@@ -1,17 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GlobalInputActions : MonoBehaviour
 {
-    public PCInputActions inputActions;
+    [SerializeField] private UI_SnapshotTab snapshotTab;
+    [SerializeField] private UI_GlobalTypeChat globalTypeChat;
+    private PCInputActions inputActions;
 
     // bind inputs
     private void Awake()
     {
         inputActions = new PCInputActions();
+    }
 
-        // SnapshotTab
-        inputActions.Global.SnapshotTabActivation.Enable();
+    private void OnEnable()
+    {
+        inputActions.Global.SnapshotTabActivation.started += snapshotTab.ActivateTab;
+        inputActions.Global.SnapshotTabActivation.canceled += snapshotTab.DeactivateTab;
+        inputActions.Global.TypeChatActivation.performed += globalTypeChat.ActivateTab;
+        inputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Global.SnapshotTabActivation.started -= snapshotTab.ActivateTab;
+        inputActions.Global.SnapshotTabActivation.canceled -= snapshotTab.DeactivateTab;
+        inputActions.Global.TypeChatActivation.performed -= globalTypeChat.ActivateTab;
+        inputActions.Disable();
     }
 }

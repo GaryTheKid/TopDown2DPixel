@@ -30,6 +30,11 @@ namespace NetworkCalls
             PV.RPC("RPC_UpdatePlayerPingTier", RpcTarget.AllBuffered, playerActorNumber, pingTier);
         }
 
+        public static void ReceiveChatMessage(PhotonView PV, string message, byte actorNumber)
+        {
+            PV.RPC("ReceiveChatMessage", RpcTarget.All, message, actorNumber);
+        }
+
         public static void SpawnLootBox(PhotonView PV, int requestedLootBoxIndex, Vector2 pos)
         {
             PV.RPC("RPC_SpawnLootBox", RpcTarget.AllBuffered, requestedLootBoxIndex, pos);

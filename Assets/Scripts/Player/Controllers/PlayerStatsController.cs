@@ -8,8 +8,6 @@
  *   Add exp, level up.
  */
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -24,6 +22,7 @@ public class PlayerStats
     public bool isMovementLocked;
     public bool isWeaponLocked;
     public bool isRespawnable;
+    public bool isTyping;
     public int maxHp;
     public int hp;
     public int maxExp;
@@ -46,6 +45,7 @@ public class PlayerStats
         isMovementLocked = false;
         isWeaponLocked = false;
         isRespawnable = false;
+        isTyping = false;
         maxHp = 100;
         hp = 100;
         maxExp = 50;

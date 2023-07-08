@@ -15,6 +15,7 @@ using Photon.Realtime;
 using NetworkCalls;
 using Utilities;
 using System;
+using TMPro;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -43,6 +44,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Header("Scoreboard")]
     public RectTransform scoreboardTemplate;
     public ScoreResults scoreResults;
+
+    // chat
+    [Header("Chat")]
+    public TextMeshProUGUI chatTextTemplate;
+    public Transform chatContent;
+    public int maxTextCount;
+    public List<TextMeshProUGUI> chatTexts = new List<TextMeshProUGUI>();
 
     // team
     [Header("Team")]

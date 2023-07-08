@@ -12,6 +12,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Utilities;
 using Pathfinding;
+using TMPro;
 
 public class RPC_GameManager : MonoBehaviour
 {
@@ -25,6 +26,26 @@ public class RPC_GameManager : MonoBehaviour
     [SerializeField] private Image Weather_Windy_West;
     [SerializeField] private Image Weather_Windy_North;
     [SerializeField] private Image Weather_Windy_South;
+    [SerializeField] private UI_GlobalTypeChat globalTypeChat;
+
+    private TextMeshProUGUI chatTextTemplate;
+    private Transform chatContent;
+    private List<TextMeshProUGUI> chatTexts;
+    private int maxTextCount;
+    private Color myColor;
+    private Color allyColor;
+    private Color enemyColor;
+
+    private void Start()
+    {
+        chatTextTemplate = GameManager.singleton.chatTextTemplate;
+        chatContent = GameManager.singleton.chatContent;
+        chatTexts = GameManager.singleton.chatTexts;
+        maxTextCount = GameManager.singleton.maxTextCount;
+        myColor = GameManager.singleton.myColor;
+        allyColor = GameManager.singleton.allyColor;
+        enemyColor = GameManager.singleton.enemyColor;
+    }
 
     [PunRPC]
     void RPC_SwitchGameState(byte newState)
@@ -62,6 +83,59 @@ public class RPC_GameManager : MonoBehaviour
                 sTag.SetPingTier(pingTier);
             }
         }
+    }
+
+    [PunRPC]
+    private void ReceiveChatMessage(string message, byte senderActorNumber)
+    {
+        globalTypeChat.StartChatFadeCoroutine();
+
+        // get player name
+        string playerName = "";
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            if (player.ActorNumber == senderActorNumber)
+            {
+                playerName = player.NickName.Split("#")[0];
+            }
+        }
+
+        // determine sender group
+
+        // TODO: add ally for future mode
+
+        Color senderColor = Color.white;
+        if (senderActorNumber == PhotonNetwork.LocalPlayer.ActorNumber)
+        {
+            // me 
+            senderColor = myColor;
+        }
+        else
+        {
+            // enemy
+            senderColor = enemyColor;
+        }
+
+        // create text obj
+        TextMeshProUGUI newChatText = Instantiate(chatTextTemplate, chatContent);
+        newChatText.richText = true;
+        newChatText.text = string.Format("<color=#{0}>{1}:</color> {2}", ColorUtility.ToHtmlStringRGB(senderColor), playerName, message);
+        newChatText.gameObject.SetActive(true);
+
+        // Add the new chat text to the list
+        chatTexts.Add(newChatText);
+
+        // Check if the maximum text count is exceeded
+        if (chatTexts.Count > maxTextCount)
+        {
+            // Remove the earliest chat text from the list
+            TextMeshProUGUI oldestChatText = chatTexts[0];
+            chatTexts.RemoveAt(0);
+            Destroy(oldestChatText.gameObject);
+        }
+
+        // Scroll the chat content to the bottom
+        chatContent.GetComponentInParent<ScrollRect>().normalizedPosition = new Vector2(0, 0);
     }
 
     [PunRPC]

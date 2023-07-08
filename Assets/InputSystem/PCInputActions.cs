@@ -599,6 +599,24 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TypeChatActivation"",
+                    ""type"": ""Button"",
+                    ""id"": ""74708b5c-1892-4ca4-a9f6-9ff3a9b3bb8e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InGameMenuActivation"",
+                    ""type"": ""Button"",
+                    ""id"": ""1d262470-b055-4d5e-bd3e-9d2c8f093d76"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -610,6 +628,28 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""SnapshotTabActivation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1eff7592-2cd1-4ac0-a537-9251765d690d"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TypeChatActivation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""75c688af-d311-43b9-a79e-598a12207325"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InGameMenuActivation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -642,6 +682,8 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
         // Global
         m_Global = asset.FindActionMap("Global", throwIfNotFound: true);
         m_Global_SnapshotTabActivation = m_Global.FindAction("SnapshotTabActivation", throwIfNotFound: true);
+        m_Global_TypeChatActivation = m_Global.FindAction("TypeChatActivation", throwIfNotFound: true);
+        m_Global_InGameMenuActivation = m_Global.FindAction("InGameMenuActivation", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -879,11 +921,15 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Global;
     private IGlobalActions m_GlobalActionsCallbackInterface;
     private readonly InputAction m_Global_SnapshotTabActivation;
+    private readonly InputAction m_Global_TypeChatActivation;
+    private readonly InputAction m_Global_InGameMenuActivation;
     public struct GlobalActions
     {
         private @PCInputActions m_Wrapper;
         public GlobalActions(@PCInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @SnapshotTabActivation => m_Wrapper.m_Global_SnapshotTabActivation;
+        public InputAction @TypeChatActivation => m_Wrapper.m_Global_TypeChatActivation;
+        public InputAction @InGameMenuActivation => m_Wrapper.m_Global_InGameMenuActivation;
         public InputActionMap Get() { return m_Wrapper.m_Global; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -896,6 +942,12 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
                 @SnapshotTabActivation.started -= m_Wrapper.m_GlobalActionsCallbackInterface.OnSnapshotTabActivation;
                 @SnapshotTabActivation.performed -= m_Wrapper.m_GlobalActionsCallbackInterface.OnSnapshotTabActivation;
                 @SnapshotTabActivation.canceled -= m_Wrapper.m_GlobalActionsCallbackInterface.OnSnapshotTabActivation;
+                @TypeChatActivation.started -= m_Wrapper.m_GlobalActionsCallbackInterface.OnTypeChatActivation;
+                @TypeChatActivation.performed -= m_Wrapper.m_GlobalActionsCallbackInterface.OnTypeChatActivation;
+                @TypeChatActivation.canceled -= m_Wrapper.m_GlobalActionsCallbackInterface.OnTypeChatActivation;
+                @InGameMenuActivation.started -= m_Wrapper.m_GlobalActionsCallbackInterface.OnInGameMenuActivation;
+                @InGameMenuActivation.performed -= m_Wrapper.m_GlobalActionsCallbackInterface.OnInGameMenuActivation;
+                @InGameMenuActivation.canceled -= m_Wrapper.m_GlobalActionsCallbackInterface.OnInGameMenuActivation;
             }
             m_Wrapper.m_GlobalActionsCallbackInterface = instance;
             if (instance != null)
@@ -903,6 +955,12 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
                 @SnapshotTabActivation.started += instance.OnSnapshotTabActivation;
                 @SnapshotTabActivation.performed += instance.OnSnapshotTabActivation;
                 @SnapshotTabActivation.canceled += instance.OnSnapshotTabActivation;
+                @TypeChatActivation.started += instance.OnTypeChatActivation;
+                @TypeChatActivation.performed += instance.OnTypeChatActivation;
+                @TypeChatActivation.canceled += instance.OnTypeChatActivation;
+                @InGameMenuActivation.started += instance.OnInGameMenuActivation;
+                @InGameMenuActivation.performed += instance.OnInGameMenuActivation;
+                @InGameMenuActivation.canceled += instance.OnInGameMenuActivation;
             }
         }
     }
@@ -932,5 +990,7 @@ public partial class @PCInputActions : IInputActionCollection2, IDisposable
     public interface IGlobalActions
     {
         void OnSnapshotTabActivation(InputAction.CallbackContext context);
+        void OnTypeChatActivation(InputAction.CallbackContext context);
+        void OnInGameMenuActivation(InputAction.CallbackContext context);
     }
 }
