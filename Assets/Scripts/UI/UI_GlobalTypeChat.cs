@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class UI_GlobalTypeChat : MonoBehaviour
+public class UI_GlobalTypeChat : MonoBehaviourPunCallbacks
 {
     private const float FREEZE_DURATION = 5f;
     private const float FADE_DURATION = 2f;
@@ -12,17 +12,23 @@ public class UI_GlobalTypeChat : MonoBehaviour
     [SerializeField] private GameObject _chatTab;
     [SerializeField] private TMP_InputField _chatInput;
 
-    private CanvasGroup chatMessageCanvasGroup;
-    private Coroutine chatFadeCoroutine;
+    private PlayerStats _playerStats;
+    private CanvasGroup _chatMessageCanvasGroup;
+    private Coroutine _chatFadeCoroutine;
 
     private void Start()
     {
         _chatInput.onSubmit.AddListener(SendChatMessage);
 
-        chatMessageCanvasGroup = GameManager.singleton.chatContent.GetComponent<CanvasGroup>();
+        _chatMessageCanvasGroup = GameManager.singleton.chatContent.GetComponent<CanvasGroup>();
 
         // Start with all chat messages fully transparent
         SetChatMessagesAlpha(0f);
+    }
+
+    public void BindLocalPlayer(PlayerStats playerStats)
+    {
+        _playerStats = playerStats;
     }
 
     public void ActivateTab(InputAction.CallbackContext context)
@@ -31,6 +37,8 @@ public class UI_GlobalTypeChat : MonoBehaviour
         {
             _chatTab.SetActive(true);
             _chatInput.Select();
+            if (_playerStats != null)
+                _playerStats.isTyping = true;
 
             // Restore transparency of chat messages immediately
             SetChatMessagesAlpha(1f);
@@ -38,6 +46,9 @@ public class UI_GlobalTypeChat : MonoBehaviour
         else if (string.IsNullOrWhiteSpace(_chatInput.text))
         {
             _chatTab.SetActive(false);
+            if (_playerStats != null)
+                _playerStats.isTyping = false;
+
             StartChatFadeCoroutine();
         }
     }
@@ -57,17 +68,16 @@ public class UI_GlobalTypeChat : MonoBehaviour
 
         _chatInput.text = ""; // Clear the chat input field
 
+        if (_playerStats != null)
+            _playerStats.isTyping = false;
         _chatTab.SetActive(false);
     }
 
     public void StartChatFadeCoroutine()
     {
-        if (chatFadeCoroutine != null)
-        {
-            StopCoroutine(chatFadeCoroutine);
-        }
-
-        chatFadeCoroutine = StartCoroutine(ChatFadeCoroutine());
+        if (_chatFadeCoroutine != null)
+            StopCoroutine(_chatFadeCoroutine);
+        _chatFadeCoroutine = StartCoroutine(ChatFadeCoroutine());
     }
 
     private IEnumerator ChatFadeCoroutine()
@@ -82,9 +92,7 @@ public class UI_GlobalTypeChat : MonoBehaviour
 
         // check if the tab is active
         if (_chatTab.activeInHierarchy)
-        {
             yield break;
-        }
 
         float elapsedTime = 0f;
         while (elapsedTime < FADE_DURATION)
@@ -101,11 +109,11 @@ public class UI_GlobalTypeChat : MonoBehaviour
         // Ensure the alpha is set to the target value after the coroutine ends
         SetChatMessagesAlpha(targetAlpha);
 
-        chatFadeCoroutine = null;
+        _chatFadeCoroutine = null;
     }
 
     private void SetChatMessagesAlpha(float alpha)
     {
-        chatMessageCanvasGroup.alpha = alpha;
+        _chatMessageCanvasGroup.alpha = alpha;
     }
 }

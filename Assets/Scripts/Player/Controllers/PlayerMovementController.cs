@@ -37,7 +37,7 @@ public class PlayerMovementController : MonoBehaviour
         {
             /// player dead will turn to ghost, and move even faster!
 
-            if (_playerStats.isMovementLocked)
+            if (_playerStats.isMovementLocked || _playerStats.isTyping)
             {
                 // Idle
                 if (_animator.GetBool("isMoving"))

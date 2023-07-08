@@ -37495,6 +37495,7 @@ MonoBehaviour:
   transitionCurtain: {fileID: 169711697}
   scoreboardTemplate: {fileID: 1627242143}
   scoreResults: {fileID: 1914888794}
+  globalTypeChat: {fileID: 1400882537}
   chatTextTemplate: {fileID: 356210236}
   chatContent: {fileID: 1922860549}
   maxTextCount: 35
@@ -37614,7 +37615,6 @@ MonoBehaviour:
   Weather_Windy_West: {fileID: 2084089738}
   Weather_Windy_North: {fileID: 1445321728}
   Weather_Windy_South: {fileID: 2045930660}
-  globalTypeChat: {fileID: 1400882537}
 --- !u!1001 &1210282588
 PrefabInstance:
   m_ObjectHideFlags: 0

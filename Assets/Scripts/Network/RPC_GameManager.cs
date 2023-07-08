@@ -26,7 +26,6 @@ public class RPC_GameManager : MonoBehaviour
     [SerializeField] private Image Weather_Windy_West;
     [SerializeField] private Image Weather_Windy_North;
     [SerializeField] private Image Weather_Windy_South;
-    [SerializeField] private UI_GlobalTypeChat globalTypeChat;
 
     private TextMeshProUGUI chatTextTemplate;
     private Transform chatContent;
@@ -88,7 +87,7 @@ public class RPC_GameManager : MonoBehaviour
     [PunRPC]
     private void ReceiveChatMessage(string message, byte senderActorNumber)
     {
-        globalTypeChat.StartChatFadeCoroutine();
+        GameManager.singleton.globalTypeChat.StartChatFadeCoroutine();
 
         // get player name
         string playerName = "";

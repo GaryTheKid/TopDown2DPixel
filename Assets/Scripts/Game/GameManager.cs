@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     // chat
     [Header("Chat")]
+    public UI_GlobalTypeChat globalTypeChat;
     public TextMeshProUGUI chatTextTemplate;
     public Transform chatContent;
     public int maxTextCount;

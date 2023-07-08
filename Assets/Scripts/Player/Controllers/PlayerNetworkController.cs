@@ -15,6 +15,7 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
 
     private PlayerEffectController _playerEffectController;
     private PlayerMovementController _playerMovementController;
+    private PlayerStatsController _playerStatsController;
     private PhotonView _PV;
     [SerializeField] private GameObject _playerCamera;
     [SerializeField] private GameObject _playerVCam;
@@ -51,6 +52,7 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
         _PV = GetComponent<PhotonView>();
         _playerEffectController = GetComponent<PlayerEffectController>();
         _playerMovementController = GetComponent<PlayerMovementController>();
+        _playerStatsController = GetComponent<PlayerStatsController>();
     }
 
     private void Start()
@@ -128,6 +130,7 @@ public class PlayerNetworkController : MonoBehaviourPunCallbacks
             _ringSprite.color = Color.green;
             _minimap_Indicator.color = Color.green;
             _characterLight.color = Color.white;
+            GameManager.singleton.globalTypeChat.BindLocalPlayer(_playerStatsController.playerStats);
         }
     }
 
