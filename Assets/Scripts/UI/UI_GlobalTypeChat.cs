@@ -3,11 +3,14 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class UI_GlobalTypeChat : MonoBehaviourPunCallbacks
 {
     private const float FREEZE_DURATION = 5f;
     private const float FADE_DURATION = 2f;
+    private const int MESSAGE_POOL_SIZE = 5;
+    private const float RESET_TIMER_DELAY = 2f;
 
     [SerializeField] private GameObject _chatTab;
     [SerializeField] private TMP_InputField _chatInput;
@@ -15,6 +18,8 @@ public class UI_GlobalTypeChat : MonoBehaviourPunCallbacks
     private PlayerStats _playerStats;
     private CanvasGroup _chatMessageCanvasGroup;
     private Coroutine _chatFadeCoroutine;
+    private int availableMessageCount = MESSAGE_POOL_SIZE;
+    private Coroutine resetTimerCoroutine;
 
     private void Start()
     {
@@ -58,6 +63,17 @@ public class UI_GlobalTypeChat : MonoBehaviourPunCallbacks
         if (string.IsNullOrWhiteSpace(message))
             return;
 
+        if (availableMessageCount <= 0)
+        {
+            // Message pool is empty, set cooldown timer and block message sending
+            StartResetTimer();
+
+            // Display a local message in the chat content
+            DisplayLocalMessage("Please type slower.");
+
+            return;
+        }
+
         // Truncate the message if it exceeds the character limit
         if (message.Length > _chatInput.characterLimit)
         {
@@ -69,8 +85,18 @@ public class UI_GlobalTypeChat : MonoBehaviourPunCallbacks
         _chatInput.text = ""; // Clear the chat input field
 
         if (_playerStats != null)
-            _playerStats.isTyping = false;
+            _playerStats.isTyping = false; 
         _chatTab.SetActive(false);
+
+        // Reduce the available message count
+        availableMessageCount--;
+
+        // Restart the reset timer coroutine if it's already running
+        if (resetTimerCoroutine != null)
+        {
+            StopCoroutine(resetTimerCoroutine);
+        }
+        resetTimerCoroutine = StartCoroutine(ResetTimerCoroutine());
     }
 
     public void StartChatFadeCoroutine()
@@ -112,8 +138,50 @@ public class UI_GlobalTypeChat : MonoBehaviourPunCallbacks
         _chatFadeCoroutine = null;
     }
 
+    private void DisplayLocalMessage(string message)
+    {
+        // create text obj
+        TextMeshProUGUI newChatText = Instantiate(GameManager.singleton.chatTextTemplate, GameManager.singleton.chatContent);
+        newChatText.richText = true;
+        newChatText.text = message;
+        newChatText.color = Color.yellow;
+        newChatText.gameObject.SetActive(true);
+
+        // Add the new chat text to the list
+        GameManager.singleton.chatTexts.Add(newChatText);
+
+        // Check if the maximum text count is exceeded
+        if (GameManager.singleton.chatTexts.Count > GameManager.singleton.maxTextCount)
+        {
+            // Remove the earliest chat text from the list
+            TextMeshProUGUI oldestChatText = GameManager.singleton.chatTexts[0];
+            GameManager.singleton.chatTexts.RemoveAt(0);
+            Destroy(oldestChatText.gameObject);
+        }
+
+        // Scroll the chat content to the bottom;
+        GameManager.singleton.chatContent.GetComponentInParent<ScrollRect>().normalizedPosition = new Vector2(0, 0);
+    }
+
     private void SetChatMessagesAlpha(float alpha)
     {
         _chatMessageCanvasGroup.alpha = alpha;
+    }
+
+    private void StartResetTimer()
+    {
+        if (resetTimerCoroutine != null)
+            StopCoroutine(resetTimerCoroutine);
+        resetTimerCoroutine = StartCoroutine(ResetTimerCoroutine());
+    }
+
+    private IEnumerator ResetTimerCoroutine()
+    {
+        yield return new WaitForSeconds(RESET_TIMER_DELAY);
+
+        // Refill the message pool
+        availableMessageCount = MESSAGE_POOL_SIZE;
+
+        resetTimerCoroutine = null;
     }
 }

@@ -20,7 +20,6 @@ public class RPC_Player : MonoBehaviour
     private PlayerBuffController _playerBuffController;
     private PlayerEffectController _playerEffectController;
     private PlayerStatsController _playerStatsController;
-    private PlayerNetworkController _playerNetworkController;
     private PlayerVisionController _playerVisionController;
     private PlayerResourceController _playerResourceController;
     private PlayerSocialController _playerSocialController;
@@ -33,7 +32,6 @@ public class RPC_Player : MonoBehaviour
         _playerBuffController = GetComponent<PlayerBuffController>();
         _playerEffectController = GetComponent<PlayerEffectController>();
         _playerStatsController = GetComponent<PlayerStatsController>();
-        _playerNetworkController = GetComponent<PlayerNetworkController>();
         _playerVisionController = GetComponent<PlayerVisionController>();
         _playerResourceController = GetComponent<PlayerResourceController>();
         _playerSocialController = GetComponent<PlayerSocialController>();
@@ -44,6 +42,7 @@ public class RPC_Player : MonoBehaviour
         targets = GetComponent<TargetList>().targets;
     }
 
+    #region Info
     [PunRPC]
     void RPC_SpawnScoreboardTag(byte actorNumber)
     {
@@ -55,49 +54,18 @@ public class RPC_Player : MonoBehaviour
     {
         GameManager.singleton.DestroyScoreBoardTag(actorNumber);
     }
+    #endregion
 
+    #region Social
     [PunRPC]
     void RPC_Emote(byte emoteIndex)
     {
         _playerSocialController.ShowEmojiByIndex(emoteIndex);
     }
+    #endregion
 
+    #region Stats
     [PunRPC]
-    void RPC_LevelUp(short newLevel)
-    {
-        _playerEffectController.LevelUpEffect(newLevel);
-        _playerStatsController.UpdateMaxExp(PlayerStatsController.GetMaxExpBasedOnLevel(newLevel) - _playerStatsController.playerStats.maxExp);
-        _playerStatsController.UpdateMaxHP(PlayerStatsController.GetMaxHpBasedOnLevel(newLevel) - _playerStatsController.playerStats.maxHp);
-        _playerStatsController.UpdateWorthExp(PlayerStatsController.GetWorthExpBasedOnLevel(newLevel) - _playerStatsController.playerStats.expWorth);
-        _playerStatsController.UpdateWorthGold(PlayerStatsController.GetWorthGoldBasedOnLevel(newLevel) - _playerStatsController.playerStats.goldWorth);
-        // TODO: perk system!!!!
-    }
-
-    [PunRPC]
-    void RPC_GainGold(short amount)
-    {
-        _playerResourceController.GainGold(amount);
-    }
-
-    [PunRPC]
-    void RPC_LoseGold(short amount)
-    {
-        _playerResourceController.LoseGold(amount);
-    }
-
-    [PunRPC]
-    void RPC_SturdyBody(int maxHpBonus)
-    {
-        _playerStatsController.UpdateMaxExp(maxHpBonus);
-    }
-
-    [PunRPC]
-    void RPC_Regeneration(int regenAmount)
-    {
-        _playerBuffController.Regeneration(regenAmount);
-    }
-
-    [PunRPC] 
     void RPC_Die()
     {
         _playerStatsController.OnDeath.Invoke();
@@ -117,11 +85,52 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
+    void RPC_LevelUp(short newLevel)
+    {
+        _playerEffectController.LevelUpEffect(newLevel);
+        _playerStatsController.UpdateMaxExp(PlayerStatsController.GetMaxExpBasedOnLevel(newLevel) - _playerStatsController.playerStats.maxExp);
+        _playerStatsController.UpdateMaxHP(PlayerStatsController.GetMaxHpBasedOnLevel(newLevel) - _playerStatsController.playerStats.maxHp);
+        _playerStatsController.UpdateWorthExp(PlayerStatsController.GetWorthExpBasedOnLevel(newLevel) - _playerStatsController.playerStats.expWorth);
+        _playerStatsController.UpdateWorthGold(PlayerStatsController.GetWorthGoldBasedOnLevel(newLevel) - _playerStatsController.playerStats.goldWorth);
+        // TODO: perk system!!!!
+    }
+    #endregion
+
+    #region Skill
+    [PunRPC]
+    void RPC_SturdyBody(int maxHpBonus)
+    {
+        _playerStatsController.UpdateMaxExp(maxHpBonus);
+    }
+
+    [PunRPC]
+    void RPC_Regeneration(int regenAmount)
+    {
+        _playerBuffController.Regeneration(regenAmount);
+    }
+    #endregion
+
+    #region Item & Resources
+    [PunRPC]
+    void RPC_GainGold(short amount)
+    {
+        _playerResourceController.GainGold(amount);
+    }
+
+    [PunRPC]
+    void RPC_LoseGold(short amount)
+    {
+        _playerResourceController.LoseGold(amount);
+    }
+
+    [PunRPC]
     void RPC_DropItem(Vector2 pos, short itemID, short amount, short durability)
     {
         GameManager.singleton.DropItem(pos, itemID, amount, durability);
     }
+    #endregion
 
+    #region Weapon & Damage
     [PunRPC]
     void RPC_LockTarget(int targetID)
     {
@@ -401,7 +410,9 @@ public class RPC_Player : MonoBehaviour
             deployableWorld.PerishInTime();
         }
     }
+    #endregion
 
+    #region SFX
     [PunRPC]
     void RPC_PlayOneShotSFX_Projectile()
     {
@@ -417,6 +428,7 @@ public class RPC_Player : MonoBehaviour
         var clip = _playerWeaponController.fireFX.clip;
         _playerWeaponController.fireFX.PlayOneShot(clip);
     }
+    #endregion
 
     #region Spell
     [PunRPC]
@@ -477,6 +489,7 @@ public class RPC_Player : MonoBehaviour
     }
     #endregion
 
+    #region Consumable
     [PunRPC]
     void RPC_UseHealthPotion(int healingAmount)
     {
@@ -494,4 +507,5 @@ public class RPC_Player : MonoBehaviour
     {
         _playerBuffController.ConsumeInvinciblePotion(effectTime);
     }
+    #endregion
 }
