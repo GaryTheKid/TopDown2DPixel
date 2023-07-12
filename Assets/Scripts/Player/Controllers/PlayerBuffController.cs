@@ -118,8 +118,8 @@ public class PlayerBuffController : MonoBehaviour
 
                     // TODO: show gold pop text effect
 
-
-
+                    // update KDA
+                    GameManager.singleton.UpdatePlayerKill((byte)attackerPV.OwnerActorNr, 1);
                 }
             }
         }

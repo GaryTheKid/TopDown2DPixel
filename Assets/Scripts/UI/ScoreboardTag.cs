@@ -13,6 +13,8 @@ public class ScoreboardTag : MonoBehaviour
     [SerializeField] private int _actorNumber;
     
     private int score;
+    private int kill;
+    private int death;
 
     public int GetActorNumber()
     {
@@ -55,9 +57,11 @@ public class ScoreboardTag : MonoBehaviour
         _ui_pingTier.SetPingTier(tier);
     }
 
-    public void SetKDA(byte kill, byte death)
+    public void UpdateKDA(byte kill, byte death)
     {
-        _ui_KDA.text = string.Format("{0}/{1}", kill, death);
+        this.kill += kill;
+        this.death += death;
+        _ui_KDA.text = string.Format("{0}/{1}", this.kill, this.death);
     }
 
     public void AddScore(int score)

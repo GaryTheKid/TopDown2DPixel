@@ -748,6 +748,19 @@ public class GameManager : MonoBehaviourPunCallbacks
         Game_Network.UpdatePlayerPingTier(PV, actorNumber, pingTier);
     }
 
+    public void UpdatePlayerKill(byte actorNumber, byte increment)
+    {
+        foreach (Transform tag in scoreboardParent)
+        {
+            var sTag = tag.GetComponent<ScoreboardTag>();
+            if (sTag.GetActorNumber() == actorNumber)
+            {
+                sTag.UpdateKDA(increment, 0);
+                break;
+            }
+        }
+    }
+
     public void AddScore(byte actorNumber, int score)
     {
         // update ui
