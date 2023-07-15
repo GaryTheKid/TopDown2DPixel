@@ -62,8 +62,11 @@ public class MineExplosionFX : MonoBehaviour
         if (dmgRatio < MIN_EXPLOSION_DAMAGE_RATIO)
             dmgRatio = MIN_EXPLOSION_DAMAGE_RATIO;
 
+        DamageInfo newDamageInfo = _deployableObj.damageInfo;
+        newDamageInfo.damageAmount = _deployableObj.damageInfo.damageAmount * dmgRatio;
+
         // deal dmg
-        if (_deployableObj.damageInfo.damageAmount > 0f)
-            NetworkCalls.Player_NetWork.DealDeployableDamage(_deployableWorld.GetDeployerPV(), targetPV.ViewID, dmgRatio, _deployableObj.DeployableID);
+        if (newDamageInfo.damageAmount > 0f)
+            NetworkCalls.Player_NetWork.DealDamage(_deployableWorld.GetDeployerPV(), targetPV.ViewID, newDamageInfo);
     }
 }

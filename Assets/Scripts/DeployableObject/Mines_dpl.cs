@@ -17,9 +17,7 @@ public class Mines_dpl : DeployableObject
         {
             damageType = DamageInfo.DamageType.Physics,
             damageAmount = 80f,
-            damageDelay = 0f,
-            damageEffectTime = 0f,
-            KnockBackDist = 8f,
+            knockBackDist = 8f,
         };
     }
 

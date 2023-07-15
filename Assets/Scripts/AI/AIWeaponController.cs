@@ -15,7 +15,7 @@ public class AIWeaponController : MonoBehaviour
         damageInfo = new DamageInfo
         {
             damageAmount = 10f,
-            KnockBackDist = 1f,
+            knockBackDist = 1f,
             damageType = DamageInfo.DamageType.Physics,
         };
     }

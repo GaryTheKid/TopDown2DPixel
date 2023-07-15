@@ -38,7 +38,7 @@ public class Gun_Prototype03 : Gun
         projectile.spawnWeapon = this;
         projectile.speed = 30f;
         projectile.damageInfo.damageAmount = 30f;
-        projectile.damageInfo.KnockBackDist = 1.5f;
+        projectile.damageInfo.knockBackDist = 1.5f;
     }
 
     public override Transform GetEquipmentPrefab()

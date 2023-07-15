@@ -24,19 +24,17 @@ public class Sword : Weapon
         { 
             damageType = DamageInfo.DamageType.Physics,
             damageAmount = 80f,
-            damageDelay = 0.3f,
-            damageEffectTime = 0f,
-            KnockBackDist = 2f,
+            knockBackDist = 2f,
         };
     }
 
-    public override void Attack(PhotonView attackerPV)
+    public override void Attack(PhotonView attackerPV, DamageInfo damageInfo)
     {
         // play the animation at userTransform
         NetworkCalls.Weapon_Network.FireWeapon(attackerPV);
 
         // deal damage to all targets
-        NetworkCalls.Player_NetWork.DealDamage(attackerPV, 1);
+        NetworkCalls.Player_NetWork.DealDamage(attackerPV, damageInfo);
     }
 
     public override Transform GetEquipmentPrefab()

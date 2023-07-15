@@ -27,7 +27,7 @@ public class Scroll_MeteorStrike : Scroll
         {
             damageAmount = 150f,
             damageType = DamageInfo.DamageType.Spell,
-            KnockBackDist = 15f
+            knockBackDist = 15f
         };
     }
 
@@ -52,7 +52,7 @@ public class Scroll_MeteorStrike : Scroll
         {
             damageAmount = 150f,
             damageType = DamageInfo.DamageType.Spell,
-            KnockBackDist = 15f
+            knockBackDist = 15f
         };
     }
 

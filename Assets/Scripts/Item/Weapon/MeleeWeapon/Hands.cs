@@ -24,19 +24,17 @@ public class Hands : Weapon
         {
             damageType = DamageInfo.DamageType.Physics,
             damageAmount = 5f,
-            damageDelay = 0.3f,
-            damageEffectTime = 0f,
-            KnockBackDist = 0.5f,
+            knockBackDist = 0.5f,
         };
     }
 
-    public override void Attack(PhotonView attackerPV)
+    public override void Attack(PhotonView attackerPV, DamageInfo damageInfo)
     {
         // play the animation at userTransform
         NetworkCalls.Weapon_Network.FireWeapon(attackerPV);
 
         // deal damage to all targets
-        NetworkCalls.Player_NetWork.DealDamage(attackerPV, 0);
+        NetworkCalls.Player_NetWork.DealDamage(attackerPV, damageInfo);
     }
 
     public override Transform GetEquipmentPrefab()

@@ -19,9 +19,7 @@ public class SmokeGrenade_Proj : Projectile
         {
             damageType = DamageInfo.DamageType.Physics,
             damageAmount = 0f,
-            damageDelay = 0f,
-            damageEffectTime = 0f,
-            KnockBackDist = 0f,
+            knockBackDist = 0f,
         };
     }
 

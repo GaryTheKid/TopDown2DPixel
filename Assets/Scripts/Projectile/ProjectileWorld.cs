@@ -57,8 +57,11 @@ public class ProjectileWorld : MonoBehaviour
         if (target.transform != _attackerPV.transform.Find("HitBox") && _projectile.canDirectHit)
         {
             // deal dmg
-            if(_projectile.damageInfo.damageAmount > 0f)
-                NetworkCalls.Player_NetWork.DealProjectileDamage(_attackerPV, target.transform.parent.GetComponent<PhotonView>().ViewID, _dmgRatio, _projectile.projectileID);
+            DamageInfo damageInfo = _projectile.damageInfo;
+            damageInfo.damageAmount = _dmgRatio * _projectile.damageInfo.damageAmount;
+
+            if (_projectile.damageInfo.damageAmount > 0f)
+                NetworkCalls.Player_NetWork.DealDamage(_attackerPV, target.transform.parent.GetComponent<PhotonView>().ViewID, damageInfo);
 
             // check if stick to the target
             if (_projectile.isSticky)

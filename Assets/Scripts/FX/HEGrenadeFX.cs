@@ -11,6 +11,10 @@ public class HEGrenadeFX : FXPlayer_Projectile
     private IEnumerator explodeHE_Co;
     private IEnumerator Co_explodeHE()
     {
+        // add to sfx manager
+        var soundFX = GetComponentInChildren<AudioSource>();
+        SFXManager.singleton.Add(soundFX);
+
         // get parent
         ProjectileWorld parent = GetComponentInParent<ProjectileWorld>();
 
@@ -24,8 +28,6 @@ public class HEGrenadeFX : FXPlayer_Projectile
         yield return new WaitForSecondsRealtime(parent.GetComponent<ProjectileWorld>().GetProjectile().activationTime);
 
         // play sound fx
-        var soundFX = GetComponentInChildren<AudioSource>();
-        SFXManager.singleton.Add(soundFX);
         soundFX.PlayOneShot(soundFX.clip);
 
         // disable trail line

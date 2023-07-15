@@ -19,9 +19,7 @@ public class Bullet_SemiAuto : Projectile
         {
             damageType = DamageInfo.DamageType.Physics,
             damageAmount = 15f,
-            damageDelay = 0.2f,
-            damageEffectTime = 0f,
-            KnockBackDist = 2f,
+            knockBackDist = 2f,
         };
     }
 

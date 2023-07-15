@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
@@ -24,7 +22,8 @@ public class ExplosionFX : MonoBehaviour
 
     public void SetWorldRotation()
     {
-        _grenadeSprite.sprite = null;
+        if (_grenadeSprite != null)
+            _grenadeSprite.sprite = null;
         transform.parent = GameManager.singleton.FXParent;
         transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
     }
@@ -65,8 +64,11 @@ public class ExplosionFX : MonoBehaviour
         if (dmgRatio < MIN_EXPLOSION_DAMAGE_RATIO)
             dmgRatio = MIN_EXPLOSION_DAMAGE_RATIO;
 
+        DamageInfo newDamageInfo = _projectile.damageInfo;
+        newDamageInfo.damageAmount = _projectile.damageInfo.damageAmount * dmgRatio;
+
         // deal dmg
-        if (_projectile.damageInfo.damageAmount > 0f)
-            NetworkCalls.Player_NetWork.DealProjectileDamage(_projectileWorld.GetAttackPV(), targetPV.ViewID, dmgRatio, _projectile.projectileID);
+        if (newDamageInfo.damageAmount > 0f)
+            NetworkCalls.Player_NetWork.DealDamage(_projectileWorld.GetAttackPV(), targetPV.ViewID, newDamageInfo);
     }
 }

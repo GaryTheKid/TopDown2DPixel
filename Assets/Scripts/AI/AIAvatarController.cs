@@ -47,10 +47,8 @@ public class AIAvatarController : MonoBehaviour
                 // set ai attack dmg info
                 var aiWeaponcontroller = GetComponent<AIWeaponController>();
                 aiWeaponcontroller.damageInfo.damageAmount = aiStatsClass.damageInfo.damageAmount;
-                aiWeaponcontroller.damageInfo.KnockBackDist = aiStatsClass.damageInfo.KnockBackDist;
+                aiWeaponcontroller.damageInfo.knockBackDist = aiStatsClass.damageInfo.knockBackDist;
                 aiWeaponcontroller.damageInfo.damageType = aiStatsClass.damageInfo.damageType;
-                aiWeaponcontroller.damageInfo.damageDelay = aiStatsClass.damageInfo.damageDelay;
-                aiWeaponcontroller.damageInfo.damageEffectTime = aiStatsClass.damageInfo.damageEffectTime;
 
                 // set hp bar size
                 var newHpBarSizeX = DEFAULT_HPBAR_SIZE_X * ((aiStatsClass.maxHp / DEFAULT_HPBAR_SIZE_MODIFIER) + 0.5f);

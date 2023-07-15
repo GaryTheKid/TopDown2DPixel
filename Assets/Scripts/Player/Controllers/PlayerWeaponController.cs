@@ -16,6 +16,7 @@ using TMPro;
 using Utilities;
 using Photon.Pun;
 using ExitGames.Client.Photon;
+using System.Collections.Generic;
 
 public class PlayerWeaponController : MonoBehaviour
 {
@@ -527,7 +528,7 @@ public class PlayerWeaponController : MonoBehaviour
         switch (weaponType)
         {
             case Item.ItemType.MeleeWeapon:
-                weapon.Attack(_PV);
+                weapon.Attack(_PV, weapon.damageInfo);
                 break;
             case Item.ItemType.RangedWeapon:
             case Item.ItemType.ChargableRangedWeapon:

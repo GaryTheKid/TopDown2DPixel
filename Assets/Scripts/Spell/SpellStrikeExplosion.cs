@@ -50,21 +50,9 @@ public class SpellStrikeExplosion : MonoBehaviour
 
         targetCache.Add(targetPV.ViewID);
 
-        // calculate distance       
-        var distanceFromCenter = Vector2.Distance(target.position, transform.position);
-
-        // tiers of dmg
-        var dmgRatio = 0f;
-        if (distanceFromCenter <= _explosionRadius)
-            dmgRatio = 1f - (distanceFromCenter / _explosionRadius);
-
-        // set minimal damage
-        if (dmgRatio < MIN_EXPLOSION_DAMAGE_RATIO)
-            dmgRatio = MIN_EXPLOSION_DAMAGE_RATIO;
-
         // deal dmg
         var damageInfo = ((Weapon)ItemAssets.itemAssets.itemDic[_spellMeteor.spellID]).damageInfo;
         if (damageInfo.damageAmount > 0f)
-            NetworkCalls.Player_NetWork.DealSpellDamage(_spellMeteor.attackerPV, targetPV.ViewID, dmgRatio, _spellMeteor.spellID);
+            NetworkCalls.Player_NetWork.DealDamage(_spellMeteor.attackerPV, targetPV.ViewID, damageInfo);
     }
 }

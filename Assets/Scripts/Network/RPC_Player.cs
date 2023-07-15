@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Utilities;
+using ExitGames.Client.Photon;
 
 public class RPC_Player : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class RPC_Player : MonoBehaviour
     private PlayerBuffController _playerBuffController;
     private PlayerEffectController _playerEffectController;
     private PlayerStatsController _playerStatsController;
+    private PlayerSkillController _playerSkillController;
     private PlayerVisionController _playerVisionController;
     private PlayerResourceController _playerResourceController;
     private PlayerSocialController _playerSocialController;
@@ -27,14 +29,49 @@ public class RPC_Player : MonoBehaviour
 
     private void Awake()
     {
+        // Register the DamageInfo struct as a custom type
+        PhotonPeer.RegisterType(typeof(DamageInfo), (byte)'D', SerializeDamageInfo, DeserializeDamageInfo);
+
         _PV = GetComponent<PhotonView>();
         _playerWeaponController = GetComponent<PlayerWeaponController>();
         _playerBuffController = GetComponent<PlayerBuffController>();
         _playerEffectController = GetComponent<PlayerEffectController>();
         _playerStatsController = GetComponent<PlayerStatsController>();
+        _playerSkillController = GetComponent<PlayerSkillController>();
         _playerVisionController = GetComponent<PlayerVisionController>();
         _playerResourceController = GetComponent<PlayerResourceController>();
         _playerSocialController = GetComponent<PlayerSocialController>();
+    }
+
+    // Custom serialization method for the DamageInfo struct
+    public static byte[] SerializeDamageInfo(object customObject)
+    {
+        DamageInfo damageInfo = (DamageInfo)customObject;
+        byte[] bytes = new byte[13];
+
+        // Convert the fields of the struct to bytes
+        bytes[0] = (byte)damageInfo.damageType;
+        byte[] damageAmountBytes = BitConverter.GetBytes(damageInfo.damageAmount);
+        byte[] knockBackDistBytes = BitConverter.GetBytes(damageInfo.knockBackDist);
+
+        // Copy the bytes to the result array
+        damageAmountBytes.CopyTo(bytes, 1);
+        knockBackDistBytes.CopyTo(bytes, 5);
+
+        return bytes;
+    }
+
+    // Custom deserialization method for the DamageInfo struct
+    public static object DeserializeDamageInfo(byte[] data)
+    {
+        DamageInfo damageInfo = new DamageInfo();
+
+        // Convert the bytes to the fields of the struct
+        damageInfo.damageType = (DamageInfo.DamageType)data[0];
+        damageInfo.damageAmount = BitConverter.ToSingle(data, 1);
+        damageInfo.knockBackDist = BitConverter.ToSingle(data, 5);
+
+        return damageInfo;
     }
 
     private void Start()
@@ -108,6 +145,12 @@ public class RPC_Player : MonoBehaviour
     {
         _playerBuffController.Regeneration(regenAmount);
     }
+
+    [PunRPC]
+    void RPC_HolySacrifice(int dmgAmount)
+    {
+        //_playerBuffController.Regeneration(regenAmount);
+    }
     #endregion
 
     #region Item & Resources
@@ -144,88 +187,41 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_DealDamage(short whichWeapon)
+    void RPC_DealDamage_Melee(DamageInfo damageInfo)
     {
-        DamageInfo info = ((Weapon)(ItemAssets.itemAssets.itemDic[whichWeapon])).damageInfo;
-
-        foreach (int id in targets)
+        foreach (var target in targets)
         {
-            var target = PhotonView.Find(id).transform;
-            var enemyPlayer = target.GetComponent<PlayerBuffController>();
-            var enemyAI = target.GetComponent<AIBuffController>();
+            var targetTransform = PhotonView.Find(target).transform;
+            var enemyPlayer = targetTransform.GetComponent<PlayerBuffController>();
+            var enemyAI = targetTransform.GetComponent<AIBuffController>();
 
             if (enemyPlayer != null)
             {
-                enemyPlayer.ReceiveDamage(_PV.ViewID, info, transform.position);
+                enemyPlayer.ReceiveDamage(_PV.ViewID, damageInfo, transform.position);
             }
 
             if (enemyAI != null)
             {
-                enemyAI.ReceiveDamage(_PV.ViewID, info, transform.position);
+                enemyAI.ReceiveDamage(_PV.ViewID, damageInfo, transform.position);
             }
         }
     }
 
     [PunRPC]
-    void RPC_DealProjectileDamage(int targetID, float dmgRatio, short whichProjectile)
+    void RPC_DealDamage(int targetID, DamageInfo damageInfo)
     {
-        DamageInfo info = ItemAssets.itemAssets.projectileDic[whichProjectile].damageInfo;
-        info.damageAmount *= dmgRatio;
-
         var target = PhotonView.Find(targetID).transform;
         var enemyPlayer = target.GetComponent<PlayerBuffController>();
         var enemyAI = target.GetComponent<AIBuffController>();
 
         if (enemyPlayer != null)
         {
-            enemyPlayer.ReceiveDamage(_PV.ViewID, info, transform.position);
+            enemyPlayer.ReceiveDamage(_PV.ViewID, damageInfo, transform.position);
         }
 
         if (enemyAI != null)
         {
-            enemyAI.ReceiveDamage(_PV.ViewID, info, transform.position);
-        }
-    }
-
-    [PunRPC]
-    void RPC_DealDeployableDamage(int targetID, float dmgRatio, short whichDeployable)
-    {
-        DamageInfo info = ItemAssets.itemAssets.deployableObjDic[whichDeployable].damageInfo;
-        info.damageAmount *= dmgRatio;
-
-        var target = PhotonView.Find(targetID).transform;
-        var enemyPlayer = target.GetComponent<PlayerBuffController>();
-        var enemyAI = target.GetComponent<AIBuffController>();
-
-        if (enemyPlayer != null)
-        {
-            enemyPlayer.ReceiveDamage(_PV.ViewID, info, transform.position);
-        }
-
-        if (enemyAI != null)
-        {
-            enemyAI.ReceiveDamage(_PV.ViewID, info, transform.position);
-        }
-    }
-
-    [PunRPC]
-    void RPC_DealSpellDamage(int targetID, float dmgRatio, short whichSpell)
-    {
-        DamageInfo info = ((Weapon)ItemAssets.itemAssets.itemDic[whichSpell]).damageInfo;
-        info.damageAmount *= dmgRatio;
-
-        var target = PhotonView.Find(targetID).transform;
-        var enemyPlayer = target.GetComponent<PlayerBuffController>();
-        var enemyAI = target.GetComponent<AIBuffController>();
-
-        if (enemyPlayer != null)
-        {
-            enemyPlayer.ReceiveDamage(_PV.ViewID, info, transform.position);
-        }
-
-        if (enemyAI != null)
-        {
-            enemyAI.ReceiveDamage(_PV.ViewID, info, transform.position);
+            enemyAI.ReceiveDamage(_PV.ViewID, damageInfo, transform.position);
         }
     }
 

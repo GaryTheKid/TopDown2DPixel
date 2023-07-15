@@ -32,9 +32,7 @@ public class Bullet_Railgun : Projectile
         {
             damageType = DamageInfo.DamageType.Physics,
             damageAmount = 30f,
-            damageDelay = 0.2f,
-            damageEffectTime = 0f,
-            KnockBackDist = 2.5f,
+            knockBackDist = 2.5f,
         };
     }
     #endregion

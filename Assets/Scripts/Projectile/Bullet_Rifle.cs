@@ -18,9 +18,7 @@ public class Bullet_Rifle : Projectile
         {
             damageType = DamageInfo.DamageType.Physics,
             damageAmount = 60f,
-            damageDelay = 0.2f,
-            damageEffectTime = 0f,
-            KnockBackDist = 5f,
+            knockBackDist = 5f,
         };
     }
 

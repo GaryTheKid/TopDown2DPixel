@@ -439,6 +439,14 @@ namespace NetworkCalls
                 PV.RPC("RPC_Regeneration", RpcTarget.AllBuffered, regenAmount);
             }
         }
+
+        public static void HolySacrifice(PhotonView PV, int dmgAmount)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_HolySacrifice", RpcTarget.AllBuffered, dmgAmount);
+            }
+        }
     }
 
     public class Deployable_Network
@@ -504,35 +512,19 @@ namespace NetworkCalls
             }
         }
 
-        public static void DealDamage(PhotonView PV, short whichWeapon)
+        public static void DealDamage(PhotonView PV, DamageInfo damageInfo)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_DealDamage", RpcTarget.AllBuffered, whichWeapon);
+                PV.RPC("RPC_DealDamage_Melee", RpcTarget.AllBuffered, damageInfo);
             }
         }
 
-        public static void DealProjectileDamage(PhotonView PV, int targetID, float dmgRatio, short whichProjectile)
+        public static void DealDamage(PhotonView PV, int targetID, DamageInfo damageInfo)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_DealProjectileDamage", RpcTarget.AllBuffered, targetID, dmgRatio, whichProjectile);
-            }
-        }
-
-        public static void DealDeployableDamage(PhotonView PV, int targetID, float dmgRatio, short whichDeployable)
-        {
-            if (PV.IsMine)
-            {
-                PV.RPC("RPC_DealDeployableDamage", RpcTarget.AllBuffered, targetID, dmgRatio, whichDeployable);
-            }
-        }
-
-        public static void DealSpellDamage(PhotonView PV, int targetID, float dmgRatio, short whichSpell)
-        {
-            if (PV.IsMine)
-            {
-                PV.RPC("RPC_DealSpellDamage", RpcTarget.AllBuffered, targetID, dmgRatio, whichSpell);
+                PV.RPC("RPC_DealDamage", RpcTarget.AllBuffered, targetID, damageInfo);
             }
         }
 

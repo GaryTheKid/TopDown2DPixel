@@ -11,6 +11,10 @@ public class ImpactGrenadeFX : FXPlayer_Projectile
     private IEnumerator explodeHE_Co;
     private IEnumerator Co_explodeHE()
     {
+        // add to sfx manager
+        var soundFX = GetComponentInChildren<AudioSource>();
+        SFXManager.singleton.Add(soundFX);
+
         // get parent
         ProjectileWorld parent = GetComponentInParent<ProjectileWorld>();
 
@@ -24,8 +28,6 @@ public class ImpactGrenadeFX : FXPlayer_Projectile
         yield return new WaitForSecondsRealtime(parent.GetComponent<ProjectileWorld>().GetProjectile().activationTime);
 
         // play sound fx
-        var soundFX = GetComponentInChildren<AudioSource>();
-        SFXManager.singleton.Add(soundFX);
         soundFX.PlayOneShot(soundFX.clip);
 
         // explode, calculate damage
@@ -58,11 +60,14 @@ public class ImpactGrenadeFX : FXPlayer_Projectile
 
     public override void PlayCollisionFX()
     {
+        // add to sfx manager
+        var soundFX = GetComponentInChildren<AudioSource>();
+        SFXManager.singleton.Add(soundFX);
+
         // stop parent expire coroutine
         GetComponentInParent<ProjectileWorld>().StopAllCoroutines();
 
         // play sound fx
-        var soundFX = GetComponentInChildren<AudioSource>();
         soundFX.PlayOneShot(soundFX.clip);
 
         // explode, calculate damage
@@ -74,11 +79,14 @@ public class ImpactGrenadeFX : FXPlayer_Projectile
 
     public override void PlayHitFX()
     {
+        // add to sfx manager
+        var soundFX = GetComponentInChildren<AudioSource>();
+        SFXManager.singleton.Add(soundFX);
+
         // stop parent expire coroutine
         GetComponentInParent<ProjectileWorld>().StopAllCoroutines();
 
         // play sound fx
-        var soundFX = GetComponentInChildren<AudioSource>();
         soundFX.PlayOneShot(soundFX.clip);
 
         // explode, calculate damage

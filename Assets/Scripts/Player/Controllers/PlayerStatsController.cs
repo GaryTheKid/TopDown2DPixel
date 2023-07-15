@@ -113,6 +113,9 @@ public class PlayerStatsController : MonoBehaviour
     // regeneration hp
     public void Regeneration(int deltaHP)
     {
+        if (playerStats.isDead)
+            return;
+
         _playerEffectController.RegenerationEffect(deltaHP, playerStats.hp, playerStats.maxHp);
 
         playerStats.hp = playerStats.hp + deltaHP <= playerStats.maxHp ?

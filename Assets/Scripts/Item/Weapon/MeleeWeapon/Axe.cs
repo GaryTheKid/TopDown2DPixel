@@ -24,19 +24,17 @@ public class Axe : Weapon
         {
             damageType = DamageInfo.DamageType.Physics,
             damageAmount = 100f,
-            damageDelay = 0.2f,
-            damageEffectTime = 0f,
-            KnockBackDist = 5f,
+            knockBackDist = 5f,
         };
     }
 
-    public override void Attack(PhotonView attackerPV)
+    public override void Attack(PhotonView attackerPV, DamageInfo damageInfo)
     {
         // play the animation at userTransform
         NetworkCalls.Weapon_Network.FireWeapon(attackerPV);
 
         // deal damage to all targets
-        NetworkCalls.Player_NetWork.DealDamage(attackerPV, 3);
+        NetworkCalls.Player_NetWork.DealDamage(attackerPV, damageInfo);
     }
 
     public override Transform GetEquipmentPrefab()

@@ -7,20 +7,39 @@ using NetworkCalls;
 
 public class PlayerSkillController : MonoBehaviour
 {
+    // all skill stats
+    public const int HOLYSACRIFICE_DAMAGE_LV1 = 20;
+    public const int HOLYSACRIFICE_DAMAGE_LV2 = 30;
+    public const int HOLYSACRIFICE_DAMAGE_LV3 = 50;
+
+    public const int STURDYBODY_MAXHP_BONUS_LV1 = 10;
+    public const int STURDYBODY_MAXHP_BONUS_LV2 = 25;
+    public const int STURDYBODY_MAXHP_BONUS_LV3 = 45;
+
+    public const int AGILITY_SPEED_BOOST_LV1 = 2;
+    public const int AGILITY_SPEED_BOOST_LV2 = 3;
+    public const int AGILITY_SPEED_BOOST_LV3 = 5;
+
+    public const int REGENERATION_HP_PER_SEC_LV1 = 3;
+    public const int REGENERATION_HP_PER_SEC_LV2 = 5;
+    public const int REGENERATION_HP_PER_SEC_LV3 = 8;
+
     // all skills
     public enum Skills
     {
         Sturdybody,
         Agility,
         Regenaration,
+        HolySacrifice,
     }
 
     // skill ref
-    public Dictionary<Skills, int> skillSet = new Dictionary<Skills, int>()
+    public Dictionary<Skills, int> skillLvDic = new Dictionary<Skills, int>()
     {
         { Skills.Sturdybody, 0 },
         { Skills.Agility, 0 },
-        { Skills.Regenaration, 0 }
+        { Skills.Regenaration, 0 },
+        { Skills.HolySacrifice, 0 }
     };
 
     private PhotonView _PV;
@@ -39,7 +58,7 @@ public class PlayerSkillController : MonoBehaviour
     {
         _PV = GetComponent<PhotonView>();
         _playerStatsController = GetComponent<PlayerStatsController>();
-        TotalAvailablePerks = skillSet.Count * 3;
+        TotalAvailablePerks = skillLvDic.Count * 3;
     }
 
     public void AddSkillPerk()
@@ -76,13 +95,13 @@ public class PlayerSkillController : MonoBehaviour
 
             // prepare random perks
             List<int> randPerks = new List<int>();
-            for (int j = 0; j < skillSet.Count; j++)
+            for (int j = 0; j < skillLvDic.Count; j++)
             {
                 randPerks.Add(j);
             }
-            for (int j = 0; j < skillSet.Count; j++)
+            for (int j = 0; j < skillLvDic.Count; j++)
             {
-                int randIndex = Random.Range(0, skillSet.Count);
+                int randIndex = Random.Range(0, skillLvDic.Count);
                 int randEl = randPerks[randIndex];
                 randPerks.RemoveAt(randIndex);
                 randPerks.Add(randEl);
@@ -91,14 +110,14 @@ public class PlayerSkillController : MonoBehaviour
             for (int i = 0; i < 4; i++)
             {
                 // set perk info
-                if (i < randPerks.Count && skillSet[(Skills)randPerks[i]] < 3)
+                if (i < randPerks.Count && skillLvDic[(Skills)randPerks[i]] < 3)
                 {
                     // instantiate
                     Transform perk = Instantiate(UI_PerkTemplate, UI_PerkMenu);
                     perk.gameObject.SetActive(true);
 
                     UI_Perk ui_perk = perk.GetComponent<UI_Perk>();
-                    ui_perk.SetPerkInfo((Skills)randPerks[i], skillSet[(Skills)randPerks[i]] + 1);
+                    ui_perk.SetPerkInfo((Skills)randPerks[i], skillLvDic[(Skills)randPerks[i]] + 1);
                     _perkList.Add(ui_perk);
                 }
             }
@@ -110,12 +129,12 @@ public class PlayerSkillController : MonoBehaviour
     public void LearnSkill(Skills whichSkill)
     {
         // max level is 3
-        if (skillSet[whichSkill] >= 3)
+        if (skillLvDic[whichSkill] >= 3)
         {
             return;
         }
 
-        skillSet[whichSkill]++;
+        skillLvDic[whichSkill]++;
         ApplySkillPerk();
         UpdateSkills(whichSkill);
 
@@ -131,7 +150,7 @@ public class PlayerSkillController : MonoBehaviour
 
     public void SetSkill(Skills whichSkill, int level)
     {
-        skillSet[whichSkill] = level;
+        skillLvDic[whichSkill] = level;
         UpdateSkills(whichSkill);
     }
 
@@ -140,46 +159,66 @@ public class PlayerSkillController : MonoBehaviour
         switch (whichSkill)
         {
             case Skills.Sturdybody: 
-                switch (skillSet[Skills.Sturdybody])
+                switch (skillLvDic[Skills.Sturdybody])
                 {
                     case 0:
                         break;
                     case 1:
-                        Skill_Network.SturdyBody(_PV, 50);
+                        Skill_Network.SturdyBody(_PV, STURDYBODY_MAXHP_BONUS_LV1);
                         UI_PerkIconList.AddNewAbilityIcon(whichSkill, 1);
                         break;
                     case 2:
-                        Skill_Network.SturdyBody(_PV, 80);
+                        Skill_Network.SturdyBody(_PV, STURDYBODY_MAXHP_BONUS_LV2);
                         UI_PerkIconList.AddNewAbilityIcon(whichSkill, 2);
                         break;
                     case 3:
-                        Skill_Network.SturdyBody(_PV, 150);
+                        Skill_Network.SturdyBody(_PV, STURDYBODY_MAXHP_BONUS_LV3);
                         UI_PerkIconList.AddNewAbilityIcon(whichSkill, 3);
                         break;
                 } break;
 
             case Skills.Agility:
-                switch (skillSet[Skills.Agility])
+                switch (skillLvDic[Skills.Agility])
                 {
                     case 0:
                         break;
                     case 1:
-                        _playerStatsController.playerStats.baseSpeed += 3;
+                        _playerStatsController.playerStats.baseSpeed += AGILITY_SPEED_BOOST_LV1;
                         UI_PerkIconList.AddNewAbilityIcon(whichSkill, 1);
                         break;
                     case 2:
-                        _playerStatsController.playerStats.baseSpeed += 5;
+                        _playerStatsController.playerStats.baseSpeed += AGILITY_SPEED_BOOST_LV2;
                         UI_PerkIconList.AddNewAbilityIcon(whichSkill, 2);
                         break;
                     case 3:
-                        _playerStatsController.playerStats.baseSpeed += 8;
+                        _playerStatsController.playerStats.baseSpeed += AGILITY_SPEED_BOOST_LV3;
                         UI_PerkIconList.AddNewAbilityIcon(whichSkill, 3);
                         break;
                 }
                 break;
 
             case Skills.Regenaration:
-                switch (skillSet[Skills.Regenaration])
+                switch (skillLvDic[Skills.Regenaration])
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        Skill_Network.Regeneration(_PV, 5);
+                        UI_PerkIconList.AddNewAbilityIcon(whichSkill, REGENERATION_HP_PER_SEC_LV1);
+                        break;
+                    case 2:
+                        Skill_Network.Regeneration(_PV, 8);
+                        UI_PerkIconList.AddNewAbilityIcon(whichSkill, REGENERATION_HP_PER_SEC_LV2);
+                        break;
+                    case 3:
+                        Skill_Network.Regeneration(_PV, 12);
+                        UI_PerkIconList.AddNewAbilityIcon(whichSkill, REGENERATION_HP_PER_SEC_LV3);
+                        break;
+                }
+                break;
+
+            case Skills.HolySacrifice:
+                switch (skillLvDic[Skills.HolySacrifice])
                 {
                     case 0:
                         break;

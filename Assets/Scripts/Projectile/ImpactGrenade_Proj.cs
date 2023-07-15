@@ -20,9 +20,7 @@ public class ImpactGrenade_Proj : Projectile
         {
             damageType = DamageInfo.DamageType.Physics,
             damageAmount = 80f,
-            damageDelay = 0f,
-            damageEffectTime = 0f,
-            KnockBackDist = 5f,
+            knockBackDist = 5f,
         };
     }
 

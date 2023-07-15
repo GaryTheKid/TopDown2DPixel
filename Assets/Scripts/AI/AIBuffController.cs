@@ -74,6 +74,6 @@ public class AIBuffController : MonoBehaviour
         }
 
         // show the visual effect
-        _effectController.ReceiveDamageEffect(maxHp, hpBeforeChange, dmg, attackerPos, damageInfo.KnockBackDist);
+        _effectController.ReceiveDamageEffect(maxHp, hpBeforeChange, dmg, attackerPos, damageInfo.knockBackDist);
     }
 }

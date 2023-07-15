@@ -125,7 +125,7 @@ public class PlayerBuffController : MonoBehaviour
         }
 
         // show knock back effect
-        _effectController.KnockbackEffect(attackerPos, damageInfo.KnockBackDist);
+        _effectController.KnockbackEffect(attackerPos, damageInfo.knockBackDist);
     }
 
     public void ReceiveHealing(int healingAmount)
@@ -204,13 +204,13 @@ public class PlayerBuffController : MonoBehaviour
     }
     IEnumerator Co_Regeneration(int healingAmount)
     {
-        while (!_playerStats.isDead)
-        {
-            yield return new WaitForSecondsRealtime(5f);
-            _statsController.Regeneration(healingAmount);
-        }
+        yield return new WaitForSecondsRealtime(5f);
+        _statsController.Regeneration(healingAmount);
+    }
 
-        regeneration_Co = null;
+    public void HolySacrifice(int dmgAmount)
+    {
+
     }
 
     public void Stealth_HalfTransparent()

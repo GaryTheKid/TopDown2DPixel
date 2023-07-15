@@ -13,9 +13,7 @@ public struct DamageInfo
     }
     public DamageType damageType;
     public float damageAmount;
-    public float damageDelay;
-    public float damageEffectTime;
-    public float KnockBackDist;
+    public float knockBackDist;
 };
 
 [Serializable]
@@ -92,7 +90,8 @@ public abstract class Weapon : Item, IEquipable
     }
     public ScollType scollType;
 
-    public virtual void Attack(PhotonView PV) { }
+    public virtual void Attack(PhotonView PV, DamageInfo damageInfo) { }
+    public virtual void Attack(PhotonView PV, int targetID, DamageInfo damageInfo) { }
     public virtual void Attack(PhotonView PV, Vector2 firePos, float fireDirDeg) { }
     public virtual void Charge(PhotonView PV) { }
     public virtual void Channel(PhotonView PV) { }
