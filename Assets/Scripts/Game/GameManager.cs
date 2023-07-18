@@ -616,7 +616,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         // update all players' vision
         foreach (Transform player in spawnedPlayerParent)
         {
-            Player_NetWork.UpdateVision(player.GetComponent<PhotonView>(), 35f);
+            Player_NetWork.UpdateVision(player.GetComponent<PhotonView>(), player.GetComponent<PlayerStatsController>().playerStats.dayVision);
         }
     }
 
@@ -630,7 +630,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         // update all players' vision
         foreach (Transform player in spawnedPlayerParent)
         {
-            Player_NetWork.UpdateVision(player.GetComponent<PhotonView>(), 15f);
+            Player_NetWork.UpdateVision(player.GetComponent<PhotonView>(), player.GetComponent<PlayerStatsController>().playerStats.nightVision);
         }
     }
     #endregion
@@ -639,30 +639,39 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void StartRandomWeather()
     {
         var randVal = UnityEngine.Random.Range(0, 2 + 2 + 1 + 1 + 1 + 1);
+        byte newWeatherCode = 0;
         if (randVal < 2)
         {
-            ChangeWeather(0);
+            newWeatherCode = 0;
         }
         else if (randVal < 4)
         {
-            ChangeWeather(1);
+            newWeatherCode = 1;
         }
         else if (randVal < 5)
         {
-            ChangeWeather(2);
+            newWeatherCode = 2;
         }
         else if (randVal < 6)
         {
-            ChangeWeather(3);
+            newWeatherCode = 3;
         }
         else if (randVal < 7)
         {
-            ChangeWeather(4);
+            newWeatherCode = 4;
         }
         else if (randVal < 8)
         {
-            ChangeWeather(5);
+            newWeatherCode = 5;
         }
+
+        // check if weather not change
+        if (newWeatherCode == (byte)weather)
+        {
+            return;
+        }
+
+        ChangeWeather(newWeatherCode);
     }
 
     public void ChangeWeather(byte weatherCode)

@@ -33,6 +33,8 @@ public class PlayerStats
     public int goldWorth;
     public int maxActiveDeployableObjects;
     public float baseSpeed;
+    public float dayVision;
+    public float nightVision;
     public float speedModifier;
     public float respawnCD;
     public int score;
@@ -56,6 +58,8 @@ public class PlayerStats
         goldWorth = 10;
         maxActiveDeployableObjects = 5;
         baseSpeed = 30f;
+        dayVision = 30f;
+        nightVision = 15f;
         speedModifier = 1f;
         respawnCD = 8f;
         score = 0;

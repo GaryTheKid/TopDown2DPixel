@@ -1,38 +1,29 @@
 using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 
 public class HolySacrificeFX : MonoBehaviour
 {
-    private DamageInfo _damageInfo;
-    private PhotonView _attackerPV;
+    public bool isEnabled;
+
+    [SerializeField] private AudioSource _sfx;
+    [SerializeField] private GameObject _fxTrigger;
+
+    private HolySacrificeTrigger _trigger;
+
+    private void Awake()
+    {
+        _trigger = _fxTrigger.GetComponent<HolySacrificeTrigger>();
+    }
 
     public void SetFXInfo(PhotonView PV, DamageInfo dmgInfo)
     {
-        _attackerPV = PV;
-        _damageInfo = dmgInfo;
+        _trigger.SetTrigger(PV, dmgInfo);
+        SFXManager.singleton.Add(_sfx);
     }
 
-    public void Deactivate()
+    public void Activate()
     {
-        gameObject.SetActive(false);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        var target = collision.transform;
-
-        if (target.gameObject.name != "HitBox")
-            return;
-
-        var targetPV = target.parent.GetComponent<PhotonView>();
-
-        if (targetPV == null)
-            return;
-
-        // deal dmg
-        NetworkCalls.Player_NetWork.DealDamage(_attackerPV, targetPV.ViewID, _damageInfo);
+        _fxTrigger.SetActive(true);
+        _sfx.PlayOneShot(_sfx.clip);
     }
 }

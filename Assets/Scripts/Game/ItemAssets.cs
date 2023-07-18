@@ -88,6 +88,10 @@ public class ItemAssets : MonoBehaviour
     public Sprite skill_Agility;
     public Sprite skill_Sturdybody;
     public Sprite skill_Regenaration;
+    public Sprite skill_HolySacrifice;
+    public Sprite skill_SecondLife;
+    public Sprite skill_PiggyBank;
+    public Sprite skill_EagleEyes;
 
     // merchant ui sprite
     [Header("Merchant Sprites")]
@@ -221,6 +225,10 @@ public class ItemAssets : MonoBehaviour
             { PlayerSkillController.Skills.Agility, skill_Agility },
             { PlayerSkillController.Skills.Sturdybody, skill_Sturdybody },
             { PlayerSkillController.Skills.Regenaration, skill_Regenaration },
+            { PlayerSkillController.Skills.HolySacrifice, skill_HolySacrifice },
+            { PlayerSkillController.Skills.SecondLife, skill_SecondLife },
+            { PlayerSkillController.Skills.PiggyBank, skill_PiggyBank },
+            { PlayerSkillController.Skills.EagleEyes, skill_EagleEyes }
         };
     }
 

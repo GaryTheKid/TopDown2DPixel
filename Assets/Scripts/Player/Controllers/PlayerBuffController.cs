@@ -20,6 +20,7 @@ public class PlayerBuffController : MonoBehaviour
     private PlayerStatsController _statsController;
     private PlayerEffectController _effectController;
     private PlayerInventoryController _inventoryController;
+    private PlayerVisionController _playerVisionController;
     private ConstantForce2D _constantForce2D;
     private PCInputActions _inputActions;
     private Rigidbody2D _rb;
@@ -27,6 +28,7 @@ public class PlayerBuffController : MonoBehaviour
 
     private IEnumerator invincible_Co;
     private IEnumerator regeneration_Co;
+    private IEnumerator PiggyBank_Co;
     private IEnumerator RespawnCountDown_Co;
 
     private void Awake()
@@ -36,6 +38,7 @@ public class PlayerBuffController : MonoBehaviour
         _playerStats = _statsController.playerStats;
         _effectController = GetComponent<PlayerEffectController>();
         _inventoryController = GetComponent<PlayerInventoryController>();
+        _playerVisionController = GetComponent<PlayerVisionController>();
         _inputActions = GetComponent<PlayerInputActions>().inputActions;
         _constantForce2D = GetComponent<ConstantForce2D>();
         _rb = GetComponent<Rigidbody2D>();
@@ -204,13 +207,60 @@ public class PlayerBuffController : MonoBehaviour
     }
     IEnumerator Co_Regeneration(int healingAmount)
     {
-        yield return new WaitForSecondsRealtime(5f);
-        _statsController.Regeneration(healingAmount);
+        while (GameManager.singleton.gameState == GameManager.GameState.Playing)
+        {
+            yield return new WaitForSecondsRealtime(5f);
+            _statsController.Regeneration(healingAmount);
+        }
     }
 
-    public void HolySacrifice(int dmgAmount)
+    public void HolySacrifice(float dmgAmount)
     {
+        DamageInfo dmgInfo = new DamageInfo
+        {
+            damageType = DamageInfo.DamageType.Spell,
+            damageAmount = dmgAmount,
+            knockBackDist = 0f
+        };
+        _effectController.EnableAndSetHolySacrificeEffect(dmgInfo);
+    }
 
+    public void SecondLife(float respawnTimeReduction)
+    {
+        _playerStats.respawnCD -= respawnTimeReduction;
+    }
+
+    public void PiggyBank(int goldAmount)
+    {
+        if (PiggyBank_Co != null)
+        {
+            StopCoroutine(PiggyBank_Co);
+        }
+        PiggyBank_Co = Co_PiggyBank(goldAmount);
+        StartCoroutine(PiggyBank_Co);
+    }
+    IEnumerator Co_PiggyBank(int goldAmount)
+    {
+        while (GameManager.singleton.gameState == GameManager.GameState.Playing)
+        {
+            yield return new WaitForSecondsRealtime(10f);
+            _statsController.UpdateGold(goldAmount);
+        }
+    }
+
+    public void EagleEyes(float deltaVision)
+    {
+        _playerStats.dayVision += deltaVision;
+        _playerStats.nightVision += deltaVision;
+
+        if (GameManager.singleton.dayNight == GameManager.DayNight.Day)
+        {
+            _playerVisionController.UpdateVision(_playerStats.dayVision);
+        }
+        else
+        {
+            _playerVisionController.UpdateVision(_playerStats.nightVision);
+        }
     }
 
     public void Stealth_HalfTransparent()

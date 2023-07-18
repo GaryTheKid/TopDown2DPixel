@@ -440,11 +440,35 @@ namespace NetworkCalls
             }
         }
 
-        public static void HolySacrifice(PhotonView PV, int dmgAmount)
+        public static void HolySacrifice(PhotonView PV, float dmgAmount)
         {
             if (PV.IsMine)
             {
                 PV.RPC("RPC_HolySacrifice", RpcTarget.AllBuffered, dmgAmount);
+            }
+        }
+
+        public static void SecondLife(PhotonView PV, float respawnReductionTime)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_SecondLife", RpcTarget.AllBuffered, respawnReductionTime);
+            }
+        }
+
+        public static void PiggyBank(PhotonView PV, int goldAmount)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_PiggyBank", RpcTarget.AllBuffered, goldAmount);
+            }
+        }
+
+        public static void EagleEyes(PhotonView PV, float deltaVision)
+        {
+            if (PV.IsMine)
+            {
+                PV.RPC("RPC_EagleEyes", RpcTarget.AllBuffered, deltaVision);
             }
         }
     }

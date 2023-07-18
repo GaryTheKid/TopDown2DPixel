@@ -36,6 +36,7 @@ public class PlayerEffectController : MonoBehaviour
     [SerializeField] private ScreenFogMask _screenFogFX;
     [SerializeField] private RainningFX _rainningFX;
     [SerializeField] private WindyFX _windyFX;
+    [SerializeField] private HolySacrificeFX _holySacrificeFX;
     [SerializeField] private Animator _avatarAnimator;
     [SerializeField] private CinemachineVirtualCamera _vCam;
     [SerializeField] private GameObject _popTextTemplate;
@@ -375,6 +376,14 @@ public class PlayerEffectController : MonoBehaviour
         _shadow.SetActive(true);
     }
 
+    public void EnableAndSetHolySacrificeEffect(DamageInfo dmgInfo)
+    {
+        if (!_holySacrificeFX.isEnabled)
+            _holySacrificeFX.isEnabled = true;
+
+        _holySacrificeFX.SetFXInfo(_PV, dmgInfo);
+    }
+
     public void DeathEffect()
     {
         // visual effect
@@ -390,7 +399,13 @@ public class PlayerEffectController : MonoBehaviour
             var col = sprite.color;
             col.a = 0f;
             sprite.color = col;
-        } 
+        }
+
+        // check if trigger the holy sacrifice effect
+        if (_holySacrificeFX.isEnabled)
+        {
+            _holySacrificeFX.Activate();
+        }
     }
 
     public void RespawnEffect()

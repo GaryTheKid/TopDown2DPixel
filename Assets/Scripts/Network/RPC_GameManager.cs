@@ -269,7 +269,7 @@ public class RPC_GameManager : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_ChangeWeather(byte weatherCode)
+    void RPC_ChangeWeather(byte newWeatherCode)
     {
         // init weather buff for each player
         byte prevWeatherCode = (byte)GameManager.singleton.weather;
@@ -277,15 +277,15 @@ public class RPC_GameManager : MonoBehaviour
         {
             if (player.GetComponent<PhotonView>().IsMine)
             {
-                player.GetComponent<PlayerBuffController>().WeatherBuff(prevWeatherCode, weatherCode);
+                player.GetComponent<PlayerBuffController>().WeatherBuff(prevWeatherCode, newWeatherCode);
             }
         }
 
         // update weather code
-        GameManager.singleton.weather = (GameManager.Weather)weatherCode;
+        GameManager.singleton.weather = (GameManager.Weather)newWeatherCode;
 
         // update weather ui icon
-        StartCoroutine(Co_TransitWeatherIcon(prevWeatherCode, weatherCode));
+        StartCoroutine(Co_TransitWeatherIcon(prevWeatherCode, newWeatherCode));
     }
 
     IEnumerator Co_TransitWeatherIcon(byte prevWeatherCode, byte newWeatherCode)
@@ -342,13 +342,13 @@ public class RPC_GameManager : MonoBehaviour
         while (alpha < 1f)
         {
             alpha += Time.deltaTime * LIGHT_UPDATE_SPEED;
-            newWeatherIcon.color = new Color(1f, 1f, 1f, alpha);
             prevWeatherIcon.color = new Color(1f, 1f, 1f, 1f - alpha);
+            newWeatherIcon.color = new Color(1f, 1f, 1f, alpha);
             yield return new WaitForEndOfFrame();
         }
 
-        newWeatherIcon.color = new Color(1f, 1f, 1f, 1f);
         prevWeatherIcon.color = new Color(1f, 1f, 1f, 0f);
+        newWeatherIcon.color = new Color(1f, 1f, 1f, 1f);
     }
 
     [PunRPC]

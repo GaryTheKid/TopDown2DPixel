@@ -126,7 +126,6 @@ public class RPC_Player : MonoBehaviour
     {
         _playerEffectController.LevelUpEffect(newLevel);
         _playerStatsController.UpdateMaxExp(PlayerStatsController.GetMaxExpBasedOnLevel(newLevel) - _playerStatsController.playerStats.maxExp);
-        _playerStatsController.UpdateMaxHP(PlayerStatsController.GetMaxHpBasedOnLevel(newLevel) - _playerStatsController.playerStats.maxHp);
         _playerStatsController.UpdateWorthExp(PlayerStatsController.GetWorthExpBasedOnLevel(newLevel) - _playerStatsController.playerStats.expWorth);
         _playerStatsController.UpdateWorthGold(PlayerStatsController.GetWorthGoldBasedOnLevel(newLevel) - _playerStatsController.playerStats.goldWorth);
         // TODO: perk system!!!!
@@ -137,7 +136,7 @@ public class RPC_Player : MonoBehaviour
     [PunRPC]
     void RPC_SturdyBody(int maxHpBonus)
     {
-        _playerStatsController.UpdateMaxExp(maxHpBonus);
+        _playerStatsController.UpdateMaxHP(maxHpBonus);
     }
 
     [PunRPC]
@@ -147,9 +146,27 @@ public class RPC_Player : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_HolySacrifice(int dmgAmount)
+    void RPC_HolySacrifice(float dmgAmount)
     {
-        //_playerBuffController.Regeneration(regenAmount);
+        _playerBuffController.HolySacrifice(dmgAmount);
+    }
+
+    [PunRPC]
+    void RPC_SecondLife(float respawnTimeReduction)
+    {
+        _playerBuffController.SecondLife(respawnTimeReduction);
+    }
+
+    [PunRPC]
+    void RPC_PiggyBank(int goldAmount)
+    {
+        _playerBuffController.PiggyBank(goldAmount);
+    }
+
+    [PunRPC]
+    void RPC_EagleEyes(float deltaVision)
+    {
+        _playerBuffController.EagleEyes(deltaVision);
     }
     #endregion
 

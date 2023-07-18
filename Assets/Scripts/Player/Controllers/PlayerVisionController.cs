@@ -11,6 +11,11 @@ public class PlayerVisionController : MonoBehaviour
 
     private IEnumerator _updateVision_Co;
 
+    private void Start()
+    {
+        UpdateVision(GetComponent<PlayerStatsController>().playerStats.dayVision);
+    }
+
     public void UpdateVision(float newVisionRadius)
     {
         if (_updateVision_Co != null)
