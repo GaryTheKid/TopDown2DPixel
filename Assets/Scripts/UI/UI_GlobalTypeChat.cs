@@ -13,6 +13,7 @@ public class UI_GlobalTypeChat : MonoBehaviourPunCallbacks
     private const float RESET_TIMER_DELAY = 2f;
 
     [SerializeField] private GameObject _chatTab;
+    [SerializeField] private GameObject _chatButton;
     [SerializeField] private TMP_InputField _chatInput;
 
     private PlayerStats _playerStats;
@@ -41,6 +42,7 @@ public class UI_GlobalTypeChat : MonoBehaviourPunCallbacks
         if (!_chatTab.activeInHierarchy)
         {
             _chatTab.SetActive(true);
+            _chatButton.SetActive(false);
             _chatInput.Select();
             if (_playerStats != null)
                 _playerStats.isTyping = true;
@@ -51,6 +53,7 @@ public class UI_GlobalTypeChat : MonoBehaviourPunCallbacks
         else if (string.IsNullOrWhiteSpace(_chatInput.text))
         {
             _chatTab.SetActive(false);
+            _chatButton.SetActive(true);
             if (_playerStats != null)
                 _playerStats.isTyping = false;
 
@@ -83,6 +86,9 @@ public class UI_GlobalTypeChat : MonoBehaviourPunCallbacks
         NetworkCalls.Game_Network.ReceiveChatMessage(GameManager.singleton.PV, message, (byte)PhotonNetwork.LocalPlayer.ActorNumber);
 
         _chatInput.text = ""; // Clear the chat input field
+
+        // Scroll the chat content to the bottom
+        GameManager.singleton.chatContent.GetComponentInParent<ScrollRect>().normalizedPosition = new Vector2(0, 0);
 
         if (_playerStats != null)
             _playerStats.isTyping = false; 
