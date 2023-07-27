@@ -424,51 +424,80 @@ namespace NetworkCalls
 
     public class Skill_Network
     {
-        public static void SturdyBody(PhotonView PV, int bonusHP)
+        public static void SturdyBody(PhotonView PV, bool isEvolved, int bonusHP)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_SturdyBody", RpcTarget.AllBuffered, bonusHP);
+                if (isEvolved)
+                    PV.RPC("RPC_SturdyBody_Evolved", RpcTarget.AllBuffered, bonusHP);
+                else
+                    PV.RPC("RPC_SturdyBody", RpcTarget.AllBuffered, bonusHP);
             }
         }
 
-        public static void Regeneration(PhotonView PV, int regenAmount)
+        public static void Regeneration(PhotonView PV, bool isEvolved, int regenAmount, float percentageMissingHealthHealingAmount)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_Regeneration", RpcTarget.AllBuffered, regenAmount);
+                if (isEvolved)
+                    PV.RPC("RPC_Regeneration_Evolved", RpcTarget.AllBuffered, regenAmount, percentageMissingHealthHealingAmount);
+                else
+                    PV.RPC("RPC_Regeneration", RpcTarget.AllBuffered, regenAmount);
             }
         }
 
-        public static void HolySacrifice(PhotonView PV, float dmgAmount)
+        public static void HolySacrifice(PhotonView PV, bool isEvolved, float dmgAmount, float newSize)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_HolySacrifice", RpcTarget.AllBuffered, dmgAmount);
+                if (isEvolved)
+                    PV.RPC("RPC_HolySacrifice_Evolved", RpcTarget.AllBuffered, dmgAmount, newSize);
+                else
+                    PV.RPC("RPC_HolySacrifice", RpcTarget.AllBuffered, dmgAmount);
             }
         }
 
-        public static void SecondLife(PhotonView PV, float respawnReductionTime)
+        public static void SecondLife(PhotonView PV, bool isEvolved, float respawnReductionTime, float speedBoostAmount, float speedBoostTime)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_SecondLife", RpcTarget.AllBuffered, respawnReductionTime);
+                if (isEvolved)
+                    PV.RPC("RPC_SecondLife_Evolved", RpcTarget.AllBuffered, respawnReductionTime, speedBoostAmount, speedBoostTime);
+                else
+                    PV.RPC("RPC_SecondLife", RpcTarget.AllBuffered, respawnReductionTime);
             }
         }
 
-        public static void PiggyBank(PhotonView PV, int goldAmount)
+        public static void PiggyBank(PhotonView PV, bool isEvolved, int goldAmount, float interest)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_PiggyBank", RpcTarget.AllBuffered, goldAmount);
+                if (isEvolved)
+                    PV.RPC("RPC_PiggyBank_Evolved", RpcTarget.AllBuffered, goldAmount, interest);
+                else
+                    PV.RPC("RPC_PiggyBank", RpcTarget.AllBuffered, goldAmount);
             }
         }
 
-        public static void EagleEyes(PhotonView PV, float deltaVision)
+        public static void EagleEyes(PhotonView PV, bool isEvolved, float deltaVision)
         {
             if (PV.IsMine)
             {
-                PV.RPC("RPC_EagleEyes", RpcTarget.AllBuffered, deltaVision);
+                if (isEvolved)
+                    PV.RPC("RPC_EagleEyes_Evolved", RpcTarget.AllBuffered, deltaVision);
+                else
+                    PV.RPC("RPC_EagleEyes", RpcTarget.AllBuffered, deltaVision);
+            }
+        }
+
+        public static void Learning(PhotonView PV, bool isEvolved, float expModifier)
+        {
+            if (PV.IsMine)
+            {
+                if (isEvolved)
+                    PV.RPC("RPC_Learning_Evolved", RpcTarget.AllBuffered, expModifier);
+                else
+                    PV.RPC("RPC_Learning", RpcTarget.AllBuffered, expModifier);
             }
         }
     }

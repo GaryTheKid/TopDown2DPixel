@@ -148,13 +148,6 @@ public class PlayerBuffController : MonoBehaviour
 
     public void SpeedBoost(float boostAmount, float effectTime)
     {
-        // check if player is dead
-        if (_playerStats.isDead)
-        {
-            Debug.Log("Player is dead, can't receive speed boost!");
-            return;
-        }
-
         // speedBoost
         StartCoroutine(Co_SpeedBoost(boostAmount, effectTime));
 
@@ -163,9 +156,10 @@ public class PlayerBuffController : MonoBehaviour
     }
     IEnumerator Co_SpeedBoost(float boostAmount, float effectTime)
     {
-        _playerStats.baseSpeed += boostAmount;
+        float delta = boostAmount * _playerStats.speedBoostModifier;
+        _playerStats.baseSpeed += delta;
         yield return new WaitForSecondsRealtime(effectTime);
-        _playerStats.baseSpeed -= boostAmount;
+        _playerStats.baseSpeed -= delta;
     }
 
     public void Invincible(float effectTime)
@@ -214,20 +208,66 @@ public class PlayerBuffController : MonoBehaviour
         }
     }
 
+    public void Regeneration_Evolved(int healingAmount, float percentageMissingHealthHealingAmount)
+    {
+        if (regeneration_Co != null)
+        {
+            StopCoroutine(regeneration_Co);
+        }
+        regeneration_Co = Co_Regeneration_Evolved(healingAmount, percentageMissingHealthHealingAmount);
+        StartCoroutine(regeneration_Co);
+    }
+    IEnumerator Co_Regeneration_Evolved(int healingAmount, float percentageMissingHealthHealingAmount)
+    {
+        while (GameManager.singleton.gameState == GameManager.GameState.Playing)
+        {
+            yield return new WaitForSecondsRealtime(5f);
+
+            // if out of combat, heal missing health
+            if (!_playerStats.isCombatting)
+            {
+                int amount = healingAmount + (int)((_playerStats.maxHp - _playerStats.hp) * percentageMissingHealthHealingAmount);
+                _statsController.Regeneration(amount);
+            }
+            else
+            {
+                _statsController.Regeneration(healingAmount);
+            }
+        }
+    }
+
     public void HolySacrifice(float dmgAmount)
     {
         DamageInfo dmgInfo = new DamageInfo
         {
             damageType = DamageInfo.DamageType.Spell,
             damageAmount = dmgAmount,
-            knockBackDist = 0f
+            knockBackDist = 1f
         };
+        _effectController.EnableAndSetHolySacrificeEffect(dmgInfo);
+    }
+
+    public void HolySacrifice_Evolved(float dmgAmount, float newSize)
+    {
+        DamageInfo dmgInfo = new DamageInfo
+        {
+            damageType = DamageInfo.DamageType.Spell,
+            damageAmount = dmgAmount,
+            knockBackDist = 1f
+        };
+        _effectController.EvolveHolySacrificeEffect(newSize);
         _effectController.EnableAndSetHolySacrificeEffect(dmgInfo);
     }
 
     public void SecondLife(float respawnTimeReduction)
     {
         _playerStats.respawnCD -= respawnTimeReduction;
+    }
+
+    public void SecondLife_Evolved(float respawnTimeReduction, float boostAmount, float boostTime)
+    {
+        _playerStats.respawnCD -= respawnTimeReduction;
+        _effectController.EnableSecondLifeRespawnSpeedBoostEffect(boostAmount, boostTime);
     }
 
     public void PiggyBank(int goldAmount)
@@ -248,6 +288,25 @@ public class PlayerBuffController : MonoBehaviour
         }
     }
 
+    public void PiggyBank_Evolved(int goldAmount, float interest)
+    {
+        if (PiggyBank_Co != null)
+        {
+            StopCoroutine(PiggyBank_Co);
+        }
+        PiggyBank_Co = Co_PiggyBank_Evolved(goldAmount, interest);
+        StartCoroutine(PiggyBank_Co);
+    }
+    IEnumerator Co_PiggyBank_Evolved(int goldAmount, float interest)
+    {
+        while (GameManager.singleton.gameState == GameManager.GameState.Playing)
+        {
+            yield return new WaitForSecondsRealtime(10f);
+            int goldIncrease = goldAmount + (int)(_playerStats.gold * interest);
+            _statsController.UpdateGold(goldIncrease);
+        }
+    }
+
     public void EagleEyes(float deltaVision)
     {
         _playerStats.dayVision += deltaVision;
@@ -261,6 +320,26 @@ public class PlayerBuffController : MonoBehaviour
         {
             _playerVisionController.UpdateVision(_playerStats.nightVision);
         }
+    }
+
+    public void EagleEyes_Evolved(float deltaVision)
+    {
+        _playerStats.dayVision += deltaVision;
+        _playerStats.nightVision = _playerStats.dayVision;
+
+        if (GameManager.singleton.dayNight == GameManager.DayNight.Day)
+        {
+            _playerVisionController.UpdateVision(_playerStats.dayVision);
+        }
+        else
+        {
+            _playerVisionController.UpdateVision(_playerStats.nightVision);
+        }
+    }
+
+    public void Learning(float expModifier)
+    {
+        _playerStats.expGainModifier = expModifier;
     }
 
     public void Stealth_HalfTransparent()
@@ -403,8 +482,5 @@ public class PlayerBuffController : MonoBehaviour
 
         // show the visual effect
         _effectController.RespawnEffect();
-
-        // stay invincible for a while
-        Invincible(2f);
     }
 }

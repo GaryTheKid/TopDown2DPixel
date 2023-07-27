@@ -8,6 +8,7 @@
  *   Add exp, level up.
  */
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -22,17 +23,21 @@ public class PlayerStats
     public bool isMovementLocked;
     public bool isWeaponLocked;
     public bool isRespawnable;
+    public bool isCombatting;
     public bool isTyping;
     public int maxHp;
     public int hp;
     public int maxExp;
     public int exp;
+    public float expGainModifier;
     public short level;
     public int expWorth;
     public int gold;
     public int goldWorth;
     public int maxActiveDeployableObjects;
     public float baseSpeed;
+    public float speedBoostModifier;
+    public float slowModifier;
     public float dayVision;
     public float nightVision;
     public float speedModifier;
@@ -47,17 +52,21 @@ public class PlayerStats
         isMovementLocked = false;
         isWeaponLocked = false;
         isRespawnable = false;
+        isCombatting = false;
         isTyping = false;
         maxHp = 100;
         hp = 100;
         maxExp = 50;
         exp = 0;
+        expGainModifier = 1f;
         level = 1;
         expWorth = 30;
         gold = 0;
         goldWorth = 10;
         maxActiveDeployableObjects = 5;
         baseSpeed = 30f;
+        speedBoostModifier = 1f;
+        slowModifier = 1f;
         dayVision = 30f;
         nightVision = 15f;
         speedModifier = 1f;
@@ -72,6 +81,7 @@ public class PlayerStatsController : MonoBehaviour
     private const int BASE_WORTH_EXP = 30;
     private const int BASE_HP = 100;
     private const int BASE_WORTH_GOLD = 10;
+    private const float COMBAT_LAST_TIME = 0.5f;
 
     public static int GetMaxHpBasedOnLevel(short level)
     {
@@ -100,6 +110,8 @@ public class PlayerStatsController : MonoBehaviour
     private PhotonView _PV;
     private PlayerEffectController _playerEffectController;
 
+    private Coroutine CombatStateCheck_Co;
+
     private void Awake()
     {
         _PV = GetComponent<PhotonView>();
@@ -126,12 +138,32 @@ public class PlayerStatsController : MonoBehaviour
             playerStats.hp + deltaHP : playerStats.maxHp;
     }
 
+    // Combat state checking
+    public void InCombatStateCheck()
+    {
+        if (CombatStateCheck_Co != null)
+        {
+            StopCoroutine(CombatStateCheck_Co);
+        }
+
+        CombatStateCheck_Co = StartCoroutine(Co_CombatStateCheck());
+    }
+    private IEnumerator Co_CombatStateCheck()
+    {
+        playerStats.isCombatting = true;
+        yield return new WaitForSecondsRealtime(COMBAT_LAST_TIME);
+        playerStats.isCombatting = false;
+    }
+
     // update hp after receive damage or healing
     public void UpdateHP(int deltaHP, out bool isKilled)
     {
         // receive dmg
         if (deltaHP < 0)
         {
+            // check if in combat (being damaged)
+            InCombatStateCheck();
+
             Debug.Log("Hp " + deltaHP);
             _playerEffectController.ReceiveDamageEffect(deltaHP, playerStats.hp, playerStats.maxHp);
 
@@ -177,7 +209,8 @@ public class PlayerStatsController : MonoBehaviour
         if (deltaExp < 0)
             return;
 
-        int totalExp = playerStats.exp + deltaExp;
+        int exp = (int)(deltaExp * playerStats.expGainModifier);
+        int totalExp = playerStats.exp + exp;
 
         // check if level up
         while (totalExp >= playerStats.maxExp)

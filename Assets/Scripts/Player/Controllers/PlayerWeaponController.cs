@@ -41,6 +41,7 @@ public class PlayerWeaponController : MonoBehaviour
     private Inventory _inventory;
     private PlayerInventoryController _playerInventoryController;
     private PlayerEffectController _playerEffectController;
+    private PlayerStatsController _playerStatsController;
     private PlayerStats _playerStats;
     private IEnumerator _co_Attack;
     private IEnumerator _co_Charge;
@@ -69,7 +70,8 @@ public class PlayerWeaponController : MonoBehaviour
     private void Awake()
     {
         _PV = GetComponent<PhotonView>();
-        _playerStats = GetComponent<PlayerStatsController>().playerStats;
+        _playerStatsController = GetComponent<PlayerStatsController>();
+        _playerStats = _playerStatsController.playerStats;
         _playerInventoryController = GetComponent<PlayerInventoryController>();
         _playerEffectController = GetComponent<PlayerEffectController>();
         _rb = GetComponent<Rigidbody2D>();
@@ -514,6 +516,9 @@ public class PlayerWeaponController : MonoBehaviour
     // Coroutine: Weapon attack
     private IEnumerator Co_Attack()
     {
+        // check if in combat (attacking)
+        _playerStatsController.InCombatStateCheck();
+
         // lock inventory
         float attackCD = 1f / weapon.attackSpeed;
         _playerInventoryController.SetInventoryOnCD(attackCD);
@@ -616,7 +621,7 @@ public class PlayerWeaponController : MonoBehaviour
         _isHolding = true;
 
         // slow down movement during charge
-        _playerStats.speedModifier = weapon.chargeMoveSlowRate;
+        _playerStats.speedModifier = weapon.chargeMoveSlowRate * _playerStats.slowModifier;
 
         // fire cursor feedback
         if (currentWeaponCursor != null)
@@ -672,11 +677,14 @@ public class PlayerWeaponController : MonoBehaviour
     // Coroutine: Weapon channel
     private IEnumerator Co_Channeling()
     {
+        // check if in combat (Channeling spell)
+        _playerStatsController.InCombatStateCheck();
+
         // disable cast text
         castText.gameObject.SetActive(false);
 
         // slow down movement during charge
-        _playerStats.speedModifier = weapon.castChannelMovementSlotRate;
+        _playerStats.speedModifier = weapon.castChannelMovementSlotRate * _playerStats.slowModifier;
 
         print("Start Channeling");
         // lock inventory while channeling
@@ -724,6 +732,9 @@ public class PlayerWeaponController : MonoBehaviour
     // Coroutine: Weapon unleash
     private IEnumerator Co_Unleash()
     {
+        // check if in combat (unleash spell)
+        _playerStatsController.InCombatStateCheck();
+
         _isHolding = false;
 
         // slow down movement during charge
@@ -761,6 +772,9 @@ public class PlayerWeaponController : MonoBehaviour
         }
         else
         {
+            // check if in combat (deploying)
+            _playerStatsController.InCombatStateCheck();
+
             // lock inventory
             float attackCD = 1f / weapon.attackSpeed;
             _playerInventoryController.SetInventoryOnCD(attackCD);
@@ -809,7 +823,7 @@ public class PlayerWeaponController : MonoBehaviour
     private IEnumerator Co_Slow()
     {
         // slow down movement during charge
-        _playerStats.speedModifier = weapon.moveSlowDownModifier;
+        _playerStats.speedModifier = weapon.moveSlowDownModifier * _playerStats.slowModifier;
 
         // wait cd
         yield return new WaitForSecondsRealtime(weapon.moveSlowDownTime);

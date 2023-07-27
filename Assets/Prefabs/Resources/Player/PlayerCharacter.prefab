@@ -17575,17 +17575,21 @@ MonoBehaviour:
     isMovementLocked: 0
     isWeaponLocked: 0
     isRespawnable: 0
+    isCombatting: 0
     isTyping: 0
     maxHp: 100
     hp: 100
     maxExp: 50
     exp: 0
+    expGainModifier: 1
     level: 1
     expWorth: 30
     gold: 0
     goldWorth: 10
     maxActiveDeployableObjects: 5
     baseSpeed: 35
+    speedBoostModifier: 1
+    slowModifier: 1
     dayVision: 30
     nightVision: 15
     speedModifier: 1
@@ -42650,6 +42654,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Explosion_HolySacrifice_Trigger
       objectReference: {fileID: 0}
+    - target: {fileID: 2819713867539682933, guid: f7ce480ee601aa147910bfdbafecb1f3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3649120940025312921, guid: f7ce480ee601aa147910bfdbafecb1f3, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -42692,6 +42700,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3649120940025312921, guid: f7ce480ee601aa147910bfdbafecb1f3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5153443908096363408, guid: f7ce480ee601aa147910bfdbafecb1f3, type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

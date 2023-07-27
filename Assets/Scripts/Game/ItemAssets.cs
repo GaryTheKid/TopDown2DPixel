@@ -92,6 +92,7 @@ public class ItemAssets : MonoBehaviour
     public Sprite skill_SecondLife;
     public Sprite skill_PiggyBank;
     public Sprite skill_EagleEyes;
+    public Sprite skill_Learning;
 
     // merchant ui sprite
     [Header("Merchant Sprites")]
@@ -228,7 +229,8 @@ public class ItemAssets : MonoBehaviour
             { PlayerSkillController.Skills.HolySacrifice, skill_HolySacrifice },
             { PlayerSkillController.Skills.SecondLife, skill_SecondLife },
             { PlayerSkillController.Skills.PiggyBank, skill_PiggyBank },
-            { PlayerSkillController.Skills.EagleEyes, skill_EagleEyes }
+            { PlayerSkillController.Skills.EagleEyes, skill_EagleEyes },
+            { PlayerSkillController.Skills.Learning, skill_Learning }
         };
     }
 

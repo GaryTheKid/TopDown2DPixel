@@ -51,8 +51,12 @@ public class PlayerEffectController : MonoBehaviour
 
     private PhotonView _PV;
     private Rigidbody2D _rb;
+    private PlayerBuffController _playerBuffController;
     private int _comboCount;
     private int _multiKillCount;
+    private float _respawnSpeedBoostAmount;
+    private float _respawnSpeedBoostTime;
+    private bool _isRespawnSpeedBoostEnabled;
 
     private IEnumerator speedBoost_Co;
     private IEnumerator camShake_Co;
@@ -63,6 +67,7 @@ public class PlayerEffectController : MonoBehaviour
     {
         _PV = GetComponent<PhotonView>();
         _rb = GetComponent<Rigidbody2D>();
+        _playerBuffController = GetComponent<PlayerBuffController>();
     }
 
     private void Start()
@@ -376,12 +381,24 @@ public class PlayerEffectController : MonoBehaviour
         _shadow.SetActive(true);
     }
 
+    public void EvolveHolySacrificeEffect(float newSize)
+    {
+        _holySacrificeFX.transform.localScale = new Vector3(1f + newSize, 1f + newSize, 1f);
+    }
+
     public void EnableAndSetHolySacrificeEffect(DamageInfo dmgInfo)
     {
         if (!_holySacrificeFX.isEnabled)
             _holySacrificeFX.isEnabled = true;
 
         _holySacrificeFX.SetFXInfo(_PV, dmgInfo);
+    }
+
+    public void EnableSecondLifeRespawnSpeedBoostEffect(float boostAmount, float boostTime)
+    {
+        _isRespawnSpeedBoostEnabled = true;
+        _respawnSpeedBoostAmount = boostAmount;
+        _respawnSpeedBoostTime = boostTime;
     }
 
     public void DeathEffect()
@@ -428,6 +445,12 @@ public class PlayerEffectController : MonoBehaviour
         // adjust hp bar
         _hp.fillAmount = 1f;
         _ui_hpBar.fillAmount = 1f;
+
+        // check if trigger the on respawn effect
+        if (_isRespawnSpeedBoostEnabled)
+        {
+            _playerBuffController.SpeedBoost(_respawnSpeedBoostAmount, _respawnSpeedBoostTime);
+        }
     }
 
     public void MultiKillEffect()

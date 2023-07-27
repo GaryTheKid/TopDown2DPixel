@@ -138,11 +138,21 @@ public class RPC_Player : MonoBehaviour
     {
         _playerStatsController.UpdateMaxHP(maxHpBonus);
     }
+    [PunRPC]
+    void RPC_SturdyBody_Evolved(int maxHpBonus)
+    {
+        _playerStatsController.UpdateMaxHP(maxHpBonus);
+    }
 
     [PunRPC]
     void RPC_Regeneration(int regenAmount)
     {
         _playerBuffController.Regeneration(regenAmount);
+    }
+    [PunRPC]
+    void RPC_Regeneration_Evolved(int regenAmount, float percentageMissingHealthHealingAmount)
+    {
+        _playerBuffController.Regeneration_Evolved(regenAmount, percentageMissingHealthHealingAmount);
     }
 
     [PunRPC]
@@ -150,11 +160,21 @@ public class RPC_Player : MonoBehaviour
     {
         _playerBuffController.HolySacrifice(dmgAmount);
     }
+    [PunRPC]
+    void RPC_HolySacrifice_Evolved(float dmgAmount, float newSize)
+    {
+        _playerBuffController.HolySacrifice_Evolved(dmgAmount, newSize);
+    }
 
     [PunRPC]
     void RPC_SecondLife(float respawnTimeReduction)
     {
         _playerBuffController.SecondLife(respawnTimeReduction);
+    }
+    [PunRPC]
+    void RPC_SecondLife_Evolved(float respawnTimeReduction, float speedBoostAmount, float speedBoostTime)
+    {
+        _playerBuffController.SecondLife_Evolved(respawnTimeReduction, speedBoostAmount, speedBoostTime);
     }
 
     [PunRPC]
@@ -162,11 +182,33 @@ public class RPC_Player : MonoBehaviour
     {
         _playerBuffController.PiggyBank(goldAmount);
     }
+    [PunRPC]
+    void RPC_PiggyBank_Evolved(int goldAmount, float interest)
+    {
+        _playerBuffController.PiggyBank_Evolved(goldAmount, interest);
+    }
 
     [PunRPC]
     void RPC_EagleEyes(float deltaVision)
     {
         _playerBuffController.EagleEyes(deltaVision);
+    }
+    [PunRPC]
+    void RPC_EagleEyes_Evolved(float deltaVision)
+    {
+        _playerBuffController.EagleEyes_Evolved(deltaVision);
+    }
+
+    [PunRPC]
+    void RPC_Learning(float expModifier)
+    {
+        _playerBuffController.Learning(expModifier);
+    }
+    [PunRPC]
+    void RPC_Learning_Evolved(float expModifier)
+    {
+        _playerBuffController.Learning(expModifier);
+        _playerSkillController.IncrementMaxSkillSlot();
     }
     #endregion
 
